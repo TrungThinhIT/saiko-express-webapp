@@ -80,7 +80,7 @@ class QuoteController extends Controller
     }
     public function store(Request $request)
     {
-        //tạo shipment_info
+        //tạo address
         if ($request->hinhthuc != 1) {
             $validator  = Validator::make(
                 $request->all(),
@@ -101,6 +101,7 @@ class QuoteController extends Controller
         } else {
             $address = 'Nhận tại VP Tân Bình TPHCM';
         }
+        //lấy access_token
         $token = token::find(1);
         if (empty($token)) {
             $this->getToken();
@@ -134,24 +135,27 @@ class QuoteController extends Controller
         }
         //tạo tracking
         $tracking = json_encode($arr);
-        //
+        //check đóng gói
         if ($request->donggoi == "Repark") {
             $donggoi = "Có đóng gói";
         } else {
             $donggoi = "Không đóng gói";
         }
+        //note
         $note = 'Tên người nhận: ' . $request->name . ', Sdt người nhận: ' . $request->phone . ',' . $donggoi . ',Ghi chú: ' . $request->note;
         $create_shipment = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token
         ]);
+        //tạo shipment_order
         $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
-            'shipment_method_id' => $request->fh_radio,
-            'shipment_infor_id' => $data['id'],
+            'shipment_method_id' => $request->fh_radio,//đường vận chuyển
+            'shipment_infor_id' => $data['id'],//lấy id của shipment_info
             'type' => 'shipment',
-            'trackings' => $tracking,
+            'trackings' => $tracking,//danh sách tracking
             'note' => $note
         ]);
+        //check status
         if ($create_shipment->status() == 201) {
             return back()->with('success', 'Đã gữi');
         } else {

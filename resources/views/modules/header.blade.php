@@ -10,7 +10,7 @@
     <link href="assets/css/saiko-main.css" rel="stylesheet">
     <link rel="shortcut icon" href="assets/images/logofacebook.png" type="/assets/image/x-icon">
     <link rel="icon" href="assets/images/logofacebook.png" type="assets/image/x-icon">
-    <link href="assets/css/font-awesome.css" rel="stylesheet">
+    {{-- <link href="assets/css/font-awesome.css" rel="stylesheet"> --}}
     <link href="assets/css/frontend.css" rel="stylesheet">
     <link href="assets/css/flaticon.css" rel="stylesheet">
     <meta http-equiv='cache-control' content='no-cache'>

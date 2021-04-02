@@ -1495,7 +1495,7 @@
     }
 
     function openQuote() {
-        window.location.href = "{{ route('rq_tk.shipment') }}";
+        window.location.href = "{{ route('rq_tk.quote') }}";
     }
 
     const slider = (function() {
