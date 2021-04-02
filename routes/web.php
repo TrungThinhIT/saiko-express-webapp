@@ -22,7 +22,7 @@ Route::prefix('service')->namespace('Services')->name('service.')->group(functio
     Route::get('procedure', 'ServiceController@procedure')->name('procedure');
 });
 Route::prefix('about-us')->namespace('Abouts')->name('about.')->group(function () {
-    Route::get('/','AboutController@index')->name('index');
+    Route::get('/', 'AboutController@index')->name('index');
     Route::get('details', 'AboutController@details')->name('details');
     Route::get('faqs', 'AboutController@faqs')->name('faqs');
     Route::get('policy', 'AboutController@policy')->name('policy');
@@ -34,8 +34,8 @@ Route::prefix('request-tracking')->namespace('Request_Tracking')->name('rq_tk.')
     Route::get('shipment', 'RQ_TKController@shipment')->name('shipment');
     Route::post('get-quanhuyen', 'RQ_TKController@quanhuyen')->name('quanhuyen');
     Route::post('get-phuongxa', 'RQ_TKController@phuongxa')->name('phuongxa');
-    Route::post('quote','QuoteController@store')->name('store');
-
+    Route::post('quote', 'QuoteController@store')->name('store');
+    Route::post('domestic-shipping', 'PriceController@getApiVNP')->name('getApiVNP');
 });
 Route::prefix('blogs')->namespace('blogs')->name('blog.')->group(function () {
     Route::get('/', 'blogController@index')->name('index');

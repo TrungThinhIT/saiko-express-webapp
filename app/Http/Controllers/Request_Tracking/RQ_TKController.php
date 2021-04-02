@@ -13,7 +13,8 @@ class RQ_TKController extends Controller
     //
     public function price()
     {
-        return view('rq-tracking.price');
+        $data = tinhthanh::all();
+        return view('rq-tracking.price',compact('data'));
     }
     public function quote()
     {

@@ -13,10 +13,12 @@
     {{-- <link href="assets/css/font-awesome.css" rel="stylesheet"> --}}
     <link href="assets/css/frontend.css" rel="stylesheet">
     <link href="assets/css/flaticon.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <meta http-equiv='cache-control' content='no-cache'>
     <meta http-equiv='expires' content='0'>
     <meta http-equiv='pragma' content='no-cache'>
     <script type="text/javascript" src="assets/js/saiko-jquery-1.12.2.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <style>
         @media (max-width: 576px) {
             .phone-mobile {

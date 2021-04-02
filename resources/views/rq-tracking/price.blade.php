@@ -51,6 +51,88 @@
         }
     }
 
+    .unset-border {
+        border: unset !important;
+        box-shadow: unset !important;
+    }
+
+    .width-custom {
+        width: 100% !important;
+    }
+
+    .width-price {
+        width: unset !important;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .custom-row-inline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between
+    }
+
+    .set-ml {
+        margin-left: auto !important;
+    }
+
+    .set-width-lb {
+        width: 37px;
+    }
+
 </style>
 
 @include('modules.header')
@@ -90,7 +172,7 @@
                 <img src="<?php echo ''; ?>assets/images/price.png"
                     alt="Tính phí chi tiết vận chuyển">
             </div>
-            <div class="col-md-7">
+            <div class="col-md-7" style="margin-top: -100px">
                 <div class="fee-pro-title">
                     <span class="fee-pro-number">1</span>
                     <span class="fee-pro-name">Thông tin kiện hàng</span>
@@ -127,80 +209,145 @@
                     <i class="fa fa-angle-down"></i>
                 </div>
                 <div class="content-track">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="unset-border">
+                                <div class="form-group">
+                                    <div style="display: inline-flex;">
+                                        <label class="control-label font-weight-bold" style="width:100px">Chiều
+                                            cao:</label>
+                                        <input type="number" class="form-control set-ml" value="0" id="height"
+                                            onkeyup="onResult()">
+                                        <label class="set-width-lb">cm</label>
 
-                    <div class="form-group">
-                        <div style="display: inline-flex;">
-                            <label class="control-label font-weight-bold" style="width:100px">Chiều cao:</label>
-                            <input type="number" class="form-control" value="0" id="height" onkeyup="onResult()">
-                            <label>cm</label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="unset-border">
+                                <div class="form-group">
+                                    <div style="display: inline-flex;">
+                                        <label class="control-label" style="width:100px">Chiều dài:</label>
+                                        <input type="number" class="form-control set-ml" value="0" id="long"
+                                            onkeyup="onResult()">
+                                        <label class="set-width-lb">cm</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="unset-border">
+                                <div class="form-group">
+                                    <div style="display: inline-flex;">
+                                        <label class="control-label"><i class="fa fa-hand-o-right"></i> Trọng lượng thể
+                                            tích:</label>
+                                        <span style="width:80px;font-weight: bold; margin-left: 10px;"
+                                            id="weight">0</span>
+
+                                        <label class="set-width-lb">kg</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div style="display: inline-flex;">
-                            <label class="control-label" style="width:100px">Chiều rộng:</label>
-                            <input type="number" class="form-control" value="0" id="width" onkeyup="onResult()">
-                            <label>cm</label>
+                        {{-- column2 --}}
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <div style="display: inline-flex;">
+                                    <label class="control-label" style="width:100px">Chiều rộng:</label>
+                                    <input type="number" class="form-control set-ml" value="0" id="width"
+                                        onkeyup="onResult()">
+                                    <label class="set-width-lb">cm</label>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <div style="display: inline-flex;">
+                                    <label class="control-label font-weight-bold mobile-w150">Trọng lượng
+                                        thực:</label>
+                                    <input type="number" class="form-control set-ml" value="0" id="wei"
+                                        onkeyup="weightChange()">
+                                    <label class="set-width-lb">kg</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div style="display: inline-flex;">
+                                    <label class="control-label mobile-w150 width-price">Đơn giá:</label>
+                                    <input type="number" class="form-control set-ml" value="0" id="price" readonly="">
+                                    <label class="set-width-lb">VNĐ</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <input value="Tính toán" class="fh-btn" type="submit" placeholder="" onclick="cacula()">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div style="display: inline-flex;">
-                            <label class="control-label" style="width:100px">Chiều dài:</label>
-                            <input type="number" class="form-control" value="0" id="long" onkeyup="onResult()">
-                            <label>cm</label>
-                        </div>
-                    </div>
+                </div>
+                <div class="fee-pro-title">
+                    <span class="fee-pro-number">3</span>
+                    <span class="fee-pro-name">Giao hàng trong nước</span>
+                    <i class="fa fa-angle-down"></i>
+                </div>
+                <div class="unset-border custom-row-inline">
+                    <select name="province" class="form-control width-custom" id="Utinh" onchange="Select_Tinh(this)">
+                        <option value="">Chọn Tỉnh</option>
+                        @foreach ($data as $item)
+                            <option value="{{ $item->MaTinhThanh }}">{{ $item->TenTinhThanh }}</option>
+                        @endforeach
+                    </select>
+                    <select name="District" class="form-control width-custom" onchange="domesticShipping()" id="Uhuyen">
+                    </select>
+                </div>
+                <div class="unset-border custom-row-inline">
+                    <label for="" class="form-control unset-border width-custom">Dịch vụ:</label>
+                    <label for="" class="form-control unset-border width-custom">Bưu điện</label>
+                </div>
 
-                    <div class="form-group">
-                        <div style="display: inline-flex;">
-                            <label class="control-label"><i class="fa fa-hand-o-right"></i> Trọng lượng thể
-                                tích:</label>
-                            <span style="width:80px;font-weight: bold;
-    margin-left: 10px;" id="weight">0</span>
+                <div class="unset-border custom-row-inline">
+                    <label for="" class="form-control unset-border width-custom">Code:</label>
+                    <label for="" class="form-control unset-border width-custom">
+                        <label class="switch">
+                            <input type="checkbox" id="check_code" value="0" onchange="domesticShipping()">
+                            <span class="slider round"></span>
+                        </label>
+                    </label>
+                </div>
+                <div class="unset-border custom-row-inline">
+                    <label for="" class="form-control unset-border width-custom">Khai giá:</label>
+                    <input type="text" class="form-control width-custom" onchange="domesticShipping()" name="price"
+                        id="price">
+                </div>
+                <div class="unset-border custom-row-inline">
+                    <label for="" class="form-control unset-border width-custom">Phí Code:</label>
+                    <label for="" class="form-control unset-border width-custom" id="code_fee"></label>
+                </div>
 
-                            <label>kg</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div style="display: inline-flex;">
-                            <label class="control-label font-weight-bold mobile-w150">Trọng lượng thực:</label>
-                            <input type="number" class="form-control" value="0" id="wei" onkeyup="weightChange()">
-                            <label>kg</label>
-                        </div>
-
-                    </div>
-                    <div class="form-group">
-                        <div style="display: inline-flex;">
-                            <label class="control-label mobile-w150">Đơn giá:</label>
-                            <input type="number" class="form-control" value="0" id="price" readonly>
-                            <label>VNĐ</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <input value="Tính toán" class="fh-btn" type="submit" placeholder="" onclick="cacula()">
-                    </div>
-
-
-                    <div class="fee-pro-title">
-                        <span class="fee-pro-number">3</span>
-                        <span class="fee-pro-name">Kết quả tính toán: </span>
-                        <i class="fa fa-angle-down"></i>
-                    </div>
-
-
-
-                    <div>
-                        <label class="control-label">Giá cước vận chuyển Nhật về Việt là : <span
-                                id="result">0</span>VNĐ</label>
-                    </div>
-                    <h5 style="color: #fca901;
-    font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline của Saiko để nhận được báo giá tốt nhất</h5>
-
-                    <div class="form-group">
-                        <input value="Gửi hàng ngay" class="fh-btn" type="submit" placeholder="" onclick="send()">
-                    </div>
+                <div class="custom-row-inline">
+                    <label for="" class="form-control unset-border width-custom">Thuế VAT:</label>
+                    <label for="" class="form-control unset-border width-custom" id="vat"></label>
+                </div>
+                <div class="custom-row-inline">
+                    <label for="" class="form-control unset-border width-custom">Tiên trả:</label>
+                    <label for="" class="form-control unset-border width-custom" id="money"></label>
+                </div>
+                <div class="fee-pro-title">
+                    <span class="fee-pro-number">4</span>
+                    <span class="fee-pro-name">Kết quả tính toán: </span>
+                    <i class="fa fa-angle-down"></i>
 
                 </div>
+
+
+
+                <div>
+                    <label class="control-label">Giá cước vận chuyển Nhật về Việt là : <span
+                            id="result">0</span>VNĐ</label>
+                </div>
+                <h5 style="color: #fca901;
+font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline của Saiko để nhận được báo giá tốt nhất</h5>
+
+                <div class="form-group text-center">
+                    <input value="Gửi hàng ngay" class="fh-btn" type="submit" placeholder="" onclick="send()">
+                </div>
+
             </div>
         </div>
     </div>
@@ -215,6 +362,16 @@
 @include('modules.footer')
 <script>
     var weight = 0;
+    $(document).ready(function() {
+        $("#check_code").click(function() {
+            if ($("#check_code").val() == 0) {
+                $("#check_code").val(1)
+            } else {
+                $("#check_code").val(0)
+            }
+
+        })
+    })
 
     function onResult() {
         var air = document.getElementById("air");
@@ -282,7 +439,70 @@
     }
 
     function send() {
-        window.location.href = "/request-a-quote.php";
+        window.location.href = "{{ route('rq_tk.quote') }}";
+    }
+
+    function Select_Tinh(obj) {
+        var Tinh_ThanhPho = $(obj).val();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: "{{ route('rq_tk.quanhuyen') }}",
+            data: {
+                matinh: Tinh_ThanhPho,
+            },
+            success: function(res) {
+                $("#Uhuyen").empty()
+                $("#UPhuongXa").empty()
+                $("#Uhuyen").append(new Option('Vui lòng chọn', ''))
+                $.each(res, function(index, value) {
+                    $("#Uhuyen").append(new Option(value.TenQuanHuyen, value.MaQuanHuyen))
+                })
+            },
+            error: function(res) {
+                console.log(res)
+            }
+        });
+    }
+
+    function domesticShipping() {
+        var id_district = $("#Uhuyen").val();
+        var code = $("#check_code").val();
+        var id_province = $("#Utinh").val()
+        var height = $("#height").val();
+        var width = $("#width").val();
+        var long = $("#long").val();
+        var wei = $("#wei").val();
+        var price = $("#price").val();
+        console.log(id_district, code, id_province, height, width, long, wei)
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: "{{ route('rq_tk.getApiVNP') }}",
+            data: {
+                id_district: id_district,
+                id_province: id_province,
+                code: code,
+                height: height,
+                width: width,
+                long: long,
+                wei: wei,
+                price: price
+            },
+            success: function(respone) {
+                console.log(respone)
+                $("#code_fee").text(respone.CuocCOD)
+                $("#vat").text(respone.TongCuocSauVAT)
+                $("#money").text(respone.SoTienCodThuNoiNguoiNhan)
+            },
+            error: function(respone) {
+                console.log(respone)
+            }
+        })
     }
 
 </script>
