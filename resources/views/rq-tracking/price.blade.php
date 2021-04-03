@@ -191,7 +191,7 @@
                                 title='Xem bảng giá'> <i class="fa fa-eye"
                                     style="    color: burlywood;"></i></a></label>
                     </div>
-                    <div style="margin-top: 30px;    margin-bottom: 30px;">
+                    <div>
                         <label style="margin-right: 10px;" class="mobile-track">Phí bảo hiểm: </label>
                         <label class="radio-inline mobile-block mobile-block-f"><input type="radio" name="check" checked
                                 id="sbuy">(5% giá trị khai báo) </label>
@@ -200,7 +200,6 @@
                         <label class="radio-inline mobile-block"><input type="radio" name="check" id="noBuy">Không
                             mua</label>
                     </div>
-
                 </div>
                 <div class="fee-pro-title">
                     <span class="fee-pro-number">2</span>
@@ -299,35 +298,105 @@
                 </div>
                 <div class="unset-border custom-row-inline">
                     <label for="" class="form-control unset-border width-custom">Dịch vụ:</label>
-                    <label for="" class="form-control unset-border width-custom">Bưu điện</label>
+                    <select name="service" onchange="changeStyle();domesticShipping();"
+                        class="form-control width-custom" id="service">
+                        <option value="1">Chọn dịch vụ</option>
+                        <option value="BD">Bưu điện</option>
+                        <option value="VT">Viettel</option>
+                        <option value="GHTK">Giao hàng tiết kiệm</option>
+                    </select>
                 </div>
-
-                <div class="unset-border custom-row-inline">
-                    <label for="" class="form-control unset-border width-custom">Code:</label>
-                    <label for="" class="form-control unset-border width-custom">
-                        <label class="switch">
-                            <input type="checkbox" id="check_code" value="0" onchange="domesticShipping()">
-                            <span class="slider round"></span>
+                <div id="componentService" style="display: none">
+                    <div class="unset-border custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Code:</label>
+                        <label for="" class="form-control unset-border width-custom">
+                            <label class="switch">
+                                <input type="checkbox" id="check_code" value="0" onchange="domesticShipping()">
+                                <span class="slider round"></span>
+                            </label>
                         </label>
-                    </label>
-                </div>
-                <div class="unset-border custom-row-inline">
-                    <label for="" class="form-control unset-border width-custom">Khai giá:</label>
-                    <input type="text" class="form-control width-custom" onchange="domesticShipping()" name="price"
-                        id="price2">
-                </div>
-                <div class="unset-border custom-row-inline">
-                    <label for="" class="form-control unset-border width-custom">Phí Code:</label>
-                    <label for="" class="form-control unset-border width-custom" id="code_fee"></label><span>VNĐ</span>
-                </div>
+                    </div>
+                    <div class="unset-border custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Khai giá:</label>
+                        <input type="text" class="form-control width-custom" onchange="domesticShipping()" name="price"
+                            id="price2">
+                    </div>
+                    <div class="unset-border custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Phí Code:</label>
+                        <label for="" class="form-control unset-border width-custom"
+                            id="code_fee"></label><span>VNĐ</span>
+                    </div>
 
-                <div class="custom-row-inline">
-                    <label for="" class="form-control unset-border width-custom">Thuế VAT:</label>
-                    <label for="" class="form-control unset-border width-custom" id="vat"></label><span>VNĐ</span>
+                    <div class="custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Thuế VAT:</label>
+                        <label for="" class="form-control unset-border width-custom" id="vat"></label><span>VNĐ</span>
+                    </div>
+                    <div class="custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Tổng chi phí:</label>
+                        <label for="" class="form-control unset-border width-custom" id="money"></label><span>VNĐ</span>
+                    </div>
                 </div>
-                <div class="custom-row-inline">
-                    <label for="" class="form-control unset-border width-custom">Tổng chi phí:</label>
-                    <label for="" class="form-control unset-border width-custom" id="money"></label><span>VNĐ</span>
+                <div id="componentServiceGHTK" style="display: none">
+                    {{-- <div class="unset-border custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Code:</label>
+                        <label for="" class="form-control unset-border width-custom">
+                            <label class="switch">
+                                <input type="checkbox" id="check_code" value="0" onchange="domesticShipping()">
+                                <span class="slider round"></span>
+                            </label>
+                        </label>
+                    </div> --}}
+                    <div class="unset-border custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Khai giá:</label>
+                        <input type="text" class="form-control width-custom" onchange="domesticShipping()" name="price"
+                            id="priceGHTK">
+                    </div>
+                    <div class="unset-border custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Chọn phương thức giao</label>
+                        <select class="form-control width-custom" name="" id="methodGHTK">
+                            <option value="xteam">Mở mắt là có</option>
+                            <option value="none">Ngàn thu mới có</option>
+                        </select>
+                    </div>
+
+                    {{-- <div class="custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Thuế VAT:</label>
+                        <label for="" class="form-control unset-border width-custom" id="vat"></label><span>VNĐ</span>
+                    </div> --}}
+                    <div class="custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Tổng chi phí:</label>
+                        <label for="" class="form-control unset-border width-custom" id="money"></label><span>VNĐ</span>
+                    </div>
+                </div>
+                <div id="componentServiceViettel" style="display: none">
+                    {{-- <div class="unset-border custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Code:</label>
+                        <label for="" class="form-control unset-border width-custom">
+                            <label class="switch">
+                                <input type="checkbox" id="check_code" value="0" onchange="domesticShipping()">
+                                <span class="slider round"></span>
+                            </label>
+                        </label>
+                    </div>
+                    <div class="unset-border custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Khai giá:</label>
+                        <input type="text" class="form-control width-custom" onchange="domesticShipping()" name="price"
+                            id="price2">
+                    </div>
+                    <div class="unset-border custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Phí Code:</label>
+                        <label for="" class="form-control unset-border width-custom"
+                            id="code_fee"></label><span>VNĐ</span>
+                    </div>
+
+                    <div class="custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Thuế VAT:</label>
+                        <label for="" class="form-control unset-border width-custom" id="vat"></label><span>VNĐ</span>
+                    </div>
+                    <div class="custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Tổng chi phí:</label>
+                        <label for="" class="form-control unset-border width-custom" id="money"></label><span>VNĐ</span>
+                    </div> --}}
                 </div>
                 <div class="fee-pro-title">
                     <span class="fee-pro-number">4</span>
@@ -467,13 +536,18 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
     function domesticShipping() {
         var id_district = $("#Uhuyen").val();
         var code = $("#check_code").val();
-        var id_province = $("#Utinh").val()
+        var id_province = $("#Utinh").val();
         var height = $("#height").val();
         var width = $("#width").val();
         var long = $("#long").val();
         var wei = $("#wei").val();
         var price = $("#price2").val();
-        console.log(id_district, code, id_province, height, width, long, wei, price)
+        var service = $("#service").val();
+        var priceGHTK = $("#priceGHTK").val();
+        var methodGHTK = $("#methodGHTK").val();
+        var provinceText = $("#Utinh option:selected").text();
+        var districtText = $("#Uhuyen option:selected").text()
+        console.log(id_district, code, id_province, height, width, long, wei, price, service, methodGHTK, priceGHTK)
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -488,7 +562,12 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
                 width: width,
                 long: long,
                 wei: wei,
-                price: price
+                price: price,
+                service: service,
+                priceGHTK: priceGHTK,
+                methodGHTK: methodGHTK,
+                provinceText: provinceText,
+                districtText: districtText,
             },
             success: function(respone) {
                 console.log(respone)
@@ -500,6 +579,26 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
                 console.log(respone)
             }
         })
+    }
+
+    function changeStyle() {
+        // domesticShipping();
+
+        if ($("#service").val() == "BD") {
+            $("#componentService").css("display", "block")
+            $("#componentServiceViettel").css("display", "none")
+            $("#componentServiceGHTK").css("display", "none")
+        }
+        if ($("#service").val() == "VT") {
+            $("#componentServiceViettel").css("display", "block")
+            $("#componentService").css("display", "none")
+            $("#componentServiceGHTK").css("display", "none")
+        }
+        if ($("#service").val() == "GHTK") {
+            $("#componentServiceGHTK").css("display", "block")
+            $("#componentService").css("display", "none")
+            $("#componentServiceViettel").css("display", "none")
+        }
     }
 
 </script>
