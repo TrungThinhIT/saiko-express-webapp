@@ -216,8 +216,8 @@
                                     <div style="display: inline-flex;">
                                         <label class="control-label font-weight-bold" style="width:100px">Chiều
                                             cao:</label>
-                                        <input type="number" class="form-control set-ml" value="0" id="height"
-                                            onkeyup="onResult()">
+                                        <input type="number" onchange="domesticShipping()" class="form-control set-ml"
+                                            value="0" id="height" onkeyup="onResult()">
                                         <label class="set-width-lb">cm</label>
 
                                     </div>
@@ -229,8 +229,8 @@
                                 <div class="form-group">
                                     <div style="display: inline-flex;">
                                         <label class="control-label" style="width:100px">Chiều dài:</label>
-                                        <input type="number" class="form-control set-ml" value="0" id="long"
-                                            onkeyup="onResult()">
+                                        <input type="number" onchange="domesticShipping()" class="form-control set-ml"
+                                            value="0" id="long" onkeyup="onResult()">
                                         <label class="set-width-lb">cm</label>
                                     </div>
                                 </div>
@@ -254,8 +254,8 @@
                             <div class="form-group">
                                 <div style="display: inline-flex;">
                                     <label class="control-label" style="width:100px">Chiều rộng:</label>
-                                    <input type="number" class="form-control set-ml" value="0" id="width"
-                                        onkeyup="onResult()">
+                                    <input type="number" onchange="domesticShipping()" class="form-control set-ml"
+                                        value="0" id="width" onkeyup="onResult()">
                                     <label class="set-width-lb">cm</label>
                                 </div>
                             </div>
@@ -263,15 +263,16 @@
                                 <div style="display: inline-flex;">
                                     <label class="control-label font-weight-bold mobile-w150">Trọng lượng
                                         thực:</label>
-                                    <input type="number" class="form-control set-ml" value="0" id="wei"
-                                        onkeyup="weightChange()">
+                                    <input type="number" onchange="domesticShipping()" class="form-control set-ml"
+                                        value="0" id="wei" onkeyup="weightChange()">
                                     <label class="set-width-lb">kg</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div style="display: inline-flex;">
                                     <label class="control-label mobile-w150 width-price">Đơn giá:</label>
-                                    <input type="number" class="form-control set-ml" value="0" id="price" readonly="">
+                                    <input type="number" onchange="domesticShipping()" class="form-control set-ml"
+                                        value="0" id="price" readonly="">
                                     <label class="set-width-lb">VNĐ</label>
                                 </div>
                             </div>
@@ -313,20 +314,20 @@
                 <div class="unset-border custom-row-inline">
                     <label for="" class="form-control unset-border width-custom">Khai giá:</label>
                     <input type="text" class="form-control width-custom" onchange="domesticShipping()" name="price"
-                        id="price">
+                        id="price2">
                 </div>
                 <div class="unset-border custom-row-inline">
                     <label for="" class="form-control unset-border width-custom">Phí Code:</label>
-                    <label for="" class="form-control unset-border width-custom" id="code_fee"></label>
+                    <label for="" class="form-control unset-border width-custom" id="code_fee"></label><span>VNĐ</span>
                 </div>
 
                 <div class="custom-row-inline">
                     <label for="" class="form-control unset-border width-custom">Thuế VAT:</label>
-                    <label for="" class="form-control unset-border width-custom" id="vat"></label>
+                    <label for="" class="form-control unset-border width-custom" id="vat"></label><span>VNĐ</span>
                 </div>
                 <div class="custom-row-inline">
-                    <label for="" class="form-control unset-border width-custom">Tiên trả:</label>
-                    <label for="" class="form-control unset-border width-custom" id="money"></label>
+                    <label for="" class="form-control unset-border width-custom">Tổng chi phí:</label>
+                    <label for="" class="form-control unset-border width-custom" id="money"></label><span>VNĐ</span>
                 </div>
                 <div class="fee-pro-title">
                     <span class="fee-pro-number">4</span>
@@ -381,7 +382,6 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
         var height = document.getElementById("height").value;
         var width = document.getElementById("width").value;
         var long = document.getElementById("long").value;
-        console.log("OK:  ", air.checked);
         var result = 0;
         if (air.checked) {
             result = (Number(height) * Number(width) * Number(long)) / 6000;
@@ -406,14 +406,12 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
         var wei = document.getElementById("wei").value;
         var price = document.getElementById("price").value;
         if (Number(wei) > weight) {
-            console.log(wei, "  1 ", weight);
             if (wei > 100) {
                 document.getElementById("price").value = 180000;
             } else {
                 document.getElementById("price").value = 185000;
             }
         } else {
-            console.log(wei, "  2  ", weight);
             if (weight > 100) {
                 document.getElementById("price").value = 180000;
             } else {
@@ -433,7 +431,6 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
         } else {
             result = (weight * price).toLocaleString();
         }
-        console.log(wei, "   ", weight, "  ", Number(wei) > weight);
         document.getElementById("result").innerHTML = result;
 
     }
@@ -475,8 +472,8 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
         var width = $("#width").val();
         var long = $("#long").val();
         var wei = $("#wei").val();
-        var price = $("#price").val();
-        console.log(id_district, code, id_province, height, width, long, wei)
+        var price = $("#price2").val();
+        console.log(id_district, code, id_province, height, width, long, wei, price)
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

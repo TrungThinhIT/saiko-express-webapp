@@ -11,6 +11,7 @@ class PriceController extends Controller
     //
     public function getApiVNP(Request $request)
     {
+        // return response()->json($request->all());
         $url = 'https://vnpost.vnit.top/api/api/DoiTac/TinhCuocTatCaDichVu';
         $province =  $request->id_province <= 53 ? 10 : 70;
         $district = $province == 10 ? 1390 : 7600;
@@ -19,7 +20,7 @@ class PriceController extends Controller
             'SenderProvinceId' => $request->id_province <= 53 ? 10 : 70,
             'ReceiverDistrictId' => $request->id_district,
             'ReceiverProvinceId' => $request->id_province,
-            'Weight' => $request->wei,
+            'Weight' => $request->wei * 1000,
             'Width' => $request->width,
             'Length' => $request->long,
             'Height' => $request->height,
@@ -42,18 +43,41 @@ class PriceController extends Controller
         $result = curl_exec($ch);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        //print_r ($result);
         $arr = json_decode($result, true);
-        // return response()->json($arr);
-        $results = array(
-            'MaDichVu' => $arr[1]['MaDichVu'],
-            'TongCuocSauVAT' => number_format($arr[1]['TongCuocSauVAT']),
-            'CuocCOD' => number_format($arr[1]['CuocCOD']),
-            'CuocKhaiGia' => $arr[1]['CuocKhaiGia'],
-            'TongCuocDichVuCongThem' => "0",
-            'SoTienCodThuNoiNguoiNhan' => number_format($arr[1]['TongCuocSauVAT'] + $arr[1]['CuocCOD'])
-        );
-        return response()->json($results, JSON_UNESCAPED_UNICODE);
+        //BK &EMS
+        if ($province == $data['ReceiverProvinceId']) {
+            if ($request->code) {
+                $money = number_format($arr[1]['SoTienCodThuNoiNguoiNhan']);
+            } else {
+                $money = number_format($arr[1]['TongCuocBaoGomDVCT']);
+            }
+            $results = array(
+                'MaDichVu' => $arr[1]['MaDichVu'],
+                'TongCuocSauVAT' => number_format($arr[1]['TongCuocSauVAT']),
+                'CuocCOD' => number_format($arr[1]['CuocCOD']),
+                'CuocKhaiGia' => $arr[1]['CuocKhaiGia'],
+                'TongCuocDichVuCongThem' => $arr[1]['TongCuocDichVuCongThem'],
+                'SoTienCodThuNoiNguoiNhan' => $money
+            );
+            return response()->json($results, JSON_UNESCAPED_UNICODE);
+        } else { //EMS
+            if ($request->code) {
+                $money = number_format($arr[0]['SoTienCodThuNoiNguoiNhan']);
+            } else {
+                $money = number_format($arr[0]['TongCuocBaoGomDVCT']);
+            }
+            $results = array(
+                'MaDichVu' => $arr[0]['MaDichVu'],
+                'TongCuocSauVAT' => number_format($arr[0]['TongCuocSauVAT']),
+                'CuocCOD' => number_format($arr[0]['CuocCOD']),
+                'CuocKhaiGia' => $arr[0]['CuocKhaiGia'],
+                'TongCuocDichVuCongThem' => $arr[0]['TongCuocDichVuCongThem'],
+                'SoTienCodThuNoiNguoiNhan' => $money
+            );
+            return response()->json($results, JSON_UNESCAPED_UNICODE);
+        }
+        //
+
         // $url = 'https://vnpost.vnit.top/api/api/DoiTac/TinhCuocTatCaDichVu';
         // $data = [
         //     'SenderDistrictId' => 1390,
