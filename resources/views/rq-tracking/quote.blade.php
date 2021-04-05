@@ -98,111 +98,6 @@
 
 </style>
 <script>
-    function push_tracking() {
-        var OptionAdd = $('#utypeadd').val();
-        var AddRev = $("#UaddNumber").val() + ", " + $("#UPhuongXa option:selected").text() + ", " + $(
-            "#Uhuyen option:selected").text() + ", " + $("#Utinh option:selected").text();
-        if (OptionAdd.length > 8) {
-            AddRev = OptionAdd;
-        }
-        var str = $("#utracking").val();
-        var mapObj = {
-            "-": "",
-            " ": "",
-        };
-        var Tracking = str.replace(/-| /gi, function(matched) {
-            return mapObj[matched];
-        });
-        var Phone = $("#uphone").val();
-        var Name_Send = $("#uname_send").val();
-        var Number_Send = $("#number_send").val();
-        var Name_Rev = $("#uname_rev").val();
-        var Type = $("#utype").val();
-        var Note = $("#unote").val();
-        var Reparking = document.getElementById('ureparking').checked;
-        var ShipAir = document.getElementById('uair').checked;
-        var ShipSea = document.getElementById('usea').checked;
-        var Upx = $('#UPhuongXa').val();
-        var Code_Add = $("#Uhuyen option:selected").val() + "," + $("#Utinh option:selected").val();
-        Code_Add
-
-        if (Tracking.length > 7 && Phone.length > 8 && Name_Send.length > 2 && Name_Rev.length > 2 && Number_Send
-            .length > 8 && (ShipAir == true | ShipSea == true) && (Upx != null || OptionAdd.length > 9)) {
-            console.log("Sendtracking");
-            $.ajax({
-                type: 'POST',
-                url: "php/creat_tracking.php",
-                data: {
-                    TrackingSaiko: Tracking,
-                    Phone: Phone,
-                    Name_Send: Name_Send,
-                    Number_Send: Number_Send,
-                    Name_Rev: Name_Rev,
-                    Add: AddRev,
-                    Type: Type,
-                    Note: Note,
-                    Reparking: Reparking,
-                    ShipAir: ShipAir,
-                    ShipSea: ShipSea,
-
-                    Code_Add: Code_Add
-                },
-                success: function(response) {
-                    if (response > 1) {
-                        document.getElementById("color-success").style.background = '#1ba906'
-                        $('#message').html('Tạo tracking thành công!');
-                        $('#exitForm').hide();
-                        $('#exitSuccess').show();
-                        $('#myModal').modal('show');
-
-                    }
-                    if (response == 1) {
-                        document.getElementById("color-success").style.background = '#DF3A01'
-                        $('#message').html('Tracking này đã được tạo');
-                        $('#exitForm').hide();
-                        $('#exitSuccess').show();
-                        $('#myModal').modal('show');
-
-                    }
-                }
-            });
-        } else {
-            if (Tracking == '') {
-                $('#message').html('Nhập thiếu tracking');
-                $('#myModal').modal('show');
-            } else if (Name_Send == '') {
-                $('#message').html('Nhập thiếu tên người gửi!');
-                $('#myModal').modal('show');
-            } else if (Number_Send == '') {
-                $('#message').html('Nhập chưa đúng số điện thoại người gửi!');
-                $('#myModal').modal('show');
-            } else if (Name_Rev == '') {
-                $('#message').html('Nhập thiếu tên người nhận!');
-                $('#myModal').modal('show');
-            } else if (Name_Rev.length < 3) {
-                $('#message').html('Tên người nhận quá ngắn!');
-                $('#myModal').modal('show');
-            } else if (AddRev.length < 10 || OptionAdd.length < 10) {
-                $('#message').html('Nhập thiếu địa chỉ!');
-                $('#myModal').modal('show');
-            } else if (Phone == '') {
-                $('#message').html('Chưa số điện thoại người nhận!');
-                $('#myModal').modal('show');
-            } else if (Phone.length < 9) {
-                $('#message').html('Nhập thiếu số điện thoại người nhận');
-                $('#myModal').modal('show');
-            } else if (Upx == null) {
-                $('#message').html('Xin vui lòng chọn Thành Phố Quận Huyện');
-                $('#myModal').modal('show');
-            }
-
-
-        }
-
-    }
-
-</script>
-<script>
     function Select_Tinh(obj) {
         var Tinh_ThanhPho = $(obj).val();
         $.ajax({
@@ -330,7 +225,7 @@
                                         <!--<option value="Nhận tại VP Sóc Sơn">Nhận tại VP Sóc Sơn, Hà Nội</option>
                                             <option value="Nhận tại VP Đào Tấn">Nhận tại VP Đào Tấn, Hà Nội </option>-->
                                         <!--<option value="Nhận tại VP Tây Hồ">Nhận tại VP Tây Hồ</option>-->
-                                        <option value="1">Nhận tại VP Tân Bình HCM</option>
+                                        <option value="Nhận tại VP Tân Bình HCM">Nhận tại VP Tân Bình HCM</option>
                                         <!-- <option value="FOB">Nhận trực tiếp tại VN</option> -->
 
                                     </select>
@@ -342,9 +237,7 @@
                                             <select id="Utinh" name="tinh" onchange="Select_Tinh(this)">
                                                 <option value="">Vui lòng chọn</option>
                                                 @foreach ($data as $item)
-                                                    <option value='{{ $item->MaTinhThanh }}'>
-                                                        {{ $item->TenTinhThanh }}
-                                                    </option>
+                                                    <option value={{ $item->MaTinhThanh }}>{{ $item->TenTinhThanh }}</option>
                                                 @endforeach
                                             </select>
                                             @error('tinh')
@@ -411,7 +304,8 @@
                                     </span>
                                 </p>
                                 <p class="field submit">
-                                    <button class="btn fh-btn" name="push-tracking" type="submit">Gửi hàng
+                                    <button class="btn fh-btn" name="push-tracking" onclick="push_tracking()"
+                                        type="submit">Gửi hàng
                                         ngay</button>
                                 </p>
                                 <p>
@@ -421,10 +315,10 @@
                                         </div>
                                     @endif
                                     @if (session('fail'))
-                                    <div class="alert alert-success">
-                                        {{ session('fail') }}
-                                    </div>
-                                @endif
+                                        <div class="alert alert-success">
+                                            {{ session('fail') }}
+                                        </div>
+                                    @endif
                                 </p>
 
                             </div>
@@ -452,10 +346,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
 </section>
 @include('modules.footer')
 
@@ -519,6 +409,135 @@
             document.getElementById("type-ship").style.display = "none";
         } else {
             document.getElementById("type-ship").style.display = "block";
+        }
+    }
+
+    function push_tracking() {
+        event.preventDefault();
+        var OptionAdd = $('#utypeadd').val();
+        var AddRev = $("#UaddNumber").val() + ", " + $("#UPhuongXa option:selected").text() + ", " + $(
+            "#Uhuyen option:selected").text() + ", " + $("#Utinh option:selected").text();
+        if (OptionAdd.length > 5) {
+            AddRev = OptionAdd;
+        }
+        // var str = $("#utracking").val();
+        // var mapObj = {
+        //     "-": "",
+        //     " ": "",
+        // };
+        // var Tracking = str.replace(/-| /gi, function(matched) {
+        //     return mapObj[matched];
+        // });
+        var Tracking = $("#utracking").val();
+        var province = $("#Utinh").val();
+        var district = $("#Uhuyen").val();
+        var ward = $("#UPhuongXa").val();
+        var Phone = $("#uphone").val();
+        var Name_Send = $("#uname_send").val();
+        var Number_Send = $("#number_send").val();
+        var Name_Rev = $("#uname_rev").val();
+        var Type = $("#utype").val();
+        var Note = $("#unote").val();
+        var Reparking = document.getElementById('ureparking').checked;
+        var ShipAir = document.getElementById('uair').checked;
+        var ShipSea = document.getElementById('usea').checked;
+        var Upx = $('#UPhuongXa').val();
+        var Code_Add = $("#Uhuyen option:selected").val() + "," + $("#Utinh option:selected").val();
+        var UaddNumber = $("#UaddNumber").val();
+        var uphone = $("#uphone").val();
+        var utypeadd = $("#utypeadd").val();
+        // console.log(OptionAdd.length)
+        console.log(AddRev, Tracking, Phone, Name_Send, Name_Rev, Reparking, ShipAir, ShipSea, Upx, OptionAdd);
+        if(OptionAdd.length<=5){
+            if(Upx ==null){
+                $('#message').html('Xin vui lòng chọn Thành Phố Quận Huyện');
+                $('#myModal').modal('show');  
+            }
+            if(UaddNumber.length ==''){
+                $('#message').html('Nhập thiếu số nhà tên đường');
+                $('#myModal').modal('show'); 
+            }
+        }
+        if (Tracking.length <=7) {
+            $('#message').html('Nhập thiếu tracking');
+            $('#myModal').modal('show');
+        } else if (Name_Send == '') {
+            $('#message').html('Nhập thiếu tên người gửi!');
+            $('#myModal').modal('show');
+        } else if (Number_Send == '') {
+            $('#message').html('Nhập chưa đúng số điện thoại người gửi!');
+            $('#myModal').modal('show');
+        } else if (Name_Rev == '') {
+            $('#message').html('Nhập thiếu tên người nhận!');
+            $('#myModal').modal('show');
+        } else if (Name_Rev.length < 3) {
+            $('#message').html('Tên người nhận quá ngắn!');
+            $('#myModal').modal('show');
+        } else if (AddRev.length < 10) {
+            $('#message').html('Nhập thiếu địa chỉ!');
+            $('#myModal').modal('show');
+        } else if (Phone == '') {
+            $('#message').html('Chưa nhập số điện thoại người nhận!');
+            $('#myModal').modal('show');
+        } else if (Phone.length <= 8) {
+            $('#message').html('Nhập thiếu số điện thoại người nhận');
+            $('#myModal').modal('show');
+        } else if(uphone ==''){
+            $('#message').html('Nhập số điện thoại người nhận');
+            $('#myModal').modal('show');
+        }else if(Number_Send.length <=8){
+            $('#message').html('Nhập thiếu số điện thoại người gửi');
+            $('#myModal').modal('show'); 
+        }
+        else {
+            if (Tracking.length > 7 && Phone.length > 8 && Name_Send.length > 2 && Name_Rev.length > 2 && Number_Send
+                .length > 8 && (ShipAir == true | ShipSea == true)&& (Upx!= null || OptionAdd.length>5)) {
+                console.log("Sendtracking");
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'POST',
+                    url: "{{ route('rq_tk.store') }}",
+                    data: {
+                        utypeadd:utypeadd,
+                        TrackingSaiko: Tracking,
+                        Phone: Phone,
+                        Name_Send: Name_Send,
+                        Number_Send: Number_Send,
+                        Name_Rev: Name_Rev,
+                        Add: AddRev,
+                        Type: Type,
+                        Note: Note,
+                        Reparking: Reparking,
+                        ShipAir: ShipAir,
+                        ShipSea: ShipSea,
+                        Location: '203.205.41.135',
+                        Code_Add: Code_Add,
+                        province: province,
+                        district: district,
+                        ward: ward
+                    },
+                    success: function(response) {
+                        console.log(response)
+                        if (response ==201) {
+                            document.getElementById("color-success").style.background = '#1ba906'
+                            $('#message').html('Tạo tracking thành công!');
+                            $('#exitForm').hide();
+                            $('#exitSuccess').show();
+                            $('#myModal').modal('show');
+                        }
+                        if (response == 422) {
+                            document.getElementById("color-success").style.background = '#DF3A01'
+                            $('#message').html('Tracking này đã được tạo hoặc mã tracking dài quá 15 kí tự');
+                            $('#exitForm').hide();
+                            $('#exitSuccess').show();
+                            $('#myModal').modal('show');
+
+                        }
+                    }
+                });
+            }
         }
     }
 

@@ -1,50 +1,87 @@
 <?php
 include("../config.php");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE");
-header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+$Tracking;$captcha;
+  $Tracking = filter_input(INPUT_POST, 'tracking', FILTER_SANITIZE_STRING);
+  $captcha = filter_input(INPUT_POST, 'token', FILTER_SANITIZE_STRING);
+  if(!$captcha){
+    echo '<h2>Please check the the captcha form.</h2>';
+    exit;
+  }
+  $secretKey = "6LexXeoUAAAAABr0suxvz6y4s34WXbbDvtBK3riN";
+  $ip = $_SERVER['REMOTE_ADDR'];
 
+  // post request to server
+  $url = 'https://www.google.com/recaptcha/api/siteverify';
+  $data = array('secret' => $secretKey, 'response' => $captcha);
 
-// Tinh cuoc VNPOST
-$url = 'https://vnpost.vnit.top/api/api/DoiTac/TinhCuocTatCaDichVu';
-$data = array(
-    'SenderDistrictId' => 1390,
-    'SenderProvinceId'=> 10,
-    'ReceiverDistrictId'=> 4271,
-    'ReceiverProvinceId'=> 42,
-    'Weight'=> 26800,
-    'Width'=> 42,
-    'Length'=> 60,
-    'Height'=> 38,
-    'CodAmount'=> 1.0,
-    'IsReceiverPayFreight'=> true,
-    'OrderAmount' => 1.0,
-    'UseBaoPhat' => true,
-    'UseHoaDon' => true,
-    'CustomerCode'=> '0843211234C333345'
-);
+  $options = array(
+    'http' => array(
+      'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+      'method'  => 'POST',
+      'content' => http_build_query($data)
+    )
+  );
+  $context  = stream_context_create($options);
+  $response = file_get_contents($url, false, $context);
+  $responseKeys = json_decode($response,true);
+  header('Content-type: application/json');
+  if($responseKeys["success"]) {
 
-$postdata = json_encode($data);
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','h-token:eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJTb0RpZW5UaG9haSI6IjA5NDMyMTEyMzQiLCJFbWFpbCI6bnVsbCwiTWFDUk0iOm51bGwsIkV4cGlyZWRUaW1lIjo2NDA1Mjg0NzQ1NzQ4NS45NjksIlJvbGVzIjpbOTk5LDExLDEzXSwiTmd1b2lEdW5nSWQiOiI4YWQ1Y2ZkYi1lMWRjLTRlZjItODIyZS1jMDQ1Yjc5OTM0YzgiLCJNYVRpbmhUaGFuaCI6IjcwIiwiVGVuTmd1b2lEdW5nIjoixJDhu5FpIHTDoWMgY2h1bmciLCJOZ2F5VGFvVG9rZW4iOiJcL0RhdGUoMTYwMTg2NTQ1NzQ4NSlcLyIsIlRpbWVMYXN0UmVhZENvbW1lbnQiOm51bGwsIk1hQnV1Q3VjIjpudWxsLCJNYVRpbmhUaGFuaFF1YW5MeSI6bnVsbCwiQ1JNX0VtcGxveWVlSWQiOm51bGwsIk5nYXlUYW9Ub2tlblRpbWVTdGFtcCI6MTYwMTg2NTQ1NzQ4NX0.KqZh4Ngu0g3APXNs1BEWu_JwoBQa_upj5An9SF_FASFvpWaU-ElacBRtAZ8Ybw4JeNsUrYd0fpgYhouGr6MT7d5Jb9rbaaIRQR4Mqdgpar7V30UuLR1nCvjCXhiSk8FLiFxtExHXjYUB0rOeyCmYpnN_gXvLQpS-iYHvky7qXro'));
-$result = curl_exec($ch);
-curl_close($ch);
-//print_r ($result);
-$arr = json_decode($result, true);
+    $checkTracking = "SELECT Count(Tracking_number) FROM `Tracking_User` WHERE Tracking_number='$Tracking'";
+    $Check_Track = mysqli_fetch_row(mysqli_query($db,$checkTracking))[0];
+    if($Check_Track>0){
+      $Query ="SELECT WH_SKU_Item.Quantity,product_standard.name FROM WH_SKU_Item,product_standard,Nhap_Kho WHERE product_standard.jan_code=WH_SKU_Item.Item AND WH_SKU_Item.SFA=Nhap_Kho.SFA AND Nhap_Kho.Tracking_Number='$Tracking'";
+      //echo json_encode(array('success' => 'true','SKU'=>$SKU),'');
+      $SQL = mysqli_query($db,$Query);
+      $results = array();
+      while($row = mysqli_fetch_array($SQL)){
+          $results[] = array(
+          'success' => 'true',
+          'Quantity' => '<tr><td>'.$row['Quantity'].'</td>',
+          'name' => '<td>'.$row['name'].'</td></tr>'
+       );
+      }
+    }
 
-$results = array(  
-    'MaDichVu'=> $arr[1]['MaDichVu'],
-    'TongCuocSauVAT'=> $arr[1]['TongCuocSauVAT'],
-    'CuocCOD'=> $arr[1]['CuocCOD'],
-    'CuocKhaiGia'=> $arr[1]['CuocKhaiGia'],
-    'TongCuocDichVuCongThem'=> "0",
-    'SoTienCodThuNoiNguoiNhan'=> $arr[1]['TongCuocSauVAT']+$arr[1]['CuocCOD']
-);
-echo json_encode($results,JSON_UNESCAPED_UNICODE);
-?>
+    //echo json_encode($results);
+    
+        $QueryTimeline="SELECT Date_line,Tracking_number,StatusTrack FROM TimelineTrack WHERE Tracking_number='$Tracking'";
+        $SQL2 = mysqli_query($db,$QueryTimeline);
+        while($row = mysqli_fetch_array($SQL2)){
+            $results[] = array(
+            'Date' => '<li><a>'.$row['Date_line'].'</a>',
+            'Tracking' => $row['Tracking_number'],
+            'Status' => '<p>'.$row['StatusTrack'].'</p></li>'
+         );
+		}
+		
+        $QueryInfo="SELECT WH_SKU.SKU,WH_SKU.Can_Nang,(WH_SKU.Chieu_Cao*WH_SKU.Chieu_Rong*WH_SKU.Chieu_Dai)/6000 As Kg_TheTich,Tracking_User.Uname_Send,Tracking_User.Uname_Rev,Tracking_User.Phone_Rev,Tracking_User.Add_Rev,Nhap_Kho.Soluong_thung FROM Nhap_Kho LEFT JOIN WH_SKU ON WH_SKU.SFA=Nhap_Kho.SFA RIGHT JOIN Tracking_User ON Tracking_User.Tracking_number=Nhap_Kho.Tracking_number WHERE Tracking_User.Tracking_number='$Tracking'";
+		$SQL3 = mysqli_query($db,$QueryInfo);
+        while($row = mysqli_fetch_array($SQL3)){
+            $SKU=$row['SKU'];
+            
+            $SKU = str_replace('1811','***',$SKU);
+            $SKU = str_replace('1984','***',$SKU);
+            
+            $results[] = array(  
+            'CanNang' => $row['Can_Nang'],
+            'Kg_TheTich' => $row['Kg_TheTich'],
+            'TenNguoi_Gui' => $row['Uname_Send'],
+            'TenNguoi_Nhan' => $row['Uname_Rev'],
+            'SoDienThoai' => $row['Phone_Rev'],
+            'Dia_Chi' => $row['Add_Rev'],
+            'ID_Thung' => $SKU,
+		 );
+		}
+		 
+        echo json_encode($results);
+        /*
+        <li>
+                                					<a>New Web Design</a>
+                                					<p>4567</p>
+                                				</li>*/
+    }
+    else {
+    echo json_encode(array('success' => 'false'));
+  }
+  ?>

@@ -86,7 +86,7 @@ class PriceController extends Controller
                 "pick_district" => $district,
                 "province" => $request->provinceText,
                 "district" => $request->districtText,
-                "weight" => $request->wei,
+                "weight" => $request->wei * 1000,
                 "value" => $request->priceGHTK,
                 "deliver_option" => $request->methodGHTK,
             );
