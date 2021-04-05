@@ -148,7 +148,7 @@ class QuoteController extends Controller
             $donggoi = "Không đóng gói";
         }
         //note
-        $note = 'Tên người nhận: ' . $request->name . ', Sdt người nhận: ' . $request->phone . ',' . $donggoi . ',Ghi chú: ' . $request->note;
+        $note = $request->note;
         $create_shipment = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token
