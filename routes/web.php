@@ -36,6 +36,7 @@ Route::prefix('request-tracking')->namespace('Request_Tracking')->name('rq_tk.')
     Route::post('get-phuongxa', 'RQ_TKController@phuongxa')->name('phuongxa');
     Route::post('quote', 'QuoteController@store')->name('store');
     Route::post('domestic-shipping', 'PriceController@getApiVNP')->name('getApiVNP');
+    Route::post('follow-tracking', 'FLTrackingController@getStatus')->name('getStatus');
 });
 Route::prefix('blogs')->namespace('blogs')->name('blog.')->group(function () {
     Route::get('/', 'blogController@index')->name('index');

@@ -9,6 +9,7 @@
     <base href="{{ asset('') }}">
     <!-- Stylesheets -->
     <!-- bootstrap v3.3.6 css -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="assets/css/saiko-main.css" rel="stylesheet">
@@ -309,6 +310,7 @@
                         <div class="row paddtop30">
                             <div class="col-sm-9">
                                 <form id="tracking_form" method='post'>
+                                    @csrf
                                     <div class="fh-form track-form">
                                         <div>
                                             <label>Mã Tracking <span class="require">*</span></label>
@@ -442,55 +444,46 @@
             </div>
         </section>
         <script>
-            $('#tracking_form').submit(function() {
-                event.preventDefault();
-                var tracking = $("#utrack").val();
-                grecaptcha.ready(function() {
-                    grecaptcha.execute('6LexXeoUAAAAACjR-MM0V2-scILrUMVyliP1bArL', {
-                        action: 'create_comment'
-                    }).then(function(token) {
-                        $('#comment_form').prepend(
-                            '<input type="hidden" name="g-recaptcha-response" value="' +
-                            token + '">');
-                        $.post("../php/TOKEN.php", {
-                            tracking: tracking,
-                            token: token
-                        }, function(result) {
-                            //console.log(result);
+            $(document).ready(function() {
+                $('#tracking_form').submit(function() {
+                    event.preventDefault();
+                    var tracking = $("#utrack").val();
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'POST',
+                        url: "{{ route('rq_tk.getStatus') }}",
+                        data: {
+                            tracking: tracking
+                        },
+                        success: function(res) {
+                            console.log(res)
                             $("#table").show();
                             $("#table-firt").show();
-                            var dataHTML = "";
+                            var table = "";
                             var Timeline = "";
-                            var dataTableFirt = "";
-                            for (var i = 0; i < result.length; i++) {
-                                dataHTML += (result[i].Quantity + result[i].name);
-                                if (result[i].Date || result[i].Status) {
-                                    Timeline += (result[i].Date + result[i].Status);
-                                }
-                                if (result[i].TenNguoi_Gui) {
-                                    dataTableFirt += "<tr><td>" + result[i].ID_Thung +
-                                        "</td>" +
-                                        "<td>" + result[i].CanNang + "</td>" +
-                                        "<td>" + result[i].Kg_TheTich + "</td>" +
-                                        "<td>" + result[i].TenNguoi_Gui + "</td>" +
-                                        "<td>" + result[i].TenNguoi_Nhan + "</td>" +
-                                        "<td>" + result[i].SoDienThoai + "</td>" +
-                                        "<td>" + result[i].Dia_Chi + "</td>" +
-                                        "</tr>";
-                                }
-
-
-
-                            }
-                            //$("#load_item").html(dataHTML);
+                            table += "<tr><td>" + res.result.ID_Thung + "</td>" +
+                                "<td>" + res.result.CanNang + "</td>" +
+                                "<td>" + res.result.Kg_TheTich + "</td>" +
+                                "<td>" + res.result.TenNguoi_Gui + "</td>" +
+                                "<td>" + res.result.TenNguoi_Nhan + "</td>" +
+                                "<td>" + res.result.SoDienThoai + "</td>" +
+                                "<td>" + res.result.Dia_Chi + "</td>" +
+                                "</tr>";
+                            $.each(res.table, function(index, value) {
+                                Timeline += "<li>" +
+                                    "<a>" + value.Date_line + "</a>" +
+                                    "<p>" + value.StatusTrack + "</p>" 
+                                    +"</li>"
+                            })
                             $("#time_line").html(Timeline);
-                            $("#body-table-firt").html(dataTableFirt);
-
-
-                        });
-                    });;
-                });
-            });
+                            $("#body-table-firt").html(table);
+                        },
+                        error: function(res) {}
+                    })
+                })
+            })
 
         </script>
 
