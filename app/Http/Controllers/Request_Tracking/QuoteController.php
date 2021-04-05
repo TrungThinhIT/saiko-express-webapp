@@ -113,7 +113,10 @@ class QuoteController extends Controller
         ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
             'consignee' => $request->name_arr,
             'tel' => $request->phone_arr,
-            'address' => $address
+            'address' => $address,
+            'province_id' => $request->tinh,
+            'district_id' => $request->huyen,
+            'ward_id' => $request->xa
         ]);
         if ($api->status() == 401) {
             $this->getToken();
@@ -124,7 +127,10 @@ class QuoteController extends Controller
             ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
                 'consignee' => $request->name_arr,
                 'tel' => $request->phone_arr,
-                'address' => $address
+                'address' => $address,
+                'province_id' => $request->tinh,
+                'district_id' => $request->huyen,
+                'ward_id' => $request->xa
             ]);
         }
         $data = json_decode($api->body(), true);
@@ -149,10 +155,10 @@ class QuoteController extends Controller
         ]);
         //tạo shipment_order
         $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
-            'shipment_method_id' => $request->fh_radio,//đường vận chuyển
-            'shipment_infor_id' => $data['id'],//lấy id của shipment_info
+            'shipment_method_id' => $request->fh_radio, //đường vận chuyển
+            'shipment_infor_id' => $data['id'], //lấy id của shipment_info
             'type' => 'shipment',
-            'trackings' => $tracking,//danh sách tracking
+            'trackings' => $tracking, //danh sách tracking
             'note' => $note
         ]);
         //check status
