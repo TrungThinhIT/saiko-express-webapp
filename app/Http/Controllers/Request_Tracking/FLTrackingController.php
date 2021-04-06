@@ -45,7 +45,7 @@ class FLTrackingController extends Controller
                 'Authorization' => 'Bearer ' . $token->access_token
             ])->get('http://order.tomonisolution.com:82/api/trackings', $data);
         }
-       
+
         return $apiTracking->body();
         // $result = [];
         // $checkTracking = Tracking_User::where('Tracking_number', $request->tracking)->get()->count('Tracking_number');
@@ -71,6 +71,7 @@ class FLTrackingController extends Controller
 
         //     return response()->json(['result'=>$results,'table'=> $qrTL]);
         // }
-        // return response()->json(($checkTracking));
+        // return response()->json(($checkTracking));          
     }
+    
 }
