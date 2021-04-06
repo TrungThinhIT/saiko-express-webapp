@@ -352,8 +352,15 @@
                             id="priceGHTK">
                     </div>
                     <div class="unset-border custom-row-inline">
+                        <label for="" class="form-control unset-border width-custom">Chọn hình thức vận chuyển:</label>
+                        <select class="form-control width-custom" name="" onchange="domesticShipping()" id="transport">
+                            <option value="fly">Đường bay</option>
+                            <option value="road">Đường bộ</option>
+                        </select>
+                    </div>
+                    <div class="unset-border custom-row-inline">
                         <label for="" class="form-control unset-border width-custom">Chọn phương thức giao</label>
-                        <select class="form-control width-custom" name="" id="methodGHTK">
+                        <select class="form-control width-custom" name="" onchange="domesticShipping()" id="methodGHTK">
                             <option value="xteam">Mở mắt là có</option>
                             <option value="none">Ngàn thu mới có</option>
                         </select>
@@ -365,7 +372,7 @@
                     </div> --}}
                     <div class="custom-row-inline">
                         <label for="" class="form-control unset-border width-custom">Tổng chi phí:</label>
-                        <label for="" class="form-control unset-border width-custom" id="money"></label><span>VNĐ</span>
+                        <label for="" class="form-control unset-border width-custom" id="moneyGHTK"></label><span>VNĐ</span>
                     </div>
                 </div>
                 <div id="componentServiceViettel" style="display: none">
@@ -532,7 +539,6 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
             }
         });
     }
-
     function domesticShipping() {
         var id_district = $("#Uhuyen").val();
         var code = $("#check_code").val();
@@ -547,6 +553,7 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
         var methodGHTK = $("#methodGHTK").val();
         var provinceText = $("#Utinh option:selected").text();
         var districtText = $("#Uhuyen option:selected").text()
+        var transport = $("#transport").val();
         console.log(id_district, code, id_province, height, width, long, wei, price, service, methodGHTK, priceGHTK)
         $.ajax({
             headers: {
@@ -568,12 +575,20 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
                 methodGHTK: methodGHTK,
                 provinceText: provinceText,
                 districtText: districtText,
+                transport:transport
             },
             success: function(respone) {
                 console.log(respone)
-                $("#code_fee").text(respone.CuocCOD)
-                $("#vat").text(respone.TongCuocSauVAT)
-                $("#money").text(respone.SoTienCodThuNoiNguoiNhan)
+                if(respone.type.type=="BD"){
+                    $("#code_fee").text(respone.CuocCOD)
+                    $("#vat").text(respone.TongCuocSauVAT)
+                    $("#money").text(respone.SoTienCodThuNoiNguoiNhan)
+                }
+                if(respone.type.type=="GHTK"){
+                    $("#moneyGHTK").text(respone.fee.fee)
+                    
+                }
+                
             },
             error: function(respone) {
                 console.log(respone)

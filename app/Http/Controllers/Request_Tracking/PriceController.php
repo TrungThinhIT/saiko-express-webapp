@@ -17,7 +17,7 @@ class PriceController extends Controller
             $district = $province == 10 ? 1390 : 7600;
             $data = array(
                 'SenderDistrictId' => $district,
-                'SenderProvinceId' => $request->id_province <= 53 ? 10 : 70,
+                'SenderProvinceId' => $province,
                 'ReceiverDistrictId' => $request->id_district,
                 'ReceiverProvinceId' => $request->id_province,
                 'Weight' => $request->wei * 1000,
@@ -59,6 +59,7 @@ class PriceController extends Controller
                     'TongCuocDichVuCongThem' => $arr[1]['TongCuocDichVuCongThem'],
                     'SoTienCodThuNoiNguoiNhan' => $money
                 );
+                $results['type'] = ['type' => "BD"];
                 return response()->json($results, JSON_UNESCAPED_UNICODE);
             } else { //EMS
                 if ($request->code) {
@@ -74,13 +75,14 @@ class PriceController extends Controller
                     'TongCuocDichVuCongThem' => $arr[0]['TongCuocDichVuCongThem'],
                     'SoTienCodThuNoiNguoiNhan' => $money
                 );
+                $results['type'] = ['type' => "BD"];
                 return response()->json($results, JSON_UNESCAPED_UNICODE);
             }
         }
         if ($request->service == "GHTK") {
             // return response()->json($request->all());
             $province =  $request->id_province <= 53 ? "Hà Nội" : "Hồ Chí Minh";
-            $district = $province == 10 ? "Sóc Sơn" : "Tân Phú";
+            $district = $province == "Hà Nội" ? "Sóc Sơn" : "Tân Phú";
             $data = array(
                 "pick_province" =>  $province,
                 "pick_district" => $district,
@@ -89,11 +91,16 @@ class PriceController extends Controller
                 "weight" => $request->wei * 1000,
                 "value" => $request->priceGHTK,
                 "deliver_option" => $request->methodGHTK,
+                "transport"=>$request->transport
             );
+            // return $data;
             $apiGHTK = Http::withHeaders([
                 'token' => 'a26534751D9ccbc1D34306359dE56fdfA0068Ef6'
             ])->get("https://services.giaohangtietkiem.vn/services/shipment/fee?", $data);
-            return json_decode($apiGHTK->body(), true);
+            $a = json_decode($apiGHTK->body(), true);
+            $a['type'] = ['type' => 'GHTK'];
+            // return json_decode($apiGHTK->body(), true);
+            return response()->json($a);
         }
     }
     public function getApiGHTK(Request $request)
