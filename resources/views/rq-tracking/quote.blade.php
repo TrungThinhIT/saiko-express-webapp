@@ -420,15 +420,15 @@
         if (OptionAdd.length > 5) {
             AddRev = OptionAdd;
         }
-        // var str = $("#utracking").val();
-        // var mapObj = {
-        //     "-": "",
-        //     " ": "",
-        // };
-        // var Tracking = str.replace(/-| /gi, function(matched) {
-        //     return mapObj[matched];
-        // });
-        var Tracking = $("#utracking").val();
+        var str = $("#utracking").val();
+        var mapObj = {
+            "-": "",
+            " ": "",
+        };
+        var Tracking = str.replace(/-| /gi, function(matched) {
+            return mapObj[matched];
+        });
+        // var Tracking = $("#utracking").val();
         var province = $("#Utinh").val();
         var district = $("#Uhuyen").val();
         var ward = $("#UPhuongXa").val();

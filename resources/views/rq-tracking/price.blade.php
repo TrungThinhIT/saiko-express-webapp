@@ -361,8 +361,8 @@
                     <div class="unset-border custom-row-inline">
                         <label for="" class="form-control unset-border width-custom">Chọn phương thức giao</label>
                         <select class="form-control width-custom" name="" onchange="domesticShipping()" id="methodGHTK">
-                            <option value="xteam">Mở mắt là có</option>
-                            <option value="none">Ngàn thu mới có</option>
+                            <option value="xteam">Xteam</option>
+                            <option value="none">None</option>
                         </select>
                     </div>
 

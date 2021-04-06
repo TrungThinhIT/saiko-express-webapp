@@ -459,6 +459,8 @@
                         },
                         success: function(res) {
                             console.log(res)
+                            return
+                           if(res==0){}
                             $("#table").show();
                             $("#table-firt").show();
                             var table = "";

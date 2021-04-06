@@ -122,7 +122,7 @@ class QuoteController extends Controller
         //create shipment
         $tracking = explode(" ", $request->TrackingSaiko);
         foreach ($tracking as $item) {
-            $arr[] = ['code' => $item, 'expected_delivery' => Carbon::now()->addDays(10)->toDateString()];
+            $arr[] = ['id' => $item, 'expected_delivery' => Carbon::now()->addDays(10)->toDateString()];
         }
         //tạo tracking
         $tracking = json_encode($arr);
