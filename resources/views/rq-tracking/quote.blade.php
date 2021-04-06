@@ -446,14 +446,13 @@
         var UaddNumber = $("#UaddNumber").val();
         var uphone = $("#uphone").val();
         var utypeadd = $("#utypeadd").val();
-        // console.log(OptionAdd.length)
-        console.log(AddRev, Tracking, Phone, Name_Send, Name_Rev, Reparking, ShipAir, ShipSea, Upx, OptionAdd);
+        // console.log(AddRev, Tracking, Phone, Name_Send, Name_Rev, Reparking, ShipAir, ShipSea, Upx, OptionAdd);
         if(OptionAdd.length<=5){
-            if(Upx ==null){
-                $('#message').html('Xin vui lòng chọn Thành Phố Quận Huyện');
+            if(Upx ==null||Upx==""){
+                $('#message').html('Xin vui lòng chọn Thành Phố Quận/Huyện ');
                 $('#myModal').modal('show');  
             }
-            if(UaddNumber.length ==''){
+            if(UaddNumber.length <=8){
                 $('#message').html('Nhập thiếu số nhà tên đường');
                 $('#myModal').modal('show'); 
             }
@@ -461,11 +460,14 @@
         if (Tracking.length <=7) {
             $('#message').html('Nhập thiếu tracking');
             $('#myModal').modal('show');
-        } else if (Name_Send == '') {
+        } else if (Name_Send.length<3) {
             $('#message').html('Nhập thiếu tên người gửi!');
             $('#myModal').modal('show');
         } else if (Number_Send == '') {
             $('#message').html('Nhập chưa đúng số điện thoại người gửi!');
+            $('#myModal').modal('show');
+        }else if (Number_Send <=8 ) {
+            $('#message').html('Nhập thiếu số điện thoại người gửi!');
             $('#myModal').modal('show');
         } else if (Name_Rev == '') {
             $('#message').html('Nhập thiếu tên người nhận!');
@@ -491,7 +493,7 @@
         }
         else {
             if (Tracking.length > 7 && Phone.length > 8 && Name_Send.length > 2 && Name_Rev.length > 2 && Number_Send
-                .length > 8 && (ShipAir == true | ShipSea == true)&& (Upx!= null || OptionAdd.length>5)) {
+                .length > 8 && (ShipAir == true | ShipSea == true)&& (Upx!= null || OptionAdd.length>5)&&(UaddNumber.length>=8||OptionAdd.length>5)) {
                 console.log("Sendtracking");
                 $.ajax({
                     headers: {
