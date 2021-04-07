@@ -415,15 +415,16 @@
     function push_tracking() {
         event.preventDefault();
         var OptionAdd = $('#utypeadd').val();
-        var AddRev = $("#UaddNumber").val() + ", " + $("#UPhuongXa option:selected").text() + ", " + $(
-            "#Uhuyen option:selected").text() + ", " + $("#Utinh option:selected").text();
+        var AddRev = $("#UaddNumber").val() ;
+        // + ", " + $("#UPhuongXa option:selected").text() + ", " + $(
+        //     "#Uhuyen option:selected").text() + ", " + $("#Utinh option:selected").text();
         if (OptionAdd.length > 5) {
             AddRev = OptionAdd;
         }
         var str = $("#utracking").val();
         var mapObj = {
             "-": "",
-            " ": "",
+            " ": " ",
         };
         var Tracking = str.replace(/-| /gi, function(matched) {
             return mapObj[matched];
@@ -475,7 +476,7 @@
         } else if (Name_Rev.length < 3) {
             $('#message').html('Tên người nhận quá ngắn!');
             $('#myModal').modal('show');
-        } else if (AddRev.length < 10) {
+        } else if (AddRev.length < 8) {
             $('#message').html('Nhập thiếu địa chỉ!');
             $('#myModal').modal('show');
         } else if (Phone == '') {

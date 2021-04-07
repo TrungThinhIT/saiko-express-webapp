@@ -90,6 +90,7 @@ class QuoteController extends Controller
             $this->getToken();
         }
         $token = token::find(1);
+        //create shipment_info
         $api = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token
@@ -97,14 +98,15 @@ class QuoteController extends Controller
             'consignee' => $request->Name_Rev,
             'tel' => $request->Phone, //sdt ng nhận
             'address' => $request->Add,
-            'province_id' => $request->utypeadd == "blank" ? $request->province : "70",
-            'district_id' =>  $request->utypeadd == "blank" ? $request->district : "7360",
+            // 'province_id' => $request->utypeadd == "blank" ? $request->province : "70",
+            // 'district_id' =>  $request->utypeadd == "blank" ? $request->district : "7360",
             'ward_id' =>  $request->utypeadd == "blank" ? $request->ward : "73720"
         ]);
         //xác thực 
         if ($api->status() == 401) {
             $this->getToken();
             $token = token::find(1)->access_token;
+            //create shipment_info
             $api = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
@@ -112,8 +114,8 @@ class QuoteController extends Controller
                 'consignee' => $request->Name_Rev,
                 'tel' => $request->Phone,
                 'address' => $request->Add,
-                'province_id' => $request->utypeadd == "blank" ? $request->province : "70",
-                'district_id' =>  $request->utypeadd == "blank" ? $request->district : "7360",
+                // 'province_id' => $request->utypeadd == "blank" ? $request->province : "70",
+                // 'district_id' =>  $request->utypeadd == "blank" ? $request->district : "7360",
                 'ward_id' =>  $request->utypeadd == "blank" ? $request->ward : "73720"
             ]);
         }
@@ -122,7 +124,7 @@ class QuoteController extends Controller
         //create shipment
         $tracking = explode(" ", $request->TrackingSaiko);
         foreach ($tracking as $item) {
-            $arr[] = ['id' => $item, 'expected_delivery' => Carbon::now()->addDays(10)->toDateString()];
+            $arr[] = ['id' =>$item, 'expected_delivery' => Carbon::now()->addDays(10)->toDateString()];
         }
         //tạo tracking
         $tracking = json_encode($arr);
@@ -133,7 +135,7 @@ class QuoteController extends Controller
         ]);
         //tạo shipment_order
         $donggoi = $request->Reparking == false ? "không" : "có";
-        $note = 'Tên người gửi: ' . $request->Name_Send . ', Sdt người gửi: ' . $request->Number_Send . ', Đóng gói: ' . $donggoi . ', Ghi chú: ' . $request->Note;
+        $note = json_encode(['send_name' => $request->Name_Send, 'send_phone' => $request->Number_Send, 'isPackaged' => $donggoi, 'note' => $request->Note]);
         // return $note;
         $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
             'shipment_method_id' => $request->ShipSea ? "sea" : "air", //đường vận chuyển
@@ -162,6 +164,11 @@ class QuoteController extends Controller
      */
     public function appCreateTracking(Request $request)
     {
+        //get id district
+        $code_add = $request->Code_Add;
+        $id_district = explode(",", $code_add)[0];
+        //get id province
+        $id_province = explode(",", $code_add)[1];
         //get id ward
         $address = $request->detail_address;
         $catchuoi = (explode(",", $address));
@@ -169,18 +176,14 @@ class QuoteController extends Controller
         $d = explode(" ", $xa[0]);
         $slice = Str::of($xa[0])->after($d[0] . $d[1]);
         $ward = Str::of($slice)->trim();
-        $getIdWard = phuongxa::where('TenPhuongXa', $ward)->first();
+        $getIdWard = phuongxa::where('TenPhuongXa', $ward)->where('MaTinhThanh', $id_province)->first();
         if (!empty($getIdWard)) {
             $ward_id = $getIdWard->MaPhuongXa;
         } else {
             $ward_id = "13620";
         }
         // $d = explode(" ", $address[0]);
-        //get id district
-        $code_add = $request->Code_Add;
-        $id_district = explode(",", $code_add)[0];
-        //get id province
-        $id_province = explode(",", $code_add)[1];
+
         //create shipment_info
         $token = token::find(1);
         if (empty($token)) {
@@ -216,7 +219,7 @@ class QuoteController extends Controller
         }
         $data = json_decode($api->body(), true);
         //create shipment
-        $a = [434544,4667,37822];
+        $a = [32322321, 3453542422, 54334425432];
         foreach ($a as $item) {
             $arr[] = ['id' => strval($item), 'expected_delivery' => Carbon::now()->addDays(10)->toDateString()];
         }
@@ -228,8 +231,8 @@ class QuoteController extends Controller
             'Authorization' => 'Bearer ' . $token->access_token
         ]);
         //tạo shipment_order
-        $donggoi =$request->isPackaged == false ? "không" : "có";
-        $note = 'Tên người gửi:' . $request->sender_name . ', Sdt người gửi: ' . $request->sender_phone_number . ', Đóng gói: ' . $donggoi . ', Ghi chú: ' . $request->note;
+        $donggoi = $request->isPackaged == false ? "không" : "có";
+        $note = json_encode(['send_name' => $request->sender_name, 'send_phone' => $request->sender_phone_number, 'isPackaged' => $donggoi, 'note' => $request->note]);
         // return $note;
 
         $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
@@ -242,9 +245,9 @@ class QuoteController extends Controller
         //check status
         // return $create_shipment->body();
         if ($create_shipment->status() == 201) {
-            return $create_shipment->status();
+            return $create_shipment->body();
         } else if ($create_shipment->status() == 422) {
-            return $create_shipment->status();
+            return $create_shipment->body();
         }
         // $data = [
         //     'tracking_number' => $request->tracking_number,

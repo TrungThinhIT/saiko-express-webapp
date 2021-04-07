@@ -372,7 +372,8 @@
                     </div> --}}
                     <div class="custom-row-inline">
                         <label for="" class="form-control unset-border width-custom">Tổng chi phí:</label>
-                        <label for="" class="form-control unset-border width-custom" id="moneyGHTK"></label><span>VNĐ</span>
+                        <label for="" class="form-control unset-border width-custom"
+                            id="moneyGHTK"></label><span>VNĐ</span>
                     </div>
                 </div>
                 <div id="componentServiceViettel" style="display: none">
@@ -539,6 +540,7 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
             }
         });
     }
+
     function domesticShipping() {
         var id_district = $("#Uhuyen").val();
         var code = $("#check_code").val();
@@ -575,20 +577,20 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
                 methodGHTK: methodGHTK,
                 provinceText: provinceText,
                 districtText: districtText,
-                transport:transport
+                transport: transport
             },
             success: function(respone) {
                 console.log(respone)
-                if(respone.type.type=="BD"){
+                if (respone.type.type == "BD") {
                     $("#code_fee").text(respone.CuocCOD)
                     $("#vat").text(respone.TongCuocSauVAT)
                     $("#money").text(respone.SoTienCodThuNoiNguoiNhan)
                 }
-                if(respone.type.type=="GHTK"){
+                if (respone.type.type == "GHTK") {
                     $("#moneyGHTK").text(respone.fee.fee)
-                    
+
                 }
-                
+
             },
             error: function(respone) {
                 console.log(respone)

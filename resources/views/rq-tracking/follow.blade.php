@@ -445,8 +445,8 @@
         </section>
         <script>
             $(document).ready(function() {
-                $('#tracking_form').submit(function() {
-                    event.preventDefault();
+                $('#tracking_form').submit(function(e) {
+                    e.preventDefault();
                     var tracking = $("#utrack").val();
                     $.ajax({
                         headers: {
@@ -458,34 +458,85 @@
                             tracking: tracking
                         },
                         success: function(res) {
-                            console.log(res)
-                            return
-                           if(res==0){}
                             $("#table").show();
                             $("#table-firt").show();
-                            var table = "";
-                            var Timeline = "";
-                            table += "<tr><td>" + res.result.ID_Thung + "</td>" +
-                                "<td>" + res.result.CanNang + "</td>" +
-                                "<td>" + res.result.Kg_TheTich + "</td>" +
-                                "<td>" + res.result.TenNguoi_Gui + "</td>" +
-                                "<td>" + res.result.TenNguoi_Nhan + "</td>" +
-                                "<td>" + res.result.SoDienThoai + "</td>" +
-                                "<td>" + res.result.Dia_Chi + "</td>" +
-                                "</tr>";
-                            $.each(res.table, function(index, value) {
-                                Timeline += "<li>" +
-                                    "<a>" + value.Date_line + "</a>" +
-                                    "<p>" + value.StatusTrack + "</p>" 
-                                    +"</li>"
+                            $.each(res.data, function(index, value) {
+                                $.each(value.boxes, function(index, value2) {
+                                    console.log(value2.owners)
+                                    $("#body-table-firt").append(
+                                        `<tr id="sku-row-${value2.id}">` +
+                                        '<td>' + value2.id + '</td>' +
+                                        '<td>' + value2
+                                        .volumetric_weight.toFixed(3) +
+                                        '</td>' +
+                                        '<td>' + value2
+                                        .shipping_inside +
+                                        '</td>' +
+                                        // '<td>'+value.id+'</td>'+
+                                        '</tr>'
+                                    )
+
+                                    $(`#sku-row-${value2.id}`).on('click',
+                                        function() {
+                                            check(value2.logs)
+                                        })
+
+                                })
                             })
-                            $("#time_line").html(Timeline);
-                            $("#body-table-firt").html(table);
                         },
-                        error: function(res) {}
+                        error: function(res) {
+                            console.log(res)
+                        }
                     })
                 })
             })
+            //show log by id
+            function check(row) {
+                $("#time_line").empty()
+                $.each(row, function(index, value) {
+                    let a = JSON.parse(value.content);
+                    let valueObject = Object.keys(a)
+                    var status;
+                    console.log(valueObject)
+                    if (valueObject == "id") {
+                        status = "Đã nhập kho Nhật"
+                    }
+                    if (valueObject == "in_pallet") {
+                        status = "Đã kiểm hàng"
+                    }
+                    if(valueObject=="set_owner_id,set_owner_type"){
+                        status="Lên đơn hàng"
+                    }
+                    if(valueObject=="in_container"){
+                        status="Lên container"
+                    }
+                    if(valueObject=="out_container"){
+                        status="Xuống container"
+                    }
+                    if(valueObject=="cancelled"){
+                        status="Hủy box"
+                    }
+                    if(valueObject=="received"){
+                        status="Đã nhận hàng"
+                    }
+                    if(valueObject=="refunded"){
+                        status="Trả lại hàng"
+                    }
+                    if(valueObject=="shipping"){
+                        status="Đang giao hàng"
+                    }
+                    if(valueObject=="waiting_shipment"){
+                        status="Đợi giao hàng"
+                    }
+
+                    $("#time_line").append(
+                        '<li>' +
+                        '<a>' + status + '</a>' +
+                        '<p>' + value.created_at + '</p>' +
+                        '</li>'
+                    )
+                })
+            }
 
         </script>
 
