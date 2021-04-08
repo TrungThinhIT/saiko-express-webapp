@@ -45,12 +45,12 @@ class QuoteController extends Controller
      */
     public function getToken()
     {
-        $api = Http::post('http://auth.tomonisolution.com:82/oauth/token', [
-            'username' => 'customer.1@abc.xyz',
+        $api = Http::post('http://auth.tomonisolution.com:80/oauth/token', [
+            'username' => 'sale@saikoexpress.com',
             'password' => 'password',
-            'client_secret' => 'B5nzdSkv85ilDEaOg5leHXCZfup5nZFkxDtIYSWi',
+            'client_secret' => 'LnPyBhokfdTmApPvVoIc2N9dZ0u0TsvsY42jDEGL',
             'grant_type' => 'password',
-            'client_id' => 2,
+            'client_id' => 4,
             'scope' => '*'
         ]);
         $data =  json_decode($api->body(), true);
@@ -82,7 +82,6 @@ class QuoteController extends Controller
     public function store(Request $request)
     {
         //tạo address
-        // return response()->json($request->all());
         //lấy access_token
         $token = token::find(1);
         if (empty($token)) {
@@ -90,14 +89,26 @@ class QuoteController extends Controller
         }
         $token = token::find(1);
         //create shipment_info
+        if ($request->utypeadd == "blank") {
+            $ward_id = $request->ward;
+        }
+        if ($request->utypeadd == "Nhận tại VP Sóc Sơn") {
+            $ward_id = "13900";
+        }
+        if ($request->utypeadd == "Nhận tại VP Đào Tấn") {
+            $ward_id = "13900";
+        }
+        if ($request->utypeadd == "Nhận tại VP Tân Bình HCM") {
+            $ward_id = "73720";
+        }
         $api = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token
-        ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+        ])->post('http://order.tomonisolution.com/api/shipment-infors', [
             'consignee' => $request->Name_Rev,
             'tel' => $request->Phone, //sdt ng nhận
             'address' => $request->Add,
-            'ward_id' =>  $request->utypeadd == "blank" ? $request->ward : "73720"
+            'ward_id' =>  $ward_id
         ]);
         //xác thực
         if ($api->status() == 401) {
@@ -107,11 +118,11 @@ class QuoteController extends Controller
             $api = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
-            ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+            ])->post('http://order.tomonisolution.com/api/shipment-infors', [
                 'consignee' => $request->Name_Rev,
                 'tel' => $request->Phone,
                 'address' => $request->Add,
-                'ward_id' =>  $request->utypeadd == "blank" ? $request->ward : "73720"
+                'ward_id' =>  $ward_id
             ]);
         }
         //
@@ -132,14 +143,18 @@ class QuoteController extends Controller
         $donggoi = $request->Reparking == false ? "không" : "có";
         $note = json_encode(['send_name' => $request->Name_Send, 'send_phone' => $request->Number_Send, 'isPackaged' => $donggoi, 'note' => $request->Note]);
         // return $note;
-        $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
-            'shipment_method_id' => $request->ShipSea ? "sea" : "air", //đường vận chuyển
+        if ($request->ShipAir == "true") {
+            $shipping = $request->checkAir;
+        } else {
+            $shipping = $request->checkSea;
+        }
+        $create_shipment = $create_shipment->post('http://order.tomonisolution.com/api/orders', [
+            'shipment_method_id' => $shipping, //đường vận chuyển
             'shipment_infor_id' => $data['id'], //lấy id của shipment_info
             'type' => 'shipment',
             'trackings' => $tracking, //danh sách tracking
             'note' => $note,
         ]);
-
         //check status
         // return $create_shipment->body();
         if ($create_shipment->status() == 201) {
@@ -166,14 +181,17 @@ class QuoteController extends Controller
         $address = $request->detail_address;
         $catchuoi = (explode(",", $address));
         $xa = explode(".", $catchuoi[1]);
-        $d = explode(" ", $xa[0]);
-        $slice = Str::of($xa[0])->after($d[0] . $d[1]);
+        $trimXa = Str::of($xa[0])->trim();
+        $d = explode(" ", $trimXa);
+        if ($d[0] == "Phường" || $d[0] == "Xã") {
+            $slice = Str::of($xa[0])->after($d[0]);
+        }
         $ward = Str::of($slice)->trim();
-        $getIdWard = phuongxa::where('TenPhuongXa', $ward)->where('MaTinhThanh', $id_province)->first();
+        $getIdWard = phuongxa::where('TenPhuongXa', 'like', '%' . $xa[0] . '%')->where('MaTinhThanh', $id_province)->where('MaQuanHuyen', $id_district)->first();
         if (!empty($getIdWard)) {
             $ward_id = $getIdWard->MaPhuongXa;
         } else {
-            $ward_id = "13620";
+            $ward_id = "13900";
         }
         // $d = explode(" ", $address[0]);
 
@@ -189,9 +207,9 @@ class QuoteController extends Controller
         ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
             'consignee' => $request->receiver_name,
             'tel' => strval($request->receiver_phone_number), //sdt ng nhận
-            'address' => $request->detail_address,
-            'province_id' => $id_province, //$request->utypeadd == "blank" ? $request->province : "70",
-            'district_id' => $id_district, //$request->utypeadd == "blank" ? $request->district : "7360",
+            'address' => strval($catchuoi[0]),
+            // 'province_id' => $id_province, //$request->utypeadd == "blank" ? $request->province : "70",
+            // 'district_id' => $id_district, //$request->utypeadd == "blank" ? $request->district : "7360",
             'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
         ]);
         //xác thực 
@@ -204,13 +222,14 @@ class QuoteController extends Controller
             ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
                 'consignee' => $request->receiver_name,
                 'tel' => strval($request->receiver_phone_number), //sdt ng nhận
-                'address' => $request->detail_address,
-                'province_id' => $id_province, //$request->utypeadd == "blank" ? $request->province : "70",
-                'district_id' => $id_district, //$request->utypeadd == "blank" ? $request->district : "7360",
+                'address' => strval($catchuoi[0]),
+                // 'province_id' => $id_province, //$request->utypeadd == "blank" ? $request->province : "70",
+                // 'district_id' => $id_district, //$request->utypeadd == "blank" ? $request->district : "7360",
                 'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
             ]);
         }
         $data = json_decode($api->body(), true);
+        // return  $data;
         //create shipment
         $a = $request->tracking_number;
         foreach ($a as $item) {
@@ -227,7 +246,11 @@ class QuoteController extends Controller
         $donggoi = $request->isPackaged == false ? "không" : "có";
         $note = json_encode(['send_name' => $request->sender_name, 'send_phone' => $request->sender_phone_number, 'isPackaged' => $donggoi, 'note' => $request->note]);
         // return $note;
-
+        // if ($request->ShipAir == "true") {
+        //     $shipping = $request->checkAir;
+        // } else {
+        //     $shipping = $request->checkSea;
+        // }
         $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
             'shipment_method_id' =>  $request->shipping_method, //đường vận chuyển
             'shipment_infor_id' => $data['id'], //lấy id của shipment_info
@@ -242,20 +265,6 @@ class QuoteController extends Controller
         } else if ($create_shipment->status() == 422) {
             return $create_shipment->status();
         }
-        // $data = [
-        //     'tracking_number' => $request->tracking_number,
-        //     'tracking_number_counter' => $request->tracking_number_counter,
-        //     'detail_address' => $request->detail_address,
-        //     'isPackaged' => $request->isPackaged,
-        //     'note' => $request->note,
-        //     'receiver_name' => $request->receiver_name,
-        //     'receiver_phone_number' => $request->receiver_phone_number,
-        //     'sender_name' => $request->sender_name,
-        //     'sender_phone_number' => $request->sender_phone_number,
-        //     'shipping_method' => $request->shipping_method,
-        //     'Type_Payment' => $request->Type_Payment,
-        //     'Code_Add' => $request->Code_Add
-        // ];
     }
     public function show($id)
     {
