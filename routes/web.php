@@ -43,7 +43,7 @@ Route::prefix('blogs')->namespace('blogs')->name('blog.')->group(function () {
     Route::get('/', 'BlogController@index')->name('index');
     Route::get('air-cargo', 'BlogController@air_cargo')->name('air_cargo');
     Route::get('air-transport', 'BlogController@air_transport')->name('air_transport');
-    Route::get('terms', 'blogController@terms')->name('terms');
+    Route::get('terms', 'BlogController@terms')->name('terms');
     Route::get('ship-cosmetic', 'BlogController@cosmetic')->name('cosmetic');
     Route::get('electronic', 'BlogController@electronic')->name('electronic');
     Route::get('tracking', 'BlogController@tracking')->name('tracking');
