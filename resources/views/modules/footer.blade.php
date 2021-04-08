@@ -6,7 +6,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="widget text-widget" style="padding-right: 40px;">
                         <p><a href="index.php"><img style="height:80px"
-                                    src="<?php echo ''; ?>assets/images/footersaiko.png"
+                                    src="assets/images/footersaiko.png"
                                     alt="Footer Logo" /></a></p>
                         <p style="text-align: justify;">
                             Tự tin là đơn vị cung cấp dịch vụ vận chuyển Nhật Việt chuyên nghiệp, nhanh chóng nhất.
@@ -36,7 +36,7 @@
                                 <li><a href="{{ route('service.air') }}">Đường bay</a></li>
                                 <li><a href="{{ route('service.sea') }}">Đường biển</a></li>
                                 <li><a href="{{ route('service.procedure') }}">Quy trình gửi hàng</a></li>
-                                <!-- <li><a href="<?php echo ''; ?>warehous.php">Kho vận và lưu trữ</a></li> -->
+                                <!-- <li><a href="warehous.php">Kho vận và lưu trữ</a></li> -->
                                 <!-- <li><a href="#">Packaging & Storage</a></li>
         <li><a href="#">Door-To-Door Delivery</a></li> -->
                             </ul>
@@ -93,51 +93,51 @@
 
 
 
-<script type="text/javascript" src="<?php echo ''; ?>assets/js/saiko-bootstrap.js">
+<script type="text/javascript" src="assets/js/saiko-bootstrap.js">
 </script>
-<script type="text/javascript" src="<?php echo ''; ?>assets/js/saiko-modernizr.js">
+<script type="text/javascript" src="assets/js/saiko-modernizr.js">
 </script>
-<script type="text/javascript" src="<?php echo ''; ?>assets/js/saiko-owl.carousel.js">
+<script type="text/javascript" src="assets/js/saiko-owl.carousel.js">
 </script>
-<script type="text/javascript" src="<?php echo ''; ?>assets/js/saiko-smooth-scroll.js">
-</script>
-<script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/saiko-jquery.magnific-popup.js"></script>
-<script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/revel/jquery.themepunch.tools.min.js">
+<script type="text/javascript" src="assets/js/saiko-smooth-scroll.js">
 </script>
 <script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/revel/jquery.themepunch.revolution.min.js">
+    src="assets/js/saiko-jquery.magnific-popup.js"></script>
+<script type="text/javascript"
+    src="assets/js/plugins/revel/jquery.themepunch.tools.min.js">
 </script>
 <script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/revel/revolution.extension.actions.min.js">
+    src="assets/js/plugins/revel/jquery.themepunch.revolution.min.js">
 </script>
 <script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/revel/revolution.extension.carousel.min.js">
+    src="assets/js/plugins/revel/revolution.extension.actions.min.js">
 </script>
 <script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/revel/revolution.extension.kenburn.min.js">
+    src="assets/js/plugins/revel/revolution.extension.carousel.min.js">
 </script>
 <script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/revel/revolution.extension.layeranimation.min.js">
+    src="assets/js/plugins/revel/revolution.extension.kenburn.min.js">
 </script>
 <script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/revel/revolution.extension.navigation.min.js">
+    src="assets/js/plugins/revel/revolution.extension.layeranimation.min.js">
 </script>
 <script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/revel/revolution.extension.parallax.min.js">
+    src="assets/js/plugins/revel/revolution.extension.navigation.min.js">
 </script>
 <script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/revel/revolution.extension.slideanims.min.js">
+    src="assets/js/plugins/revel/revolution.extension.parallax.min.js">
 </script>
 <script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/revel/revolution.extension.video.min.js">
+    src="assets/js/plugins/revel/revolution.extension.slideanims.min.js">
 </script>
 <script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/countto/jquery.countTo.js"></script>
+    src="assets/js/plugins/revel/revolution.extension.video.min.js">
+</script>
 <script type="text/javascript"
-    src="<?php echo ''; ?>assets/js/plugins/countto/jquery.appear.js"></script>
-<script type="text/javascript" src="<?php echo ''; ?>assets/js/saiko-custom.js"></script>
+    src="assets/js/plugins/countto/jquery.countTo.js"></script>
+<script type="text/javascript"
+    src="assets/js/plugins/countto/jquery.appear.js"></script>
+<script type="text/javascript" src="assets/js/saiko-custom.js"></script>
 
 
 <div class="fb-customerchat" page_id="346391759462555" theme_color="#fa3c4c"

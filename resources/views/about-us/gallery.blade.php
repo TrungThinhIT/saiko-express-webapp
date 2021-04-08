@@ -143,8 +143,8 @@
         var data = "<div class='col-lg-3 col-md-3 col-sm-4 col-xs-3 " + classChange + "'>" +
             "<div class='ed_gallery_member'>" +
             "<div class='ed_gallery_member_img'>" +
-            "<a href='<?php echo ""; ?>assets/images/gellery/1/" + i +
-            ".jpg' title=''><img src='<?php echo ""; ?>assets/images/gellery/1/" +
+            "<a href='assets/images/gellery/1/" + i +
+            ".jpg' title=''><img src='assets/images/gellery/1/" +
             i + ".jpg' alt='item7' class='img-responsive'></a>" +
             "</div>" +
             "</div>" +
@@ -168,8 +168,8 @@
         var data = "<div class='col-lg-2 col-md-2 col-sm-4 col-xs-4 " + classChange + "'>" +
             "<div class='ed_gallery_member'>" +
             "<div class='ed_gallery_member_img'>" +
-            "<a href='<?php echo ""; ?>assets/images/gellery/2/" + i + "." + dot +
-            "' title=''><img src='<?php echo ""; ?>assets/images/gellery/2/" + i +
+            "<a href='assets/images/gellery/2/" + i + "." + dot +
+            "' title=''><img src='assets/images/gellery/2/" + i +
             "." + dot + "' alt='item7' class='img-responsive'></a>" +
             "</div>" +
             "</div>" +
@@ -191,8 +191,8 @@
         var data = "<div class='col-lg-2 col-md-2 col-sm-3 col-xs-3 " + classChange + "'>" +
             "<div class='ed_gallery_member'>" +
             "<div class='ed_gallery_member_img'>" +
-            "<a href='<?php echo ""; ?>assets/images/gellery/3/" + i + "." + dot +
-            "' title=''><img src='<?php echo ""; ?>assets/images/gellery/3/" + i +
+            "<a href='assets/images/gellery/3/" + i + "." + dot +
+            "' title=''><img src='assets/images/gellery/3/" + i +
             "." + dot + "' alt='item7' class='img-responsive'></a>" +
             "</div>" +
             "</div>" +
@@ -214,8 +214,8 @@
         var data = "<div class='col-lg-3 col-md-3 col-sm-3 col-xs-3 " + classChange + "'>" +
             "<div class='ed_gallery_member'>" +
             "<div class='ed_gallery_member_img'>" +
-            "<a href='<?php echo ""; ?>assets/images/gellery/4/" + i + "." + dot +
-            "' title=''><img src='<?php echo ""; ?>assets/images/gellery/4/" + i +
+            "<a href='assets/images/gellery/4/" + i + "." + dot +
+            "' title=''><img src='assets/images/gellery/4/" + i +
             "." + dot + "' alt='item7' class='img-responsive'></a>" +
             "</div>" +
             "</div>" +

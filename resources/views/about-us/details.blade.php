@@ -93,7 +93,7 @@
                                 diện.</p>
                             <div class="col-12 text-center" style="margin-bottom: 30px;">
                                 <img class="img-mobile"
-                                    src="<?php echo ""; ?>assets/images/about-us1.jpg" />
+                                    src="assets/images/about-us1.jpg" />
                             </div>
 
 
@@ -107,7 +107,7 @@
                             </div>
                             <div class="col-12 text-center" style="margin-bottom: 30px;">
                                 <img class="img-mobile"
-                                    src="<?php echo ""; ?>assets/images/about-us2.jpg" />
+                                    src="assets/images/about-us2.jpg" />
                             </div>
                             <p>Mục tiêu của chúng tôi là trở thành một trong những công ty dịch vụ vận chuyển lớn mạnh
                                 tại Nhật Bản và đáng tin cậy, cùng khách hàng tăng doanh thu và lợi nhuận. Phát triển
@@ -118,7 +118,7 @@
                             </div>
                             <div class="col-12 text-center" style="margin-bottom: 30px;">
                                 <img class="img-mobile"
-                                    src="<?php echo ""; ?>assets/images/about-us3.jpg" />
+                                    src="assets/images/about-us3.jpg" />
                             </div>
                             <p>Saiko Express thực hiện việc giao vận, góp phần quan trọng vào sự phát triển chung của
                                 thị trường thương mại điện tử. Saiko Express vượt qua các công ty đa quốc gia về dịch vụ

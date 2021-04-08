@@ -35,22 +35,22 @@ Route::prefix('request-tracking')->namespace('Request_Tracking')->name('rq_tk.')
     Route::post('get-quanhuyen', 'RQ_TKController@quanhuyen')->name('quanhuyen');
     Route::post('get-phuongxa', 'RQ_TKController@phuongxa')->name('phuongxa');
     Route::post('quote', 'QuoteController@store')->name('store');
-    Route::post('app/create-tracking','QuoteController@appCreateTracking')->name('appCreateTracking');
+    Route::post('app/create-tracking', 'QuoteController@appCreateTracking')->name('appCreateTracking');
     Route::post('domestic-shipping', 'PriceController@getApiVNP')->name('getApiVNP');
     Route::post('follow-tracking', 'FLTrackingController@getStatus')->name('getStatus');
 });
 Route::prefix('blogs')->namespace('blogs')->name('blog.')->group(function () {
-    Route::get('/', 'blogController@index')->name('index');
-    Route::get('air-cargo', 'blogController@air_cargo')->name('air_cargo');
-    Route::get('air-transport', 'blogController@air_transport')->name('air_transport');
+    Route::get('/', 'BlogController@index')->name('index');
+    Route::get('air-cargo', 'BlogController@air_cargo')->name('air_cargo');
+    Route::get('air-transport', 'BlogController@air_transport')->name('air_transport');
     Route::get('terms', 'blogController@terms')->name('terms');
-    Route::get('ship-cosmetic', 'blogController@cosmetic')->name('cosmetic');
-    Route::get('electronic', 'blogController@electronic')->name('electronic');
-    Route::get('tracking', 'blogController@tracking')->name('tracking');
-    ROute::get('cost-air', 'blogController@cost_air')->name('cost-air');
-    Route::get('function-food', 'blogController@function_food')->name('function-food');
-    Route::get('price-cosmetic', 'blogController@price_cosmetic')->name('price-cosmetic');
-    Route::get('best-price-supermarket', 'blogController@supermarket')->name('supermarket');
+    Route::get('ship-cosmetic', 'BlogController@cosmetic')->name('cosmetic');
+    Route::get('electronic', 'BlogController@electronic')->name('electronic');
+    Route::get('tracking', 'BlogController@tracking')->name('tracking');
+    ROute::get('cost-air', 'BlogController@cost_air')->name('cost-air');
+    Route::get('function-food', 'BlogController@function_food')->name('function-food');
+    Route::get('price-cosmetic', 'BlogController@price_cosmetic')->name('price-cosmetic');
+    Route::get('best-price-supermarket', 'BlogController@supermarket')->name('supermarket');
 });
 Route::prefix('contacts')->namespace('contacts')->name('contact.')->group(function () {
     Route::get('/', 'ContactController@index')->name('index');

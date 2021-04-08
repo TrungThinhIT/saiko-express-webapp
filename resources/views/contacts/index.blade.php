@@ -98,7 +98,7 @@
                             <h4 class="box-title">Mạng xã hội Saiko</h4>
                             <ul class="clearfix">
                                 <li class="facebook">
-                                    <a href="<?php echo ""; ?>https://fb.com/saikoexpress"
+                                    <a href="https://fb.com/saikoexpress"
                                         target="_blank">
                                         <i class="fa fa-facebook"></i>
                                     </a>

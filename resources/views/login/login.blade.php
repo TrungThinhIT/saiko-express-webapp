@@ -77,62 +77,47 @@
                             <!-- signup form -->
                             <form id="signupform" method="post" action="login.php?register" class="form-horizontal"
                                 role="form">
-                                <?php if (count($errors) > 0) {
-                                include 'php/errors.php';
-                                } ?>
 
                                 <div class="form-group">
                                     <label for="email" class="col-md-3 control-label">Tên đăng nhập</label>
                                     <div class="col-md-9">
                                         <input type="text" required pattern="[a-zA-z0-9]{4,10}" class="form-control"
-                                            name="unamer" placeholder="4 <= kí tự <= 10" value='<?php if (isset($uname)) {
-                                                echo $uname;
-                                            } ?>'>
+                                            name="unamer" placeholder="4 <= kí tự <= 10" value=''>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="firstname" class="col-md-3 control-label">Họ tên</label>
                                     <div class="col-md-9">
                                         <input type="text" required class="form-control" name="fnamer"
-                                            placeholder="Nhập họ tên" value='<?php if (isset($fname)) {
-                                                echo $fname;
-                                            } ?>'>
+                                            placeholder="Nhập họ tên" value=''>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="col-md-3 control-label">Email</label>
                                     <div class="col-md-9">
                                         <input type="email" required class="form-control" name="emailr"
-                                            placeholder="Nhập email" value='<?php if (isset($email)) {
-                                                echo $email;
-                                            } ?>'>
+                                            placeholder="Nhập email" value=''>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="firstname" class="col-md-3 control-label">Địa chỉ</label>
                                     <div class="col-md-9">
                                         <input type="text" required class="form-control" name="addressr"
-                                            placeholder="Nhập địa chỉ" value='<?php if (isset($address)) {
-                                                echo $address;
-                                            } ?>'>
+                                            placeholder="Nhập địa chỉ" value=''>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="lastname" class="col-md-3 control-label">Số điện thoại</label>
                                     <div class="col-md-9">
                                         <input type="tel" class="form-control" name="nphoner"
-                                            placeholder="Nhập số điện thoại" value='<?php if (isset($nphone)) {
-                                                echo $nphone;
-                                            } ?>'>
+                                            placeholder="Nhập số điện thoại" value=''>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="col-md-3 control-label">Mật khẩu</label>
                                     <div class="col-md-9">
                                         <input type="password" required class="form-control" name="passr"
-                                            placeholder="Nhập mật khẩu" value='<?php if (isset($pass)) {
-                                                echo $pass;
-                                            } ?>'>
+                                            placeholder="Nhập mật khẩu" value=''>
                                     </div>
                                 </div>
 
@@ -140,9 +125,7 @@
                                     <label for="password" class="col-md-3 control-label">Mật khẩu</label>
                                     <div class="col-md-9">
                                         <input type="password" required class="form-control" name="repassr"
-                                            placeholder="Nhập lại mật khẩu" value='<?php if (isset($repass)) {
-                                                echo $repass;
-                                            } ?>'>
+                                            placeholder="Nhập lại mật khẩu" value=''>
                                     </div>
                                 </div>
 

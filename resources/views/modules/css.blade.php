@@ -1,4 +1,4 @@
-<head>
+{{-- <head>
     <?php
         $cur_folder = dirname( __FILE__ );
         $domain = $_SERVER['REQUEST_SCHEME']."://saikoexpress.com/";
@@ -75,4 +75,4 @@
     <script type="text/javascript" src="<?php echo $domain;?>assets/js/revolution/extensions/revolution.extension.video.min.js"></script>
 
 
-</head>
+</head> --}}

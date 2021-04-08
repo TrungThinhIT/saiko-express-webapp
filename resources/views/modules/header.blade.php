@@ -72,9 +72,9 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3" style="padding:10px">
                             <div class="pro_logo"> <a
-                                    href="<?php echo ''; ?>index.php"><img
+                                    href="index.php"><img
                                         style="width:95%"
-                                        src="<?php echo ''; ?>assets/images/logosaiko.png"
+                                        src="assets/images/logosaiko.png"
                                         alt="logo" /></a> </div>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9">
@@ -91,7 +91,7 @@
                                         </div>
                                     </li>
                                     <li><a href="{{ route('index') }}">Trang chủ</a></li>
-                                    <li><a href="<?php echo ''; ?>javascript:;">Dịch
+                                    <li><a href="javascript:;">Dịch
                                             vụ</a>
                                         <ul class="sub-menu">
                                             <li><a href="{{ route('service.sea') }}">Vận chuyển đường biển</a></li>
@@ -100,7 +100,7 @@
                                             <li><a href="{{ route('service.procedure') }}">Quy trình gửi hàng</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="<?php echo ''; ?>javascript:;">Thông
+                                    <li><a href="javascript:;">Thông
                                             tin</a>
                                         <ul class="sub-menu">
                                             <li><a href="{{ route('about.details') }}">Về Chúng Tôi</a></li>
@@ -113,7 +113,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a href="<?php echo ''; ?>javascript:;">Request &
+                                    <li><a href="javascript:;">Request &
                                             Tracking</a>
                                         <ul class="sub-menu">
                                             <li><a href="{{ route('rq_tk.price') }}">Yêu

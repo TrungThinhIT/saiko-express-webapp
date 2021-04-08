@@ -113,9 +113,7 @@
                             <p>Tuy nhiên để đảm bảo việc vận chuyển hàng hóa được diễn ra thuận lợi và quý khách hàng có
                                 thể an tâm, Saiko Express xin đưa ra Quy trình giao nhận hàng hóa nhằm phục vụ quý khách
                                 một cách tốt nhất.</p>
-                            <!-- <div class="col-12 text-center"  style="margin-bottom: 30px;">
-       <img class="img-mobile"  src="<?php echo ""; ?>assets/images/pro1.jpg" />
-                        </div> -->
+                           
                             <p>Có 2 hình thức gửi hàng:</p>
 
                             <div class="fh-section-title clearfix f30  text-left version-dark paddbtm40">
@@ -164,7 +162,7 @@
                             </p>
                             <div class="col-12 text-center" style="margin-bottom: 30px;">
                                 <img class="img-mobile"
-                                    src="<?php echo ""; ?>assets/images/pro1.png" />
+                                    src="assets/images/pro1.png" />
                             </div>
 
                             <div style="font-style: italic;">
@@ -179,7 +177,7 @@
                             </div>
                             <div class="col-12 text-center" style="margin-bottom: 30px;">
                                 <img class="img-mobile"
-                                    src="<?php echo ""; ?>assets/images/pro2.png" />
+                                    src="assets/images/pro2.png" />
                             </div>
                             <p><span style="font-weight: 600;">Bước 2:</span> Khách hàng lên trang Web của Saiko, nhập
                                 thông tin người gửi, người nhận hàng theo mã Tracking ( mã Tracking là mã bưu gửi hàng
