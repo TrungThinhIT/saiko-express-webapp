@@ -81,7 +81,6 @@ class QuoteController extends Controller
     }
     public function store(Request $request)
     {
-
         //tạo address
         // return response()->json($request->all());
         //lấy access_token
@@ -98,14 +97,12 @@ class QuoteController extends Controller
             'consignee' => $request->Name_Rev,
             'tel' => $request->Phone, //sdt ng nhận
             'address' => $request->Add,
-            // 'province_id' => $request->utypeadd == "blank" ? $request->province : "70",
-            // 'district_id' =>  $request->utypeadd == "blank" ? $request->district : "7360",
             'ward_id' =>  $request->utypeadd == "blank" ? $request->ward : "73720"
         ]);
-        //xác thực 
+        //xác thực
         if ($api->status() == 401) {
             $this->getToken();
-            $token = token::find(1)->access_token;
+            $token = token::find(1);
             //create shipment_info
             $api = Http::withHeaders([
                 'Accept' => 'application/json',
@@ -114,17 +111,15 @@ class QuoteController extends Controller
                 'consignee' => $request->Name_Rev,
                 'tel' => $request->Phone,
                 'address' => $request->Add,
-                // 'province_id' => $request->utypeadd == "blank" ? $request->province : "70",
-                // 'district_id' =>  $request->utypeadd == "blank" ? $request->district : "7360",
                 'ward_id' =>  $request->utypeadd == "blank" ? $request->ward : "73720"
             ]);
         }
-
+        //
         $data = json_decode($api->body(), true);
         //create shipment
         $tracking = explode(" ", $request->TrackingSaiko);
         foreach ($tracking as $item) {
-            $arr[] = ['id' =>$item, 'expected_delivery' => Carbon::now()->addDays(10)->toDateString()];
+            $arr[] = ['id' => $item, 'expected_delivery' => Carbon::now()->addDays(10)->toDateString()];
         }
         //tạo tracking
         $tracking = json_encode($arr);
@@ -152,8 +147,6 @@ class QuoteController extends Controller
         } else if ($create_shipment->status() == 422) {
             return $create_shipment->status();
         }
-        // dd($note);
-        // dd($data);
     }
 
     /**
@@ -219,7 +212,7 @@ class QuoteController extends Controller
         }
         $data = json_decode($api->body(), true);
         //create shipment
-        $a = [32322321, 3453542422, 54334425432];
+        $a = $request->tracking_number;
         foreach ($a as $item) {
             $arr[] = ['id' => strval($item), 'expected_delivery' => Carbon::now()->addDays(10)->toDateString()];
         }
@@ -245,9 +238,9 @@ class QuoteController extends Controller
         //check status
         // return $create_shipment->body();
         if ($create_shipment->status() == 201) {
-            return $create_shipment->body();
+            return $create_shipment->status();
         } else if ($create_shipment->status() == 422) {
-            return $create_shipment->body();
+            return $create_shipment->status();
         }
         // $data = [
         //     'tracking_number' => $request->tracking_number,

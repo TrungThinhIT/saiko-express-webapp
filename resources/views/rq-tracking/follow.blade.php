@@ -460,22 +460,41 @@
                         success: function(res) {
                             $("#table").show();
                             $("#table-firt").show();
+                            $("#body-table-firt").empty()
+                            $("#time_line").empty()
+                            console.log(res)
                             $.each(res.data, function(index, value) {
+                                var name_send = '';
+                                var tel_rev = '';
+                                var name_rev = '';
+                                var add_rev = '';
+                                if (value.orders.length >= 1) {
+                                    var parse_note = JSON.parse(value.orders[0]
+                                        .note);
+                                    console.log(parse_note)
+                                    name_send = parse_note.send_name;
+                                    tel_rev = value.orders[0].shipment_infor.tel;
+                                    name_rev = value.orders[0].shipment_infor
+                                        .consignee;
+                                    add_rev = value.orders[0].shipment_infor
+                                        .full_address;
+                                }
                                 $.each(value.boxes, function(index, value2) {
-                                    console.log(value2.owners)
                                     $("#body-table-firt").append(
                                         `<tr id="sku-row-${value2.id}">` +
                                         '<td>' + value2.id + '</td>' +
                                         '<td>' + value2
-                                        .volumetric_weight.toFixed(3) +
+                                        .weight.toFixed(3) +
                                         '</td>' +
                                         '<td>' + value2
-                                        .shipping_inside +
+                                        .volume +
                                         '</td>' +
-                                        // '<td>'+value.id+'</td>'+
+                                        '<td>' + name_send + '</td>' +
+                                        '<td>' + name_rev + '</td>' +
+                                        '<td>' + tel_rev + '</td>' +
+                                        '<td>' + add_rev + '</td>' +
                                         '</tr>'
                                     )
-
                                     $(`#sku-row-${value2.id}`).on('click',
                                         function() {
                                             check(value2.logs)
@@ -493,40 +512,49 @@
             //show log by id
             function check(row) {
                 $("#time_line").empty()
+                console.log(row)
                 $.each(row, function(index, value) {
                     let a = JSON.parse(value.content);
                     let valueObject = Object.keys(a)
                     var status;
-                    console.log(valueObject)
                     if (valueObject == "id") {
                         status = "Đã nhập kho Nhật"
                     }
                     if (valueObject == "in_pallet") {
                         status = "Đã kiểm hàng"
                     }
-                    if(valueObject=="set_owner_id,set_owner_type"){
-                        status="Lên đơn hàng"
+                    if (valueObject == "set_owner_id,set_owner_type") {
+                        status = "Lên đơn hàng"
                     }
-                    if(valueObject=="in_container"){
-                        status="Lên container"
+                    if (valueObject == "in_container") {
+                        status = "Lên container"
                     }
-                    if(valueObject=="out_container"){
-                        status="Xuống container"
+                    if (valueObject == "out_container") {
+                        status = "Xuống container"
                     }
-                    if(valueObject=="cancelled"){
-                        status="Hủy box"
+                    if (valueObject == "delivery_status") {
+                        if (a.delivery_status == "shipping")
+                            status = "Đang giao hàng"
                     }
-                    if(valueObject=="received"){
-                        status="Đã nhận hàng"
+                    if (valueObject == "delivery_status") {
+                        if (a.delivery_status == "cancelled") {
+                            status = "Hủy box"
+                        }
                     }
-                    if(valueObject=="refunded"){
-                        status="Trả lại hàng"
+                    if (valueObject == "delivery_status") {
+                        if (a.delivery_status == "received") {
+                            status = "Đã nhận hàng"
+                        }
                     }
-                    if(valueObject=="shipping"){
-                        status="Đang giao hàng"
+                    if (valueObject == "delivery_status") {
+                        if (a.delivery_status == "refunded") {
+                            status = "Trả lại hàng"
+                        }
                     }
-                    if(valueObject=="waiting_shipment"){
-                        status="Đợi giao hàng"
+                    if (valueObject == "delivery_status") {
+                        if (a.delivery_status == "waiting_shipment") {
+                            status = "Đợi giao hàng"
+                        }
                     }
 
                     $("#time_line").append(
