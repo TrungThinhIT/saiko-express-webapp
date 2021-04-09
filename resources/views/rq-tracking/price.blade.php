@@ -556,7 +556,6 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
         var provinceText = $("#Utinh option:selected").text();
         var districtText = $("#Uhuyen option:selected").text()
         var transport = $("#transport").val();
-        console.log(id_district, code, id_province, height, width, long, wei, price, service, methodGHTK, priceGHTK)
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -580,7 +579,6 @@ font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline c
                 transport: transport
             },
             success: function(respone) {
-                console.log(respone)
                 if (respone.type.type == "BD") {
                     $("#code_fee").text(respone.CuocCOD)
                     $("#vat").text(respone.TongCuocSauVAT)

@@ -13,5 +13,9 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'request-tracking/app/create-tracking*',
+        'Api/Ref*',
+        'request-tracking/get-quanhuyen',
+        'request-tracking/get-phuongxa',
+        'Api/app/create-tracking*',
     ];
 }

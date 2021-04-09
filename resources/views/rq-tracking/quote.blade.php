@@ -451,8 +451,6 @@
         var UaddNumber = $("#UaddNumber").val();
         var uphone = $("#uphone").val();
         var utypeadd = $("#utypeadd").val();
-        console.log(ShipSea, ShipAir)
-        // console.log(AddRev, Tracking, Phone, Name_Send, Name_Rev, Reparking, ShipAir, ShipSea, Upx, OptionAdd);
         if (OptionAdd.length <= 5) {
             if (Upx == null || Upx == "") {
                 $('#message').html('Xin vui lòng chọn Thành Phố Quận/Huyện ');
@@ -529,7 +527,6 @@
                         checkSea: checkSea,
                     },
                     success: function(response) {
-                        console.log(response)
                         if (response == 201) {
                             document.getElementById("color-success").style.background = '#1ba906'
                             $('#message').html('Tạo tracking thành công!');
