@@ -102,10 +102,12 @@ class appController extends Controller
         $data = json_decode($api->body(), true);
         // return  $data;
         //create shipment
+        // return $request->all();
         $arrTracking = $request->tracking_number;
         foreach ($arrTracking as $item) {
+            $item_number = $item;
             // $arr[] = ['id' => strval($item), 'expected_delivery' => Carbon::now()->addDays(10)->toDateString()];
-            $item = array('id' => $item);
+            $item = array('id' => strval($item));
             $arr_item = array($item);
             $item_tracking = json_encode($arr_item);
             //note
@@ -128,49 +130,20 @@ class appController extends Controller
             if ($create_shipment->status() == 201) {
                 $collect[] = array(
                     "Success" => true,
-                    "Code" => $item,
+                    "Code" => $item_number,
                     "Mesenger" => 'Create Tracking OK!'
                 );
             } else if ($create_shipment->status() == 422) {
                 $collect[] = array(
                     "Success" => false,
-                    "Code" => $item,
+                    "Code" => $item_number,
                     "Mesenger" => 'Fail! Tracking already exists.'
                 );
             }
         }
         $temp["Result"] = $collect;
         return response()->json($temp);
-        //tạo tracking
-        // $tracking = json_encode($arr);
-        // //note
-        // $create_shipment = Http::withHeaders([
-        //     'Accept' => 'application/json',
-        //     'Authorization' => 'Bearer ' . $token->access_token
-        // ]);
-        // //tạo shipment_order
-        // $donggoi = $request->isPackaged == false ? "không" : "có";
-        // $note = json_encode(['send_name' => $request->sender_name, 'send_phone' => $request->sender_phone_number, 'isPackaged' => $donggoi, 'note' => $request->note]);
-        // //createTrackin
-        // $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
-        //     'shipment_method_id' =>  $request->shipping_method, //đường vận chuyển
-        //     'shipment_infor_id' => $data['id'], //lấy id của shipment_info
-        //     'type' => 'shipment',
-        //     'trackings' => $tracking, //danh sách tracking
-        //     'note' => $note,
-        // ]);
-        // //check status
-        // // return $create_shipment->body();
-        // if ($create_shipment->status() == 201) {
-        //     $collect[] = array(
-        //         "Success" => true,
-        //         "Code" => $arrTracking,
-        //         "Mesenger" => 'Create Tracking OK!'
-        //     );
-        //     return  response()->json($collect);
-        // } else if ($create_shipment->status() == 422) {
-        //     return $create_shipment->status();
-        // }
+        
     }
     //getProvinc
     public function getProvince(Request $request)
