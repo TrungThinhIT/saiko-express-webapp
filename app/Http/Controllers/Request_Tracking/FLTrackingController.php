@@ -26,28 +26,53 @@ class FLTrackingController extends Controller
         if (empty($token)) {
             return $this->QCT->getToken();
         }
-        $data = [
-            'search' => 'id:' . $request->tracking,
+        //apishow
+        $dataShow = [
             'with' => 'orders.shipmentInfor',
             'appends' => 'boxes.owners',
         ];
-        $apiTracking = Http::withHeaders(
-            [
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token->access_token
-            ]
-        )->get('http://order.tomonisolution.com/api/trackings/', $data);
-        //check auth
-        if ($apiTracking->status() == 401) {
+        //check status code
+        $apiShow = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token->access_token
+        ])->get('http://order.tomonisolution.com:82/api/trackings/' . $request->tracking, $dataShow);
+        //check show status
+        if ($apiShow->status() == 401) {
             $this->QCT->getToken();
-            $token = token::find(1)->access_token;
-            $apiTracking = Http::withHeaders([
+            $token = token::find(1);
+            $apiShow = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
-            ])->get('http://order.tomonisolution.com/api/trackings/', $data);
+            ])->get('http://order.tomonisolution.com:82/api/trackings/' . $request->tracking, $dataShow);
         }
+        if ($apiShow->status() == 404) {
+            return $apiShow->status();
+        } else {
+            $dataIndex = [
+                'search' => 'id:' . $request->tracking,
+                'with' => 'orders.shipmentInfor',
+                'appends' => 'boxes.owners',
+            ];
+            $apiTracking = Http::withHeaders(
+                [
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer ' . $token->access_token
+                ]
+            )->get('http://order.tomonisolution.com:82/api/trackings/', $dataIndex);
+            //check auth
+            if ($apiTracking->status() == 401) {
+                $this->QCT->getToken();
+                $token = token::find(1);
+                $apiTracking = Http::withHeaders([
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer ' . $token->access_token
+                ])->get('http://order.tomonisolution.com:82/api/trackings/', $dataIndex);
+            }
 
-        return json_decode($apiTracking->body(), true);
+            return json_decode($apiTracking->body(), true);
+        }
+        //
+
         // $result = [];
         // $checkTracking = Tracking_User::where('Tracking_number', $request->tracking)->get()->count('Tracking_number');
         // if ($checkTracking) {

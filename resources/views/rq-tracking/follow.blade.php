@@ -308,8 +308,9 @@
                             hãy liên hệ với nhóm khách hàng hậu cần của chúng tôi hoặc bạn có thể theo dõi hàng hóa của
                             mình bằng cách sử dụng hệ thống theo dõi bên dưới.</p>
                         <div class="row paddtop30">
-                            <div class="col-sm-9">
-                                <form id="tracking_form" method='post'>
+                            <form id="tracking_form" method='post'>
+                                <div class="col-sm-9">
+
                                     @csrf
                                     <div class="fh-form track-form">
                                         <div>
@@ -318,17 +319,36 @@
                                                 <input size="40" id="utrack" placeholder="Nhập mã Tracking vào đây"
                                                     type="text" class="form-control">
                                             </p>
+
                                         </div>
                                         <div class="g-recaptcha"
                                             data-sitekey="6LePYOoUAAAAAJiHO32sI4eawRX1SsuLFxaarHYg"></div>
-                                        <input value="Theo dõi ngay" class="fh-btn" type="submit">
-
                                     </div>
 
-                                </form>
-                            </div>
-                        </div>
 
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="fh-form track-form">
+                                        <div>
+                                            <label><span class="require"></span></label>
+                                            <p class="field">
+                                                <input value="Theo dõi ngay" class="fh-btn form-control rounded"
+                                                    type="submit">
+                                                {{-- <input size="40" id="utrack" placeholder="Nhập mã Tracking vào đây"
+                                                type="text" class="form-control"> --}}
+                                            </p>
+
+                                        </div>
+                                        <div class="g-recaptcha"
+                                            data-sitekey="6LePYOoUAAAAAJiHO32sI4eawRX1SsuLFxaarHYg">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        <div class="alert alert-danger" id="statusData" style="display: none;margin-top:20px;">
+                        </div>
                         <div class="row paddtop30">
                             <div class="col-sm-12 col-md-12">
                                 <div class="underline table-responsive" style="display:none" id="table-firt">
@@ -442,6 +462,24 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                style="z-index: 9999">
+                <div class="modal-dialog modal-sm  modal-confirm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="icon-box" id="color-success"><i class="material-icons"></i></div>
+
+                        </div>
+                        <h5 class="modal-confirm" id="message"></h5>
+                        <div class="modal-footer">
+                            <button class="btn btn-err btn-danger btn-block" data-dismiss="modal"
+                                id="exitForm">Thoát</button>
+                            <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
+                                id="exitSuccess" style="display:none">Thoát</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <script>
             $(document).ready(function() {
@@ -458,112 +496,208 @@
                             tracking: tracking
                         },
                         success: function(res) {
-                            $("#table").show();
-                            $("#table-firt").show();
-                            $("#body-table-firt").empty()
-                            $("#time_line").empty()
-                            console.log(res)
-                            $.each(res.data, function(index, value) {
-                                var name_send = '';
-                                var tel_rev = '';
-                                var name_rev = '';
-                                var add_rev = '';
-                                if (value.orders.length >= 1) {
-                                    var parse_note = JSON.parse(value.orders[0]
-                                        .note);
-                                    console.log(parse_note)
-                                    name_send = parse_note.send_name;
-                                    tel_rev = value.orders[0].shipment_infor.tel;
-                                    name_rev = value.orders[0].shipment_infor
-                                        .consignee;
-                                    add_rev = value.orders[0].shipment_infor
-                                        .full_address;
-                                }
-                                $.each(value.boxes, function(index, value2) {
-                                    $("#body-table-firt").append(
-                                        `<tr id="sku-row-${value2.id}">` +
-                                        '<td>' + value2.id + '</td>' +
-                                        '<td>' + value2
-                                        .weight.toFixed(3) +
-                                        '</td>' +
-                                        '<td>' + value2
-                                        .volume +
-                                        '</td>' +
-                                        '<td>' + name_send + '</td>' +
-                                        '<td>' + name_rev + '</td>' +
-                                        '<td>' + tel_rev + '</td>' +
-                                        '<td>' + add_rev + '</td>' +
-                                        '</tr>'
-                                    )
-                                    $(`#sku-row-${value2.id}`).on('click',
-                                        function() {
-                                            check(value2.logs)
-                                        })
+                            if (res == 404) {
+                                $("#table").hide();
+                                $("#body-table-firt").empty()
+                                $("#time_line").empty()
+                                $("#statusData").empty();
+                                $(".table").hide();
+                                $("#statusData").css('display', 'block');
+                                $("#statusData").append('<h4>' +
+                                    'Không tìm thấy mã tracking' + '</h4>')
+                            } else {
+                                if (res.data[0].boxes.length == 0 & res.data[0].orders
+                                    .length == 0) {
+                                    $(".table").hide();
+                                    $("#table-firt").show();
+                                    $("#body-table-firt").empty()
+                                    $("#time_line").empty()
+                                    $("#statusData").empty();
+                                    $("#statusData").css('display', 'block');
+                                    $("#statusData").append('<h4>' +
+                                        'Tracking chưa đăng kí' + '</h4>')
+                                } else {
+                                    $("#statusData").css('display', 'none');
+                                    $(".table").show();
+                                    $("#table-firt").show();
+                                    if (res.data.length == 0) {
+                                        $("#statusData").empty()
+                                        $("#statusData").append(
+                                            '<h4>' + 'Chưa gửi hàng' + '</h4>'
+                                        )
+                                    } else {
+                                        $("#statusData").empty()
+                                        $.each(res.data, function(index, value) {
+                                            var name_send = '';
+                                            var tel_rev = '';
+                                            var name_rev = '';
+                                            var add_rev = '';
+                                            var craete_at = '';
+                                            if (value.orders.length >= 1) {
+                                                var parse_note = JSON.parse(value
+                                                    .orders[0].note);
+                                                name_send = parse_note.send_name;
+                                                tel_rev = value.orders[0]
+                                                    .shipment_infor
+                                                    .tel;
+                                                name_rev = value.orders[0]
+                                                    .shipment_infor
+                                                    .consignee;
+                                                add_rev = value.orders[0]
+                                                    .shipment_infor
+                                                    .full_address;
+                                                created_at = value.orders[0]
+                                                    .created_at;
+                                            }
+                                            if (value.boxes.length == 0) {
+                                                $("#body-table-firt").empty()
+                                                $("#time_line").empty()
+                                                $("#time_line").append(
+                                                    '<li>' +
+                                                    '<a>' + 'Chưa về kho' +
+                                                    '</a>' +
+                                                    '<p>' + created_at +
+                                                    '</p>' +
+                                                    '</li>'
+                                                )
+                                                $("#body-table-firt")
+                                                    .append(
+                                                        `<tr ">` +
+                                                        '<td>' +
+                                                        '</td>' +
+                                                        '<td>' +
+                                                        '</td>' +
+                                                        '<td>' +
+                                                        '</td>' +
+                                                        '<td>' + name_send +
+                                                        '</td>' +
+                                                        '<td>' + name_rev +
+                                                        '</td>' +
+                                                        '<td>' + tel_rev +
+                                                        '</td>' +
+                                                        '<td>' + add_rev +
+                                                        '</td>' +
+                                                        '</tr>'
+                                                    )
+                                            } else {
+                                                $("#body-table-firt").empty()
+                                                $("#time_line").empty()
+                                                $.each(value.boxes, function(index,
+                                                    value2) {
+                                                    $("#body-table-firt")
+                                                        .append(
+                                                            `<tr id="sku-row-${value2.id}">` +
+                                                            '<td>' + value2
+                                                            .id +
+                                                            '</td>' +
+                                                            '<td>' + value2
+                                                            .weight.toFixed(
+                                                                3) +
+                                                            '</td>' +
+                                                            '<td>' + value2
+                                                            .volume +
+                                                            '</td>' +
+                                                            '<td>' +
+                                                            name_send +
+                                                            '</td>' +
+                                                            '<td>' +
+                                                            name_rev +
+                                                            '</td>' +
+                                                            '<td>' +
+                                                            tel_rev +
+                                                            '</td>' +
+                                                            '<td>' +
+                                                            add_rev +
+                                                            '</td>' +
+                                                            '</tr>'
+                                                        )
+                                                    $(`#sku-row-${value2.id}`)
+                                                        .on(
+                                                            'click',
+                                                            function() {
+                                                                check(value2
+                                                                    .logs,
+                                                                    created_at
+                                                                )
+                                                            })
 
-                                })
-                            })
+                                                })
+                                            }
+                                        })
+                                    }
+                                }
+                            }
                         },
                         error: function(res) {
-                            console.log(res)
+                            console.log('Lỗi')
                         }
                     })
                 })
             })
             //show log by id
-            function check(row) {
+            function check(row, created_at) {
                 $("#time_line").empty()
-                console.log(row)
-                $.each(row, function(index, value) {
-                    let a = JSON.parse(value.content);
-                    let valueObject = Object.keys(a)
-                    var status;
-                    if (valueObject == "id") {
-                        status = "Đã nhập kho Nhật"
-                    }
-                    if (valueObject == "in_pallet") {
-                        status = "Đã kiểm hàng"
-                    }
-                    if (valueObject == "set_owner_id,set_owner_type") {
-                        status = "Lên đơn hàng"
-                    }
-                    if (valueObject == "in_container") {
-                        status = "Lên container"
-                    }
-                    if (valueObject == "out_container") {
-                        status = "Xuống container"
-                    }
-                    if (valueObject == "delivery_status") {
-                        if (a.delivery_status == "shipping")
-                            status = "Đang giao hàng"
-                    }
-                    if (valueObject == "delivery_status") {
-                        if (a.delivery_status == "cancelled") {
-                            status = "Hủy box"
-                        }
-                    }
-                    if (valueObject == "delivery_status") {
-                        if (a.delivery_status == "received") {
-                            status = "Đã nhận hàng"
-                        }
-                    }
-                    if (valueObject == "delivery_status") {
-                        if (a.delivery_status == "refunded") {
-                            status = "Trả lại hàng"
-                        }
-                    }
-                    if (valueObject == "delivery_status") {
-                        if (a.delivery_status == "waiting_shipment") {
-                            status = "Đợi giao hàng"
-                        }
-                    }
-
+                
+                if (row.length == 0) {
                     $("#time_line").append(
                         '<li>' +
-                        '<a>' + status + '</a>' +
-                        '<p>' + value.created_at + '</p>' +
+                        '<a>' + 'Đang tới kho' + '</a>' +
+                        '<p>' + created_at + '</p>' +
                         '</li>'
                     )
-                })
+                } else {
+                    $.each(row, function(index, value) {
+                        let a = JSON.parse(value.content);
+                        let valueObject = Object.keys(a)
+                        var status;
+                        if (valueObject == "id") {
+                            status = "Đã nhập kho Nhật"
+                        }
+                        if (valueObject == "in_pallet") {
+                            status = "Đã kiểm hàng"
+                        }
+                        if (valueObject == "set_owner_id,set_owner_type") {
+                            status = "Lên đơn hàng"
+                        }
+                        if (valueObject == "in_container") {
+                            status = "Lên container"
+                        }
+                        if (valueObject == "out_container") {
+                            status = "Xuống container"
+                        }
+                        if (valueObject == "delivery_status") {
+                            if (a.delivery_status == "shipping")
+                                status = "Đang giao hàng"
+                        }
+                        if (valueObject == "delivery_status") {
+                            if (a.delivery_status == "cancelled") {
+                                status = "Hủy box"
+                            }
+                        }
+                        if (valueObject == "delivery_status") {
+                            if (a.delivery_status == "received") {
+                                status = "Đã nhận hàng"
+                            }
+                        }
+                        if (valueObject == "delivery_status") {
+                            if (a.delivery_status == "refunded") {
+                                status = "Trả lại hàng"
+                            }
+                        }
+                        if (valueObject == "delivery_status") {
+                            if (a.delivery_status == "waiting_shipment") {
+                                status = "Đợi giao hàng"
+                            }
+                        }
+
+                        $("#time_line").append(
+                            '<li>' +
+                            '<a>' + status + '</a>' +
+                            '<p>' + value.created_at + '</p>' +
+                            '</li>'
+                        )
+                    })
+                }
             }
 
         </script>

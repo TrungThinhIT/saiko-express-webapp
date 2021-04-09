@@ -347,6 +347,7 @@
                 </div>
             </div>
         </div>
+    </div>
 </section>
 @include('modules.footer')
 
@@ -450,7 +451,7 @@
         var UaddNumber = $("#UaddNumber").val();
         var uphone = $("#uphone").val();
         var utypeadd = $("#utypeadd").val();
-        console.log(ShipSea,ShipAir)
+        console.log(ShipSea, ShipAir)
         // console.log(AddRev, Tracking, Phone, Name_Send, Name_Rev, Reparking, ShipAir, ShipSea, Upx, OptionAdd);
         if (OptionAdd.length <= 5) {
             if (Upx == null || Upx == "") {
@@ -524,8 +525,8 @@
                         province: province,
                         district: district,
                         ward: ward,
-                        checkAir:checkAir,
-                        checkSea:checkSea,
+                        checkAir: checkAir,
+                        checkSea: checkSea,
                     },
                     success: function(response) {
                         console.log(response)
@@ -539,7 +540,7 @@
                         if (response == 422) {
                             document.getElementById("color-success").style.background = '#DF3A01'
                             $('#message').html(
-                            'Tracking này đã được tạo hoặc mã tracking dài quá 15 kí tự');
+                                'Tracking này đã được tạo hoặc mã tracking dài quá 15 kí tự');
                             $('#exitForm').hide();
                             $('#exitSuccess').show();
                             $('#myModal').modal('show');
