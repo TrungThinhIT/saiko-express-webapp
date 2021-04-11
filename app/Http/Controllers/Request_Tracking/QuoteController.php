@@ -81,6 +81,7 @@ class QuoteController extends Controller
     }
     public function store(Request $request)
     {
+        // return $request->all();
         //tạo address
         //lấy access_token
         $token = token::find(1);
@@ -127,6 +128,7 @@ class QuoteController extends Controller
         }
         //
         $data = json_decode($api->body(), true);
+        // return $data;
         //create shipment
         $tracking = explode(" ", $request->TrackingSaiko);
         foreach ($tracking as $item) {
