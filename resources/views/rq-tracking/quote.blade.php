@@ -456,7 +456,7 @@
                 $('#message').html('Xin vui lòng chọn Thành Phố Quận/Huyện ');
                 $('#myModal').modal('show');
             }
-            if (UaddNumber.length <= 8) {
+            if (UaddNumber.length <= 4) {
                 $('#message').html('Nhập thiếu số nhà tên đường');
                 $('#myModal').modal('show');
             }
@@ -479,7 +479,7 @@
         } else if (Name_Rev.length < 3) {
             $('#message').html('Tên người nhận quá ngắn!');
             $('#myModal').modal('show');
-        } else if (AddRev.length < 8) {
+        } else if (AddRev.length < 4) {
             $('#message').html('Nhập thiếu địa chỉ!');
             $('#myModal').modal('show');
         } else if (Phone == '') {
@@ -497,7 +497,7 @@
         } else {
             if (Tracking.length > 7 && Phone.length > 8 && Name_Send.length > 2 && Name_Rev.length > 2 && Number_Send
                 .length > 8 && (ShipAir == true | ShipSea == true) && (Upx != null || OptionAdd.length > 5) && (
-                    UaddNumber.length >= 8 || OptionAdd.length > 5)) {
+                    UaddNumber.length >= 4 || OptionAdd.length > 5)) {
                 console.log("Sendtracking");
                 $.ajax({
                     headers: {
@@ -527,6 +527,7 @@
                         checkSea: checkSea,
                     },
                     success: function(response) {
+                        console.log(response)
                         if (response == 201) {
                             document.getElementById("color-success").style.background = '#1ba906'
                             $('#message').html('Tạo tracking thành công!');

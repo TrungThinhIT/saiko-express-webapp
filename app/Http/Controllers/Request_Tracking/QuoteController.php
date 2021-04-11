@@ -45,12 +45,12 @@ class QuoteController extends Controller
      */
     public function getToken()
     {
-        $api = Http::post('http://auth.tomonisolution.com:80/oauth/token', [
+        $api = Http::post('http://auth.tomonisolution.com:82/oauth/token', [
             'username' => 'sale@saikoexpress.com',
             'password' => 'password',
-            'client_secret' => 'LnPyBhokfdTmApPvVoIc2N9dZ0u0TsvsY42jDEGL',
+            'client_secret' => 'B5nzdSkv85ilDEaOg5leHXCZfup5nZFkxDtIYSWi',
             'grant_type' => 'password',
-            'client_id' => 4,
+            'client_id' => 2,
             'scope' => '*'
         ]);
         $data =  json_decode($api->body(), true);
@@ -104,7 +104,7 @@ class QuoteController extends Controller
         $api = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token
-        ])->post('http://order.tomonisolution.com/api/shipment-infors', [
+        ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
             'consignee' => $request->Name_Rev,
             'tel' => $request->Phone, //sdt ng nhận
             'address' => $request->Add,
@@ -118,7 +118,7 @@ class QuoteController extends Controller
             $api = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
-            ])->post('http://order.tomonisolution.com/api/shipment-infors', [
+            ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
                 'consignee' => $request->Name_Rev,
                 'tel' => $request->Phone,
                 'address' => $request->Add,
@@ -130,7 +130,7 @@ class QuoteController extends Controller
         //create shipment
         $tracking = explode(" ", $request->TrackingSaiko);
         foreach ($tracking as $item) {
-            $arr[] = ['id' => $item, 'expected_delivery' => Carbon::now()->addDays(10)->toDateString()];
+            $arr[] = ['id' => $item];
         }
         //tạo tracking
         $tracking = json_encode($arr);
@@ -140,7 +140,7 @@ class QuoteController extends Controller
             'Authorization' => 'Bearer ' . $token->access_token
         ]);
         //tạo shipment_order
-        $donggoi = $request->Reparking == false ? "không" : "có";
+        $donggoi = $request->Reparking == "true" ? "có" : "không";
         $note = json_encode(['send_name' => $request->Name_Send, 'send_phone' => $request->Number_Send, 'isPackaged' => $donggoi, 'note' => $request->Note]);
         // return $note;
         if ($request->ShipAir == "true") {
@@ -148,7 +148,7 @@ class QuoteController extends Controller
         } else {
             $shipping = $request->checkSea;
         }
-        $create_shipment = $create_shipment->post('http://order.tomonisolution.com/api/orders', [
+        $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
             'shipment_method_id' => $shipping, //đường vận chuyển
             'shipment_infor_id' => $data['id'], //lấy id của shipment_info
             'type' => 'shipment',
@@ -170,6 +170,7 @@ class QuoteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //creat tracking bên app
     public function appCreateTracking(Request $request)
     {
         //get id district
@@ -204,7 +205,7 @@ class QuoteController extends Controller
         $api = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token
-        ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+        ])->post('http://order.tomonisolution.com/api/shipment-infors', [
             'consignee' => $request->receiver_name,
             'tel' => strval($request->receiver_phone_number), //sdt ng nhận
             'address' => strval($catchuoi[0]),
@@ -219,7 +220,7 @@ class QuoteController extends Controller
             $api = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
-            ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+            ])->post('http://order.tomonisolution.com/api/shipment-infors', [
                 'consignee' => $request->receiver_name,
                 'tel' => strval($request->receiver_phone_number), //sdt ng nhận
                 'address' => strval($catchuoi[0]),
@@ -233,7 +234,7 @@ class QuoteController extends Controller
         //create shipment
         $a = $request->tracking_number;
         foreach ($a as $item) {
-            $arr[] = ['id' => strval($item), 'expected_delivery' => Carbon::now()->addDays(10)->toDateString()];
+            $arr[] = ['id' => strval($item)];
         }
         //tạo tracking
         $tracking = json_encode($arr);
@@ -243,15 +244,10 @@ class QuoteController extends Controller
             'Authorization' => 'Bearer ' . $token->access_token
         ]);
         //tạo shipment_order
-        $donggoi = $request->isPackaged == false ? "không" : "có";
+        $donggoi = $request->Reparking == "true" ? "có" : "không";
         $note = json_encode(['send_name' => $request->sender_name, 'send_phone' => $request->sender_phone_number, 'isPackaged' => $donggoi, 'note' => $request->note]);
-        // return $note;
-        // if ($request->ShipAir == "true") {
-        //     $shipping = $request->checkAir;
-        // } else {
-        //     $shipping = $request->checkSea;
-        // }
-        $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
+        //post data
+        $create_shipment = $create_shipment->post('http://order.tomonisolution.com/api/orders', [
             'shipment_method_id' =>  $request->shipping_method, //đường vận chuyển
             'shipment_infor_id' => $data['id'], //lấy id của shipment_info
             'type' => 'shipment',

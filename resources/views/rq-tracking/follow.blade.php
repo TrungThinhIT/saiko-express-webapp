@@ -33,6 +33,86 @@
   } */
         }
 
+        .modal-confirm .modal-content {
+            padding: 20px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .modal-confirm .modal-header {
+            border-bottom: none;
+            position: relative;
+        }
+
+        .modal-confirm h4 {
+            text-align: center;
+            font-size: 26px;
+            margin: 30px 0 -15px;
+        }
+
+        .modal-confirm .form-control,
+        .modal-confirm .btn {
+            min-height: 40px;
+            border-radius: 3px;
+        }
+
+        .modal-confirm .close {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        .modal-confirm .modal-footer {
+            border: none;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
+        .modal-confirm .icon-box {
+            color: #fff;
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: -70px;
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            z-index: 9;
+            background: #ef513a;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .modal-confirm .icon-box i {
+            font-size: 56px;
+            position: relative;
+            top: 4px;
+        }
+
+        .modal-confirm.modal-dialog {
+            margin-top: 80px;
+        }
+
+        .modal-confirm .btn {
+            color: #fff;
+            border-radius: 4px;
+            background: #ef513a;
+            text-decoration: none;
+            transition: all 0.4s;
+            line-height: normal;
+            border: none;
+        }
+
+        .modal-confirm .btn:hover,
+        .modal-confirm .btn:focus {
+            background: #da2c12;
+            outline: none;
+        }
+
     </style>
 
 <body>
@@ -467,7 +547,7 @@
                 <div class="modal-dialog modal-sm  modal-confirm" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <div class="icon-box" id="color-success"><i class="material-icons"></i></div>
+                        <div class="icon-box" id="color-success"><i class="fa fa-times"></i></div>
 
                         </div>
                         <h5 class="modal-confirm" id="message"></h5>
@@ -482,8 +562,8 @@
             </div>
         </section>
         <script>
-            $(document).ready(function() {
-                $('#tracking_form').submit(function(e) {
+            $(document).ready(function () {
+                $('#tracking_form').submit(function (e) {
                     e.preventDefault();
                     var tracking = $("#utrack").val();
                     $.ajax({
@@ -495,7 +575,7 @@
                         data: {
                             tracking: tracking
                         },
-                        success: function(res) {
+                        success: function (res) {
                             if (res == 404) {
                                 $("#table").hide();
                                 $("#body-table-firt").empty()
@@ -527,12 +607,13 @@
                                         )
                                     } else {
                                         $("#statusData").empty()
-                                        $.each(res.data, function(index, value) {
+                                        $.each(res.data, function (index, value) {
                                             var name_send = '';
                                             var tel_rev = '';
                                             var name_rev = '';
                                             var add_rev = '';
                                             var craete_at = '';
+
                                             if (value.orders.length >= 1) {
                                                 var parse_note = JSON.parse(value
                                                     .orders[0].note);
@@ -548,6 +629,16 @@
                                                     .full_address;
                                                 created_at = value.orders[0]
                                                     .created_at;
+
+                                            }
+                                            if (name_send == '' | tel_rev == '' |
+                                                name_rev == '' | add_rev == '') {
+                                                $('#message').html(
+                                                    'Khách chưa đăng kí đầy đủ thông tin tracking'
+                                                    );
+                                                $('#exitForm').hide();
+                                                $('#exitSuccess').show();
+                                                $('#myModal').modal('show');
                                             }
                                             if (value.boxes.length == 0) {
                                                 $("#body-table-firt").empty()
@@ -582,7 +673,7 @@
                                             } else {
                                                 $("#body-table-firt").empty()
                                                 $("#time_line").empty()
-                                                $.each(value.boxes, function(index,
+                                                $.each(value.boxes, function (index,
                                                     value2) {
                                                     $("#body-table-firt")
                                                         .append(
@@ -614,10 +705,10 @@
                                                     $(`#sku-row-${value2.id}`)
                                                         .on(
                                                             'click',
-                                                            function() {
+                                                            function () {
                                                                 check(value2
                                                                     .logs,
-                                                                    created_at
+                                                                    craete_at
                                                                 )
                                                             })
 
@@ -628,25 +719,25 @@
                                 }
                             }
                         },
-                        error: function(res) {
+                        error: function (res) {
                             console.log('Lỗi')
                         }
                     })
                 })
             })
             //show log by id
-            function check(row, created_at) {
+            function check(row, craete_at) {
                 $("#time_line").empty()
-                
+
                 if (row.length == 0) {
                     $("#time_line").append(
                         '<li>' +
                         '<a>' + 'Đang tới kho' + '</a>' +
-                        '<p>' + created_at + '</p>' +
+                        '<p>' + craete_at + '</p>' +
                         '</li>'
                     )
                 } else {
-                    $.each(row, function(index, value) {
+                    $.each(row, function (index, value) {
                         let a = JSON.parse(value.content);
                         let valueObject = Object.keys(a)
                         var status;
@@ -734,14 +825,14 @@
 
     <div id="fb-root"></div>
     <script>
-        window.fbAsyncInit = function() {
+        window.fbAsyncInit = function () {
             FB.init({
                 xfbml: true,
                 version: 'v3.3'
             });
         };
 
-        (function(d, s, id) {
+        (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
             js = d.createElement(s);
