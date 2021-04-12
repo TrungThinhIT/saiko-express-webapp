@@ -45,12 +45,12 @@ class QuoteController extends Controller
      */
     public function getToken()
     {
-        $api = Http::post('http://auth.tomonisolution.com:82/oauth/token', [
+        $api = Http::post('http://auth.tomonisolution.com:80/oauth/token', [
             'username' => 'sale@saikoexpress.com',
             'password' => 'password',
-            'client_secret' => 'B5nzdSkv85ilDEaOg5leHXCZfup5nZFkxDtIYSWi',
+            'client_secret' => '',
             'grant_type' => 'password',
-            'client_id' => 2,
+            'client_id' => 4,
             'scope' => '*'
         ]);
         $data =  json_decode($api->body(), true);
@@ -89,7 +89,7 @@ class QuoteController extends Controller
             $this->getToken();
         }
         $token = token::find(1);
-        //create shipment_info
+
         if ($request->utypeadd == "blank") {
             $ward_id = $request->ward;
         }
@@ -105,7 +105,7 @@ class QuoteController extends Controller
         $api = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token
-        ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+        ])->post('http://order.tomonisolution.com/api/shipment-infors', [
             'consignee' => $request->Name_Rev,
             'tel' => $request->Phone, //sdt ng nhận
             'address' => $request->Add,
@@ -119,7 +119,7 @@ class QuoteController extends Controller
             $api = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
-            ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+            ])->post('http://order.tomonisolution.com/api/shipment-infors', [
                 'consignee' => $request->Name_Rev,
                 'tel' => $request->Phone,
                 'address' => $request->Add,
@@ -150,7 +150,7 @@ class QuoteController extends Controller
         } else {
             $shipping = $request->checkSea;
         }
-        $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
+        $create_shipment = $create_shipment->post('http://order.tomonisolution.com/api/orders', [
             'shipment_method_id' => $shipping, //đường vận chuyển
             'shipment_infor_id' => $data['id'], //lấy id của shipment_info
             'type' => 'shipment',
@@ -158,14 +158,12 @@ class QuoteController extends Controller
             'note' => $note,
         ]);
         //check status
-        // return $create_shipment->body();
         if ($create_shipment->status() == 201) {
             return $create_shipment->status();
         } else if ($create_shipment->status() == 422) {
             return $create_shipment->status();
         }
     }
-
     /**
      * Display the specified resource.
      *
@@ -264,43 +262,93 @@ class QuoteController extends Controller
             return $create_shipment->status();
         }
     }
-    public function show($id)
-    {
-        //
 
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    //get api saikorexpress
+    public function createTracking(Request $request)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $data = Http::get('https://saikoeshop.com/Api/Json.php?ListTracking')->body();
+        $data = json_decode($data);
+        //lấy token
+        $token = token::find(1);
+        if (empty($token)) {
+            $this->getToken();
+        }
+        $token = token::find(1);
+        foreach ($data as $items) {
+            foreach (collect($items)->chunk(20) as $item) {
+                foreach ($item as $ite_child) {
+                    $ward = strval($ite_child->ward);
+                    // create shipment infor
+                    if ($ite_child->ward == null) {
+                        continue; //null continue
+                    }
+                    if ($ite_child->diachinha == "") {
+                        $address = "thiếu số nhà, tên đường";
+                    } else {
+                        $address = $ite_child->diachinha;
+                    }
+                    $api = Http::withHeaders([
+                        'Accept' => 'application/json',
+                        'Authorization' => 'Bearer ' . $token->access_token
+                    ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+                        'consignee' => $ite_child->consignee,
+                        'tel' => $ite_child->tel, //sdt ng nhận
+                        'address' => $address,
+                        'ward_id' =>  $ward
+                    ]);
+                    //xác thực
+                    if (is_int($ite_child->ward)) {
+                        $ward = strval($ite_child->ward);
+                    } else {
+                        $ward = $ite_child->ward;
+                    }
+                    if ($api->status() == 401) {
+                        $this->getToken();
+                        $token = token::find(1);
+                        //create shipment_info
+                        $api = Http::withHeaders([
+                            'Accept' => 'application/json',
+                            'Authorization' => 'Bearer ' . $token->access_token
+                        ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+                            'consignee' => $ite_child->consignee,
+                            'tel' => $ite_child->tel, //sdt ng nhận
+                            'address' => $address,
+                            'ward_id' =>  $ward
+                        ]);
+                    }
+                    //
+                    $dataShipmentInfo = json_decode($api->body(), true);
+                    //create orders shipment
+                    //send tracking type json
+                    $arr = array();
+                    $arr[] = ['id' => $ite_child->trackings];
+                    //tạo tracking
+                    $tracking = json_encode($arr);
+                    //note
+                    $create_shipment = Http::withHeaders([
+                        'Accept' => 'application/json',
+                        'Authorization' => 'Bearer ' . $token->access_token
+                    ]);
+                    //tạo shipment_order
+                    // $donggoi = $request->Reparking == "true" ? "có" : "không";
+                    $note = json_encode(['send_name' => $ite_child->Tennguoigui, 'send_phone' => $ite_child->Sdtnguoigui, 'isPackaged' => "Không", 'note' => $ite_child->note]);
+                    // return $note;
+                    $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
+                        'shipment_method_id' => $ite_child->shipment_method_id, //đường vận chuyển
+                        'shipment_infor_id' => $dataShipmentInfo['id'], //lấy id của shipment_info
+                        'type' => 'shipment',
+                        'trackings' => $tracking, //danh sách tracking
+                        'note' => $note,
+                    ]);
+                    sleep(2);
+                }
+                sleep(2);
+            }
+        }
+        if ($create_shipment->status() == 201) {
+            return $create_shipment->status();
+        } else if ($create_shipment->status() == 422) {
+            return $create_shipment->body();
+        }
     }
 }

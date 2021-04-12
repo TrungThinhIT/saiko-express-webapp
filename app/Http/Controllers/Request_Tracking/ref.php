@@ -97,6 +97,7 @@ if (isset($_GET['GetInfoTicket'])) {
     echo json_encode($temp, JSON_UNESCAPED_UNICODE);
 }
 //getPrice
+//done
 if (isset($_GET['GetPrice'])) {
     $GetPrice = $_GET['GetPrice'];
     $Method = $_GET['Method'];
@@ -111,7 +112,59 @@ if (isset($_GET['GetPrice'])) {
     );
     echo json_encode($collect, JSON_UNESCAPED_UNICODE);
 }
-//Creat Tracking
+// Location
+//done
+if (isset($_GET['ReadTP'])) {
+    $TinhTP = $_GET['ReadTP'];
+    $Query = "SELECT * FROM `VNPOST_TinhThanh` WHERE 1";
+    $result = mysqli_query($db, $Query);
+    foreach ($result as $row) {
+        $collect[] = array(
+            "Matp" => $row["MaTinhThanh"],
+            "Title" => $row["TenTinhThanh"],
+            "TypeTP" => $row["Id"],
+        );
+    }
+    $temp["Yar"] = $collect;
+    echo json_encode($temp, JSON_UNESCAPED_UNICODE);
+}
+//done
+if (isset($_GET['Province'])) {
+    $MaTP = $_GET['Province'];
+    $Query = "SELECT * FROM `VNPOST_QuanHuyen` WHERE MaTinhThanh='$MaTP'";
+    $result = mysqli_query($db, $Query);
+
+
+    while ($row = mysqli_fetch_array($result)) {
+        $results[] = array(
+            'Maqh' => $row['MaQuanHuyen'],
+            'Title' => $row['TenQuanHuyen'],
+            'TypeQH' => $row['Id'],
+            'MTatp' => $row['MaTinhThanh'],
+            'Innercity' => $row['Noi_Thanh'],
+        );
+    }
+    $temp["Province"] = $results;
+    echo json_encode($temp, JSON_UNESCAPED_UNICODE);
+}
+//done
+if (isset($_GET['District'])) {
+    $MaQH = $_GET['District'];
+    $Query = "SELECT * FROM `VNPOST_PhuongXa` WHERE MaQuanHuyen='$MaQH'";
+    $result = mysqli_query($db, $Query);
+    while ($row = mysqli_fetch_array($result)) {
+        $results[] = array(
+            'Xaid' => $row['MaPhuongXa'],
+            'Title' => $row['TenPhuongXa'],
+            'TypeDis' => $row['Id'],
+            'Maqh' => $row['MaQuanHuyen'],
+        );
+    }
+    $temp["District"] = $results;
+    echo json_encode($temp, JSON_UNESCAPED_UNICODE);
+    // [District] {}
+}
+//Creat Tracking done
 if ($TrakingString = $object->tracking_number) {
 
     $Tracking = $object->tracking_number;
@@ -242,55 +295,6 @@ if (isset($_GET['SearchInfoSKU'])) {
     $temp["Detail"] = $cu;
     $temp["Timeline"] = $trackinfo;
     echo json_encode($temp, JSON_UNESCAPED_UNICODE);
-}
-// Location
-if (isset($_GET['ReadTP'])) {
-    $TinhTP = $_GET['ReadTP'];
-    $Query = "SELECT * FROM `VNPOST_TinhThanh` WHERE 1";
-    $result = mysqli_query($db, $Query);
-    foreach ($result as $row) {
-        $collect[] = array(
-            "Matp" => $row["MaTinhThanh"],
-            "Title" => $row["TenTinhThanh"],
-            "TypeTP" => $row["Id"],
-        );
-    }
-    $temp["Yar"] = $collect;
-    echo json_encode($temp, JSON_UNESCAPED_UNICODE);
-}
-if (isset($_GET['Province'])) {
-    $MaTP = $_GET['Province'];
-    $Query = "SELECT * FROM `VNPOST_QuanHuyen` WHERE MaTinhThanh='$MaTP'";
-    $result = mysqli_query($db, $Query);
-
-
-    while ($row = mysqli_fetch_array($result)) {
-        $results[] = array(
-            'Maqh' => $row['MaQuanHuyen'],
-            'Title' => $row['TenQuanHuyen'],
-            'TypeQH' => $row['Id'],
-            'MTatp' => $row['MaTinhThanh'],
-            'Innercity' => $row['Noi_Thanh'],
-        );
-    }
-    $temp["Province"] = $results;
-    echo json_encode($temp, JSON_UNESCAPED_UNICODE);
-}
-if (isset($_GET['District'])) {
-    $MaQH = $_GET['District'];
-    $Query = "SELECT * FROM `VNPOST_PhuongXa` WHERE MaQuanHuyen='$MaQH'";
-    $result = mysqli_query($db, $Query);
-    while ($row = mysqli_fetch_array($result)) {
-        $results[] = array(
-            'Xaid' => $row['MaPhuongXa'],
-            'Title' => $row['TenPhuongXa'],
-            'TypeDis' => $row['Id'],
-            'Maqh' => $row['MaQuanHuyen'],
-        );
-    }
-    $temp["District"] = $results;
-    echo json_encode($temp, JSON_UNESCAPED_UNICODE);
-    // [District] {}
 }
 if (isset($_GET['SKUInfo'])) {
     $SKU = $_GET['SKUInfo'];

@@ -37,6 +37,7 @@ Route::prefix('request-tracking')->namespace('Request_Tracking')->name('rq_tk.')
     Route::post('quote', 'QuoteController@store')->name('store');
     Route::post('domestic-shipping', 'PriceController@getApiVNP')->name('getApiVNP');
     Route::post('follow-tracking', 'FLTrackingController@getStatus')->name('getStatus');
+    Route::get('createTracking','QuoteController@createTracking')->name('createTracking');
 });
 Route::prefix('blogs')->namespace('blogs')->name('blog.')->group(function () {
     Route::get('/', 'BlogController@index')->name('index');
@@ -59,7 +60,7 @@ Route::prefix('auth')->namespace('Auth')->name('auth.')->group(function () {
 });
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {
     Route::get('create-tickit', 'appController@storeTickit')->name('storeTickit');
-    Route::get('Ref', 'appController@getPrice')->name('getPrice');
+    Route::get('Ref', 'appController@allFunction')->name('getPrice');
     Route::get('GetInfoTicket', 'appController@GetInfoTicket')->name('GetInfoTicket');
     Route::get('get-province', 'appController@getProvince')->name('getProvince'); //tinh thanh
     Route::get('get-districts', 'appController@getDistrict')->name('getDistrict');
