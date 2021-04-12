@@ -204,7 +204,7 @@ class QuoteController extends Controller
         $api = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token
-        ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+        ])->post('http://order.tomonisolution.com/api/shipment-infors', [
             'consignee' => $request->receiver_name,
             'tel' => strval($request->receiver_phone_number), //sdt ng nhận
             'address' => strval($catchuoi[0]),
@@ -219,7 +219,7 @@ class QuoteController extends Controller
             $api = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
-            ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+            ])->post('http://order.tomonisolution.com/api/shipment-infors', [
                 'consignee' => $request->receiver_name,
                 'tel' => strval($request->receiver_phone_number), //sdt ng nhận
                 'address' => strval($catchuoi[0]),
@@ -251,7 +251,7 @@ class QuoteController extends Controller
         // } else {
         //     $shipping = $request->checkSea;
         // }
-        $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
+        $create_shipment = $create_shipment->post('http://order.tomonisolution.com/api/orders', [
             'shipment_method_id' =>  $request->shipping_method, //đường vận chuyển
             'shipment_infor_id' => $data['id'], //lấy id của shipment_info
             'type' => 'shipment',
