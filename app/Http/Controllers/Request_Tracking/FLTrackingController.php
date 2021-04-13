@@ -28,13 +28,13 @@ class FLTrackingController extends Controller
         }
         //apishow
         $dataShow = [
-            'with' => 'orders.shipmentInfor',
+            'with' => 'order.shipmentInfor',
             'appends' => 'boxes.owners',
         ];
         //check status code
         $apiShow = Http::withHeaders([
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token->access_token
+            // 'Authorization' => 'Bearer ' . $token->access_token
         ])->get('http://order.tomonisolution.com/api/trackings/' . $request->tracking, $dataShow);
         //check show status
         if ($apiShow->status() == 401) {
@@ -42,7 +42,7 @@ class FLTrackingController extends Controller
             $token = token::find(1);
             $apiShow = Http::withHeaders([
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token->access_token
+                // 'Authorization' => 'Bearer ' . $token->access_token
             ])->get('http://order.tomonisolution.com/api/trackings/' . $request->tracking, $dataShow);
         }
         if ($apiShow->status() == 404) {
@@ -50,13 +50,13 @@ class FLTrackingController extends Controller
         } else {
             $dataIndex = [
                 'search' => 'id:' . $request->tracking,
-                'with' => 'orders.shipmentInfor',
+                'with' => 'order.shipmentInfor',
                 'appends' => 'boxes.owners',
             ];
             $apiTracking = Http::withHeaders(
                 [
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $token->access_token
+                    // 'Authorization' => 'Bearer ' . $token->access_token
                 ]
             )->get('http://order.tomonisolution.com/api/trackings/', $dataIndex);
             //check auth
@@ -71,6 +71,5 @@ class FLTrackingController extends Controller
 
             return json_decode($apiTracking->body(), true);
         }
-               
     }
 }

@@ -38,6 +38,8 @@ Route::prefix('request-tracking')->namespace('Request_Tracking')->name('rq_tk.')
     Route::post('domestic-shipping', 'PriceController@getApiVNP')->name('getApiVNP');
     Route::post('follow-tracking', 'FLTrackingController@getStatus')->name('getStatus');
     Route::get('createTracking','QuoteController@createTracking')->name('createTracking');
+    Route::get('update-tracking', 'QuoteController@updateTracking')->name('updateTracking');
+
 });
 Route::prefix('blogs')->namespace('blogs')->name('blog.')->group(function () {
     Route::get('/', 'BlogController@index')->name('index');

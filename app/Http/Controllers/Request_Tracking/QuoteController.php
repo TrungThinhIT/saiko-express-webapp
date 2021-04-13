@@ -100,7 +100,7 @@ class QuoteController extends Controller
             $ward_id = "13900";
         }
         if ($request->utypeadd == "Nhận tại VP Tân Bình HCM") {
-            $ward_id = "73720";
+            $ward_id = "76000";
         }
         $api = Http::withHeaders([
             'Accept' => 'application/json',
@@ -267,6 +267,8 @@ class QuoteController extends Controller
     public function createTracking(Request $request)
     {
         $data = Http::get('https://saikoeshop.com/Api/Json.php?ListTracking')->body();
+        return ($data);
+
         $data = json_decode($data);
         //lấy token
         $token = token::find(1);
@@ -290,7 +292,7 @@ class QuoteController extends Controller
                     $api = Http::withHeaders([
                         'Accept' => 'application/json',
                         'Authorization' => 'Bearer ' . $token->access_token
-                    ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+                    ])->post('http://order.tomonisolution.com/api/shipment-infors', [
                         'consignee' => $ite_child->consignee,
                         'tel' => $ite_child->tel, //sdt ng nhận
                         'address' => $address,
@@ -309,7 +311,7 @@ class QuoteController extends Controller
                         $api = Http::withHeaders([
                             'Accept' => 'application/json',
                             'Authorization' => 'Bearer ' . $token->access_token
-                        ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+                        ])->post('http://order.tomonisolution.com/api/shipment-infors', [
                             'consignee' => $ite_child->consignee,
                             'tel' => $ite_child->tel, //sdt ng nhận
                             'address' => $address,
@@ -318,7 +320,7 @@ class QuoteController extends Controller
                     }
                     //
                     $dataShipmentInfo = json_decode($api->body(), true);
-                    //create orders shipment
+                    //create order shipment
                     //send tracking type json
                     $arr = array();
                     $arr[] = ['id' => $ite_child->trackings];
@@ -333,7 +335,7 @@ class QuoteController extends Controller
                     // $donggoi = $request->Reparking == "true" ? "có" : "không";
                     $note = json_encode(['send_name' => $ite_child->Tennguoigui, 'send_phone' => $ite_child->Sdtnguoigui, 'isPackaged' => "Không", 'note' => $ite_child->note]);
                     // return $note;
-                    $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
+                    $create_shipment = $create_shipment->post('http://order.tomonisolution.com/api/orders', [
                         'shipment_method_id' => $ite_child->shipment_method_id, //đường vận chuyển
                         'shipment_infor_id' => $dataShipmentInfo['id'], //lấy id của shipment_info
                         'type' => 'shipment',
@@ -350,5 +352,176 @@ class QuoteController extends Controller
         } else if ($create_shipment->status() == 422) {
             return $create_shipment->body();
         }
+    }
+    public function updateTracking()
+    {
+        // dd('');
+        // $data = Http::get('http://order.tomonisolution.com:82/api/trackings/1231231231232?appends=boxes.owners&with=order')->body();
+        // $data = json_decode($data, true);
+        // return dd($data['order']['shipment_infor_id']);
+        //data saiko
+        $dataSaiko = Http::get('https://saikoeshop.com/Api/Json.php?ListTracking')->body();
+        $dataSaiko = json_decode($dataSaiko);
+        $token = token::find(1);
+        if (empty($token)) {
+            $this->getToken();
+        }
+        $token = token::find(1);
+        $err = array();
+        foreach ($dataSaiko as $items) {
+            foreach (collect($items)->chunk(20) as $item) {
+                foreach ($item as $ite_child) {
+                    //lấy data từ tomoni
+                    // 190575819254,4477_88938_8553
+                    $dataTomoni = Http::get('http://order.tomonisolution.com/api/trackings/' . $ite_child->trackings . '?with=order')->body();
+                    $dataTomoni = json_decode($dataTomoni, true);
+                    // dd(!isset($dataTomoni['order']) || count($dataTomoni['order']) == 0);
+                    // return count($dataTomoni['order']);
+                    if (!isset($dataTomoni['order']) || count($dataTomoni['order']) == 0) {
+                        $err[] = ['error' => $ite_child->trackings];
+                        // $api = Http::withHeaders([
+                        //     'Accept' => 'application/json',
+                        //     'Authorization' => 'Bearer ' . $token->access_token
+                        // ])->delete('http://order.tomonisolution.com/api/trackings/' . $ite_child->trackings);
+                    }
+                    continue;
+                    //xác thực
+                    //     if ($api->status() == 401) {
+                    //         $this->getToken();
+                    //         $token = token::find(1);
+                    //         //create shipment_info
+                    //         $api = Http::withHeaders([
+                    //             'Accept' => 'application/json',
+                    //             'Authorization' => 'Bearer ' . $token->access_token
+                    //         ])->delete('http://order.tomonisolution.com/api/trackings/' . $ite_child->trackings);
+                    //     }
+                    //     //create shipment_order
+                    //     if ($api->status() == 204) {
+                    //         // create shipment infor
+                    //         if ($ite_child->ward == null) {
+                    //             $err[]=['ward_null'=>$ite_child->trackings];
+                    //             continue; //null continue
+                    //         }
+                    //         if ($ite_child->diachinha == "") {
+                    //             $address = "thiếu số nhà, tên đường";
+                    //         } else {
+                    //             $address = $ite_child->diachinha;
+                    //         }
+                    //         $api = Http::withHeaders([
+                    //             'Accept' => 'application/json',
+                    //             'Authorization' => 'Bearer ' . $token->access_token
+                    //         ])->post('http://order.tomonisolution.com/api/shipment-infors', [
+                    //             'consignee' => $ite_child->consignee,
+                    //             'tel' => $ite_child->tel, //sdt ng nhận
+                    //             'address' => $address,
+                    //             'ward_id' =>  $ward
+                    //         ]);
+                    //         //xác thực
+                    //         // if (is_int($ite_child->ward)) {
+                    //         //     $ward = strval($ite_child->ward);
+                    //         // } else {
+                    //         //     $ward = $ite_child->ward;
+                    //         // }
+                    //         if ($api->status() == 401) {
+                    //             $this->getToken();
+                    //             $token = token::find(1);
+                    //             //create shipment_info
+                    //             $api = Http::withHeaders([
+                    //                 'Accept' => 'application/json',
+                    //                 'Authorization' => 'Bearer ' . $token->access_token
+                    //             ])->post('http://order.tomonisolution.com/api/shipment-infors', [
+                    //                 'consignee' => $ite_child->consignee,
+                    //                 'tel' => $ite_child->tel, //sdt ng nhận
+                    //                 'address' => $address,
+                    //                 'ward_id' =>  $ward
+                    //             ]);
+                    //         }
+                    //         //
+                    //         $dataShipmentInfo = json_decode($api->body(), true);
+                    //         //create order shipment
+                    //         //send tracking type json
+                    //         $arr = array();
+                    //         $arr[] = ['id' => $ite_child->trackings];
+                    //         //tạo tracking
+                    //         $tracking = json_encode($arr);
+                    //         //note
+                    //         $create_shipment = Http::withHeaders([
+                    //             'Accept' => 'application/json',
+                    //             'Authorization' => 'Bearer ' . $token->access_token
+                    //         ]);
+                    //         //tạo shipment_order
+                    //         // $donggoi = $request->Reparking == "true" ? "có" : "không";
+                    //         $note = json_encode(['send_name' => $ite_child->Tennguoigui, 'send_phone' => $ite_child->Sdtnguoigui, 'isPackaged' => "Không", 'note' => $ite_child->note]);
+                    //         // return $note;
+                    //         $create_shipment = $create_shipment->post('http://order.tomonisolution.com/api/orders', [
+                    //             'shipment_method_id' => $ite_child->shipment_method_id, //đường vận chuyển
+                    //             'shipment_infor_id' => $dataShipmentInfo['id'], //lấy id của shipment_info
+                    //             'type' => 'shipment',
+                    //             'trackings' => $tracking, //danh sách tracking
+                    //             'note' => $note,
+                    //         ]);
+                    //         if ($create_shipment->status() != 201) {
+                    //             $err[] = $tracking;
+                    //         }
+                    //     }
+                    // }
+                    // continue;
+                    // $api = Http::withHeaders([
+                    //     'Accept' => 'application/json',
+                    //     'Authorization' => 'Bearer ' . $token->access_token
+                    // ])->put('http://order.tomonisolution.com/api/shipment-infors/' . $dataTomoni['order'][0]['shipment_infor_id'], [
+                    //     // 'consignee' => $ite_child->consignee,
+                    //     // 'tel' => $ite_child->tel, //sdt ng nhận
+                    //     'address' => $address,
+                    //     'ward_id' =>  $ward
+                    // ]);
+                    // //xác thực
+                    // if ($api->status() == 401) {
+                    //     $this->getToken();
+                    //     $token = token::find(1);
+                    //     //create shipment_info
+                    //     $api = Http::withHeaders([
+                    //         'Accept' => 'application/json',
+                    //         'Authorization' => 'Bearer ' . $token->access_token
+                    //     ])->post('http://order.tomonisolution.com/api/shipment-infors' . $dataTomoni['order'][0]['shipment_infor_id'], [
+                    //         // 'consignee' => $ite_child->consignee,
+                    //         // 'tel' => $ite_child->tel, //sdt ng nhận
+                    //         'address' => $address,
+                    //         'ward_id' =>  $ward
+                    //     ]);
+                    // }
+                    //
+                    // if ($api->status() != 201) {
+                    //     $err[] = $ite_child->trackings . ' +' . $api->body();
+                    // }
+                    // $dataShipmentInfo = json_decode($api->body(), true);
+                    // //create order shipment
+                    // //send tracking type json
+                    // $arr = array();
+                    // $arr[] = ['id' => $ite_child->trackings];
+                    // //tạo tracking
+                    // $tracking = json_encode($arr);
+                    // //note
+                    // $create_shipment = Http::withHeaders([
+                    //     'Accept' => 'application/json',
+                    //     'Authorization' => 'Bearer ' . $token->access_token
+                    // ]);
+                    // //tạo shipment_order
+                    // // $donggoi = $request->Reparking == "true" ? "có" : "không";
+                    // $note = json_encode(['send_name' => $ite_child->Tennguoigui, 'send_phone' => $ite_child->Sdtnguoigui, 'isPackaged' => "Không", 'note' => $ite_child->note]);
+                    // // return $note;
+                    // $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/order', [
+                    //     'shipment_method_id' => $ite_child->shipment_method_id, //đường vận chuyển
+                    //     'shipment_infor_id' => $dataShipmentInfo['id'], //lấy id của shipment_info
+                    //     'type' => 'shipment',
+                    //     'trackings' => $tracking, //danh sách tracking
+                    //     'note' => $note,
+                    // ]);
+                    sleep(1);
+                }
+                sleep(1);
+            }
+        }
+        return dd($err);
     }
 }

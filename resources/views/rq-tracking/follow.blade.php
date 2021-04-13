@@ -547,7 +547,7 @@
                 <div class="modal-dialog modal-sm  modal-confirm" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <div class="icon-box" id="color-success"><i class="fa fa-times"></i></div>
+                            <div class="icon-box" id="color-success"><i class="fa fa-times"></i></div>
 
                         </div>
                         <h5 class="modal-confirm" id="message"></h5>
@@ -562,8 +562,8 @@
             </div>
         </section>
         <script>
-            $(document).ready(function () {
-                $('#tracking_form').submit(function (e) {
+            $(document).ready(function() {
+                $('#tracking_form').submit(function(e) {
                     e.preventDefault();
                     var tracking = $("#utrack").val();
                     $.ajax({
@@ -575,7 +575,7 @@
                         data: {
                             tracking: tracking
                         },
-                        success: function (res) {
+                        success: function(res) {
                             if (res == 404) {
                                 $("#table").hide();
                                 $("#body-table-firt").empty()
@@ -586,8 +586,7 @@
                                 $("#statusData").append('<h4>' +
                                     'Không tìm thấy mã tracking' + '</h4>')
                             } else {
-                                if (res.data[0].boxes.length == 0 & res.data[0].orders
-                                    .length == 0) {
+                                if (res.data[0].boxes.length == 0 & res.data[0].order == null) {
                                     $(".table").hide();
                                     $("#table-firt").show();
                                     $("#body-table-firt").empty()
@@ -607,27 +606,27 @@
                                         )
                                     } else {
                                         $("#statusData").empty()
-                                        $.each(res.data, function (index, value) {
+                                        $.each(res.data, function(index, value) {
                                             var name_send = '';
                                             var tel_rev = '';
                                             var name_rev = '';
                                             var add_rev = '';
                                             var craete_at = '';
 
-                                            if (value.orders.length >= 1) {
+                                            if (value.order !=null) {
                                                 var parse_note = JSON.parse(value
-                                                    .orders[0].note);
+                                                    .order.note);
                                                 name_send = parse_note.send_name;
-                                                tel_rev = value.orders[0]
+                                                tel_rev = value.order
                                                     .shipment_infor
                                                     .tel;
-                                                name_rev = value.orders[0]
+                                                name_rev = value.order
                                                     .shipment_infor
                                                     .consignee;
-                                                add_rev = value.orders[0]
+                                                add_rev = value.order
                                                     .shipment_infor
                                                     .full_address;
-                                                created_at = value.orders[0]
+                                                created_at = value.order
                                                     .created_at;
 
                                             }
@@ -635,7 +634,7 @@
                                                 name_rev == '' | add_rev == '') {
                                                 $('#message').html(
                                                     'Khách chưa đăng kí đầy đủ thông tin tracking'
-                                                    );
+                                                );
                                                 $('#exitForm').hide();
                                                 $('#exitSuccess').show();
                                                 $('#myModal').modal('show');
@@ -673,7 +672,7 @@
                                             } else {
                                                 $("#body-table-firt").empty()
                                                 $("#time_line").empty()
-                                                $.each(value.boxes, function (index,
+                                                $.each(value.boxes, function(index,
                                                     value2) {
                                                     $("#body-table-firt")
                                                         .append(
@@ -705,7 +704,7 @@
                                                     $(`#sku-row-${value2.id}`)
                                                         .on(
                                                             'click',
-                                                            function () {
+                                                            function() {
                                                                 check(value2
                                                                     .logs,
                                                                     craete_at
@@ -719,7 +718,7 @@
                                 }
                             }
                         },
-                        error: function (res) {
+                        error: function(res) {
                             console.log('Lỗi')
                         }
                     })
@@ -737,7 +736,7 @@
                         '</li>'
                     )
                 } else {
-                    $.each(row, function (index, value) {
+                    $.each(row, function(index, value) {
                         let a = JSON.parse(value.content);
                         let valueObject = Object.keys(a)
                         var status;
@@ -825,14 +824,14 @@
 
     <div id="fb-root"></div>
     <script>
-        window.fbAsyncInit = function () {
+        window.fbAsyncInit = function() {
             FB.init({
                 xfbml: true,
                 version: 'v3.3'
             });
         };
 
-        (function (d, s, id) {
+        (function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
             js = d.createElement(s);
