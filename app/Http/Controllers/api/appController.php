@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
 
 class appController extends Controller
 {
+    //kiểm tra cổng trước khi upfile
     public function refAppp(Request $request)
     {
         $date = date('20y-m-d');
@@ -24,6 +25,7 @@ class appController extends Controller
             return $tracking;
         }
     }
+     //kiểm tra cổng trước khi upfile
     public function allFunction(Request $request)
     {
         //getPrice
@@ -41,7 +43,6 @@ class appController extends Controller
             );
             return response()->json($collect);
         }
-
         //get province
         $checkProvince = Str::contains($request->fullUrl(), 'ReadTP');
         if ($checkProvince) {
@@ -193,6 +194,7 @@ class appController extends Controller
         $codeTicket = $request->GetInfoTicket;
     }
     //createTracking
+     //kiểm tra cổng trước khi upfile
     public function appCreateTracking(Request $request)
     {
         //get id district

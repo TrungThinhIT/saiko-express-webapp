@@ -35,7 +35,7 @@ class FLTrackingController extends Controller
         $apiShow = Http::withHeaders([
             'Accept' => 'application/json',
             // 'Authorization' => 'Bearer ' . $token->access_token
-        ])->get('http://order.tomonisolution.com/api/trackings/' . $request->tracking, $dataShow);
+        ])->get('http://order.tomonisolution.com:82/api/trackings/' . $request->tracking, $dataShow);
         //check show status
         if ($apiShow->status() == 401) {
             $this->QCT->getToken();
@@ -43,7 +43,7 @@ class FLTrackingController extends Controller
             $apiShow = Http::withHeaders([
                 'Accept' => 'application/json',
                 // 'Authorization' => 'Bearer ' . $token->access_token
-            ])->get('http://order.tomonisolution.com/api/trackings/' . $request->tracking, $dataShow);
+            ])->get('http://order.tomonisolution.com:82/api/trackings/' . $request->tracking, $dataShow);
         }
         if ($apiShow->status() == 404) {
             return $apiShow->status();
@@ -58,7 +58,7 @@ class FLTrackingController extends Controller
                     'Accept' => 'application/json',
                     // 'Authorization' => 'Bearer ' . $token->access_token
                 ]
-            )->get('http://order.tomonisolution.com/api/trackings/', $dataIndex);
+            )->get('http://order.tomonisolution.com:82/api/trackings/', $dataIndex);
             //check auth
             if ($apiTracking->status() == 401) {
                 $this->QCT->getToken();
@@ -66,7 +66,7 @@ class FLTrackingController extends Controller
                 $apiTracking = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token->access_token
-                ])->get('http://order.tomonisolution.com/api/trackings/', $dataIndex);
+                ])->get('http://order.tomonisolution.com:82/api/trackings/', $dataIndex);
             }
 
             return json_decode($apiTracking->body(), true);
