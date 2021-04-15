@@ -586,7 +586,8 @@
                                 $("#statusData").append('<h4>' +
                                     'Không tìm thấy mã tracking' + '</h4>')
                             } else {
-                                if (res.data[0].boxes.length == 0 & res.data[0].order == null) {
+                                if (res.data[0].boxes.length == 0 & res.data[0].orders
+                                    .length == 0) {
                                     $(".table").hide();
                                     $("#table-firt").show();
                                     $("#body-table-firt").empty()
@@ -613,20 +614,34 @@
                                             var add_rev = '';
                                             var craete_at = '';
 
-                                            if (value.order !=null) {
-                                                var parse_note = JSON.parse(value
-                                                    .order.note);
+                                            if (value.orders.length != 0) {
+                                                var sort_order = (value.orders)
+                                                    .sort(function(x, y) {
+                                                        return new Date(x
+                                                            .shipment_infor_id
+                                                            ) - new Date(y
+                                                            .shipment_infor_id
+                                                            )
+                                                    })
+
+                                                var parse_note = JSON.parse(
+                                                    sort_order[value.orders
+                                                        .length - 1].note);
                                                 name_send = parse_note.send_name;
-                                                tel_rev = value.order
+                                                tel_rev = sort_order[value.orders
+                                                        .length - 1]
                                                     .shipment_infor
                                                     .tel;
-                                                name_rev = value.order
+                                                name_rev = sort_order[value.orders
+                                                        .length - 1]
                                                     .shipment_infor
                                                     .consignee;
-                                                add_rev = value.order
+                                                add_rev = sort_order[value.orders
+                                                        .length - 1]
                                                     .shipment_infor
                                                     .full_address;
-                                                created_at = value.order
+                                                created_at = sort_order[value.orders
+                                                        .length - 1]
                                                     .created_at;
 
                                             }

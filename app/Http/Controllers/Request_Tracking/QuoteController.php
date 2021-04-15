@@ -49,7 +49,7 @@ class QuoteController extends Controller
         $api = Http::post('http://auth.tomonisolution.com:82/oauth/token', [
             'username' => 'sale@saikoexpress.com',
             'password' => 'password',
-            'client_secret' => '',
+            'client_secret' => 'B5nzdSkv85ilDEaOg5leHXCZfup5nZFkxDtIYSWi',
             'grant_type' => 'password',
             'client_id' => 2,
             'scope' => '*'
@@ -136,16 +136,8 @@ class QuoteController extends Controller
         // return $data;
         //create shipment
         $tracking = explode(" ", $request->TrackingSaiko);
-        foreach ($tracking as $item) {
-            $arr[] = ['id' => $item];
-        }
-        //tạo tracking
-        $tracking = json_encode($arr);
-        //note
-        $create_shipment = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token->access_token
-        ]);
+
+
         //tạo shipment_order
         $donggoi = $request->Reparking == "true" ? "có" : "không";
         $note = json_encode(['send_name' => $request->Name_Send, 'send_phone' => $request->Number_Send, 'isPackaged' => $donggoi, 'note' => $request->Note]);
@@ -155,19 +147,30 @@ class QuoteController extends Controller
         } else {
             $shipping = $request->checkSea;
         }
-        $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
-            'shipment_method_id' => $shipping, //đường vận chuyển
-            'shipment_infor_id' => $data['id'], //lấy id của shipment_info
-            'type' => 'shipment',
-            'trackings' => $tracking, //danh sách tracking
-            'note' => $note,
-        ]);
-        //check status
+
+        foreach ($tracking as $item) {
+            $create_shipment = Http::withHeaders([
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token->access_token
+            ]);
+            $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
+                'shipment_method_id' => $shipping, //đường vận chuyển
+                'shipment_infor_id' => $data['id'], //lấy id của shipment_info
+                'type' => 'shipment',
+                'tracking' => $item, //danh sách tracking
+                'note' => $note,
+            ]);
+            sleep(1);
+        }
         if ($create_shipment->status() == 201) {
             return $create_shipment->status();
         } else if ($create_shipment->status() == 422) {
             return $create_shipment->status();
         }
+
+        //tạo tracking
+        // $tracking = json_encode($arr);
+        //note
     }
 
     //nhớ thay đổi cổng

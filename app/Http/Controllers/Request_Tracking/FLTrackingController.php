@@ -28,7 +28,7 @@ class FLTrackingController extends Controller
         }
         //apishow
         $dataShow = [
-            'with' => 'order.shipmentInfor',
+            'with' => 'orders.shipmentInfor',
             'appends' => 'boxes.owners',
         ];
         //check status code
@@ -50,7 +50,7 @@ class FLTrackingController extends Controller
         } else {
             $dataIndex = [
                 'search' => 'id:' . $request->tracking,
-                'with' => 'order.shipmentInfor',
+                'with' => 'orders.shipmentInfor',
                 'appends' => 'boxes.owners',
             ];
             $apiTracking = Http::withHeaders(

@@ -25,7 +25,7 @@ class appController extends Controller
             return $tracking;
         }
     }
-     //kiểm tra cổng trước khi upfile
+    //kiểm tra cổng trước khi upfile
     public function allFunction(Request $request)
     {
         //getPrice
@@ -186,15 +186,33 @@ class appController extends Controller
             return response()->json($temp);
         }
         //getListSku
-        // if($)
-
+        if ($tracking = $request->GetlistSKU) {
+            $sendRela = ['appends' => 'boxes'];
+            $data = Http::withHeaders([
+                'Accept' => 'application/json',
+            ]);
+            $data = $data->get('http://order.tomonisolution.com:82/api/trackings/' . $tracking, $sendRela);
+            if ($data->status() == 200) {
+                $data = json_decode($data, true);
+                if (count($data['boxes'])) {
+                    foreach ($data['boxes'] as $item) {
+                        $collect[] = $item['id'];
+                    }
+                    $temp["ListSKU"] = $collect;
+                    return response()->json($temp);
+                } else {
+                    $temp["ListSKU"] = array();
+                    return response()->json($temp);
+                }
+            }
+        }
     }
     public function GetInfoTicket(Request $request)
     {
         $codeTicket = $request->GetInfoTicket;
     }
     //createTracking
-     //kiểm tra cổng trước khi upfile
+    //kiểm tra cổng trước khi upfile
     public function appCreateTracking(Request $request)
     {
         //get id district
@@ -250,7 +268,7 @@ class appController extends Controller
             ]);
         }
         $data = json_decode($api->body(), true);
-        
+
         $arrTracking = $request->tracking_number;
         foreach ($arrTracking as $item) {
             $item_number = $item;
