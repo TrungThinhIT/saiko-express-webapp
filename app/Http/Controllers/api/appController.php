@@ -206,6 +206,31 @@ class appController extends Controller
                 }
             }
         }
+        //getInForSKU
+        if ($sku = $request->SearchInfoSKU) {
+            $token = token::find(1);
+            if (empty($token)) {
+                $this->getToken();
+            }
+            $token = token::find(1);
+            $data  = Http::withHeaders([
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token->access_token
+            ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $sku);
+            if ($data->status() == 401) {
+                $this->getToken();
+                $token = token::find(1);
+                $data  = Http::withHeaders([
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer ' . $token->access_token
+                ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $sku);
+            }
+            if($data->status()==200){
+                $data = json_decode($data);
+                dd($data);
+            }
+            
+        }
     }
     public function GetInfoTicket(Request $request)
     {

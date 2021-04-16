@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -160,7 +161,10 @@ class QuoteController extends Controller
                 'tracking' => $item, //danh sách tracking
                 'note' => $note,
             ]);
-            sleep(1);
+           if($create_shipment->status()!=201){
+               Log::info('create fail: '.$item .' status code: '. $create_shipment->status().' content: '.$create_shipment->body());
+           }
+            sleep(0.5);
         }
         if ($create_shipment->status() == 201) {
             return $create_shipment->status();
