@@ -161,9 +161,9 @@ class QuoteController extends Controller
                 'tracking' => $item, //danh sách tracking
                 'note' => $note,
             ]);
-           if($create_shipment->status()!=201){
-               Log::info('create fail: '.$item .' status code: '. $create_shipment->status().' content: '.$create_shipment->body());
-           }
+            // if ($create_shipment->status() != 201) {
+            //     Log::info('create fail: ' . $item . ' status code: ' . $create_shipment->status() . ' content: ' . $create_shipment->body());
+            // }
             sleep(0.5);
         }
         if ($create_shipment->status() == 201) {
