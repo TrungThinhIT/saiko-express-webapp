@@ -190,7 +190,7 @@ class appController extends Controller
             $temp["Result"] = $collect;
             return response()->json($temp);
         }
-        //getListSku
+        //getListSku done
         if ($tracking = $request->GetlistSKU) {
             $sendRela = ['appends' => 'boxes'];
             $token = token::find(1);
@@ -202,7 +202,7 @@ class appController extends Controller
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
             ]);
-            $data = $data->get('http://order.tomonisolution.com:82/api/trackings/' . $tracking, $sendRela);
+            $data = $data->get('http://order.tomonisolution.com/api/trackings/' . $tracking, $sendRela);
             if ($data->status() == 401) {
                 $this->QCT->getToken();
                 $token = token::find(1);
@@ -210,7 +210,7 @@ class appController extends Controller
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token->access_token
                 ]);
-                $data = $data->get('http://order.tomonisolution.com:82/api/trackings/' . $tracking, $sendRela);
+                $data = $data->get('http://order.tomonisolution.com/api/trackings/' . $tracking, $sendRela);
             }
             if ($data->status() == 200) {
                 $data = json_decode($data->body(), true);
@@ -226,7 +226,7 @@ class appController extends Controller
                 }
             }
         }
-        //getInForSKU
+        //getInForSKU done
         if ($skuSearch = $request->SearchInfoSKU) {
             $token = token::find(1);
             if (empty($token)) {
@@ -236,47 +236,148 @@ class appController extends Controller
             $data  = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
-            ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $skuSearch);
+            ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $skuSearch . '?with=items');
             if ($data->status() == 401) {
                 $this->QCT->getToken();
                 $token = token::find(1);
                 $data  = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token->access_token
-                ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $skuSearch);
+                ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $skuSearch . '?with=items');
             }
             if ($data->status() == 200) {
                 $data = json_decode($data->body(), true);
                 $getTracking = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token->access_token
-                ])->get('http://order.tomonisolution.com:82/api/trackings/' . $data['sfa']['tracking'] . '?appends=boxes&with=orders.shipmentInfor');
+                ])->get('http://order.tomonisolution.com/api/trackings/' . $data['sfa']['tracking'] . '?appends=boxes&with=orders.shipmentInfor');
                 $inForTracking = json_decode($getTracking->body(), true);
                 //sắp xếp mảng  theo shipmentInfo
-                $sortByShimpent_id = usort($inForTracking['orders'], function ($a, $b) {
-                    return $b['shipment_infor_id'] - $a['shipment_infor_id'];
-                });
-                $notes = json_decode($inForTracking['orders'][0]['note']);
-                
-                $collect[] = array(
-                    "SKU" => $skuSearch,
-                    "Can_Nang" =>  $data['weight'],
-                    "Tracking_number" => $data['sfa']['tracking'],
-                    "Uname_Send" => $notes->send_name,
-                    "Number_Send" => $notes->send_phone,
-                    "Uname_Rev" => $inForTracking["orders"][0]['shipment_infor']['consignee'] ,
-                    "Number_Rev" => $inForTracking["orders"][0]['shipment_infor']['tel'],
-                    "Add_Rev" => $inForTracking["orders"][0]['shipment_infor']['full_address'],
-                    "Note_Rev" => $notes->note,
-                    "Reparking" => $notes->isPackaged,
-                    "ShipMethod" => $inForTracking["orders"][0]['shipment_method_id'],
-                    "CODPriceJP" => 'Chưa có cột này',
-                    "CODPriceVN" => false,
-                );
-                return response()->json($collect);
+                if (!empty($inForTracking["orders"])) {
+                    $sortByShimpent_id = usort($inForTracking['orders'], function ($a, $b) {
+                        return $b['shipment_infor_id'] - $a['shipment_infor_id'];
+                    });
+                    $notes = json_decode($inForTracking['orders'][0]['note']);
+                    $collect[] = array(
+                        "SKU" => $skuSearch,
+                        "Can_Nang" =>  $data['weight'],
+                        "Tracking_number" => $data['sfa']['tracking'],
+                        "Uname_Send" => $notes->send_name,
+                        "Number_Send" => $notes->send_phone,
+                        "Uname_Rev" => $inForTracking["orders"][0]['shipment_infor']['consignee'],
+                        "Number_Rev" => $inForTracking["orders"][0]['shipment_infor']['tel'],
+                        "Add_Rev" => $inForTracking["orders"][0]['shipment_infor']['full_address'],
+                        "Note_Rev" => $notes->note,
+                        "Reparking" => $notes->isPackaged,
+                        "ShipMethod" => $inForTracking["orders"][0]['shipment_method_id'],
+                        "CODPriceJP" => 'Chưa có cột này',
+                        "CODPriceVN" => false,
+                    );
+                } else {
+                    $collect = array();
+                }
+                //item
+                if (!empty($data['items'])) {
+                    foreach ($data['items'] as $item) {
+                        $getInfoItem = Http::withHeaders([
+                            'Accept' => 'application/json',
+                            'Authorization' => 'Bearer ' . $token->access_token
+                        ])->get('http://product.tomonisolution.com/api/products/' . $item['product_id']);
+                        if ($getInfoItem->status() == 401) {
+                            $this->QCT->getToken();
+                            $token = token::find(1);
+                            $getInfoItem = Http::withHeaders([
+                                'Accept' => 'application/json',
+                                'Authorization' => 'Bearer ' . $token->access_token
+                            ])->get('http://product.tomonisolution.com/api/products/' . $item['product_id']);
+                        }
+                        if ($getInfoItem->status() == 200) {
+                            $getInfoItem = json_decode($getInfoItem);
+                            $cu[] = array(
+                                'Quantity' => $item['quantity'],
+                                'Name' => $getInfoItem->name
+                            );
+                        }
+                    }
+                } else {
+                    $cu[] = array();
+                }
+                //tracking
+                $trackinfo = array();
+                $tracking = $request->Trackingnumber;
+                $dataSend = ['appends' => 'boxes', 'with' => 'orders'];
+                $getTracking = Http::withHeaders([
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer ' . $token->access_token
+                ])->get('http://order.tomonisolution.com/api/trackings/' . $tracking, $dataSend);
+                if ($getTracking->status() == 200) {
+                    $getTracking = json_decode($getTracking->body(), true);
+                    dd($getTracking);
+                    if (!empty($getTracking['boxes'])) {
+                        foreach ($getTracking['boxes'] as $box) {
+                            if (!empty($box['logs'])) {
+                                foreach ($box['logs'] as $log) {
+                                    $content = json_decode($log['content'], true);
+                                    $content2 = implode(array_keys($content));
+                                    if ($content2 == "id") {
+                                        $status = "Đã nhập kho Nhật";
+                                    }
+                                    if ($content2 == "in_pallet") {
+                                        $status = "Đã kiểm hàng";
+                                    }
+                                    if ($content2 == "set_owner_id,set_owner_type") {
+                                        $status = "Lên đơn hàng";
+                                    }
+                                    if ($content2 == "in_container") {
+                                        $status = "Lên container";
+                                    }
+                                    if ($content2 == "out_container") {
+                                        $status = "Xuống container";
+                                    }
+                                    if ($content2 == "delivery_status") {
+                                        if ($content['delivery_status'] == "shipping") {
+                                            $status = "Đang giao hàng";
+                                        }
+                                    }
+                                    if ($content2 == "delivery_status") {
+                                        if ($content['delivery_status'] == "cancelled") {
+                                            $status = "Hủy box";
+                                        }
+                                    }
+                                    if ($content2 == "delivery_status") {
+                                        if ($content['delivery_status'] == "received") {
+                                            $status = "Đã nhận hàng";
+                                        }
+                                    }
+                                    if ($content2 == "delivery_status") {
+                                        if ($content['delivery_status'] == "refunded") {
+                                            $status = "Trả lại hàng";
+                                        }
+                                    }
+                                    if ($content2 == "delivery_status") {
+                                        if ($content['delivery_status'] == "waiting_shipment") {
+                                            $status = "Đợi giao hàng";
+                                        }
+                                    }
+                                }
+                                $trackinfo[] = array(
+                                    'Date_line' => $log['created_at'],
+                                    'StatusTrack' => $status,
+                                    'StatusTrack' => $status,
+                                );
+                            }
+                        }
+                    } else {
+                        $trackinfo = [];
+                    }
+                    $temp["InfoSKU"] = $collect;
+                    $temp["Detail"] = $cu;
+                    $temp["Timeline"] = $trackinfo;
+                    return response()->json($temp);
+                }
             }
         }
-        //SKUInfo
+        //SKUInfo done
         if ($sku = $request->SKUInfo) {
             $token = token::find(1);
             if (empty($token)) {
@@ -286,14 +387,14 @@ class appController extends Controller
             $data  = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
-            ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $sku);
+            ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $sku);
             if ($data->status() == 401) {
                 $this->QCT->getToken();
                 $token = token::find(1);
                 $data  = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token->access_token
-                ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $sku);
+                ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $sku);
             }
             //check SKU
             if ($data->status() == 200) {
@@ -301,40 +402,42 @@ class appController extends Controller
                 $getTracking = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . $token->access_token
-                ])->get('http://order.tomonisolution.com:82/api/trackings/' . $data['sfa']['tracking'] . '?appends=boxes&with=orders.shipmentInfor');
-                $inFortracking = json_decode($getTracking->body(), true);
-                //sắp xếp mảng  theo shipmentInfo
-                $sortByShimpent_id = usort($inFortracking['orders'], function ($a, $b) {
-                    return $b['shipment_infor_id'] - $a['shipment_infor_id'];
-                });
-                //
-                $getByWardId = Http::withHeaders([
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $token->access_token
-                ])->get('http://notification.tomonisolution.com:82/api/wards/' . $inFortracking['orders'][0]['shipment_infor']['ward_id'] . '?with=district.province');
-                $getByWardId = json_decode($getByWardId->body(), true);
-                if (($getByWardId['district']['province']['id']) > 32) {
-                    $SendDisc = "70";
-                    $ProSend = "7360";
-                } else {
-                    $SendDisc = "10";
-                    $ProSend = "1390";
+                ])->get('http://order.tomonisolution.com/api/trackings/' . $data['sfa']['tracking'] . '?appends=boxes&with=orders.shipmentInfor');
+                if ($getTracking->status() == 200) {
+                    $inFortracking = json_decode($getTracking->body(), true);
+                    //sắp xếp mảng  theo shipmentInfo
+                    $sortByShimpent_id = usort($inFortracking['orders'], function ($a, $b) {
+                        return $b['shipment_infor_id'] - $a['shipment_infor_id'];
+                    });
+                    //
+                    $getByWardId = Http::withHeaders([
+                        'Accept' => 'application/json',
+                        'Authorization' => 'Bearer ' . $token->access_token
+                    ])->get('http://notification.tomonisolution.com/api/wards/' . $inFortracking['orders'][0]['shipment_infor']['ward_id'] . '?with=district.province');
+                    $getByWardId = json_decode($getByWardId->body(), true);
+                    if (($getByWardId['district']['province']['id']) > 32) {
+                        $SendDisc = "7360";
+                        $ProSend = "70";
+                    } else {
+                        $SendDisc = "1390";
+                        $ProSend = "10";
+                    }
+                    $results = [
+                        'SKU' => $data['id'],
+                        'CanNang' => $data['weight'] * 1000,
+                        'ChieuCao' =>  $data['height'],
+                        'ChieuRong' =>  $data['width'],
+                        'ChieuDai' =>  $data['length'],
+                        'DistricRev_Code' =>  $getByWardId['district']['id'],
+                        'ProvinceRev_Code' =>  $getByWardId['district']['province']['id'],
+                        'DistricSend_Code' => $SendDisc,
+                        'ProvinceSend_Code' => $ProSend
+                    ];
+                    return response()->json($results);
                 }
-                $results = [
-                    'SKU' => $data['id'],
-                    'CanNang' => $data['weight'] * 1000,
-                    'ChieuCao' =>  $data['height'],
-                    'ChieuRong' =>  $data['width'],
-                    'ChieuDai' =>  $data['length'],
-                    'DistricRev_Code' =>  $getByWardId['district']['id'],
-                    'ProvinceRev_Code' =>  $getByWardId['district']['province']['id'],
-                    'DistricSend_Code' => $SendDisc,
-                    'ProvinceSend_Code' => $ProSend
-                ];
-                return response()->json($results);
             }
         }
-        //tính COD app
+        //tính COD app done
         $checkCostShipVN = Str::contains($request->fullUrl(), 'CostShipVN');
         if ($checkCostShipVN) {
             $Weight = $request->Weight;
@@ -411,15 +514,19 @@ class appController extends Controller
             $Respone['Code'] = '0H';
             $Respone['Mesenger'] = 'OK';
             return response()->json($Respone);
-            echo json_encode($Respone, JSON_UNESCAPED_UNICODE);
         }
-        // get list area
+        // get list area done
         if (isset($_GET['GetlistArea'])) {
             //$Mac_add = $_GET['GetlistArea'];
+            $token = token::find(1);
+            if (empty($token)) {
+                $this->QCT->getToken();
+            }
+            $token = token::find(1);
             $data =  Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
-            ])->get('http://warehouse.tomonisolution.com:82/api/areas');
+            ])->get('http://warehouse.tomonisolution.com/api/areas');
             $data = json_decode($data->body());
             foreach ($data as $row) {
                 $collect[] = array(
