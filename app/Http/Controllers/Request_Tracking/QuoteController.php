@@ -50,7 +50,7 @@ class QuoteController extends Controller
         $api = Http::post('http://auth.tomonisolution.com:82/oauth/token', [
             'username' => 'sale@saikoexpress.com',
             'password' => 'password',
-            'client_secret' => 'B5nzdSkv85ilDEaOg5leHXCZfup5nZFkxDtIYSWi',
+            'client_secret' => '',
             'grant_type' => 'password',
             'client_id' => 2,
             'scope' => '*'
