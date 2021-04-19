@@ -96,10 +96,11 @@ class appController extends Controller
             $getWard = explode(" ", $trimXa);
             if ($getWard[0] == "Phường" || $getWard[0] == "Xã") {
                 $slice = Str::of($xa[0])->after($getWard[0]);
+                $ward = Str::of($slice)->trim();
+            } else {
+                $ward = $trimXa;
             }
-            $ward = Str::of($slice)->trim();
             $getIdWard = phuongxa::where('TenPhuongXa', 'like', '%' . $ward . '%')->where('MaTinhThanh', $id_province)->where('MaQuanHuyen', $id_district)->first();
-
             if (!empty($getIdWard)) {
                 $ward_id = $getIdWard->MaPhuongXa;
             } else {
@@ -161,13 +162,13 @@ class appController extends Controller
                 if ($create_shipment->status() == 201) {
                     $collect[] = array(
                         "Success" => true,
-                        "Code" => $item_number,
+                        "Code" => 1,
                         "Mesenger" => 'Create Tracking OK!'
                     );
                 } else {
                     $collect[] = array(
                         "Success" => false,
-                        "Code" => $item_number,
+                        "Code" => 0,
                         "Mesenger" => 'Fail! Tracking already exists.'
                     );
                 }
