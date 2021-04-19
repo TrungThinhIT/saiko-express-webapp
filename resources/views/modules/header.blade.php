@@ -72,7 +72,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3" style="padding:10px">
                             <div class="pro_logo"> <a
-                                    href="index.php"><img
+                                    href="#"><img
                                         style="width:95%"
                                         src="assets/images/logosaiko.png"
                                         alt="logo" /></a> </div>

@@ -67,5 +67,5 @@ Route::prefix('Api')->namespace('api')->name('api')->group(function () {
     Route::get('get-province', 'appController@getProvince')->name('getProvince'); //tinh thanh
     Route::get('get-districts', 'appController@getDistrict')->name('getDistrict');
     Route::get('get-wards', 'appController@getWard')->name('getWard');
-    Route::post('app/create-tracking', 'appController@appCreateTracking')->name('appCreateTracking');
+    // Route::post('app/create-tracking', 'appController@allFunction')->name('appCreateTracking');
 });

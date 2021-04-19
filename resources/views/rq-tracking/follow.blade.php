@@ -771,8 +771,9 @@
                             status = "Xuống container"
                         }
                         if (valueObject == "delivery_status") {
-                            if (a.delivery_status == "shipping")
+                            if (a.delivery_status == "shipping"){
                                 status = "Đang giao hàng"
+                            }
                         }
                         if (valueObject == "delivery_status") {
                             if (a.delivery_status == "cancelled") {

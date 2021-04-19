@@ -47,12 +47,12 @@ class QuoteController extends Controller
     //nhớ thay đổi cổng
     public function getToken()
     {
-        $api = Http::post('http://auth.tomonisolution.com:80/oauth/token', [
+        $api = Http::post('http://auth.tomonisolution.com:82/oauth/token', [
             'username' => 'sale@saikoexpress.com',
             'password' => 'password',
-            'client_secret' => 'LnPyBhokfdTmApPvVoIc2N9dZ0u0TsvsY42jDEGL',
+            'client_secret' => 'B5nzdSkv85ilDEaOg5leHXCZfup5nZFkxDtIYSWi',
             'grant_type' => 'password',
-            'client_id' => 4,
+            'client_id' => 2,
             'scope' => '*'
         ]);
         $data =  json_decode($api->body(), true);
@@ -270,7 +270,7 @@ class QuoteController extends Controller
         }
     }
 
-    //get api saikorexpress
+    //get api saikorexpress import data
     public function createTracking(Request $request)
     {
         // return 1 ;
