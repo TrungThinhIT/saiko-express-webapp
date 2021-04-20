@@ -84,7 +84,6 @@ class QuoteController extends Controller
     //nhớ thay đổi cổng
     public function store(Request $request)
     {
-        // return $request->all();
         //tạo address
         //lấy access_token
         $token = token::find(1);
@@ -137,8 +136,6 @@ class QuoteController extends Controller
         // return $data;
         //create shipment
         $tracking = explode(" ", $request->TrackingSaiko);
-
-
         //tạo shipment_order
         $donggoi = $request->Reparking == "true" ? "có" : "không";
         $note = json_encode(['send_name' => $request->Name_Send, 'send_phone' => $request->Number_Send, 'isPackaged' => $donggoi, 'note' => $request->Note]);
@@ -161,9 +158,9 @@ class QuoteController extends Controller
                 'tracking' => $item, //danh sách tracking
                 'note' => $note,
             ]);
-            // if ($create_shipment->status() != 201) {
-            //     Log::info('create fail: ' . $item . ' status code: ' . $create_shipment->status() . ' content: ' . $create_shipment->body());
-            // }
+            if ($create_shipment->status() != 201) {
+                Log::info('create fail: ' . $item . ' status code: ' . $create_shipment->status() . ' content: ' . $create_shipment->body());
+            }
             sleep(0.5);
         }
         if ($create_shipment->status() == 201) {

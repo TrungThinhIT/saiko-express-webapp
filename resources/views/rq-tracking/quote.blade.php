@@ -425,10 +425,11 @@
         }
         var str = $("#utracking").val();
         var mapObj = {
-            "-": "",
+            "_": "",
             " ": " ",
+            "-":"",
         };
-        var Tracking = str.replace(/-| /gi, function(matched) {
+        var Tracking = str.replace(/-| |_/gi, function(matched) {
             return mapObj[matched];
         });
         // var Tracking = $("#utracking").val();
