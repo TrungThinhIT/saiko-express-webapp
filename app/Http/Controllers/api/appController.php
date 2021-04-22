@@ -29,27 +29,37 @@ class appController extends Controller
         if ($arrTracking = $request->tracking_number) {
 
             Log::info("test", ['tess' => $request->all()]);
-            $code_add = $request->Code_Add;
-            $id_district = explode(",", $code_add)[0];
-            //get id province
-            $id_province = explode(",", $code_add)[1];
-            //get id ward
-            $address = $request->detail_address;
-            $catchuoi = (explode(",", $address));
-            $xa = explode(".", $catchuoi[1]);
-            $trimXa = Str::of($xa[0])->trim();
-            $getWard = explode(" ", $trimXa);
-            if ($getWard[0] == "Phường" || $getWard[0] == "Xã") {
-                $slice = Str::of($xa[0])->after($getWard[0]);
-                $ward = Str::of($slice)->trim();
-            } else {
-                $ward = $trimXa;
+            if ($request->detail_address != "VN Sai Gon" && $request->detail_address != "VN Ha Noi") {
+                $code_add = $request->Code_Add;
+                $id_district = explode(",", $code_add)[0];
+                //get id province
+                $id_province = explode(",", $code_add)[1];
+                //get id ward
+                $address = $request->detail_address;
+                $catchuoi = (explode(",", $address));
+                $xa = explode(".", $catchuoi[1]);
+                $trimXa = Str::of($xa[0])->trim();
+                $getWard = explode(" ", $trimXa);
+                $add=strval($catchuoi[0]);
+                if ($getWard[0] == "Phường" || $getWard[0] == "Xã") {
+                    $slice = Str::of($xa[0])->after($getWard[0]);
+                    $ward = Str::of($slice)->trim();
+                } else {
+                    $ward = $trimXa;
+                }
+                $getIdWard = phuongxa::where('TenPhuongXa', 'like', '%' . $ward . '%')->where('MaTinhThanh', $id_province)->where('MaQuanHuyen', $id_district)->first();
+                if (!empty($getIdWard)) {
+                    $ward_id = $getIdWard->MaPhuongXa;
+                } else {
+                    $ward_id = "13900";
+                }
             }
-            $getIdWard = phuongxa::where('TenPhuongXa', 'like', '%' . $ward . '%')->where('MaTinhThanh', $id_province)->where('MaQuanHuyen', $id_district)->first();
-            if (!empty($getIdWard)) {
-                $ward_id = $getIdWard->MaPhuongXa;
-            } else {
+            if ($request->detail_address == "VN Ha Noi") {
+                $add = "VN Ha Noi";
                 $ward_id = "13900";
+            } else {
+                $add = "Vn Sai Gon";
+                $ward_id = "76000";
             }
             // $d = explode(" ", $address[0]);
             //create shipment_info
@@ -64,7 +74,7 @@ class appController extends Controller
             ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
                 'consignee' => $request->receiver_name,
                 'tel' => strval($request->receiver_phone_number), //sdt ng nhận
-                'address' => strval($catchuoi[0]),
+                'address' => $add,
                 'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
             ]);
             //xác thực 
@@ -77,7 +87,7 @@ class appController extends Controller
                 ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
                     'consignee' => $request->receiver_name,
                     'tel' => strval($request->receiver_phone_number), //sdt ng nhận
-                    'address' => strval($catchuoi[0]),
+                    'address' => $add,
                     'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
                 ]);
             }
