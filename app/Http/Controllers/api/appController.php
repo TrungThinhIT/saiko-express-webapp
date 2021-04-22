@@ -22,70 +22,13 @@ class appController extends Controller
         $this->QCT = $QCT;
     }
     //kiểm tra cổng trước khi upfile
-    public function allFunction(Request $request)
+    public function createTracking(Request $request)
     {
-        //getPrice
-        Log::info("test",['tess'=>$request->all()]);
-        $check = Str::contains($request->fullUrl(), 'GetPrice');
-        if ($check) {
-            // $GetPrice = $request->GetPrice;
-            // $Method = $request->Method;
-            // $PriceDec = $request->Price_declaration;
-            $collect = array(
-                "Air" => "200.000",
-                "Sea" => "55.000",
-                "Machining" => "55.000",
-                "Price declaration" => "8.000.000",
-                "Insurrance" => "5"
-            );
-            return response()->json($collect);
-        }
-        //get province
-        $checkProvince = Str::contains($request->fullUrl(), 'ReadTP');
-        if ($checkProvince) {
-            $allProvince = tinhthanh::all();
-            foreach ($allProvince as $row) {
-                $collect[] = array(
-                    "Matp" => $row->MaTinhThanh,
-                    "Title" => $row->TenTinhThanh,
-                    "TypeTP" => $row->Id,
-                );
-            }
-            $temp["Yar"] = $collect;
-            return response()->json($temp);
-        }
-        //getdisstrict
-        if ($id_province = $request->Province) {
-            $allDistrictByProvince = quanhuyen::where('MaTinhThanh', $id_province)->get();
-            foreach ($allDistrictByProvince as $row) {
-                $results[] = array(
-                    'Maqh' => $row->MaQuanHuyen,
-                    'Title' =>  $row->TenQuanHuyen,
-                    'TypeQH' => $row->Id,
-                    'MTatp' =>  $row->MaTinhThanh,
-                    'Innercity' =>  $row->Noi_Thanh,
-                );
-            }
-            $temp["Province"] = $results;
-            return response()->json($temp);
-        }
-        //getward
-        if ($id_district = $request->District) {
-            $allWardsByDistricts = phuongxa::where('MaQuanHuyen', $id_district)->get();
-            foreach ($allWardsByDistricts as $row) {
-                $results[] = array(
-                    'Xaid' => $row['MaPhuongXa'],
-                    'Title' => $row['TenPhuongXa'],
-                    'TypeDis' => $row['Id'],
-                    'Maqh' => $row['MaQuanHuyen'],
-                );
-            }
-            $temp["District"] = $results;
-            return response()->json($temp);
-        }
-        //createTrackingApp
+        Log::info("test", ['tess' => $request->all()]);
+        //create Tracking
         if ($arrTracking = $request->tracking_number) {
-            
+
+            Log::info("test", ['tess' => $request->all()]);
             $code_add = $request->Code_Add;
             $id_district = explode(",", $code_add)[0];
             //get id province
@@ -179,6 +122,146 @@ class appController extends Controller
             $temp["Result"] = $collect;
             return response()->json($temp);
         }
+        //CostShipVN
+        if ($costShipVN = $request->CostShipVN) {
+            $Weight = $request->Weight;
+            $Height = $request->Height;
+            $Width = $request->Width;
+            $Length = $request->Length;
+            $SenderDistrictId = $request->SenderDistrictId;
+            $SenderProvinceId = $request->SenderProvinceId;
+            $ReceiverDistrictId = $request->ReceiverDistrictId;
+            $ReceiverProvinceId = $request->ReceiverProvinceId;
+            $IsReceiverPayFreight = $request->IsReceiverPayFreight;
+            $CodAmount = $request->CodAmount;
+            $OrderAmount = $request->CodAmount;
+
+            $url = 'https://vnpost.vnit.top/api/api/DoiTac/TinhCuocTatCaDichVu';
+            $data = array(
+                'SenderDistrictId' => $SenderDistrictId,
+                'SenderProvinceId' => $SenderProvinceId,
+                'ReceiverDistrictId' => $ReceiverDistrictId,
+                'ReceiverProvinceId' => $ReceiverProvinceId,
+                'Weight' => $Weight,
+                'Width' => $Width,
+                'Length' => $Length,
+                'Height' => $Height,
+                'CodAmount' => $CodAmount,
+                'IsReceiverPayFreight' => $IsReceiverPayFreight,
+                'OrderAmount' => $OrderAmount,
+                'UseBaoPhat' => true,
+                'UseHoaDon' => true,
+                'CustomerCode' => '0843211234C333345'
+            );
+
+            $postdata = json_encode($data);
+
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'h-token:eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJTb0RpZW5UaG9haSI6IjA5NDMyMTEyMzQiLCJFbWFpbCI6bnVsbCwiTWFDUk0iOm51bGwsIkV4cGlyZWRUaW1lIjo2NDA1Mjg0NzQ1NzQ4NS45NjksIlJvbGVzIjpbOTk5LDExLDEzXSwiTmd1b2lEdW5nSWQiOiI4YWQ1Y2ZkYi1lMWRjLTRlZjItODIyZS1jMDQ1Yjc5OTM0YzgiLCJNYVRpbmhUaGFuaCI6IjcwIiwiVGVuTmd1b2lEdW5nIjoixJDhu5FpIHTDoWMgY2h1bmciLCJOZ2F5VGFvVG9rZW4iOiJcL0RhdGUoMTYwMTg2NTQ1NzQ4NSlcLyIsIlRpbWVMYXN0UmVhZENvbW1lbnQiOm51bGwsIk1hQnV1Q3VjIjpudWxsLCJNYVRpbmhUaGFuaFF1YW5MeSI6bnVsbCwiQ1JNX0VtcGxveWVlSWQiOm51bGwsIk5nYXlUYW9Ub2tlblRpbWVTdGFtcCI6MTYwMTg2NTQ1NzQ4NX0.KqZh4Ngu0g3APXNs1BEWu_JwoBQa_upj5An9SF_FASFvpWaU-ElacBRtAZ8Ybw4JeNsUrYd0fpgYhouGr6MT7d5Jb9rbaaIRQR4Mqdgpar7V30UuLR1nCvjCXhiSk8FLiFxtExHXjYUB0rOeyCmYpnN_gXvLQpS-iYHvky7qXro'));
+            $result = curl_exec($ch);
+            curl_close($ch);
+            $arr = json_decode($result, true);
+            if (($ReceiverProvinceId == 10) || ($ReceiverProvinceId == 70)) {
+                $TongCuocSauVAT = $arr[0]['TongCuocSauVAT'];
+                $CuocCOD = $arr[0]['CuocCOD'];
+                $PhuongThucVC = 'Chuyển Nhanh';
+            } else {
+                $TongCuocSauVAT = $arr[1]['TongCuocSauVAT'];
+                $CuocCOD = $arr[1]['CuocCOD'];
+                $PhuongThucVC = 'Chuyển Chậm';
+            }
+            $results = array(
+                'MaDichVu' => 'BƯU ĐIỆN',
+                'TongCuocSauVAT' => $TongCuocSauVAT,
+                'CuocCOD' => $CuocCOD,
+                'CuocKhaiGia' => 0,
+                'TongCuocDichVuCongThem' => 0,
+                'TienVC_NhatViet' => 0,
+                'SoTienCodThuNoiNguoiNhan' => $CuocCOD + $TongCuocSauVAT,
+                'PhuongThucVC' => $PhuongThucVC
+            );
+            return response()->json($results);
+        }
+        //COD CHange
+        if ($request->COD_Change) {
+            $Tracking = $request->Tracking;
+            $SKU = $request->SKU;
+            $PriceCODVN = $request->PriceCODVN;
+            $Respone['Success'] = true;
+            $Respone['Code'] = '0H';
+            $Respone['Mesenger'] = 'OK';
+            return response()->json($Respone);
+        }
+    }
+    public function allFunction(Request $request)
+    {
+        //getPrice
+        Log::info("test", ['tess' => $request->all()]);
+        $check = Str::contains($request->fullUrl(), 'GetPrice');
+        if ($check) {
+            // $GetPrice = $request->GetPrice;
+            // $Method = $request->Method;
+            // $PriceDec = $request->Price_declaration;
+            $collect = array(
+                "Air" => "200.000",
+                "Sea" => "55.000",
+                "Machining" => "55.000",
+                "Price declaration" => "8.000.000",
+                "Insurrance" => "5"
+            );
+            return response()->json($collect);
+        }
+        //get province
+        $checkProvince = Str::contains($request->fullUrl(), 'ReadTP');
+        if ($checkProvince) {
+            $allProvince = tinhthanh::all();
+            foreach ($allProvince as $row) {
+                $collect[] = array(
+                    "Matp" => $row->MaTinhThanh,
+                    "Title" => $row->TenTinhThanh,
+                    "TypeTP" => $row->Id,
+                );
+            }
+            $temp["Yar"] = $collect;
+            return response()->json($temp);
+        }
+        //getdisstrict
+        if ($id_province = $request->Province) {
+            $allDistrictByProvince = quanhuyen::where('MaTinhThanh', $id_province)->get();
+            foreach ($allDistrictByProvince as $row) {
+                $results[] = array(
+                    'Maqh' => $row->MaQuanHuyen,
+                    'Title' =>  $row->TenQuanHuyen,
+                    'TypeQH' => $row->Id,
+                    'MTatp' =>  $row->MaTinhThanh,
+                    'Innercity' =>  $row->Noi_Thanh,
+                );
+            }
+            $temp["Province"] = $results;
+            return response()->json($temp);
+        }
+        //getward
+        if ($id_district = $request->District) {
+            $allWardsByDistricts = phuongxa::where('MaQuanHuyen', $id_district)->get();
+            foreach ($allWardsByDistricts as $row) {
+                $results[] = array(
+                    'Xaid' => $row['MaPhuongXa'],
+                    'Title' => $row['TenPhuongXa'],
+                    'TypeDis' => $row['Id'],
+                    'Maqh' => $row['MaQuanHuyen'],
+                );
+            }
+            $temp["District"] = $results;
+            return response()->json($temp);
+        }
+        //createTrackingApp
+
         //getListSku done
         if ($tracking = $request->GetlistSKU) {
             $sendRela = ['appends' => 'boxes'];
@@ -510,83 +593,6 @@ class appController extends Controller
                     return response()->json($results);
                 }
             }
-        }
-        //tính COD app done
-        // $checkCostShipVN = Str::contains($request->fullUrl(), 'CostShipVN');
-        if ($costShipVN = $request->CostShipVN) {
-            $Weight = $request->Weight;
-            $Height = $request->Height;
-            $Width = $request->Width;
-            $Length = $request->Length;
-            $SenderDistrictId = $request->SenderDistrictId;
-            $SenderProvinceId = $request->SenderProvinceId;
-            $ReceiverDistrictId = $request->ReceiverDistrictId;
-            $ReceiverProvinceId = $request->ReceiverProvinceId;
-            $IsReceiverPayFreight = $request->IsReceiverPayFreight;
-            $CodAmount = $request->CodAmount;
-            $OrderAmount = $request->CodAmount;
-
-            $url = 'https://vnpost.vnit.top/api/api/DoiTac/TinhCuocTatCaDichVu';
-            $data = array(
-                'SenderDistrictId' => $SenderDistrictId,
-                'SenderProvinceId' => $SenderProvinceId,
-                'ReceiverDistrictId' => $ReceiverDistrictId,
-                'ReceiverProvinceId' => $ReceiverProvinceId,
-                'Weight' => $Weight,
-                'Width' => $Width,
-                'Length' => $Length,
-                'Height' => $Height,
-                'CodAmount' => $CodAmount,
-                'IsReceiverPayFreight' => $IsReceiverPayFreight,
-                'OrderAmount' => $OrderAmount,
-                'UseBaoPhat' => true,
-                'UseHoaDon' => true,
-                'CustomerCode' => '0843211234C333345'
-            );
-
-            $postdata = json_encode($data);
-
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'h-token:eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJTb0RpZW5UaG9haSI6IjA5NDMyMTEyMzQiLCJFbWFpbCI6bnVsbCwiTWFDUk0iOm51bGwsIkV4cGlyZWRUaW1lIjo2NDA1Mjg0NzQ1NzQ4NS45NjksIlJvbGVzIjpbOTk5LDExLDEzXSwiTmd1b2lEdW5nSWQiOiI4YWQ1Y2ZkYi1lMWRjLTRlZjItODIyZS1jMDQ1Yjc5OTM0YzgiLCJNYVRpbmhUaGFuaCI6IjcwIiwiVGVuTmd1b2lEdW5nIjoixJDhu5FpIHTDoWMgY2h1bmciLCJOZ2F5VGFvVG9rZW4iOiJcL0RhdGUoMTYwMTg2NTQ1NzQ4NSlcLyIsIlRpbWVMYXN0UmVhZENvbW1lbnQiOm51bGwsIk1hQnV1Q3VjIjpudWxsLCJNYVRpbmhUaGFuaFF1YW5MeSI6bnVsbCwiQ1JNX0VtcGxveWVlSWQiOm51bGwsIk5nYXlUYW9Ub2tlblRpbWVTdGFtcCI6MTYwMTg2NTQ1NzQ4NX0.KqZh4Ngu0g3APXNs1BEWu_JwoBQa_upj5An9SF_FASFvpWaU-ElacBRtAZ8Ybw4JeNsUrYd0fpgYhouGr6MT7d5Jb9rbaaIRQR4Mqdgpar7V30UuLR1nCvjCXhiSk8FLiFxtExHXjYUB0rOeyCmYpnN_gXvLQpS-iYHvky7qXro'));
-            $result = curl_exec($ch);
-            curl_close($ch);
-            $arr = json_decode($result, true);
-            if (($ReceiverProvinceId == 10) || ($ReceiverProvinceId == 70)) {
-                $TongCuocSauVAT = $arr[0]['TongCuocSauVAT'];
-                $CuocCOD = $arr[0]['CuocCOD'];
-                $PhuongThucVC = 'Chuyển Nhanh';
-            } else {
-                $TongCuocSauVAT = $arr[1]['TongCuocSauVAT'];
-                $CuocCOD = $arr[1]['CuocCOD'];
-                $PhuongThucVC = 'Chuyển Chậm';
-            }
-            $results = array(
-                'MaDichVu' => 'BƯU ĐIỆN',
-                'TongCuocSauVAT' => $TongCuocSauVAT,
-                'CuocCOD' => $CuocCOD,
-                'CuocKhaiGia' => 0,
-                'TongCuocDichVuCongThem' => 0,
-                'TienVC_NhatViet' => 0,
-                'SoTienCodThuNoiNguoiNhan' => $CuocCOD + $TongCuocSauVAT,
-                'PhuongThucVC' => $PhuongThucVC
-            );
-            return response()->json($results);
-        }
-        //COD CHange
-        if (isset($_GET['COD_Change'])) {
-            $Tracking = $request->Tracking;
-            $SKU = $request->SKU;
-            $PriceCODVN = $request->PriceCODVN;
-            $Respone['Success'] = true;
-            $Respone['Code'] = '0H';
-            $Respone['Mesenger'] = 'OK';
-            return response()->json($Respone);
         }
         // get list area done
         if (isset($_GET['GetlistArea'])) {

@@ -63,6 +63,7 @@ Route::prefix('auth')->namespace('Auth')->name('auth.')->group(function () {
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {
     Route::get('create-tickit', 'appController@storeTickit')->name('storeTickit');
     Route::get('Ref', 'appController@allFunction')->name('getPrice');
+    Route::post('Ref', 'appController@createTracking')->name('createTracking');
     Route::get('GetInfoTicket', 'appController@GetInfoTicket')->name('GetInfoTicket');
     Route::get('get-province', 'appController@getProvince')->name('getProvince'); //tinh thanh
     Route::get('get-districts', 'appController@getDistrict')->name('getDistrict');
