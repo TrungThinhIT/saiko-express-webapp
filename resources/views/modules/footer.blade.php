@@ -5,8 +5,7 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="widget text-widget" style="padding-right: 40px;">
-                        <p><a href="index.php"><img style="height:80px"
-                                    src="assets/images/footersaiko.png"
+                        <p><a href="index.php"><img style="height:80px" src="assets/images/footersaiko.png"
                                     alt="Footer Logo" /></a></p>
                         <p style="text-align: justify;">
                             Tự tin là đơn vị cung cấp dịch vụ vận chuyển Nhật Việt chuyên nghiệp, nhanh chóng nhất.
@@ -69,6 +68,78 @@
             </div>
         </div>
     </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modal_tracking">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Theo dõi Tracking</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                        style="z-index: 9999">
+                        <div class="modal-dialog modal-sm  modal-confirm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <div class="icon-box" id="color-success"><i class="fa fa-times"></i></div>
+
+                                </div>
+                                <h5 class="modal-confirm" id="message"></h5>
+                                <div class="modal-footer">
+                                    <button class="btn btn-err btn-danger btn-block" data-dismiss="modal"
+                                        id="exitForm">Thoát</button>
+                                    <button class="btn btn-danger btn-block" data-dismiss="modal"
+                                        onclick="exitSuccess()" id="exitSuccess" style="display:none">Thoát</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
+                    <div class="alert alert-danger" id="statusData_tracking" style="display: none;margin-top:20px;">
+                    </div>
+                    <div class="row paddtop30">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="underline table-responsive" style="display:none" id="table-firt">
+                                <table class="table table-striped table-bordered table_tracking">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">ID</th>
+                                            <th>Cân Nặng<span style="display: block">(kg)</span></th>
+                                            <th style="text-align: center;">Thể Tích<span
+                                                    style="display: block">(kg)</span></th>
+                                            <th style="text-align: center;">Tên Người Gửi</th>
+                                            <th style="text-align: center;">Tên Người Nhận</th>
+                                            <th style="text-align: center;">SĐT</th>
+                                            <th style="text-align: center;">Địa chỉ</th>
+                                            <th style="text-align: center;">Đường vận chuyển</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="body-table-tracking">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-custome">
+                                    <div class="lftredbrdr">
+                                        <ul class="timeline" id="time_line_tracking">
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tắt</button>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
 </div>
 
 <!--Footer Top section end-->
@@ -101,42 +172,29 @@
 </script>
 <script type="text/javascript" src="assets/js/saiko-smooth-scroll.js">
 </script>
-<script type="text/javascript"
-    src="assets/js/saiko-jquery.magnific-popup.js"></script>
-<script type="text/javascript"
-    src="assets/js/plugins/revel/jquery.themepunch.tools.min.js">
+<script type="text/javascript" src="assets/js/saiko-jquery.magnific-popup.js"></script>
+<script type="text/javascript" src="assets/js/plugins/revel/jquery.themepunch.tools.min.js">
 </script>
-<script type="text/javascript"
-    src="assets/js/plugins/revel/jquery.themepunch.revolution.min.js">
+<script type="text/javascript" src="assets/js/plugins/revel/jquery.themepunch.revolution.min.js">
 </script>
-<script type="text/javascript"
-    src="assets/js/plugins/revel/revolution.extension.actions.min.js">
+<script type="text/javascript" src="assets/js/plugins/revel/revolution.extension.actions.min.js">
 </script>
-<script type="text/javascript"
-    src="assets/js/plugins/revel/revolution.extension.carousel.min.js">
+<script type="text/javascript" src="assets/js/plugins/revel/revolution.extension.carousel.min.js">
 </script>
-<script type="text/javascript"
-    src="assets/js/plugins/revel/revolution.extension.kenburn.min.js">
+<script type="text/javascript" src="assets/js/plugins/revel/revolution.extension.kenburn.min.js">
 </script>
-<script type="text/javascript"
-    src="assets/js/plugins/revel/revolution.extension.layeranimation.min.js">
+<script type="text/javascript" src="assets/js/plugins/revel/revolution.extension.layeranimation.min.js">
 </script>
-<script type="text/javascript"
-    src="assets/js/plugins/revel/revolution.extension.navigation.min.js">
+<script type="text/javascript" src="assets/js/plugins/revel/revolution.extension.navigation.min.js">
 </script>
-<script type="text/javascript"
-    src="assets/js/plugins/revel/revolution.extension.parallax.min.js">
+<script type="text/javascript" src="assets/js/plugins/revel/revolution.extension.parallax.min.js">
 </script>
-<script type="text/javascript"
-    src="assets/js/plugins/revel/revolution.extension.slideanims.min.js">
+<script type="text/javascript" src="assets/js/plugins/revel/revolution.extension.slideanims.min.js">
 </script>
-<script type="text/javascript"
-    src="assets/js/plugins/revel/revolution.extension.video.min.js">
+<script type="text/javascript" src="assets/js/plugins/revel/revolution.extension.video.min.js">
 </script>
-<script type="text/javascript"
-    src="assets/js/plugins/countto/jquery.countTo.js"></script>
-<script type="text/javascript"
-    src="assets/js/plugins/countto/jquery.appear.js"></script>
+<script type="text/javascript" src="assets/js/plugins/countto/jquery.countTo.js"></script>
+<script type="text/javascript" src="assets/js/plugins/countto/jquery.appear.js"></script>
 <script type="text/javascript" src="assets/js/saiko-custom.js"></script>
 
 
@@ -162,6 +220,341 @@
         js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
+
+    function track() {
+        $("#body-table-tracking").empty();
+        $("#modal_tracking").modal('show')
+        var tracking = $("#track_tracking").val();
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            url: "{{ route('rq_tk.getStatus') }}",
+            data: {
+                tracking: tracking
+            },
+            success: function(res) {
+                if (res == 404) {
+                    $("#table").hide();
+                    $("#body-table-tracking").empty()
+                    $("#time_line_tracking").empty()
+                    $("#statusData_tracking").empty();
+                    $(".table").hide();
+                    $("#statusData_tracking").css('display', 'block');
+                    $("#statusData_tracking").append('<h4>' +
+                        'Không tìm thấy mã tracking' + '</h4>')
+                } else {
+                    if (res.data[0].boxes.length == 0 & res.data[0].orders
+                        .length == 0) {
+                        $("#statusData_tracking").empty();
+                        $(".table").hide();
+                        $("#table-firt").show();
+                        $("#body-table-tracking").empty()
+                        $("#time_line_tracking").empty()
+                        $("#statusData_tracking").css('display', 'block');
+                        $("#statusData_tracking").append('<h4>' +
+                            'Tracking chưa đăng kí đơn hàng' + '</h4>')
+                    } else {
+                        $("#statusData_tracking").css('display', 'none');
+                        $(".table").show();
+                        $("#table-firt").show();
+                        if (res.data.length == 0) {
+                            $("#statusData_tracking").empty()
+                            $("#statusData_tracking").append(
+                                '<h4>' + 'Chưa gửi hàng' + '</h4>'
+                            )
+                        } else {
+                            $("#statusData_tracking").empty()
+                            $.each(res.data, function(index, value) {
+                                var name_send = '';
+                                var tel_rev = '';
+                                var name_rev = '';
+                                var add_rev = '';
+                                var created_at = '';
+                                var method_ship = '';
+                                if (value.orders.length != 0) {
+                                    var sort_order = (value.orders)
+                                        .sort(function(x, y) {
+                                            return new Date(x
+                                                .shipment_infor_id
+                                            ) - new Date(y
+                                                .shipment_infor_id
+                                            )
+                                        })
+                                    // if (sort_order[value.orders.length -
+                                    //         1].shipment_infor
+                                    //     .sender_name == null) {
+                                    var parse_note = JSON.parse(
+                                        sort_order[value.orders
+                                            .length - 1].note);
+                                    name_send = parse_note
+                                        .send_name;
+                                    // } else {
+                                    //     name_send = sort_order[value
+                                    //             .orders.length - 1]
+                                    //         .shipment_infor.sender_name;
+                                    // }
+                                    tel_rev = sort_order[value.orders
+                                            .length - 1].shipment_infor
+                                        .tel;
+                                    name_rev = sort_order[value.orders
+                                            .length - 1].shipment_infor
+                                        .consignee;
+                                    add_rev = sort_order[value.orders
+                                            .length - 1].shipment_infor
+                                        .full_address;
+                                    created_at = sort_order[value.orders
+                                        .length - 1].created_at;
+                                    method_ship = sort_order[value
+                                            .orders.length - 1]
+                                        .shipment_method_id;
+                                }
+                                if (name_send == '' | tel_rev == '' |
+                                    name_rev == '' | add_rev == '') {
+                                    $('#message').html(
+                                        'Khách chưa đăng kí đầy đủ thông tin tracking'
+                                    );
+                                    $('#exitForm').hide();
+                                    $('#exitSuccess').show();
+                                    $('#myModal').modal('show');
+                                }
+                                if (value.boxes.length == 0) {
+                                    $("#body-table-tracking").empty()
+                                    $("#time_line_tracking").empty()
+                                    $("#time_line_tracking").append(
+                                        '<li>' +
+                                        '<a>' + 'Chưa về kho' +
+                                        '</a>' +
+                                        '<p>' + created_at +
+                                        '</p>' +
+                                        '</li>'
+                                    )
+                                    $("#body-table-tracking")
+                                        .append(
+                                            `<tr ">` +
+                                            '<td>' +
+                                            '</td>' +
+                                            '<td>' +
+                                            '</td>' +
+                                            '<td>' +
+                                            '</td>' +
+                                            '<td>' + name_send +
+                                            '</td>' +
+                                            '<td>' + name_rev +
+                                            '</td>' +
+                                            '<td>' + tel_rev +
+                                            '</td>' +
+                                            '<td>' + add_rev +
+                                            '</td>' +
+                                            '<td>' + method_ship +
+                                            '</td>' +
+                                            '</tr>'
+                                        )
+                                } else {
+                                    $("#body-table-tracking").empty()
+                                    $("#time_line_tracking").empty()
+                                    $.each(value.boxes, function(index,
+                                        value2) {
+                                        $("#body-table-tracking")
+                                            .append(
+                                                `<tr id="sku-row-${value2.id}">` +
+                                                '<td>' + value2
+                                                .id +
+                                                '</td>' +
+                                                '<td>' + value2
+                                                .weight.toFixed(
+                                                    3) +
+                                                '</td>' +
+                                                '<td>' + value2
+                                                .volume.toFixed(
+                                                    3) +
+                                                '</td>' +
+                                                '<td>' +
+                                                name_send +
+                                                '</td>' +
+                                                '<td>' +
+                                                name_rev +
+                                                '</td>' +
+                                                '<td>' +
+                                                tel_rev +
+                                                '</td>' +
+                                                '<td>' +
+                                                add_rev +
+                                                '</td>' +
+                                                '<td>' +
+                                                method_ship +
+                                                '</td>' +
+                                                '</tr>'
+                                            )
+                                        if (value.boxes.length == 1) {
+                                            $("#time_line_tracking").empty()
+
+                                            if (value.boxes[0].logs.length == 0) {
+                                                $("#time_line_tracking").append(
+                                                    '<li>' +
+                                                    '<a>' + 'Đang tới kho' + '</a>' +
+                                                    '<p>' + created_at + '</p>' +
+                                                    '</li>'
+                                                )
+                                            } else {
+                                                $.each(value.boxes[0].logs, function(index,
+                                                    value) {
+                                                    let a = JSON.parse(value
+                                                        .content);
+                                                    let valueObject = Object.keys(a)
+                                                    var status;
+                                                    if (valueObject == "id") {
+                                                        status = "Đã nhập kho Nhật"
+                                                    }
+                                                    if (valueObject ==
+                                                        "in_pallet") {
+                                                        status = "Đã kiểm hàng"
+                                                    }
+                                                    if (valueObject ==
+                                                        "set_owner_id,set_owner_type"
+                                                    ) {
+                                                        status = "Lên đơn hàng"
+                                                    }
+                                                    if (valueObject ==
+                                                        "in_container") {
+                                                        status = "Lên container"
+                                                    }
+                                                    if (valueObject ==
+                                                        "out_container") {
+                                                        status = "Xuống container"
+                                                    }
+                                                    if (valueObject ==
+                                                        "delivery_status") {
+                                                        if (a.delivery_status ==
+                                                            "shipping") {
+                                                            status =
+                                                                "Đang giao hàng"
+                                                        }
+                                                    }
+                                                    if (valueObject ==
+                                                        "delivery_status") {
+                                                        if (a.delivery_status ==
+                                                            "cancelled") {
+                                                            status = "Hủy box"
+                                                        }
+                                                    }
+                                                    if (valueObject ==
+                                                        "delivery_status") {
+                                                        if (a.delivery_status ==
+                                                            "received") {
+                                                            status = "Đã nhận hàng"
+                                                        }
+                                                    }
+                                                    if (valueObject ==
+                                                        "delivery_status") {
+                                                        if (a.delivery_status ==
+                                                            "refunded") {
+                                                            status = "Trả lại hàng"
+                                                        }
+                                                    }
+                                                    if (valueObject ==
+                                                        "delivery_status") {
+                                                        if (a.delivery_status ==
+                                                            "waiting_shipment") {
+                                                            status = "Đợi giao hàng"
+                                                        }
+                                                    }
+
+                                                    $("#time_line_tracking").append(
+                                                        '<li>' +
+                                                        '<a>' + status +
+                                                        '</a>' +
+                                                        '<p>' + value
+                                                        .created_at + '</p>' +
+                                                        '</li>'
+                                                    )
+                                                })
+                                            }
+                                        } else {
+                                            $(`#sku-row-${value2.id}`).on('click',
+                                                function() {
+                                                    check(value2.logs, created_at)
+                                                })
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    }
+                }
+            },
+            error: function(res) {
+                console.log(res)
+            }
+        })
+    }
+
+    function check(row, created_at) {
+        $("#time_line_tracking").empty()
+
+        if (row.length == 0) {
+            $("#time_line_tracking").append(
+                '<li>' +
+                '<a>' + 'Đang tới kho' + '</a>' +
+                '<p>' + created_at + '</p>' +
+                '</li>'
+            )
+        } else {
+            $.each(row, function(index, value) {
+                let a = JSON.parse(value.content);
+                let valueObject = Object.keys(a)
+                var status;
+                if (valueObject == "id") {
+                    status = "Đã nhập kho Nhật"
+                }
+                if (valueObject == "in_pallet") {
+                    status = "Đã kiểm hàng"
+                }
+                if (valueObject == "set_owner_id,set_owner_type") {
+                    status = "Lên đơn hàng"
+                }
+                if (valueObject == "in_container") {
+                    status = "Lên container"
+                }
+                if (valueObject == "out_container") {
+                    status = "Xuống container"
+                }
+                if (valueObject == "delivery_status") {
+                    if (a.delivery_status == "shipping") {
+                        status = "Đang giao hàng"
+                    }
+                }
+                if (valueObject == "delivery_status") {
+                    if (a.delivery_status == "cancelled") {
+                        status = "Hủy box"
+                    }
+                }
+                if (valueObject == "delivery_status") {
+                    if (a.delivery_status == "received") {
+                        status = "Đã nhận hàng"
+                    }
+                }
+                if (valueObject == "delivery_status") {
+                    if (a.delivery_status == "refunded") {
+                        status = "Trả lại hàng"
+                    }
+                }
+                if (valueObject == "delivery_status") {
+                    if (a.delivery_status == "waiting_shipment") {
+                        status = "Đợi giao hàng"
+                    }
+                }
+
+                $("#time_line_tracking").append(
+                    '<li>' +
+                    '<a>' + status + '</a>' +
+                    '<p>' + value.created_at + '</p>' +
+                    '</li>'
+                )
+            })
+        }
+    }
 
 </script>
 

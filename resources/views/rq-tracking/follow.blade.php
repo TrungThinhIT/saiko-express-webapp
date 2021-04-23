@@ -166,7 +166,7 @@
                                 <ul class="collapse navbar-collapse" id="ed_menu">
                                     <li>
                                         <div style="margin:6px;" class="form-track">
-                                            <input type="text" class="form-control" style="width: 100% !important">
+                                            <input type="text" id="track_tracking" class="form-control" style="width: 100% !important">
                                             <button class="btn"
                                                 style="background: #fca901;margin-left:8px">Track</button>
                                         </div>

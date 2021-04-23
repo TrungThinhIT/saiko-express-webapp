@@ -91,7 +91,6 @@ class QuoteController extends Controller
             $this->getToken();
         }
         $token = token::find(1);
-
         if ($request->utypeadd == "blank") {
             $ward_id = $request->ward;
         }
@@ -114,7 +113,9 @@ class QuoteController extends Controller
             'consignee' => $request->Name_Rev,
             'tel' => $request->Phone, //sdt ng nhận
             'address' => $address,
-            'ward_id' =>  $ward_id
+            'ward_id' =>  $ward_id,
+            'sender_name' => $request->Name_Send,
+            'sender_tel' => $request->Number_Send
         ]);
         //xác thực
         if ($api->status() == 401) {
@@ -128,7 +129,9 @@ class QuoteController extends Controller
                 'consignee' => $request->Name_Rev,
                 'tel' => $request->Phone,
                 'address' => $address,
-                'ward_id' =>  $ward_id
+                'ward_id' =>  $ward_id,
+                'sender_name' => $request->Name_Send,
+                'sender_tel' => $request->Number_Send
             ]);
         }
         //
@@ -138,7 +141,7 @@ class QuoteController extends Controller
         $tracking = explode(" ", $request->TrackingSaiko);
         //tạo shipment_order
         $donggoi = $request->Reparking == "true" ? "có" : "không";
-        $note = json_encode(['send_name' => $request->Name_Send, 'send_phone' => $request->Number_Send, 'isPackaged' => $donggoi, 'note' => $request->Note]);
+        $note = $request->Note ? $request->Note . ',' : '' . ' Đóng gói: ' . $donggoi;
         // return $note;
         if ($request->ShipAir == "true") {
             $shipping = $request->checkAir;
