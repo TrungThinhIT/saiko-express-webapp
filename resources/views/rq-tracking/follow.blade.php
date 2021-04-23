@@ -597,7 +597,7 @@
                                     $("#statusData").empty();
                                     $("#statusData").css('display', 'block');
                                     $("#statusData").append('<h4>' +
-                                        'Tracking chưa đăng kí' + '</h4>')
+                                        'Tracking chưa đăng kí đơn hàng' + '</h4>')
                                 } else {
                                     $("#statusData").css('display', 'none');
                                     $(".table").show();
@@ -614,7 +614,7 @@
                                             var tel_rev = '';
                                             var name_rev = '';
                                             var add_rev = '';
-                                            var craete_at = '';
+                                            var created_at = '';
                                             var method_ship = '';
                                             if (value.orders.length != 0) {
                                                 var sort_order = (value.orders)
@@ -652,7 +652,6 @@
                                                 method_ship = sort_order[value
                                                         .orders.length - 1]
                                                     .shipment_method_id;
-                                                    console.log(created_at)
                                             }
                                             if (name_send == '' | tel_rev == '' |
                                                 name_rev == '' | add_rev == '') {
@@ -812,14 +811,14 @@
                 })
             })
             //show log by id
-            function check(row, craete_at) {
+            function check(row, created_at) {
                 $("#time_line").empty()
 
                 if (row.length == 0) {
                     $("#time_line").append(
                         '<li>' +
                         '<a>' + 'Đang tới kho' + '</a>' +
-                        '<p>' + craete_at + '</p>' +
+                        '<p>' + created_at + '</p>' +
                         '</li>'
                     )
                 } else {
