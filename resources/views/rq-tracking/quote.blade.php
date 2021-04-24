@@ -428,10 +428,12 @@
             "_": "",
             " ": " ",
             "-":"",
+            ",":" ",
         };
-        var Tracking = str.replace(/-| |_/gi, function(matched) {
+        var Tracking = str.replace(/-| |_|,/gi, function(matched) {
             return mapObj[matched];
         });
+        console.log(Tracking);
         // var Tracking = $("#utracking").val();
         var checkAir = document.getElementById('uair').value;
         var checkSea = document.getElementById('usea').value;
@@ -528,7 +530,6 @@
                         checkSea: checkSea,
                     },
                     success: function(response) {
-                        console.log(response)
                         if (response == 201) {
                             document.getElementById("color-success").style.background = '#1ba906'
                             $('#message').html('Tạo tracking thành công!');
@@ -536,7 +537,7 @@
                             $('#exitSuccess').show();
                             $('#myModal').modal('show');
                         }
-                        if (response == 422) {
+                        else {
                             document.getElementById("color-success").style.background = '#DF3A01'
                             $('#message').html(
                                 'Tracking này đã được tạo hoặc mã tracking dài quá 15 kí tự');

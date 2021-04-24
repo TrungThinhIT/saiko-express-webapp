@@ -78,29 +78,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    {{-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                        style="z-index: 9999">
-                        <div class="modal-dialog modal-sm  modal-confirm" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <div class="icon-box" id="color-success"><i class="fa fa-times"></i></div>
-
-                                </div>
-                                <h5 class="modal-confirm" id="message"></h5>
-                                <div class="modal-footer">
-                                    <button class="btn btn-err btn-danger btn-block" data-dismiss="modal"
-                                        id="exitForm">Thoát</button>
-                                    <button class="btn btn-danger btn-block" data-dismiss="modal"
-                                        onclick="exitSuccess()" id="exitSuccess" style="display:none">Thoát</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="alert alert-danger" id="statusData_tracking" style="display: none;margin-top:20px;">
                     </div>
                     <div class="row paddtop30">
                         <div class="col-sm-12 col-md-12">
-                            <div class="underline table-responsive" style="display:none" id="table-firt">
+                            <div class="underline table-responsive" style="display:none" id="table-firt-tracking">
                                 <table class="table table-striped table-bordered table_tracking">
                                     <thead>
                                         <tr>
@@ -137,6 +119,24 @@
                 </div>
             </div>
            
+        </div>
+    </div>
+    <div class="modal fade" id="myModal_tracking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        style="z-index: 9999">
+        <div class="modal-dialog modal-sm  modal-confirm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="icon-box" id="color-success"><i class="fa fa-times"></i></div>
+
+                </div>
+                <h5 class="modal-confirm" id="message_tracking"></h5>
+                <div class="modal-footer">
+                    <button class="btn btn-err btn-danger btn-block" data-dismiss="modal"
+                        id="exitForm_tracking">Thoát</button>
+                    <button class="btn btn-danger btn-block" data-dismiss="modal"
+                         id="exitSuccess_tracking" style="display:none">Thoát</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -222,9 +222,17 @@
     }(document, 'script', 'facebook-jssdk'));
 
     function track() {
+        $(".table").hide();
+        $("#statusData_tracking").empty('');
+        $("#statusData_tracking").css('display','none');
+        $("#time_line_tracking").empty()
         $("#body-table-tracking").empty();
         $("#modal_tracking").modal('show')
         var tracking = $("#track_tracking").val();
+        if(tracking==""){
+            $("#statusData_tracking").append('<h4>' +'Chưa nhập tracking' + '</h4>')
+            $("#statusData_tracking").css('display','block');
+        }
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -249,7 +257,7 @@
                         .length == 0) {
                         $("#statusData_tracking").empty();
                         $(".table").hide();
-                        $("#table-firt").show();
+                        $("#table-firt-tracking").show();
                         $("#body-table-tracking").empty()
                         $("#time_line_tracking").empty()
                         $("#statusData_tracking").css('display', 'block');
@@ -258,7 +266,7 @@
                     } else {
                         $("#statusData_tracking").css('display', 'none');
                         $(".table").show();
-                        $("#table-firt").show();
+                        $("#table-firt-tracking").show();
                         if (res.data.length == 0) {
                             $("#statusData_tracking").empty()
                             $("#statusData_tracking").append(
@@ -274,50 +282,32 @@
                                 var created_at = '';
                                 var method_ship = '';
                                 if (value.orders.length != 0) {
-                                    var sort_order = (value.orders)
-                                        .sort(function(x, y) {
-                                            return new Date(x
-                                                .shipment_infor_id
-                                            ) - new Date(y
-                                                .shipment_infor_id
-                                            )
+                                    var sort_order = (value.orders).sort(function(x, y) {
+                                            return new Date(x.shipment_infor_id) - new Date(y.shipment_infor_id)
                                         })
                                     // if (sort_order[value.orders.length -
                                     //         1].shipment_infor
                                     //     .sender_name == null) {
-                                    var parse_note = JSON.parse(
-                                        sort_order[value.orders
-                                            .length - 1].note);
-                                    name_send = parse_note
-                                        .send_name;
+                                    var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
+                                    name_send = parse_note.send_name;
                                     // } else {
                                     //     name_send = sort_order[value
                                     //             .orders.length - 1]
                                     //         .shipment_infor.sender_name;
                                     // }
-                                    tel_rev = sort_order[value.orders
-                                            .length - 1].shipment_infor
-                                        .tel;
-                                    name_rev = sort_order[value.orders
-                                            .length - 1].shipment_infor
-                                        .consignee;
-                                    add_rev = sort_order[value.orders
-                                            .length - 1].shipment_infor
-                                        .full_address;
-                                    created_at = sort_order[value.orders
-                                        .length - 1].created_at;
-                                    method_ship = sort_order[value
-                                            .orders.length - 1]
-                                        .shipment_method_id;
+                                    tel_rev = sort_order[value.orders.length - 1].shipment_infor .tel;
+                                    name_rev = sort_order[value.orders.length - 1].shipment_infor .consignee;
+                                    add_rev = sort_order[value.orders .length - 1].shipment_infor.full_address;
+                                    created_at = sort_order[value.orders.length - 1].created_at;
+                                    method_ship = sort_order[value .orders.length - 1].shipment_method_id;
                                 }
-                                if (name_send == '' | tel_rev == '' |
-                                    name_rev == '' | add_rev == '') {
-                                    $('#message').html(
+                                if (name_send == '' | tel_rev == '' |name_rev == '' | add_rev == '') {
+                                    $('#message_tracking').html(
                                         'Khách chưa đăng kí đầy đủ thông tin tracking'
                                     );
-                                    $('#exitForm').hide();
-                                    $('#exitSuccess').show();
-                                    $('#myModal').modal('show');
+                                    $('#exitForm_tracking').hide();
+                                    $('#exitSuccess_tracking').show();
+                                    $('#myModal_tracking').modal('show');
                                 }
                                 if (value.boxes.length == 0) {
                                     $("#body-table-tracking").empty()
@@ -359,22 +349,15 @@
                                         $("#body-table-tracking")
                                             .append(
                                                 `<tr id="sku-row-${value2.id}">` +
-                                                '<td>' + value2
-                                                .id +
+                                                '<td>' + value2.id +
                                                 '</td>' +
-                                                '<td>' + value2
-                                                .weight.toFixed(
-                                                    3) +
+                                                '<td>' + value2 .weight.toFixed(3) +
                                                 '</td>' +
-                                                '<td>' + value2
-                                                .volume.toFixed(
-                                                    3) +
+                                                '<td>' + value2.volume.toFixed(3) +
                                                 '</td>' +
-                                                '<td>' +
-                                                name_send +
+                                                '<td>' +name_send +
                                                 '</td>' +
-                                                '<td>' +
-                                                name_rev +
+                                                '<td>' +name_rev +
                                                 '</td>' +
                                                 '<td>' +
                                                 tel_rev +
@@ -398,65 +381,47 @@
                                                     '</li>'
                                                 )
                                             } else {
-                                                $.each(value.boxes[0].logs, function(index,
-                                                    value) {
-                                                    let a = JSON.parse(value
-                                                        .content);
-                                                    let valueObject = Object.keys(a)
+                                                $.each(value.boxes[0].logs, function(index, value) {
+                                                    let a = JSON.parse(value.content);
+                                                    let valueObject = Object.keys(a);
                                                     var status;
                                                     if (valueObject == "id") {
                                                         status = "Đã nhập kho Nhật"
                                                     }
-                                                    if (valueObject ==
-                                                        "in_pallet") {
+                                                    if (valueObject =="in_pallet") {
                                                         status = "Đã kiểm hàng"
                                                     }
-                                                    if (valueObject ==
-                                                        "set_owner_id,set_owner_type"
-                                                    ) {
+                                                    if (valueObject =="set_owner_id,set_owner_type") {
                                                         status = "Lên đơn hàng"
                                                     }
-                                                    if (valueObject ==
-                                                        "in_container") {
+                                                    if (valueObject =="in_container") {
                                                         status = "Lên container"
                                                     }
-                                                    if (valueObject ==
-                                                        "out_container") {
+                                                    if (valueObject == "out_container") {
                                                         status = "Xuống container"
                                                     }
-                                                    if (valueObject ==
-                                                        "delivery_status") {
-                                                        if (a.delivery_status ==
-                                                            "shipping") {
-                                                            status =
-                                                                "Đang giao hàng"
+                                                    if (valueObject =="delivery_status") {
+                                                        if (a.delivery_status =="shipping") {
+                                                            status = "Đang giao hàng"
                                                         }
                                                     }
-                                                    if (valueObject ==
-                                                        "delivery_status") {
-                                                        if (a.delivery_status ==
-                                                            "cancelled") {
+                                                    if (valueObject == "delivery_status") {
+                                                        if (a.delivery_status =="cancelled") {
                                                             status = "Hủy box"
                                                         }
                                                     }
-                                                    if (valueObject ==
-                                                        "delivery_status") {
-                                                        if (a.delivery_status ==
-                                                            "received") {
+                                                    if (valueObject =="delivery_status") {
+                                                        if (a.delivery_status =="received") {
                                                             status = "Đã nhận hàng"
                                                         }
                                                     }
-                                                    if (valueObject ==
-                                                        "delivery_status") {
-                                                        if (a.delivery_status ==
-                                                            "refunded") {
+                                                    if (valueObject =="delivery_status") {
+                                                        if (a.delivery_status =="refunded") {
                                                             status = "Trả lại hàng"
                                                         }
                                                     }
-                                                    if (valueObject ==
-                                                        "delivery_status") {
-                                                        if (a.delivery_status ==
-                                                            "waiting_shipment") {
+                                                    if (valueObject =="delivery_status") {
+                                                        if (a.delivery_status =="waiting_shipment") {
                                                             status = "Đợi giao hàng"
                                                         }
                                                     }
@@ -474,7 +439,7 @@
                                         } else {
                                             $(`#sku-row-${value2.id}`).on('click',
                                                 function() {
-                                                    check(value2.logs, created_at)
+                                                    check_footer(value2.logs, created_at)
                                                 })
                                         }
                                     })
@@ -490,7 +455,7 @@
         })
     }
 
-    function check(row, created_at) {
+    function check_footer(row, created_at) {
         $("#time_line_tracking").empty()
 
         if (row.length == 0) {

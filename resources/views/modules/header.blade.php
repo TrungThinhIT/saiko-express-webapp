@@ -29,6 +29,108 @@
    width: 100% !important;
   } */
         }
+        .table-striped>tbody>tr:nth-child(odd)>td,
+            .table-striped>tbody>tr:nth-child(odd)>th {
+                background-color: #fad792; // Choose your own color here
+            }
+
+            table.table-bordered>thead>tr>th {
+                border: 1px solid #fca901;
+            }
+
+            table.table-bordered {
+                border: 1px solid #fca901;
+                margin-top: 20px;
+            }
+
+            table.table-bordered>thead>tr>th {
+                border: 1px solid #fca901;
+            }
+
+            table.table-bordered>tbody>tr>td {
+                border: 1px solid #fca901;
+                padding: 10px;
+                line-height: 1.7;
+            }
+
+            table.table-bordered>thead>tr>th {
+                line-height: 18px;
+            }
+
+            table tr {
+                border: 1px solid #fca901;
+            }
+
+            .lftredbrdr {
+                border-left: 2px solid #fca901;
+                padding-left: 25px;
+            }
+
+            ul.timeline {
+                list-style-type: none;
+                position: relative;
+            }
+
+            ul.timeline:before {
+                content: ' ';
+                background: #fca901;
+                display: inline-block;
+                position: absolute;
+                left: 29px;
+                width: 2px;
+                height: 100%;
+                z-index: 100;
+            }
+
+            ul.timeline>li {
+                margin: 20px 0;
+                /* padding-left: 44px; */
+                box-shadow: 6px 3px 17px 1px #aaaaaa;
+                border-radius: 2px 7px 10px 4px;
+                margin-left: 10px;
+                padding: 9px;
+            }
+
+            p {
+                margin-bottom: 0 !important;
+            }
+
+            ul.timeline>li:before {
+                content: ' ';
+                background: white;
+                display: inline-block;
+                position: absolute;
+                border-radius: 50%;
+                border: 3px solid #000000;
+                left: 20px;
+                width: 20px;
+                height: 20px;
+                z-index: 100;
+            }
+            .modal-confirm .icon-box {
+            color: #fff;
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: -70px;
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            z-index: 9;
+            background: #ef513a;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .modal-confirm .icon-box i {
+            font-size: 56px;
+            position: relative;
+            top: 4px;
+        }
+
 
     </style>
 
@@ -90,8 +192,7 @@
                                         </div>
                                     </li>
                                     <li><a href="{{ route('index') }}">Trang chủ</a></li>
-                                    <li><a href="javascript:;">Dịch
-                                            vụ</a>
+                                    <li><a href="javascript:;">Dịch vụ</a>
                                         <ul class="sub-menu">
                                             <li><a href="{{ route('service.sea') }}">Vận chuyển đường biển</a></li>
                                             <li><a href="{{ route('service.air') }}">Vận chuyển đường bay</a></li>

@@ -150,6 +150,9 @@ class QuoteController extends Controller
         }
 
         foreach ($tracking as $item) {
+            if($item==""){
+                continue;
+            }
             $create_shipment = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
@@ -168,7 +171,7 @@ class QuoteController extends Controller
         }
         if ($create_shipment->status() == 201) {
             return $create_shipment->status();
-        } else if ($create_shipment->status() == 422) {
+        } else  {
             return $create_shipment->status();
         }
 

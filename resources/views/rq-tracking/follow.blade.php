@@ -625,33 +625,17 @@
                                                             .shipment_infor_id
                                                         )
                                                     })
-                                                // if (sort_order[value.orders.length -
-                                                //         1].shipment_infor
-                                                //     .sender_name == null) {
-                                                    var parse_note = JSON.parse(
-                                                        sort_order[value.orders
-                                                            .length - 1].note);
-                                                    name_send = parse_note
-                                                    .send_name;
-                                                // } else {
-                                                //     name_send = sort_order[value
-                                                //             .orders.length - 1]
-                                                //         .shipment_infor.sender_name;
-                                                // }
-                                                tel_rev = sort_order[value.orders
-                                                        .length - 1].shipment_infor
-                                                    .tel;
-                                                name_rev = sort_order[value.orders
-                                                        .length - 1].shipment_infor
-                                                    .consignee;
-                                                add_rev = sort_order[value.orders
-                                                        .length - 1].shipment_infor
-                                                    .full_address;
-                                                created_at = sort_order[value.orders
-                                                    .length - 1].created_at;
-                                                method_ship = sort_order[value
-                                                        .orders.length - 1]
-                                                    .shipment_method_id;
+                                                if (sort_order[value.orders.length - 1].shipment_infor.sender_name == null) {
+                                                    var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
+                                                    name_send = parse_note.send_name;
+                                                } else {
+                                                    name_send = sort_order[value.orders.length - 1].shipment_infor.sender_name;
+                                                }
+                                                tel_rev = sort_order[value.orders.length - 1].shipment_infor.tel;
+                                                name_rev = sort_order[value.orders.length - 1].shipment_infor.consignee;
+                                                add_rev = sort_order[value.orders.length - 1].shipment_infor.full_address;
+                                                created_at = sort_order[value.orders.length - 1].created_at;
+                                                method_ship = sort_order[value.orders.length - 1].shipment_method_id;
                                             }
                                             if (name_send == '' | tel_rev == '' |
                                                 name_rev == '' | add_rev == '') {
@@ -812,8 +796,8 @@
             })
             //show log by id
             function check(row, created_at) {
+                
                 $("#time_line").empty()
-
                 if (row.length == 0) {
                     $("#time_line").append(
                         '<li>' +
@@ -866,7 +850,6 @@
                                 status = "Đợi giao hàng"
                             }
                         }
-
                         $("#time_line").append(
                             '<li>' +
                             '<a>' + status + '</a>' +
