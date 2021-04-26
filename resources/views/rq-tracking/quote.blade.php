@@ -159,7 +159,7 @@
                     <h2>THÔNG TIN KIỆN HÀNG</h2>
                 </div>
             </div>
-
+            
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <ul class="breadcrumb">
                     <li><a href="javascript:;" style="color:white;font-weight:500">SAIKO EXPRESS</a></li>
@@ -182,6 +182,7 @@
                     liên lạc ngay hoặc điện thoại trong khoảng thời gian từ 9:00 sáng đến 8:00 tối từ thứ Hai đến thứ
                     Bảy.</p>
             </div>
+            
             <div class="col-sm-4">
                 <img src="assets/images/resources/cargocar.png" alt="">
             </div>
