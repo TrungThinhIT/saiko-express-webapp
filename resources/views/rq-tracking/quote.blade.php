@@ -169,8 +169,6 @@
         </div>
     </div>
 </div>
-
-
 <section class="whychoose-1 secpadd layout-main">
     <div class="container">
         <div class="row quote1top">
@@ -303,6 +301,9 @@
                                         <span class="checkbox_item"><label><input id="ureparking" name="donggoi"
                                                     value="Repark" type="checkbox">Đóng gói lại kiện hàng
                                             </label></span>
+                                        {{-- <span class="checkbox_item"><label><input id="merge_box" name="merge_box"
+                                            value="true" type="checkbox">Gộp thùng
+                                            </label></span> --}}
                                     </span>
                                 </p>
                                 <p class="field submit">
@@ -450,6 +451,9 @@
         var Reparking = document.getElementById('ureparking').checked;
         var ShipAir = document.getElementById('uair').checked;
         var ShipSea = document.getElementById('usea').checked;
+        var merge_box = $("#merge_box:checked").val()
+        // console.log(merge_box)
+        // return
         var Upx = $('#UPhuongXa').val();
         var Code_Add = $("#Uhuyen option:selected").val() + "," + $("#Utinh option:selected").val();
         var UaddNumber = $("#UaddNumber").val();
@@ -529,8 +533,11 @@
                         ward: ward,
                         checkAir: checkAir,
                         checkSea: checkSea,
+                        merge_box:merge_box,
                     },
                     success: function(response) {
+                        console.log(response)
+                        return
                         if (response == 201) {
                             document.getElementById("color-success").style.background = '#1ba906'
                             $('#message').html('Tạo tracking thành công!');

@@ -24,6 +24,7 @@ class appController extends Controller
     //kiểm tra cổng trước khi upfile
     public function createTracking(Request $request)
     {
+
         Log::info("app", ['tess' => $request->all()]);
         //create Tracking
         if ($arrTracking = $request->tracking_number) {
@@ -40,7 +41,7 @@ class appController extends Controller
                 $xa = explode(".", $catchuoi[1]);
                 $trimXa = Str::of($xa[0])->trim();
                 $getWard = explode(" ", $trimXa);
-                $add=strval($catchuoi[0]);
+                $add = strval($catchuoi[0]);
                 if ($getWard[0] == "Phường" || $getWard[0] == "Xã") {
                     $slice = Str::of($xa[0])->after($getWard[0]);
                     $ward = Str::of($slice)->trim();
@@ -58,7 +59,7 @@ class appController extends Controller
                 $add = "VN Ha Noi";
                 $ward_id = "13900";
             } else {
-                $add = "Vn Sai Gon";
+                $add = "VN Sai Gon";
                 $ward_id = "76000";
             }
             // $d = explode(" ", $address[0]);
@@ -76,6 +77,8 @@ class appController extends Controller
                 'tel' => strval($request->receiver_phone_number), //sdt ng nhận
                 'address' => $add,
                 'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
+                'sender_name' => $request->sender_name,
+                'sender_tel' => $request->sender_phone_number
             ]);
             //xác thực 
             if ($api->status() == 401) {
@@ -89,9 +92,11 @@ class appController extends Controller
                     'tel' => strval($request->receiver_phone_number), //sdt ng nhận
                     'address' => $add,
                     'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
+                    'sender_name' => $request->sender_name,
+                    'sender_tel' => $request->sender_phone_number
                 ]);
             }
-            Log::info('App: create shipment_infor',['body'=>$api->body()]);
+            Log::info('App: create shipment_infor', ['body' => $api->body()]);
             $data = json_decode($api->body(), true);
             // return  $data;
             //create shipment
@@ -105,7 +110,7 @@ class appController extends Controller
                 ]);
                 //tạo shipment_order
                 $donggoi = $request->isPackaged == false ? "không" : "có";
-                $note = json_encode(['send_name' => $request->sender_name, 'send_phone' => $request->sender_phone_number, 'isPackaged' => $donggoi, 'note' => $request->note]);
+                $note = $request->note ? $request->note . ',' : '' . ' Đóng gói: ' . $donggoi;
                 //createTrackinf
                 $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
                     'shipment_method_id' =>  $request->shipping_method, //đường vận chuyển
@@ -318,47 +323,61 @@ class appController extends Controller
             $token = token::find(1);
             $data  = Http::withHeaders([
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
             ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $skuSearch . '?with=items;sfa');
             if ($data->status() == 401) {
                 $this->QCT->getToken();
                 $token = token::find(1);
                 $data  = Http::withHeaders([
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                 ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $skuSearch . '?with=items;sfa');
             }
             if ($data->status() == 200) {
                 $data = json_decode($data->body(), true);
                 $getTracking = Http::withHeaders([
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                 ])->get('http://order.tomonisolution.com:82/api/trackings/' . $data['sfa']['tracking'] . '?appends=boxes&with=orders.shipmentInfor');
                 $inForTracking = json_decode($getTracking->body(), true);
                 //sắp xếp mảng  theo shipmentInfo
-                if ((!empty($inForTracking["orders"]) || empty($inForTracking["orders"])) && !empty($inForTracking['boxes'])) {
+                if ((!empty($inForTracking["orders"]) || (empty($inForTracking["orders"])) && !empty($inForTracking['boxes']))) {
                     $sortByShimpent_id = usort($inForTracking['orders'], function ($a, $b) {
                         return $b['shipment_infor_id'] - $a['shipment_infor_id'];
                     });
-                    if (isset($inForTracking['orders'][0]['note'])) {
+                    if (($inForTracking['orders'][0]['shipment_infor']['sender_name']) == null) {
                         $notes = json_decode($inForTracking['orders'][0]['note']);
+                        $sender_name = $notes->send_name;
+                        $number_send = $notes->send_phone;
+                        $note = $notes->note;
+                        $packaged = $notes->isPackaged;
                     } else {
-                        $notes = json_encode(['send_name' => "Chưa đăng kí", 'send_phone' => "Chưa đăng kí", 'isPackaged' => "Chưa đăng kí", 'note' => "Chưa đăng kí"]);
-                        $notes = json_decode($notes);
+                        if (($inForTracking['orders'][0]['shipment_infor']['sender_name']) != null) {
+                            $sender_name = $inForTracking['orders'][0]['shipment_infor']['sender_name'];
+                            $number_send = $inForTracking['orders'][0]['shipment_infor']['sender_tel'];
+                            $note = $inForTracking['orders'][0]['note'];
+                        } else {
+                            $notes = json_encode(['send_name' => "Chưa đăng kí", 'send_phone' => "Chưa đăng kí", 'isPackaged' => "Chưa đăng kí", 'note' => "Chưa đăng kí"]);
+                            $notes = json_decode($notes);
+                            $sender_name = $notes->send_name;
+                            $number_send = $notes->send_phone;
+                            $note = $notes->note;
+                            $packaged = $notes->isPackaged;
+                        }
                     }
                     $collect[] = array(
                         "SKU" => $skuSearch,
-                        "Can_Nang" =>  strval(number_format($data['weight'],2,".","")),
+                        "Can_Nang" =>  strval(number_format($data['weight'], 2, ".", "")),
                         "Tracking_number" => $data['sfa']['tracking'],
-                        "Uname_Send" => $notes->send_name,
-                        "Number_Send" => $notes->send_phone,
-                        "Uname_Rev" => isset($inForTracking["orders"][0]['shipment_infor']['consignee']) ? $inForTracking["orders"][0]['shipment_infor']['consignee'] :  "Chưa đăng kí ",
-                        "Number_Rev" => isset($inForTracking["orders"][0]['shipment_infor']['tel']) ? $inForTracking["orders"][0]['shipment_infor']['tel'] : "Chưa đăng kí ",
-                        "Add_Rev" => isset($inForTracking["orders"][0]['shipment_infor']['full_address']) ? $inForTracking["orders"][0]['shipment_infor']['full_address'] : "Chưa đăng kí ",
-                        "Note_Rev" => $notes->note,
-                        "Reparking" => $notes->isPackaged=="không"?"true":"false",
-                        "ShipMethod" => isset($inForTracking["orders"][0]['shipment_method_id']) ? $inForTracking["orders"][0]['shipment_method_id'] : "Chưa đăng kí ",
-                        "CODPriceJP" =>null,
+                        "Uname_Send" => $sender_name,
+                        "Number_Send" => $number_send,
+                        "Uname_Rev" => $inForTracking["orders"][0]['shipment_infor']['consignee'] ??  "Chưa đăng kí ",
+                        "Number_Rev" => $inForTracking["orders"][0]['shipment_infor']['tel'] ?? "Chưa đăng kí ",
+                        "Add_Rev" =>  $inForTracking["orders"][0]['shipment_infor']['full_address'] ?? "Chưa đăng kí ",
+                        "Note_Rev" => $note,
+                        "Reparking" => $packaged,
+                        "ShipMethod" =>  $inForTracking["orders"][0]['shipment_method_id'] ?? "Chưa đăng kí ",
+                        "CODPriceJP" => null,
                         "CODPriceVN" => false,
                     );
                 }
@@ -367,14 +386,14 @@ class appController extends Controller
                     foreach ($data['items'] as $item) {
                         $getInfoItem = Http::withHeaders([
                             'Accept' => 'application/json',
-                            'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                            'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                         ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                         if ($getInfoItem->status() == 401) {
                             $this->QCT->getToken();
                             $token = token::find(1);
                             $getInfoItem = Http::withHeaders([
                                 'Accept' => 'application/json',
-                                'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                                'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                             ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                         }
                         if ($getInfoItem->status() == 200) {
@@ -385,8 +404,8 @@ class appController extends Controller
                             );
                         }
                     }
-                } else{
-                    $cu =null;
+                } else {
+                    $cu = null;
                 }
                 //tracking
                 $trackinfo = array();
@@ -394,7 +413,7 @@ class appController extends Controller
                 $dataSend = ['appends' => 'boxes', 'with' => 'orders'];
                 $getTracking = Http::withHeaders([
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                 ])->get('http://order.tomonisolution.com:82/api/trackings/' . $tracking, $dataSend);
 
                 if ($getTracking->status() == 200) {
@@ -538,14 +557,14 @@ class appController extends Controller
             }
             $data  = Http::withHeaders([
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
             ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $sku . '?with=sfa');
             if ($data->status() == 401) {
                 $this->QCT->getToken();
                 $token = token::find(1);
                 $data  = Http::withHeaders([
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                 ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $sku . '?with=sfa');
             }
             //check SKU
@@ -553,7 +572,7 @@ class appController extends Controller
                 $data = json_decode($data->body(), true);
                 $getTracking = Http::withHeaders([
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                 ])->get('http://order.tomonisolution.com:82/api/trackings/' . $data['sfa']['tracking'] . '?appends=boxes&with=orders.shipmentInfor');
                 // dd($getTracking->body());
                 if ($getTracking->status() == 200) {
@@ -565,14 +584,14 @@ class appController extends Controller
                     //
                     $getByWardId = Http::withHeaders([
                         'Accept' => 'application/json',
-                        'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                        'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                     ])->get('http://notification.tomonisolution.com:82/api/wards/' . $inFortracking['orders'][0]['shipment_infor']['ward_id'] . '?with=district.province');
                     if ($getByWardId->status() == 401) {
                         $this->QCT->getToken();
                         $token = token::find(1);
                         $getByWardId = Http::withHeaders([
                             'Accept' => 'application/json',
-                            'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                            'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                         ])->get('http://notification.tomonisolution.com:82/api/wards/' . $inFortracking['orders'][0]['shipment_infor']['ward_id'] . '?with=district.province');
                     }
                     $getByWardId = json_decode($getByWardId->body(), true);
@@ -585,7 +604,7 @@ class appController extends Controller
                     }
                     $results = [
                         'SKU' => $data['id'],
-                        'CanNang' => strval($data['weight']) ,
+                        'CanNang' => strval($data['weight']),
                         'ChieuCao' =>  strval($data['height']),
                         'ChieuRong' =>  strval($data['width']),
                         'ChieuDai' =>  strval($data['length']),
@@ -611,14 +630,14 @@ class appController extends Controller
             }
             $data =  Http::withHeaders([
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
             ])->get('http://warehouse.tomonisolution.com:82/api/areas');
             if ($data->status() == 401) {
                 $this->QCT->getToken();
                 $token = token::find(1);
                 $data =  Http::withHeaders([
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMjczNjgxYzI5YWIwMmIwNTc4YjdlNjliZGFiODAyYTkzYWY0ZjE5MjliMmU5NWVhODg5NzVhYzViOTFlMjZmZjE4Y2RkMTJkNDI4MDc0YzYiLCJpYXQiOjE2MTkyNTIyMDcsIm5iZiI6MTYxOTI1MjIwNywiZXhwIjoxNjIwNTQ4MjA3LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.Uwe--s_KlBQ89-MkKJlP164elLqbiYyFvRKlc41uWLTZzzY2PWbAWCE0gnpXp8rO6FTilDUp3zMto0JoUKRDPy7tq9VoJlaPHshvvF5fVxRE9tSBZvk9AYgRVCfjIpX48L0vNzyamQ9Ysc7FUrkjHFV6NZCydKgdADIV9v1Py3nGK4iOa4NXo273zIb0lih8VKRC3AHZ5cwaGVh4Y6sqCf2wH5kZHXHGC6gwnuOQ1NynI03x-koUZ6FuTAyaVtaKcvyAx6zkXjfBFD4tCtYx2oRwGxXEBUlajR0DdEMUnNuKDG8TLkkIuaihm1Dk5XOuv5-hfkAnyV4WEYKZT3TUE2IPnwjXmP2QZAFudkiLyoIHu3PJBL4ZiG-ZNLSGn3D7XjXkaTsQtADnEQGN_4sere0bju4kbXiG5C1D6fsW-72PlxSOdI14dK5v9o_AcW3tCZJ5-06OHLibfP7pkb5C_rnvble24NzDhgh-qWtaIGxxhNLX-9fEluOeG12HKWTbug7sMU69VLVWbwMPHeFL1fBkKKLfphQ8OzCzf96Q6n2hKVWkW8G2f34vZ_iAc5tU-3CTevmJ3qyAP2AXATpPLMtEKo-8HfvYO33sfjUrp0jdoUOT8R8r00FklWsz_4nP_sMI3dw_NFWS_0reIYXfh2M1mZj_B-g_2f4V3f25P9I' //$token->access_token
+                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                 ])->get('http://warehouse.tomonisolution.com:82/api/areas');
             }
             $data = json_decode($data->body());
