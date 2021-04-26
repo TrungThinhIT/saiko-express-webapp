@@ -132,7 +132,12 @@
     .set-width-lb {
         width: 37px;
     }
-
+    @media (max-width: 1260px){
+        .col-md-7{
+            margin-top: 0 !important;
+        }
+  }
+}
 </style>
 
 @include('modules.header')
