@@ -96,6 +96,59 @@
         margin: 100px auto;
     }
 
+    .loader {
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 50%;
+        left: 50%;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+    .tmn-custom-mask {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 0, 0, .5);
+    }
+
+    .d-none {
+        display: none;
+    }
+
+    */ */
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
 </style>
 <script>
     function Select_Tinh(obj) {
@@ -159,7 +212,7 @@
                     <h2>THÔNG TIN KIỆN HÀNG</h2>
                 </div>
             </div>
-            
+
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <ul class="breadcrumb">
                     <li><a href="javascript:;" style="color:white;font-weight:500">SAIKO EXPRESS</a></li>
@@ -183,7 +236,7 @@
                     liên lạc ngay hoặc điện thoại trong khoảng thời gian từ 9:00 sáng đến 8:00 tối từ thứ Hai đến thứ
                     Bảy.</p>
             </div>
-            
+
             <div class="col-sm-4">
                 <img src="assets/images/resources/cargocar.png" alt="">
             </div>
@@ -305,7 +358,7 @@
                                                     value="Repark" type="checkbox">Đóng gói lại kiện hàng
                                             </label></span>
                                         <span class="checkbox_item"><label><input id="merge_box" name="merge_box"
-                                            value="1" type="checkbox">Gộp thùng
+                                                    value="1" type="checkbox">Gộp thùng
                                             </label></span>
                                     </span>
                                 </p>
@@ -335,20 +388,26 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        style="z-index: 9999">
-        <div class="modal-dialog modal-sm  modal-confirm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="icon-box" id="color-success"><i class="material-icons"></i></div>
+    <div class="tmn-custom-mask d-none">
+        <div class="loader"></div>
+    </div>
+    <div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+            style="z-index: 9999">
+            <div class="modal-dialog modal-sm  modal-confirm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box" id="color-success"><i class="material-icons"></i></div>
 
-                </div>
-                <h5 class="modal-confirm" id="message"></h5>
-                <div class="modal-footer">
-                    <button class="btn btn-err btn-danger btn-block" data-dismiss="modal" id="exitForm">Thoát</button>
-                    <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
-                        id="exitSuccess" style="display:none">Thoát</button>
+                    </div>
+                    <h5 class="modal-confirm" id="message"></h5>
+                    <div class="modal-footer">
+                        <button class="btn btn-err btn-danger btn-block" data-dismiss="modal"
+                            id="exitForm">Thoát</button>
+                        <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
+                            id="exitSuccess" style="display:none">Thoát</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -357,6 +416,10 @@
 @include('modules.footer')
 
 <script>
+    function toggleLoading() {
+        $('.tmn-custom-mask').toggleClass('d-none');
+    }
+
     $(document).ready(function() {
 
         $('#utracking').blur(function() {
@@ -432,8 +495,8 @@
         var mapObj = {
             "_": "",
             " ": " ",
-            "-":"",
-            ",":" ",
+            "-": "",
+            ",": " ",
         };
         var Tracking = str.replace(/-| |_|,/gi, function(matched) {
             return mapObj[matched];
@@ -510,6 +573,7 @@
                 .length > 8 && (ShipAir == true | ShipSea == true) && (Upx != null || OptionAdd.length > 5) && (
                     UaddNumber.length >= 4 || OptionAdd.length > 5)) {
                 console.log("Sendtracking");
+                toggleLoading()
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -536,7 +600,7 @@
                         ward: ward,
                         checkAir: checkAir,
                         checkSea: checkSea,
-                        merge_box:merge_box,
+                        merge_box: merge_box,
                     },
                     success: function(response) {
                         if (response == 201) {
@@ -545,8 +609,7 @@
                             $('#exitForm').hide();
                             $('#exitSuccess').show();
                             $('#myModal').modal('show');
-                        }
-                        else {
+                        } else {
                             document.getElementById("color-success").style.background = '#DF3A01'
                             $('#message').html(
                                 'Tracking này đã được tạo hoặc mã tracking dài quá 15 kí tự');

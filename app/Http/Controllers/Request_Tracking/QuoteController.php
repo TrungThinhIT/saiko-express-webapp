@@ -47,10 +47,10 @@ class QuoteController extends Controller
     //nhớ thay đổi cổng
     public function getToken()
     {
-        $api = Http::post('http://auth.tomonisolution.com:80/oauth/token', [
+        $api = Http::post('http://auth.tomonisolution.com:82/oauth/token', [
             'username' => 'sale@saikoexpress.com',
             'password' => 'password',
-            'client_secret' => '',
+            'client_secret' => 'B5nzdSkv85ilDEaOg5leHXCZfup5nZFkxDtIYSWi',
             'grant_type' => 'password',
             'client_id' => 2,
             'scope' => '*'
@@ -109,7 +109,7 @@ class QuoteController extends Controller
         $api = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token
-        ])->post('http://order.tomonisolution.com/api/shipment-infors', [
+        ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
             'consignee' => $request->Name_Rev,
             'tel' => $request->Phone, //sdt ng nhận
             'address' => $address,
@@ -125,7 +125,7 @@ class QuoteController extends Controller
             $api = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
-            ])->post('http://order.tomonisolution.com/api/shipment-infors', [
+            ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
                 'consignee' => $request->Name_Rev,
                 'tel' => $request->Phone,
                 'address' => $address,
@@ -153,7 +153,7 @@ class QuoteController extends Controller
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
             ]);
-            $create_shipment = $create_shipment->post('http://order.tomonisolution.com/api/orders', [
+            $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
                 'shipment_method_id' => $shipping, //đường vận chuyển
                 'shipment_infor_id' => $data['id'], //lấy id của shipment_info
                 'type' => 'shipment',

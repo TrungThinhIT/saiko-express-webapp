@@ -25,12 +25,12 @@ class appController extends Controller
     public function createTracking(Request $request)
     {
 
-        Log::info("app", ['tess' => $request->all()]);
+        // Log::info("app", ['METHOD_POST' => $request->all()]);
         //create Tracking
         if ($arrTracking = $request->tracking_number) {
 
             Log::info("test", ['tess' => $request->all()]);
-            if ($request->detail_address != "VN Sai Gon" && $request->detail_address != "VN Ha Noi") {
+            if (($request->detail_address != "VN Sai Gon" && $request->detail_address != "VN Ha Noi") && ($request->detail_address != "Văn phòng Sóc Sơn" && $request->detail_address != "Văn phòng Lạc Long Quân") && $request->detail_address != "Văn phòng Hồ Chí Minh") {
                 $code_add = $request->Code_Add;
                 $id_district = explode(",", $code_add)[0];
                 //get id province
@@ -58,8 +58,21 @@ class appController extends Controller
             if ($request->detail_address == "VN Ha Noi") {
                 $add = "VN Ha Noi";
                 $ward_id = "13900";
-            } else {
+            }
+            if ($request->detail_address == "VN Sai Gon") {
                 $add = "VN Sai Gon";
+                $ward_id = "76000";
+            }
+            if ($request->detail_address == "Văn phòng Sóc Sơn") {
+                $add = "VP Sóc Sơn";
+                $ward_id = "76000";
+            }
+            if ($request->detail_address == "Văn phòng Lạc Long Quân") {
+                $add = "VP Lạc Long Quân";
+                $ward_id = "76000";
+            }
+            if ($request->detail_address == "Văn phòng Hồ Chí Minh") {
+                $add = "VP Hồ Chí Minh";
                 $ward_id = "76000";
             }
             // $d = explode(" ", $address[0]);
@@ -78,7 +91,7 @@ class appController extends Controller
                 'address' => $add,
                 'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
                 'sender_name' => $request->sender_name,
-                'sender_tel' => $request->sender_phone_number
+                'sender_tel' => strval($request->sender_phone_number)
             ]);
             //xác thực 
             if ($api->status() == 401) {
@@ -93,9 +106,10 @@ class appController extends Controller
                     'address' => $add,
                     'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
                     'sender_name' => $request->sender_name,
-                    'sender_tel' => $request->sender_phone_number
+                    'sender_tel' => strval($request->sender_phone_number)
                 ]);
             }
+            //write log check create shipment_infor
             Log::info('App: create shipment_infor', ['body' => $api->body()]);
             $data = json_decode($api->body(), true);
             // return  $data;
@@ -103,21 +117,18 @@ class appController extends Controller
             // return $request->all();
             foreach ($arrTracking as $item) {
                 $item_number = strval($item); //pass to string
-                //note
                 $create_shipment = Http::withHeaders([
                     'Accept' => 'application/json',
                     'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNTU3M2JiZWZlMDJiMmIyNDI4NGY4ZDJlNzdjMzVkZjVlMjYxNDE4MDFjYjkwNWZiNDc3NGQxZDk3MmY5M2QzM2E2OTI1NzhhMzRmMDExODIiLCJpYXQiOjE2MTkyMzY1ODMsIm5iZiI6MTYxOTIzNjU4MywiZXhwIjoxNjIwNTMyNTgzLCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.HMbraYZAUC8Z0bITP1b_eWK5mZh54MEqMua2V_sSYlHqV52t3UFLXuRn5KPnIhAJgm4M1osnJgi1PxbANAuOxQMlFKu0u0ioFUB8TLyZNIcNivHe1s0sD0OPdOk35djKLWWi50v4sqLLZ_2JeRMK8n2cdi9DOkeAfjQAtkyTEhWzipV28DV_QRcWdqch5GtXjF9v3AO14c1WxH_6ZIYZsWaqkOiV9zN-N1ncWwufoJgl62FKDui0aiIAcBaobpHgtiOcYqtG2XKoSj8FoS6TrZvikc9Cx4Ppmba8czabXomHYmK5in9AZm16muTeOv39FlxZE2MuQLmHnw4zaIw7uJmGagGs3MFFdbOtFEsIrHLx3Bi4OWCXuJSEA0rHfL9uDQk45miEYm2tSZS19TX6iz_tf_2LPKMkRL5psthujoS1SIjLJCmw9hJzRES1ZljIMDADJ9QBFX-tD5cEux60ZsM4F-HU-uRmu6skhEY7uAWTx1ZshF5cneHtFpI-vx0JQNzjCb3FFexD22Z9n1b_NH9q_M3TnLDwgkZqa8E1bjWntzC2lzszCf1ctjGmUAo4_TWM-Yy2HERdjQ1wcCCYT8c7D8dvPiT0M0uyMZ0mAORoYQ6QcbE0L72cNBNH6fsuQjbDIpA9CJ4heG9jY0zsotQuiXSBfWX9H41ga0vnl5M' //$token->access_token
                 ]);
-                //tạo shipment_order
-                $donggoi = $request->isPackaged == false ? "không" : "có";
-                $note = $request->note ? $request->note . ',' : '' . ' Đóng gói: ' . $donggoi;
                 //createTrackinf
                 $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
                     'shipment_method_id' =>  $request->shipping_method, //đường vận chuyển
                     'shipment_infor_id' => $data['id'], //lấy id của shipment_info
                     'type' => 'shipment',
                     'tracking' => $item_number, //danh sách tracking
-                    'note' => $note,
+                    'note' => $request->note,
+                    'repackage' => $request->isPackaged == false ? 0 : 1
                 ]);
                 //check status
                 if ($create_shipment->status() == 201) {
@@ -140,14 +151,15 @@ class appController extends Controller
         }
         //CostShipVN
         if ($costShipVN = $request->CostShipVN) {
+            Log::info('Check CostShipVN', ['result' => $request->all()]);
             $Weight = $request->Weight;
             $Height = $request->Height;
             $Width = $request->Width;
             $Length = $request->Length;
-            $SenderDistrictId = $request->SenderDistrictId;
-            $SenderProvinceId = $request->SenderProvinceId;
             $ReceiverDistrictId = $request->ReceiverDistrictId;
             $ReceiverProvinceId = $request->ReceiverProvinceId;
+            $SenderProvinceId = $ReceiverProvinceId <= 53 ? 10 : 70;
+            $SenderDistrictId = $SenderProvinceId == 10 ? 1390 : 7600;
             $IsReceiverPayFreight = $request->IsReceiverPayFreight;
             $CodAmount = $request->CodAmount;
             $OrderAmount = $request->CodAmount;
@@ -183,6 +195,7 @@ class appController extends Controller
             $result = curl_exec($ch);
             curl_close($ch);
             $arr = json_decode($result, true);
+            Log::info('result CostShip',['result'=>$arr]);
             if (($ReceiverProvinceId == 10) || ($ReceiverProvinceId == 70)) {
                 $TongCuocSauVAT = $arr[0]['TongCuocSauVAT'];
                 $CuocCOD = $arr[0]['CuocCOD'];
@@ -202,6 +215,7 @@ class appController extends Controller
                 'SoTienCodThuNoiNguoiNhan' => $CuocCOD + $TongCuocSauVAT,
                 'PhuongThucVC' => $PhuongThucVC
             );
+            Log::info('costShip', ['result' => $results]);
             return response()->json($results);
         }
         //COD CHange
@@ -218,7 +232,7 @@ class appController extends Controller
     public function allFunction(Request $request)
     {
         //getPrice
-        Log::info("app", ['tess' => $request->all()]);
+        // Log::info("app", ['METHOD_GET' => $request->all()]);
         $check = Str::contains($request->fullUrl(), 'GetPrice');
         if ($check) {
             // $GetPrice = $request->GetPrice;
@@ -316,6 +330,7 @@ class appController extends Controller
         }
         //getInForSKU done
         if ($skuSearch = $request->SearchInfoSKU) {
+            Log::info('App check request tracking infor',['result'=>$request->all()]);
             $token = token::find(1);
             if (empty($token)) {
                 $this->QCT->getToken();
@@ -350,12 +365,13 @@ class appController extends Controller
                         $sender_name = $notes->send_name;
                         $number_send = $notes->send_phone;
                         $note = $notes->note;
-                        $packaged = $notes->isPackaged;
+                        $packaged = Str::ucfirst($notes->isPackaged) == "Không" ? "false" : "true";
                     } else {
                         if (($inForTracking['orders'][0]['shipment_infor']['sender_name']) != null) {
                             $sender_name = $inForTracking['orders'][0]['shipment_infor']['sender_name'];
                             $number_send = $inForTracking['orders'][0]['shipment_infor']['sender_tel'];
                             $note = $inForTracking['orders'][0]['note'];
+                            $packaged =  $inForTracking['orders'][0]['repackage'] == false ? "false" : "true";
                         } else {
                             $notes = json_encode(['send_name' => "Chưa đăng kí", 'send_phone' => "Chưa đăng kí", 'isPackaged' => "Chưa đăng kí", 'note' => "Chưa đăng kí"]);
                             $notes = json_decode($notes);
@@ -419,7 +435,7 @@ class appController extends Controller
                 if ($getTracking->status() == 200) {
                     $getTracking = json_decode($getTracking->body(), true);
                     if (!empty($getTracking["orders"])) {
-                        $sortByShimpent_id = usort($inForTracking['orders'], function ($a, $b) {
+                        $sortByShimpent_id = usort($getTracking['orders'], function ($a, $b) {
                             return $b['shipment_infor_id'] - $a['shipment_infor_id'];
                         });
                     }
@@ -476,6 +492,12 @@ class appController extends Controller
                                         'StatusTrack' => $status,
                                     );
                                 }
+                            } else {
+                                $trackinfo[] = array(
+                                    'Date_line' => $getTracking["orders"][0]['created_at'],
+                                    'StatusTrack' => "Đang tới kho",
+                                    'StatusTrack' => "Đang tới kho",
+                                );
                             }
                         }
                     }
@@ -487,6 +509,7 @@ class appController extends Controller
                             'StatusTrack' => 'Chưa về kho',
                         ];
                     }
+                    //box có,order rỗng
                     if (!empty($getTracking['boxes']) && empty($getTracking["orders"])) {
                         foreach ($getTracking['boxes'] as $box) {
                             if (!empty($box['logs'])) {
@@ -542,6 +565,7 @@ class appController extends Controller
                         }
                     }
                 }
+                Log::info('result', ['inforSKU' => $collect, 'Detail' => $cu, 'Timeline' => $trackinfo]);
                 $temp["InfoSKU"] = $collect;
                 $temp["Detail"] = $cu;
                 $temp["Timeline"] = $trackinfo;
@@ -608,10 +632,10 @@ class appController extends Controller
                         'ChieuCao' =>  strval($data['height']),
                         'ChieuRong' =>  strval($data['width']),
                         'ChieuDai' =>  strval($data['length']),
-                        'DistricRev_Code' =>  $getByWardId['district']['id'],
-                        'ProvinceRev_Code' =>  $getByWardId['district']['province']['id'],
-                        'DistricSend_Code' => $SendDisc,
-                        'ProvinceSend_Code' => $ProSend
+                        'ProvinceRev_Code'=>  $getByWardId['district']['id'],
+                        'DistricRev_Code' =>  $getByWardId['district']['province']['id'],
+                        'ProvinceSend_Code'=> $SendDisc,
+                        'DistricSend_Code' => $ProSend
                     ];
                     return response()->json($results);
                 } else {
