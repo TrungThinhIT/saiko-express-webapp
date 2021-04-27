@@ -176,6 +176,9 @@
                 <div class="fh-section-title clearfix f30  text-left version-dark paddbtm40">
                     <h2>nhập thông tin kiện hàng</h2>
                 </div>
+                {{-- <div class="alert alert-danger">
+                    <p>Hệ thống đang cập nhật</p>
+                </div> --}}
                 <p>Chúng tôi luôn quan tâm đến các dự án mới, dù lớn hay nhỏ. Gửi email cho chúng tôi và chúng tôi sẽ
                     liên lạc ngay hoặc điện thoại trong khoảng thời gian từ 9:00 sáng đến 8:00 tối từ thứ Hai đến thứ
                     Bảy.</p>
@@ -301,9 +304,9 @@
                                         <span class="checkbox_item"><label><input id="ureparking" name="donggoi"
                                                     value="Repark" type="checkbox">Đóng gói lại kiện hàng
                                             </label></span>
-                                        {{-- <span class="checkbox_item"><label><input id="merge_box" name="merge_box"
-                                            value="true" type="checkbox">Gộp thùng
-                                            </label></span> --}}
+                                        <span class="checkbox_item"><label><input id="merge_box" name="merge_box"
+                                            value="1" type="checkbox">Gộp thùng
+                                            </label></span>
                                     </span>
                                 </p>
                                 <p class="field submit">
@@ -536,8 +539,6 @@
                         merge_box:merge_box,
                     },
                     success: function(response) {
-                        console.log(response)
-                        return
                         if (response == 201) {
                             document.getElementById("color-success").style.background = '#1ba906'
                             $('#message').html('Tạo tracking thành công!');
