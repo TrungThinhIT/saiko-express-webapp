@@ -64,15 +64,15 @@ class appController extends Controller
                 $ward_id = "76000";
             }
             if ($request->detail_address == "Văn phòng Sóc Sơn") {
-                $add = "VP Sóc Sơn";
+                $add = "Nhận tại VP Sóc Sơn";
                 $ward_id = "76000";
             }
             if ($request->detail_address == "Văn phòng Lạc Long Quân") {
-                $add = "VP Lạc Long Quân";
-                $ward_id = "76000";
+                $add = "Nhận tại VP Lạc Long Quân";
+                $ward_id = "13900";
             }
             if ($request->detail_address == "Văn phòng Hồ Chí Minh") {
-                $add = "VP Hồ Chí Minh";
+                $add = "Nhận tại VP Hồ Chí Minh";
                 $ward_id = "76000";
             }
             // $d = explode(" ", $address[0]);
