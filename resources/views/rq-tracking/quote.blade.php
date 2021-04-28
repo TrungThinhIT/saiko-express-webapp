@@ -388,7 +388,7 @@
         </div>
     </div>
 
-    <div class="tmn-custom-mask d-none">
+    <div class="tmn-custom-mask d-none" id="loader">
         <div class="loader"></div>
     </div>
     <div>
@@ -466,6 +466,12 @@
                 document.getElementById("uphone").style.borderColor = ''
             }
         });
+        $(document).ajaxStart(function() {
+            $("#loader").show();
+        });
+        $(document).ajaxStop(function() {
+            $("#loader").hide();
+        });
 
     });
 
@@ -501,7 +507,6 @@
         var Tracking = str.replace(/-| |_|,/gi, function(matched) {
             return mapObj[matched];
         });
-        console.log(Tracking);
         // var Tracking = $("#utracking").val();
         var checkAir = document.getElementById('uair').value;
         var checkSea = document.getElementById('usea').value;

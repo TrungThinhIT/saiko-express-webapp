@@ -113,6 +113,59 @@
             outline: none;
         }
 
+        .loader {
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            /* Safari */
+            animation: spin 2s linear infinite;
+        }
+
+        .tmn-custom-mask {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, .5);
+        }
+
+        .d-none {
+            display: none;
+        }
+
+        */ */
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
     </style>
 
 <body>
@@ -476,6 +529,26 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="underline table-responsive" style="display:none" id="table-firt-vnpost">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;">ID</th>
+                                                <th>Cân Nặng<span style="display: block">(kg)</span></th>
+                                                <th style="text-align: center;">Thể Tích<span
+                                                        style="display: block">(kg)</span></th>
+                                                <th style="text-align: center;">Tên Người Gửi</th>
+                                                <th style="text-align: center;">Tên Người Nhận</th>
+                                                <th style="text-align: center;">SĐT</th>
+                                                <th style="text-align: center;">Địa chỉ</th>
+                                                <th>Đường vận chuyển</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="body-table-firt">
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -543,6 +616,9 @@
                     </div>
                 </div>
             </div>
+            <div class="tmn-custom-mask d-none" id="loader">
+                <div class="loader"></div>
+            </div>
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 style="z-index: 9999">
                 <div class="modal-dialog modal-sm  modal-confirm" role="document">
@@ -564,9 +640,16 @@
         </section>
         <script>
             $(document).ready(function() {
+                $(document).ajaxStart(function() {
+                    $("#loader").show();
+                });
+                $(document).ajaxStop(function() {
+                    $("#loader").hide();
+                });
                 $('#tracking_form').submit(function(e) {
                     e.preventDefault();
                     var tracking = $("#utrack").val();
+                    toggleLoading()
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -625,17 +708,33 @@
                                                             .shipment_infor_id
                                                         )
                                                     })
-                                                if (sort_order[value.orders.length - 1].shipment_infor.sender_name == null) {
-                                                    var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
-                                                    name_send = parse_note.send_name;
+                                                if (sort_order[value.orders.length -
+                                                        1].shipment_infor
+                                                    .sender_name == null) {
+                                                    var parse_note = JSON.parse(
+                                                        sort_order[value.orders
+                                                            .length - 1].note);
+                                                    name_send = parse_note
+                                                        .send_name;
                                                 } else {
-                                                    name_send = sort_order[value.orders.length - 1].shipment_infor.sender_name;
+                                                    name_send = sort_order[value
+                                                            .orders.length - 1]
+                                                        .shipment_infor.sender_name;
                                                 }
-                                                tel_rev = sort_order[value.orders.length - 1].shipment_infor.tel;
-                                                name_rev = sort_order[value.orders.length - 1].shipment_infor.consignee;
-                                                add_rev = sort_order[value.orders.length - 1].shipment_infor.full_address;
-                                                created_at = sort_order[value.orders.length - 1].created_at;
-                                                method_ship = sort_order[value.orders.length - 1].shipment_method_id;
+                                                tel_rev = sort_order[value.orders
+                                                        .length - 1].shipment_infor
+                                                    .tel;
+                                                name_rev = sort_order[value.orders
+                                                        .length - 1].shipment_infor
+                                                    .consignee;
+                                                add_rev = sort_order[value.orders
+                                                        .length - 1].shipment_infor
+                                                    .full_address;
+                                                created_at = sort_order[value.orders
+                                                    .length - 1].created_at;
+                                                method_ship = sort_order[value
+                                                        .orders.length - 1]
+                                                    .shipment_method_id;
                                             }
                                             if (name_send == '' | tel_rev == '' |
                                                 name_rev == '' | add_rev == '') {
@@ -714,72 +813,166 @@
                                                             '</td>' +
                                                             '</tr>'
                                                         )
-                                                    if(value.boxes.length==1){
-                                                        $("#time_line").empty()
+                                                    if (value.boxes
+                                                        .length == 1) {
+                                                        $("#time_line")
+                                                            .empty()
 
-                                                        if (value.boxes[0].logs.length == 0) {
-                                                            $("#time_line").append(
-                                                                '<li>' +
-                                                                '<a>' + 'Đang tới kho' + '</a>' +
-                                                                '<p>' + created_at + '</p>' +
-                                                                '</li>'
-                                                            )
-                                                        }else{
-                                                            $.each(value.boxes[0].logs, function(index, value) {
-                                                            let a = JSON.parse(value.content);
-                                                            let valueObject = Object.keys(a)
-                                                            var status;
-                                                            if (valueObject == "id") {
-                                                                status = "Đã nhập kho Nhật"
-                                                            }
-                                                            if (valueObject == "in_pallet") {
-                                                                status = "Đã kiểm hàng"
-                                                            }
-                                                            if (valueObject == "set_owner_id,set_owner_type") {
-                                                                status = "Lên đơn hàng"
-                                                            }
-                                                            if (valueObject == "in_container") {
-                                                                status = "Lên container"
-                                                            }
-                                                            if (valueObject == "out_container") {
-                                                                status = "Xuống container"
-                                                            }
-                                                            if (valueObject == "delivery_status") {
-                                                                if (a.delivery_status == "shipping") {
-                                                                    status = "Đang giao hàng"
-                                                                }
-                                                            }
-                                                            if (valueObject == "delivery_status") {
-                                                                if (a.delivery_status == "cancelled") {
-                                                                    status = "Hủy box"
-                                                                }
-                                                            }
-                                                            if (valueObject == "delivery_status") {
-                                                                if (a.delivery_status == "received") {
-                                                                    status = "Đã nhận hàng"
-                                                                }
-                                                            }
-                                                            if (valueObject == "delivery_status") {
-                                                                if (a.delivery_status == "refunded") {
-                                                                    status = "Trả lại hàng"
-                                                                }
-                                                            }
-                                                            if (valueObject == "delivery_status") {
-                                                                if (a.delivery_status == "waiting_shipment") {
-                                                                    status = "Đợi giao hàng"
-                                                                }
-                                                            }
+                                                        if (value.boxes[0]
+                                                            .logs.length ==
+                                                            0) {
+                                                            $("#time_line")
+                                                                .append(
+                                                                    '<li>' +
+                                                                    '<a>' +
+                                                                    'Đang tới kho' +
+                                                                    '</a>' +
+                                                                    '<p>' +
+                                                                    created_at +
+                                                                    '</p>' +
+                                                                    '</li>'
+                                                                )
+                                                        } else {
+                                                            $.each(value
+                                                                .boxes[
+                                                                    0]
+                                                                .logs,
+                                                                function(
+                                                                    index,
+                                                                    value
+                                                                ) {
+                                                                    let a =
+                                                                        JSON
+                                                                        .parse(
+                                                                            value
+                                                                            .content
+                                                                        );
+                                                                    let valueObject =
+                                                                        Object
+                                                                        .keys(
+                                                                            a
+                                                                        )
+                                                                    var
+                                                                        status;
+                                                                    if (valueObject ==
+                                                                        "id"
+                                                                    ) {
+                                                                        status
+                                                                            =
+                                                                            "Đã nhập kho Nhật"
+                                                                    }
+                                                                    if (valueObject ==
+                                                                        "in_pallet"
+                                                                    ) {
+                                                                        status
+                                                                            =
+                                                                            "Đã kiểm hàng"
+                                                                    }
+                                                                    if (valueObject ==
+                                                                        "set_owner_id,set_owner_type"
+                                                                    ) {
+                                                                        status
+                                                                            =
+                                                                            "Lên đơn hàng"
+                                                                    }
+                                                                    if (valueObject ==
+                                                                        "in_container"
+                                                                    ) {
+                                                                        status
+                                                                            =
+                                                                            "Lên container"
+                                                                    }
+                                                                    if (valueObject ==
+                                                                        "out_container"
+                                                                    ) {
+                                                                        status
+                                                                            =
+                                                                            "Xuống container"
+                                                                    }
+                                                                    if (valueObject ==
+                                                                        "delivery_status"
+                                                                    ) {
+                                                                        if (a
+                                                                            .delivery_status ==
+                                                                            "shipping"
+                                                                        ) {
+                                                                            status
+                                                                                =
+                                                                                "Đang giao hàng"
+                                                                        }
+                                                                    }
+                                                                    if (valueObject ==
+                                                                        "delivery_status"
+                                                                    ) {
+                                                                        if (a
+                                                                            .delivery_status ==
+                                                                            "cancelled"
+                                                                        ) {
+                                                                            status
+                                                                                =
+                                                                                "Hủy box"
+                                                                        }
+                                                                    }
+                                                                    if (valueObject ==
+                                                                        "delivery_status"
+                                                                    ) {
+                                                                        if (a
+                                                                            .delivery_status ==
+                                                                            "received"
+                                                                        ) {
+                                                                            status
+                                                                                =
+                                                                                "Đã nhận hàng"
+                                                                        }
+                                                                    }
+                                                                    if (valueObject ==
+                                                                        "delivery_status"
+                                                                    ) {
+                                                                        if (a
+                                                                            .delivery_status ==
+                                                                            "refunded"
+                                                                        ) {
+                                                                            status
+                                                                                =
+                                                                                "Trả lại hàng"
+                                                                        }
+                                                                    }
+                                                                    if (valueObject ==
+                                                                        "delivery_status"
+                                                                    ) {
+                                                                        if (a
+                                                                            .delivery_status ==
+                                                                            "waiting_shipment"
+                                                                        ) {
+                                                                            status
+                                                                                =
+                                                                                "Đợi giao hàng"
+                                                                        }
+                                                                    }
 
-                                                            $("#time_line").append(
-                                                                '<li>' +
-                                                                '<a>' + status + '</a>' +
-                                                                '<p>' + value.created_at + '</p>' +
-                                                                '</li>'
-                                                            )
-                                                        })
+                                                                    $("#time_line")
+                                                                        .append(
+                                                                            '<li>' +
+                                                                            '<a>' +
+                                                                            status +
+                                                                            '</a>' +
+                                                                            '<p>' +
+                                                                            value
+                                                                            .created_at +
+                                                                            '</p>' +
+                                                                            '</li>'
+                                                                        )
+                                                                })
                                                         }
-                                                    }else{
-                                                        $(`#sku-row-${value2.id}`) .on('click',function() {check(value2.logs,created_at)})
+                                                    } else {
+                                                        $(`#sku-row-${value2.id}`)
+                                                            .on('click',
+                                                                function() {
+                                                                    check(value2
+                                                                        .logs,
+                                                                        created_at
+                                                                    )
+                                                                })
                                                     }
                                                 })
                                             }
@@ -796,7 +989,7 @@
             })
             //show log by id
             function check(row, created_at) {
-                
+
                 $("#time_line").empty()
                 if (row.length == 0) {
                     $("#time_line").append(
@@ -858,6 +1051,10 @@
                         )
                     })
                 }
+            }
+
+            function toggleLoading() {
+                $('.tmn-custom-mask').toggleClass('d-none');
             }
 
         </script>
