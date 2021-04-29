@@ -123,7 +123,7 @@ class appController extends Controller
                 ]);
                 //createTrackinf
                 $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
-                    'shipment_method_id' =>  $request->shipping_method, //đường vận chuyển
+                    'shipment_method_id' =>  Str::ucfirst($request->shipping_method), //đường vận chuyển
                     'shipment_infor_id' => $data['id'], //lấy id của shipment_info
                     'type' => 'shipment',
                     'tracking' => $item_number, //danh sách tracking
@@ -195,7 +195,7 @@ class appController extends Controller
             $result = curl_exec($ch);
             curl_close($ch);
             $arr = json_decode($result, true);
-            Log::info('result CostShip',['result'=>$arr]);
+            Log::info('result CostShip', ['result' => $arr]);
             if (($ReceiverProvinceId == 10) || ($ReceiverProvinceId == 70)) {
                 $TongCuocSauVAT = $arr[0]['TongCuocSauVAT'];
                 $CuocCOD = $arr[0]['CuocCOD'];
@@ -330,7 +330,7 @@ class appController extends Controller
         }
         //getInForSKU done
         if ($skuSearch = $request->SearchInfoSKU) {
-            Log::info('App check request tracking infor',['result'=>$request->all()]);
+            Log::info('App check request tracking infor', ['result' => $request->all()]);
             $token = token::find(1);
             if (empty($token)) {
                 $this->QCT->getToken();
@@ -390,7 +390,7 @@ class appController extends Controller
                         "Uname_Rev" => $inForTracking["orders"][0]['shipment_infor']['consignee'] ??  "Chưa đăng kí ",
                         "Number_Rev" => $inForTracking["orders"][0]['shipment_infor']['tel'] ?? "Chưa đăng kí ",
                         "Add_Rev" =>  $inForTracking["orders"][0]['shipment_infor']['full_address'] ?? "Chưa đăng kí ",
-                        "Note_Rev" => $note,
+                        "Note_Rev" => $note == null ? "" : $note,
                         "Reparking" => $packaged,
                         "ShipMethod" =>  $inForTracking["orders"][0]['shipment_method_id'] ?? "Chưa đăng kí ",
                         "CODPriceJP" => null,
@@ -489,14 +489,12 @@ class appController extends Controller
                                     $trackinfo[] = array(
                                         'Date_line' => $log['created_at'],
                                         'StatusTrack' => $status,
-                                        'StatusTrack' => $status,
                                     );
                                 }
                             } else {
                                 $trackinfo[] = array(
                                     'Date_line' => $getTracking["orders"][0]['created_at'],
-                                    'StatusTrack' => "Đang tới kho",
-                                    'StatusTrack' => "Đang tới kho",
+                                    'StatusTrack' => "Đang tới kho"
                                 );
                             }
                         }
@@ -505,8 +503,7 @@ class appController extends Controller
                     if (empty($getTracking['boxes']) && !empty($getTracking["orders"])) {
                         $trackinfo = [
                             'Date_line' => $getTracking['orders'][0]['created_at'],
-                            'StatusTrack' => 'Chưa về kho',
-                            'StatusTrack' => 'Chưa về kho',
+                            'StatusTrack' => 'Chưa về kho'
                         ];
                     }
                     //box có,order rỗng
@@ -558,7 +555,7 @@ class appController extends Controller
                                     }
                                     $trackinfo[] = array(
                                         'Date_line' => $log['created_at'],
-                                        'StatusTrack' => $status,
+                                        'StatusTrack' => $status
                                     );
                                 }
                             }
@@ -628,13 +625,13 @@ class appController extends Controller
                     }
                     $results = [
                         'SKU' => $data['id'],
-                        'CanNang' => strval($data['weight']),
+                        'CanNang' => $data['weight']*1000,
                         'ChieuCao' =>  strval($data['height']),
                         'ChieuRong' =>  strval($data['width']),
                         'ChieuDai' =>  strval($data['length']),
-                        'ProvinceRev_Code'=>  $getByWardId['district']['id'],
+                        'ProvinceRev_Code' =>  $getByWardId['district']['id'],
                         'DistricRev_Code' =>  $getByWardId['district']['province']['id'],
-                        'ProvinceSend_Code'=> $SendDisc,
+                        'ProvinceSend_Code' => $SendDisc,
                         'DistricSend_Code' => $ProSend
                     ];
                     return response()->json($results);
