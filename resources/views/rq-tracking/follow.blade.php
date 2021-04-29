@@ -490,7 +490,7 @@
                                             <tr>
                                                 <th style="text-align: center;">ID</th>
                                                 <th>Cân Nặng<span style="display: block">(kg)</span></th>
-                                                <th style="text-align: center;">Thể Tích<span
+                                                <th style="text-align: center;">Ký Thể Tích<span
                                                         style="display: block">(kg)</span></th>
                                                 <th style="text-align: center;">Tên Người Gửi</th>
                                                 <th style="text-align: center;">Tên Người Nhận</th>
@@ -645,6 +645,10 @@
                 $('#tracking_form').submit(function(e) {
                     e.preventDefault();
                     var tracking = $("#utrack").val();
+                    if(tracking.length<=5){
+                        alert('Tracking chưa đúng')
+                        return 
+                    }
                     toggleLoading()
                     $.ajax({
                         headers: {
@@ -764,11 +768,11 @@
                                                             .id +
                                                             '</td>' +
                                                             '<td>' + value2
-                                                            .weight.toFixed(
+                                                            .weight_per_box.toFixed(
                                                                 3) +
                                                             '</td>' +
                                                             '<td>' + value2
-                                                            .volume.toFixed(
+                                                            .volumn_weight_box.toFixed(
                                                                 3) +
                                                             '</td>' +
                                                             '<td>' +
@@ -857,26 +861,34 @@
                                                                         )
                                                                 })
                                                         }
-                                                        // $("#body-table-firt-vnpost").empty()
-                                                        // $("#body-table-firt-vnpost").append(
-                                                        //     '<tr >' +
-                                                        //     '<td>' + value.boxes[0][0].MaDichVu +
-                                                        //     '</td>' +
-                                                        //     '<td>' + value.boxes[0][0].PhuongThucVC +
-                                                        //     '</td>' +
-                                                        //     '<td>' + value.boxes[0][0].CuocCOD +
-                                                        //     '</td>' +
-                                                        //     '<td>' +value.boxes[0][0].TongCuocSauVAT +
-                                                        //     '</td>' +
-                                                        //     '<td>' +value.boxes[0][0].SoTienCodThuNoiNguoiNhan +
-                                                        //     '</tr>'
-                                                        // )
-                                                        // $("#table-firt-vnpost").show()
-                                                    
+                                                    // if(value.boxes[0]['vnpost']!=undefined){
+                                                    //     $("#body-table-firt-vnpost").empty()
+                                                    //     $("#body-table-firt-vnpost").append(
+                                                    //         '<tr>' +
+                                                    //         '<td>' + value.boxes[0]['vnpost'].MaDichVu +
+                                                    //         '</td>' +
+                                                    //         '<td>' + value.boxes[0]['vnpost'].PhuongThucVC +
+                                                    //         '</td>' +
+                                                    //         '<td>' + value.boxes[0]['vnpost'].CuocCOD +
+                                                    //         '</td>' +
+                                                    //         '<td>' +value.boxes[0]['vnpost'].TongCuocSauVAT +
+                                                    //         '</td>' +
+                                                    //         '<td>' +value.boxes[0]['vnpost'].SoTienCodThuNoiNguoiNhan +
+                                                    //         '</tr>'
+                                                    //     )
+                                                    //     $("#table-firt-vnpost").show()
+                                                    // }
+                                                        
                                                     } else {
                                                         $(`#sku-row-${value2.id}`)
                                                             .on('click',function() {
-                                                                    check(value2.logs,created_at)
+                                                                var vnpost=0;
+                                                                if(value.boxes[0][0]!=undefined){
+                                                                    vnpost = value.boxes[0][0];
+                                                                }else{
+                                                                    vnpost = 0;
+                                                                }
+                                                                    check(value2.logs,created_at,vnpost)
                                                                 })
                                                     }
                                                 })
@@ -893,7 +905,7 @@
                 })
             })
             //show log by id
-            function check(row, created_at) {
+            function check(row, created_at,vnpost) {
 
                 $("#time_line").empty()
                 if (row.length == 0) {
@@ -956,6 +968,7 @@
                         )
                     })
                 }
+                
             }
 
             function toggleLoading() {
@@ -1015,6 +1028,8 @@
             $("#body-table-firt").empty()
             $("#time_line").empty()
             $("#table-firt").hide()
+            $("#body-table-firt-vnpost").empty()
+            $("#table-firt-vnpost").hide()
         }
     </script>
     @include('modules.nav-mobile')
