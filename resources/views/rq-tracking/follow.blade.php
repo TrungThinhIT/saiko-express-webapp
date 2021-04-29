@@ -122,7 +122,7 @@
             left: 50%;
             border: 16px solid #f3f3f3;
             border-radius: 50%;
-            border-top: 16px solid #3498db;
+            border-top: 16px solid #fca901;
             width: 120px;
             height: 120px;
             -webkit-animation: spin 2s linear infinite;
@@ -450,7 +450,7 @@
                                             <label>Mã Tracking <span class="require">*</span></label>
                                             <p class="field">
                                                 <input size="40" id="utrack" placeholder="Nhập mã Tracking vào đây"
-                                                    type="text" class="form-control">
+                                                    type="text" onclick="clearAll()" class="form-control">
                                             </p>
 
                                         </div>
@@ -696,41 +696,20 @@
                                             var created_at = '';
                                             var method_ship = '';
                                             if (value.orders.length != 0) {
-                                                var sort_order = (value.orders)
-                                                    .sort(function(x, y) {
-                                                        return new Date(x
-                                                            .shipment_infor_id
-                                                        ) - new Date(y
-                                                            .shipment_infor_id
-                                                        )
+                                                var sort_order = (value.orders).sort(function(x, y) {
+                                                        return new Date(x.shipment_infor_id) - new Date(y.shipment_infor_id)
                                                     })
-                                                if (sort_order[value.orders.length -
-                                                        1].shipment_infor
-                                                    .sender_name == null) {
-                                                    var parse_note = JSON.parse(
-                                                        sort_order[value.orders
-                                                            .length - 1].note);
-                                                    name_send = parse_note
-                                                        .send_name;
+                                                if (sort_order[value.orders.length - 1].shipment_infor.sender_name == null) {
+                                                    var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
+                                                    name_send = parse_note.send_name;
                                                 } else {
-                                                    name_send = sort_order[value
-                                                            .orders.length - 1]
-                                                        .shipment_infor.sender_name;
+                                                    name_send = sort_order[value.orders.length - 1].shipment_infor.sender_name;
                                                 }
-                                                tel_rev = sort_order[value.orders
-                                                        .length - 1].shipment_infor
-                                                    .tel;
-                                                name_rev = sort_order[value.orders
-                                                        .length - 1].shipment_infor
-                                                    .consignee;
-                                                add_rev = sort_order[value.orders
-                                                        .length - 1].shipment_infor
-                                                    .full_address;
-                                                created_at = sort_order[value.orders
-                                                    .length - 1].created_at;
-                                                method_ship = sort_order[value
-                                                        .orders.length - 1]
-                                                    .shipment_method_id;
+                                                tel_rev = sort_order[value.orders.length - 1].shipment_infor.tel;
+                                                name_rev = sort_order[value.orders.length - 1].shipment_infor.consignee;
+                                                add_rev = sort_order[value.orders.length - 1].shipment_infor.full_address;
+                                                created_at = sort_order[value.orders.length - 1].created_at;
+                                                method_ship = sort_order[value.orders.length - 1].shipment_method_id;
                                             }
                                             if (name_send == '' | tel_rev == '' |
                                                 name_rev == '' | add_rev == '') {
@@ -754,7 +733,7 @@
                                                 )
                                                 $("#body-table-firt")
                                                     .append(
-                                                        `<tr ">` +
+                                                        `<tr>` +
                                                         '<td>' +
                                                         '</td>' +
                                                         '<td>' +
@@ -871,39 +850,32 @@
 
                                                                     $("#time_line").append(
                                                                             '<li>' +
-                                                                            '<a>' +
-                                                                            status +
-                                                                            '</a>' +
-                                                                            '<p>' +
-                                                                            value
-                                                                            .created_at +
+                                                                            '<a>' +status +
+                                                                            '</a>' +'<p>' +value.created_at +
                                                                             '</p>' +
                                                                             '</li>'
                                                                         )
                                                                 })
                                                         }
-                                                        if(value.boxes[0][0].CuocCOD!=null){
-                                                        $("#body-table-firt-vnpost").empty()
-                                                        $("#body-table-firt-vnpost").append(
-                                                            '<tr >' +
-                                                            '<td>' + value.boxes[0][0].MaDichVu +
-                                                            '</td>' +
-                                                            '<td>' + value.boxes[0][0].PhuongThucVC +
-                                                            '</td>' +
-                                                            '<td>' + value.boxes[0][0].CuocCOD +
-                                                            '</td>' +
-                                                            '<td>' +value.boxes[0][0].TongCuocSauVAT +
-                                                            '</td>' +
-                                                            '<td>' +value.boxes[0][0].SoTienCodThuNoiNguoiNhan +
-                                                            '</tr>'
-                                                        )
-                                                        $("#table-firt-vnpost").show()
-                                                    }
-                                                        
+                                                        // $("#body-table-firt-vnpost").empty()
+                                                        // $("#body-table-firt-vnpost").append(
+                                                        //     '<tr >' +
+                                                        //     '<td>' + value.boxes[0][0].MaDichVu +
+                                                        //     '</td>' +
+                                                        //     '<td>' + value.boxes[0][0].PhuongThucVC +
+                                                        //     '</td>' +
+                                                        //     '<td>' + value.boxes[0][0].CuocCOD +
+                                                        //     '</td>' +
+                                                        //     '<td>' +value.boxes[0][0].TongCuocSauVAT +
+                                                        //     '</td>' +
+                                                        //     '<td>' +value.boxes[0][0].SoTienCodThuNoiNguoiNhan +
+                                                        //     '</tr>'
+                                                        // )
+                                                        // $("#table-firt-vnpost").show()
+                                                    
                                                     } else {
                                                         $(`#sku-row-${value2.id}`)
-                                                            .on('click',
-                                                                function() {
+                                                            .on('click',function() {
                                                                     check(value2.logs,created_at)
                                                                 })
                                                     }
@@ -1039,7 +1011,11 @@
             js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-
+        function clearAll(){
+            $("#body-table-firt").empty()
+            $("#time_line").empty()
+            $("#table-firt").hide()
+        }
     </script>
     @include('modules.nav-mobile')
 </body>
