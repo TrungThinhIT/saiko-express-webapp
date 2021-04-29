@@ -165,7 +165,11 @@
                 transform: rotate(360deg);
             }
         }
-
+        /* set background color */
+        .tr-color:hover td{
+            background-color: aqua !important;
+        }
+        
     </style>
 
 <body>
@@ -661,6 +665,8 @@
                         },
                         success: function(res) {
                             console.log(res)
+                            $("#body-table-firt-vnpost").empty()
+                            $("#table-firt-vnpost").hide()
                             if (res == 404) {
                                 $("#table").hide();
                                 $("#body-table-firt").empty()
@@ -725,6 +731,8 @@
                                                 $('#myModal').modal('show');
                                             }
                                             if (value.boxes.length == 0) {
+                                                $("#body-table-firt-vnpost").empty()
+                                                $("#table-firt-vnpost").hide()
                                                 $("#body-table-firt").empty()
                                                 $("#time_line").empty()
                                                 $("#time_line").append(
@@ -759,36 +767,24 @@
                                             } else {
                                                 $("#body-table-firt").empty()
                                                 $("#time_line").empty()
-                                                $.each(value.boxes, function(index,
-                                                    value2) {
-                                                    $("#body-table-firt")
-                                                        .append(
+                                                $.each(value.boxes, function(index,value2) {
+                                                    $("#body-table-firt").append(
                                                             `<tr id="sku-row-${value2.id}">` +
-                                                            '<td>' + value2
-                                                            .id +
+                                                            '<td>' + value2.id +
                                                             '</td>' +
-                                                            '<td>' + value2
-                                                            .weight_per_box.toFixed(
-                                                                3) +
+                                                            '<td>' + value2.weight_per_box.toFixed(3) +
                                                             '</td>' +
-                                                            '<td>' + value2
-                                                            .volumn_weight_box.toFixed(
-                                                                3) +
+                                                            '<td>' + value2.volumn_weight_box.toFixed(3) +
                                                             '</td>' +
-                                                            '<td>' +
-                                                            name_send +
+                                                            '<td>' +name_send +
                                                             '</td>' +
-                                                            '<td>' +
-                                                            name_rev +
+                                                            '<td>' +name_rev +
                                                             '</td>' +
-                                                            '<td>' +
-                                                            tel_rev +
+                                                            '<td>' +tel_rev +
                                                             '</td>' +
-                                                            '<td>' +
-                                                            add_rev +
+                                                            '<td>' + add_rev +
                                                             '</td>' +
-                                                            '<td>' +
-                                                            method_ship +
+                                                            '<td>' +method_ship +
                                                             '</td>' +
                                                             '</tr>'
                                                         )
@@ -797,11 +793,9 @@
                                                         if (value.boxes[0].logs.length ==0) {
                                                             $("#time_line").append(
                                                                     '<li>' +
-                                                                    '<a>' +
-                                                                    'Đang tới kho' +
+                                                                    '<a>' +'Đang tới kho' +
                                                                     '</a>' +
-                                                                    '<p>' +
-                                                                    created_at +
+                                                                    '<p>' +created_at +
                                                                     '</p>' +
                                                                     '</li>'
                                                                 )
@@ -861,30 +855,34 @@
                                                                         )
                                                                 })
                                                         }
-                                                    // if(value.boxes[0]['vnpost']!=undefined){
-                                                    //     $("#body-table-firt-vnpost").empty()
-                                                    //     $("#body-table-firt-vnpost").append(
-                                                    //         '<tr>' +
-                                                    //         '<td>' + value.boxes[0]['vnpost'].MaDichVu +
-                                                    //         '</td>' +
-                                                    //         '<td>' + value.boxes[0]['vnpost'].PhuongThucVC +
-                                                    //         '</td>' +
-                                                    //         '<td>' + value.boxes[0]['vnpost'].CuocCOD +
-                                                    //         '</td>' +
-                                                    //         '<td>' +value.boxes[0]['vnpost'].TongCuocSauVAT +
-                                                    //         '</td>' +
-                                                    //         '<td>' +value.boxes[0]['vnpost'].SoTienCodThuNoiNguoiNhan +
-                                                    //         '</tr>'
-                                                    //     )
-                                                    //     $("#table-firt-vnpost").show()
-                                                    // }
+                                                        if(value.boxes[0]['vnpost']!=undefined){
+                                                            $("#body-table-firt-vnpost").empty()
+                                                            $("#body-table-firt-vnpost").append(
+                                                                '<tr>' +
+                                                                '<td>' + value.boxes[0]['vnpost'].MaDichVu +
+                                                                '</td>' +
+                                                                '<td>' + value.boxes[0]['vnpost'].PhuongThucVC +
+                                                                '</td>' +
+                                                                '<td>' + value.boxes[0]['vnpost'].CuocCOD +
+                                                                '</td>' +
+                                                                '<td>' +value.boxes[0]['vnpost'].TongCuocSauVAT +
+                                                                '</td>' +
+                                                                '<td>' +value.boxes[0]['vnpost'].SoTienCodThuNoiNguoiNhan +
+                                                                '</tr>'
+                                                            )
+                                                            $("#table-firt-vnpost").show()
+                                                        }
                                                         
                                                     } else {
-                                                        $(`#sku-row-${value2.id}`)
-                                                            .on('click',function() {
+                                                        $(`#sku-row-${value2.id}`).hover(function(){
+                                                            $(this).addClass("tr-color addHover");
+                                                        },function(){
+                                                            $(this).removeClass("tr-color addHover");
+                                                        });
+                                                        $(`#sku-row-${value2.id}`).on('click',function() {
                                                                 var vnpost=0;
-                                                                if(value.boxes[0][0]!=undefined){
-                                                                    vnpost = value.boxes[0][0];
+                                                                if(value2.vnpost!=undefined){
+                                                                    vnpost = value2.vnpost;
                                                                 }else{
                                                                     vnpost = 0;
                                                                 }
@@ -906,7 +904,7 @@
             })
             //show log by id
             function check(row, created_at,vnpost) {
-
+                
                 $("#time_line").empty()
                 if (row.length == 0) {
                     $("#time_line").append(
@@ -967,6 +965,23 @@
                             '</li>'
                         )
                     })
+                }
+                if(vnpost){
+                    $("#body-table-firt-vnpost").empty()
+                    $("#body-table-firt-vnpost").append(
+                        '<tr>' +
+                        '<td>' + vnpost.MaDichVu +
+                        '</td>' +
+                        '<td>' + vnpost.PhuongThucVC +
+                        '</td>' +
+                        '<td>' + vnpost.CuocCOD +
+                        '</td>' +
+                        '<td>' + vnpost.TongCuocSauVAT +
+                        '</td>' +
+                        '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
+                        '</tr>'
+                    )
+                    $("#table-firt-vnpost").show()
                 }
                 
             }
