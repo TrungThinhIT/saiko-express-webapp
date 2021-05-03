@@ -6,6 +6,86 @@
 
 <!--header end -->
 <style>
+      .modal-confirm .modal-content {
+            padding: 20px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .modal-confirm .modal-header {
+            border-bottom: none;
+            position: relative;
+        }
+
+        .modal-confirm h4 {
+            text-align: center;
+            font-size: 26px;
+            margin: 30px 0 -15px;
+        }
+
+        .modal-confirm .form-control,
+        .modal-confirm .btn {
+            min-height: 40px;
+            border-radius: 3px;
+        }
+
+        .modal-confirm .close {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+
+        .modal-confirm .modal-footer {
+            border: none;
+            text-align: center;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
+        .modal-confirm .icon-box {
+            color: #fff;
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: -70px;
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            z-index: 9;
+            background: #ef513a;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .modal-confirm .icon-box i {
+            font-size: 56px;
+            position: relative;
+            top: 4px;
+        }
+
+        .modal-confirm.modal-dialog {
+            margin-top: 80px;
+        }
+
+        .modal-confirm .btn {
+            color: #fff;
+            border-radius: 4px;
+            background: #ef513a;
+            text-decoration: none;
+            transition: all 0.4s;
+            line-height: normal;
+            border: none;
+        }
+
+        .modal-confirm .btn:hover,
+        .modal-confirm .btn:focus {
+            background: #da2c12;
+            outline: none;
+        }
+
     .table-striped>tbody>tr:nth-child(odd)>td,
     .table-striped>tbody>tr:nth-child(odd)>th {
         background-color: #fad792; // Choose your own color here
@@ -64,7 +144,63 @@
         border-radius: 6%;
         list-style: none;
     }
+    .loader {
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #fca901;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            /* Safari */
+            animation: spin 2s linear infinite;
+        }
 
+        .tmn-custom-mask {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, .5);
+        }
+
+        .d-none {
+            display: none;
+        }
+
+        */ */
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* set background color */
+        .tr-color:hover td{
+            background-color:#fca901 !important;
+            cursor: pointer;
+        }
     /* .nav_main_url {
   display: flex;
   justify-content: center;
@@ -724,18 +860,24 @@
                         <form class="form-inline" id="tracking_form_index" method='post'>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <p>Vui lòng nhập tracking</p>
+                                
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                 <div class="form-group">
-                                    <input type="text" placeholder="Nhập tracking..." class="form-control" id="utrack">
+                                    <input type="text" placeholder="Nhập tracking..." onclick="clearAll()" class="form-control" id="utrack">
                                 </div>
+                                
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn ed_btn pull-right ed_orange">Tìm kiếm</button>
                                 </div>
+                                
                             </div>
                         </form>
+                        
+                    </div>
+                    <div class="alert alert-danger" id="statusData" style="display: none;margin-top:20px;">
                     </div>
                 </div>
 
@@ -743,26 +885,75 @@
 
         </div>
 
-        <div class="row" style="display:none;margin: 6px;" id="table-index">
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered" style="text-align: center;">
-                    <thead>
-                        <tr>
-                            <th style="text-align: center;">ID</th>
-                            <th style="text-align: center;">Cân Nặng(kg)</th>
-                            <th style="text-align: center;">Thể Tích(kg)</th>
-                            <th style="text-align: center;">Người Gửi</th>
-                            <th style="text-align: center;">Người Nhận</th>
-                            <th style="text-align: center;">SĐT</th>
-                            <th style="text-align: center;">Địa chỉ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="body-table-index">
+        <div class="row" style="margin: 6px;" >
+            <div class="col-sm-12 col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" style="display:none;text-align: center;" id="table-index">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">ID</th>
+                                <th style="text-align: center;">Cân Nặng(kg)</th>
+                                <th style="text-align: center;">Thể Tích(kg)</th>
+                                <th style="text-align: center;">Người Gửi</th>
+                                <th style="text-align: center;">Người Nhận</th>
+                                <th style="text-align: center;">SĐT</th>
+                                <th style="text-align: center;">Địa chỉ</th>
+                                <th style="text-align: center;">Đường Vận Chuyển</th>
+                            </tr>
+                        </thead>
+                        <tbody id="body-table-index">
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-custome">
+                        <div class="lftredbrdr">
+                            <ul class="timeline" id="time_line_index">
+                        
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="underline table-responsive" style="display:none" id="table-index-vnpost">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">Mã Dịch Vụ</th>
+                                <th style="text-align: center;">Phương thức vận chuyển</th>
+                                <th style="text-align: center;">Cước COD</th>
+                                <th style="text-align: center;">Tổng Cước Sau VAT</th>
+                                <th style="text-align: center;">Tổng tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="body-table-index-vnpost">
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+        <div class="tmn-custom-mask d-none" id="loader">
+            <div class="loader"></div>
+        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                style="z-index: 9999">
+                <div class="modal-dialog modal-sm  modal-confirm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="icon-box" id="color-success"><i class="fa fa-times"></i></div>
+
+                        </div>
+                        <h5 class="modal-confirm" id="message"></h5>
+                        <div class="modal-footer">
+                            <button class="btn btn-err btn-danger btn-block" data-dismiss="modal"
+                                id="exitForm">Thoát</button>
+                            <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
+                                id="exitSuccess" style="display:none">Thoát</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
 </div>
 <!--Slider form end-->
@@ -1434,57 +1625,357 @@
 @include('modules.footer')
 @include('modules.nav-mobile')
 
-
-
 <script>
+    $(document).ready(function(){
+        $(document).ajaxStart(function() {
+            $("#loader").show();
+        });
+        $(document).ajaxStop(function() {
+            $("#loader").hide();
+        });
+    })
     $('#tracking_form_index').submit(function() {
         event.preventDefault();
         var tracking = $("#utrack").val();
-        grecaptcha.ready(function() {
-            grecaptcha.execute('6LexXeoUAAAAACjR-MM0V2-scILrUMVyliP1bArL', {
-                action: 'create_comment'
-            }).then(function(token) {
-                $('#comment_form').prepend(
-                    '<input type="hidden" name="g-recaptcha-response" value="' + token +
-                    '">');
-                $.post("../php/TOKEN.php", {
-                    tracking: tracking,
-                    token: token
-                }, function(result) {
-                    console.log(result);
-
-                    if (result.length > 0) {
+        if(tracking.length<=5){
+            alert('Tracking chưa đúng')
+            return 
+        }
+        toggleLoading()
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            url: "{{ route('rq_tk.getStatus') }}",
+            data: {
+                tracking: tracking
+            },
+            success: function(res) {
+                console.log(res)
+                $("#body-table-index-vnpost").empty()
+                $("#table-index-vnpost").hide()
+                if (res == 404) {
+                    $("#table-index").hide();
+                    $("#body-table-index").empty()
+                    $("#time_line_index").empty()
+                    $("#statusData").empty();
+                    $(".table").hide();
+                    $("#statusData").css('display', 'block');
+                    $("#statusData").append('<h4>' +
+                        'Không tìm thấy mã tracking' + '</h4>')
+                } else {
+                    if (res.data[0].boxes.length == 0 & res.data[0].orders
+                        .length == 0) {
+                        $(".table").hide();
+                        // $("#table-index").show();
+                        $("#body-table-index").empty()
+                        $("#time_line_index").empty()
+                        $("#statusData").empty();
+                        $("#statusData").css('display', 'block');
+                        $("#statusData").append('<h4>' +
+                            'Tracking chưa đăng kí đơn hàng' + '</h4>')
+                    } else {
+                        $("#statusData").css('display', 'none');
+                        $(".table").show();
                         $("#table-index").show();
+                        if (res.data.length == 0) {
+                            $("#statusData").empty()
+                            $("#statusData").append(
+                                '<h4>' + 'Chưa gửi hàng' + '</h4>'
+                            )
+                        } else {
+                            $("#statusData").empty()
+                            $.each(res.data, function(index, value) {
+                                var name_send = '';
+                                var tel_rev = '';
+                                var name_rev = '';
+                                var add_rev = '';
+                                var created_at = '';
+                                var method_ship = '';
+                                if (value.orders.length != 0) {
+                                    var sort_order = (value.orders).sort(function(x, y) {
+                                            return new Date(x.shipment_infor_id) - new Date(y.shipment_infor_id)
+                                        })
+                                    if (sort_order[value.orders.length - 1].shipment_infor.sender_name == null) {
+                                        var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
+                                        name_send = parse_note.send_name;
+                                    } else {
+                                        name_send = sort_order[value.orders.length - 1].shipment_infor.sender_name;
+                                    }
+                                    tel_rev = sort_order[value.orders.length - 1].shipment_infor.tel;
+                                    name_rev = sort_order[value.orders.length - 1].shipment_infor.consignee;
+                                    add_rev = sort_order[value.orders.length - 1].shipment_infor.full_address;
+                                    created_at = sort_order[value.orders.length - 1].created_at;
+                                    method_ship = sort_order[value.orders.length - 1].shipment_method_id;
+                                }
+                                if (name_send == '' | tel_rev == '' |
+                                    name_rev == '' | add_rev == '') {
+                                    $('#message').html(
+                                        'Khách chưa đăng kí đầy đủ thông tin tracking'
+                                    );
+                                    $('#exitForm').hide();
+                                    $('#exitSuccess').show();
+                                    $('#myModal').modal('show');
+                                }
+                                if (value.boxes.length == 0) {
+                                    $("#body-table-firt-vnpost").empty()
+                                    $("#table-index-vnpost").hide()
+                                    $("#body-table-index").empty()
+                                    $("#time_line_index").empty()
+                                    $("#time_line_index").append(
+                                        '<li>' +
+                                        '<a>' + 'Chưa về kho' +
+                                        '</a>' +
+                                        '<p>' + created_at +
+                                        '</p>' +
+                                        '</li>'
+                                    )
+                                    $("#body-table-index")
+                                        .append(
+                                            `<tr>` +
+                                            '<td>' +
+                                            '</td>' +
+                                            '<td>' +
+                                            '</td>' +
+                                            '<td>' +
+                                            '</td>' +
+                                            '<td>' + name_send +
+                                            '</td>' +
+                                            '<td>' + name_rev +
+                                            '</td>' +
+                                            '<td>' + tel_rev +
+                                            '</td>' +
+                                            '<td>' + add_rev +
+                                            '</td>' +
+                                            '<td>' + method_ship +
+                                            '</td>' +
+                                            '</tr>'
+                                        )
+                                } else {
+                                    $("#body-table-index").empty()
+                                    $("#time_line_index").empty()
+                                    $.each(value.boxes, function(index,value2) {
+                                        $("#body-table-index").append(
+                                                `<tr id="sku-row-${value2.id}">` +
+                                                '<td>' + value2.id +
+                                                '</td>' +
+                                                '<td>' + value2.weight_per_box.toFixed(3) +
+                                                '</td>' +
+                                                '<td>' + value2.volumetric_weight_per_box.toFixed(3) +
+                                                '</td>' +
+                                                '<td>' +name_send +
+                                                '</td>' +
+                                                '<td>' +name_rev +
+                                                '</td>' +
+                                                '<td>' +tel_rev +
+                                                '</td>' +
+                                                '<td>' + add_rev +
+                                                '</td>' +
+                                                '<td>' +method_ship +
+                                                '</td>' +
+                                                '</tr>'
+                                            )
+                                        if (value.boxes.length == 1) {
+                                            $("#time_line_index").empty()
+                                            if (value.boxes[0].logs.length ==0) {
+                                                $("#time_line_index").append(
+                                                        '<li>' +
+                                                        '<a>' +'Đang tới kho' +
+                                                        '</a>' +
+                                                        '<p>' +created_at +
+                                                        '</p>' +
+                                                        '</li>'
+                                                    )
+                                            } else {
+                                                $.each(value.boxes[0].logs,function(index,value) {
+                                                        // let a =JSON.parse(value.content );
+                                                        let valueObject =Object.keys(value.content)
+                                                        var status;
+                                                        if (valueObject =="id") {
+                                                            status="Đã nhập kho Nhật"
+                                                        }
+                                                        if (valueObject =="in_pallet") {
+                                                            status ="Đã kiểm hàng"
+                                                        }
+                                                        if (valueObject =="set_owner_id,set_owner_type") {
+                                                            status="Lên đơn hàng"
+                                                        }
+                                                        if (valueObject =="in_container") {
+                                                            status ="Lên container"
+                                                        }
+                                                        if (valueObject =="out_container") {
+                                                            status= "Xuống container"
+                                                        }
+                                                        if (valueObject =="delivery_status" ) {
+                                                            if (a.delivery_status == "shipping") {
+                                                                status="Đang giao hàng"
+                                                            }
+                                                        }
+                                                        if (valueObject =="delivery_status") {
+                                                            if (a.delivery_status =="cancelled"
+                                                            ) {
+                                                                status ="Hủy box"
+                                                            }
+                                                        }
+                                                        if (valueObject =="delivery_status") {
+                                                            if (a.delivery_status =="received") {
+                                                                status= "Đã nhận hàng"
+                                                            }
+                                                        }
+                                                        if (valueObject =="delivery_status") {
+                                                            if (a.delivery_status =="refunded") {
+                                                                status="Trả lại hàng"
+                                                            }
+                                                        }
+                                                        if (valueObject =="delivery_status" ) {
+                                                            if (a.delivery_status =="waiting_shipment") {
+                                                                status="Đợi giao hàng"
+                                                            }
+                                                        }
 
-                    }
-                    var dataHTML = "";
-                    var Timeline = "";
-                    var dataTableFirt = "";
-                    for (var i = 0; i < result.length; i++) {
-                        dataHTML += (result[i].Quantity + result[i].name);
-                        if (result[i].Date || result[i].Status) {
-                            Timeline += (result[i].Date + result[i].Status);
+                                                        $("#time_line_index").append(
+                                                                '<li>' +
+                                                                '<a>' +status +
+                                                                '</a>' +'<p>' +value.created_at +
+                                                                '</p>' +
+                                                                '</li>'
+                                                            )
+                                                    })
+                                            }
+                                            if(value.boxes[0]['vnpost']!=undefined){
+                                                $("#body-table-index-vnpost").empty()
+                                                $("#body-table-index-vnpost").append(
+                                                    '<tr>' +
+                                                    '<td>' + value.boxes[0]['vnpost'].MaDichVu +
+                                                    '</td>' +
+                                                    '<td>' + value.boxes[0]['vnpost'].PhuongThucVC +
+                                                    '</td>' +
+                                                    '<td>' + value.boxes[0]['vnpost'].CuocCOD +
+                                                    '</td>' +
+                                                    '<td>' +value.boxes[0]['vnpost'].TongCuocSauVAT +
+                                                    '</td>' +
+                                                    '<td>' +value.boxes[0]['vnpost'].SoTienCodThuNoiNguoiNhan +
+                                                    '</tr>'
+                                                )
+                                                $("#table-index-vnpost").show()
+                                            }
+                                            
+                                        } else {
+                                            $(`#sku-row-${value2.id}`).hover(function(){
+                                                $(this).addClass("tr-color addHover");
+                                            },function(){
+                                                $(this).removeClass("tr-color addHover");
+                                            });
+                                            $(`#sku-row-${value2.id}`).on('click',function() {
+                                                    var vnpost=0;
+                                                    if(value2.vnpost!=undefined){
+                                                        vnpost = value2.vnpost;
+                                                    }else{
+                                                        vnpost = 0;
+                                                    }
+                                                        check(value2.logs,created_at,vnpost)
+                                                    })
+                                        }
+                                    })
+                                }
+                            })
                         }
-                        if (result[i].CanNang) {
-                            dataTableFirt += "<tr><td>" + result[i].ID_Thung + "</td>" +
-                                "<td>" + result[i].CanNang + "</td>" +
-                                "<td>" + result[i].Kg_TheTich + "</td>" +
-                                "<td>" + result[i].TenNguoi_Gui + "</td>" +
-                                "<td>" + result[i].TenNguoi_Nhan + "</td>" +
-                                "<td>" + result[i].SoDienThoai + "</td>" +
-                                "<td>" + result[i].Dia_Chi + "</td>" +
-                                "</tr>";
+                    }
+                }
+            },
+            error: function(res) {
+                console.log('Lỗi')
+            }
+        })
+    })
+            //show log by id
+        function check(row, created_at,vnpost) {
+            
+            $("#time_line_index").empty()
+            if (row.length == 0) {
+                $("#time_line_index").append(
+                    '<li>' +
+                    '<a>' + 'Đang tới kho' + '</a>' +
+                    '<p>' + created_at + '</p>' +
+                    '</li>'
+                )
+            } else {
+                $.each(row, function(index, value) {
+                    // let a = JSON.parse(value.content);
+                    let valueObject = Object.keys(value.content)
+                    var status;
+                    if (valueObject == "id") {
+                        status = "Đã nhập kho Nhật"
+                    }
+                    if (valueObject == "in_pallet") {
+                        status = "Đã kiểm hàng"
+                    }
+                    if (valueObject == "set_owner_id,set_owner_type") {
+                        status = "Lên đơn hàng"
+                    }
+                    if (valueObject == "in_container") {
+                        status = "Lên container"
+                    }
+                    if (valueObject == "out_container") {
+                        status = "Xuống container"
+                    }
+                    if (valueObject == "delivery_status") {
+                        if (a.delivery_status == "shipping") {
+                            status = "Đang giao hàng"
                         }
                     }
-                    $("#load_item").html(dataHTML);
-                    $("#time_line").html(Timeline);
-                    $("#body-table-index").html(dataTableFirt);
+                    if (valueObject == "delivery_status") {
+                        if (a.delivery_status == "cancelled") {
+                            status = "Hủy box"
+                        }
+                    }
+                    if (valueObject == "delivery_status") {
+                        if (a.delivery_status == "received") {
+                            status = "Đã nhận hàng"
+                        }
+                    }
+                    if (valueObject == "delivery_status") {
+                        if (a.delivery_status == "refunded") {
+                            status = "Trả lại hàng"
+                        }
+                    }
+                    if (valueObject == "delivery_status") {
+                        if (a.delivery_status == "waiting_shipment") {
+                            status = "Đợi giao hàng"
+                        }
+                    }
+                    $("#time_line_index").append(
+                        '<li>' +
+                        '<a>' + status + '</a>' +
+                        '<p>' + value.created_at + '</p>' +
+                        '</li>'
+                    )
+                })
+            }
+            if(vnpost){
+                $("#body-table-index-vnpost").empty()
+                $("#body-table-index-vnpost").append(
+                    '<tr>' +
+                    '<td>' + vnpost.MaDichVu +
+                    '</td>' +
+                    '<td>' + vnpost.PhuongThucVC +
+                    '</td>' +
+                    '<td>' + vnpost.CuocCOD +
+                    '</td>' +
+                    '<td>' + vnpost.TongCuocSauVAT +
+                    '</td>' +
+                    '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
+                    '</tr>'
+                )
+                $("#table-index-vnpost").show()
+            }
+            
+        }
 
-                });
-            });;
-        });
-    });
-
+    function toggleLoading() {
+        $('.tmn-custom-mask').toggleClass('d-none');
+    }
     document.getElementsByClassName("Creative-Button")[0].addEventListener("click", eventEmit);
     document.getElementsByClassName("Creative-Button")[1].addEventListener("click", eventEmit);
     document.getElementsByClassName("Creative-Button")[2].addEventListener("click", eventEmit);
@@ -1784,7 +2275,15 @@
         buttons: true,
         dots: true
     });
-
+    function clearAll(){
+            $("#body-table-index").empty()
+            $("#time_line_index").empty()
+            $("#table-index").hide()
+            $("#body-table-index-vnpost").empty()
+            $("#table-index-vnpost").hide()
+            $("#statusData").empty()
+            $("#statusData").hide()
+        }
 </script>
 </body>
 

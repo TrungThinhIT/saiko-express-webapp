@@ -119,7 +119,7 @@ class FLTrackingController extends Controller
                                 'Length' => $results['data'][0]['boxes'][$i]['length'],
                                 'Height' => $results['data'][0]['boxes'][$i]['height'],
                                 'CodAmount' => 1,
-                                'IsReceiverPayFreight' => true,
+                                'IsReceiverPayFreight' => false,
                                 'OrderAmount' => 0,
                                 'UseBaoPhat' => true,
                                 'UseHoaDon' => true,

@@ -168,6 +168,7 @@
         /* set background color */
         .tr-color:hover td{
             background-color:#fca901 !important;
+            cursor: pointer;
         }
        
     </style>
@@ -559,7 +560,6 @@
                             tracking: tracking
                         },
                         success: function(res) {
-                            console.log(res)
                             $("#body-table-firt-vnpost").empty()
                             $("#table-firt-vnpost").hide()
                             if (res == 404) {
@@ -575,7 +575,7 @@
                                 if (res.data[0].boxes.length == 0 & res.data[0].orders
                                     .length == 0) {
                                     $(".table").hide();
-                                    $("#table-firt").show();
+                                    // $("#table-firt").show();
                                     $("#body-table-firt").empty()
                                     $("#time_line").empty()
                                     $("#statusData").empty();
@@ -942,6 +942,8 @@
             $("#table-firt").hide()
             $("#body-table-firt-vnpost").empty()
             $("#table-firt-vnpost").hide()
+            $("#statusData").empty()
+            $("#statusData").hide()
         }
     </script>
     @include('modules.nav-mobile')
