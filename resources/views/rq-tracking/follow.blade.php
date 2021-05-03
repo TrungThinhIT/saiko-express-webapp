@@ -167,9 +167,9 @@
         }
         /* set background color */
         .tr-color:hover td{
-            background-color: aqua !important;
+            background-color:#fca901 !important;
         }
-        
+       
     </style>
 
 <body>
@@ -177,97 +177,7 @@
     <div id="pro_wrapper">
         <!--Header start-->
         @include('modules.header')
-        {{-- <header id="ed_header_wrapper">
-            <div class="ed_header_top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class="pro_call">
-                                <span>Gọi ngay <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
-                                    080.7965.3923(JP) <span class="phone-mobile"> 1900.2149(VN)</span></span>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class="ed_info_wrapper">
-                                <ul>
-                                    <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip"
-                                            data-placement="bottom" title="Facebook"><i class="fa fa-facebook"
-                                                aria-hidden="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><i
-                                                class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                                    <li><a href="https://twitter.com/saikoexpress" data-toggle="tooltip"
-                                            data-placement="bottom" title="Twitter"><i class="fa fa-twitter"
-                                                aria-hidden="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i
-                                                class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Whatsapp"><i
-                                                class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="ed_header_bottom">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-3 col-sm-3" style="padding:10px">
-                            <div class="pro_logo"> <a href="index.php"><img style="width:95%"
-                                        src="assets/images/logosaiko.png" alt="logo" /></a> </div>
-                        </div>
-                        <div class="col-lg-9 col-md-9 col-sm-9">
-                            <div class="pro_menu_toggle navbar-toggle" data-toggle="collapse" data-target="#ed_menu"><i
-                                    class="fa fa-bars"></i>
-                            </div>
-                            <div class="pro_menu">
-                                <ul class="collapse navbar-collapse" id="ed_menu">
-                                    <li>
-                                        <div style="margin:6px;" class="form-track">
-                                            <input type="text" id="track_tracking" class="form-control" style="width: 100% !important">
-                                            <button class="btn"
-                                                style="background: #fca901;margin-left:8px">Track</button>
-                                        </div>
-                                    </li>
-                                    <li><a href="index.php">Trang chủ</a></li>
-                                    <li><a href="javascript:;">Dịch vụ</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="sea.php">Vận chuyển đường biển</a></li>
-                                            <li><a href="air.php">Vận chuyển đường bay</a></li>
-
-                                            <li><a href="procedure.php">Quy trình gửi hàng</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="javascript:;">Thông tin</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="about-us-detail.php">Về chúng tôi</a></li>
-                                            <li><a href="faqs.php">FAQS</a></li>
-                                            <!-- <li><a href="our-prices.php">Bảng giá dịch vụ</a></li> -->
-                                            <li><a href="chinhsach.php">Chính sách</a></li>
-                                            <li><a href="gallery.php">Gallery</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="javascript:;">Request & Tracking</a>
-                                        <ul class="sub-menu">
-                                            <li><a href="required-price.php">Yêu cầu báo giá</a></li>
-                                            <li><a href="request-a-quote.php">Gửi hàng ngay</a></li>
-                                            <li><a href="track-your-shipment.php">Theo dõi kiện hàng</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="blog.php">Tin tức</a></li>
-                                    <li><a href="contacts.php">Liên hệ</a></li>
-
-                                    <li><a href="login.php">Đăng nhập</a></li>
-
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header> --}}
-        <!--header end -->
-
-
+    
         <style>
             .table-striped>tbody>tr:nth-child(odd)>td,
             .table-striped>tbody>tr:nth-child(odd)>th {
@@ -509,22 +419,7 @@
                                     </table>
                                 </div>
                                 <div class="row">
-                                    <!-- <div class="col-md-6 col-sm-12">
-                                           
-                                           <div class="table-responsive">
-                                               <table class="table table-striped table-bordered" id="table" style="display:none">
-                                              <thead>
-                                                <tr>
-                                                  <th style='width:100px'>Số Lượng</th>
-                                                  <th>Tên Sản Phẩm</th>
-                                                </tr>
-                                              </thead>
-                                              <tbody id="load_item">
-                                                
-                                              </tbody>
-                                            </table>
-                                           </div>
-                                    </div>-->
+                                   
                                     <div class="col-md-12 col-sm-12 col-custome">
                                         <div class="lftredbrdr">
                                             <ul class="timeline" id="time_line">
@@ -774,7 +669,7 @@
                                                             '</td>' +
                                                             '<td>' + value2.weight_per_box.toFixed(3) +
                                                             '</td>' +
-                                                            '<td>' + value2.volumn_weight_box.toFixed(3) +
+                                                            '<td>' + value2.volumetric_weight_per_box.toFixed(3) +//volumne_weight_box
                                                             '</td>' +
                                                             '<td>' +name_send +
                                                             '</td>' +
@@ -801,8 +696,9 @@
                                                                 )
                                                         } else {
                                                             $.each(value.boxes[0].logs,function(index,value) {
-                                                                    let a =JSON.parse(value.content );
-                                                                    let valueObject =Object.keys(a)
+                                                                
+                                                                    // let a =JSON.parse(value.content );
+                                                                    let valueObject =Object.keys(value.content)
                                                                     var status;
                                                                     if (valueObject =="id") {
                                                                         status="Đã nhập kho Nhật"
@@ -915,8 +811,9 @@
                     )
                 } else {
                     $.each(row, function(index, value) {
-                        let a = JSON.parse(value.content);
-                        let valueObject = Object.keys(a)
+                        // let a = JSON.parse(value.content);
+                        let valueObject = Object.keys(value.content)
+                        // console.log(valueObject)
                         var status;
                         if (valueObject == "id") {
                             status = "Đã nhập kho Nhật"
