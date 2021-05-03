@@ -91,7 +91,7 @@ class FLTrackingController extends Controller
                         }
                     }
 
-                    $results['data'][0]['boxes'][$j]['volumn_weight_box'] = $volumne_weight;
+                    $results['data'][0]['boxes'][$j]['volumne_weight_box'] = $volumne_weight;
                     // dd($results['data'][0]['boxes']['volumn_weight_box']);
                 }
             }
@@ -103,30 +103,29 @@ class FLTrackingController extends Controller
                 if (!(in_array($results['data'][0]['orders'][0]['shipment_infor']['address'], $arrCheck))) {
                     $getWard = phuongxa::where('MaPhuongXa', ($results['data'][0]['orders'][0]['shipment_infor']['ward_id']))->first(); //get ward
                     if (!empty($getWard)) {
-                        $provinIdRev = $getWard->MaTinhThanh; //province rev ID
-                        $districtIdRev = $getWard->MaQuanHuyen; //district rev ID
-                        $provinIdSend = $provinIdRev <= "53" ? 10 : 70; //province send ID
-                        $districhIdSend = $provinIdSend == 10 ? 1390 : 7600; //district send ID
+                        $provinIdRev = intval($getWard->MaTinhThanh); //province rev ID
+                        $districtIdRev = intval($getWard->MaQuanHuyen); //district rev ID
+                        $provinIdSend = $provinIdRev <= 53 ? 10 : 70; //province send ID
+                        $districtIdSend = $provinIdSend == 10 ? 1390 : 7600; //district send ID
                         $url = 'https://vnpost.vnit.top/api/api/DoiTac/TinhCuocTatCaDichVu';
                         for ($i = 0; $i <= count($results['data'][0]['boxes']) - 1; $i++) {
                             $data = array(
-                                'ReceiverDistrictId' => $getWard->MaQuanHuyen,
-                                'ReceiverProvinceId' => $getWard->MaTinhThanh,
-                                'SenderDistrictId' => $districhIdSend,
+                                'ReceiverDistrictId' => $districtIdRev,
+                                'ReceiverProvinceId' => $provinIdRev,
+                                'SenderDistrictId' => $districtIdSend,
                                 'SenderProvinceId' => $provinIdSend,
-                                'Weight' => $results['data'][0]['boxes'][$i]['weight'] * 1000,
+                                'Weight' => $results['data'][0]['boxes'][$i]['weight_per_box'] * 1000,
                                 'Width' => $results['data'][0]['boxes'][$i]['width'],
                                 'Length' => $results['data'][0]['boxes'][$i]['length'],
                                 'Height' => $results['data'][0]['boxes'][$i]['height'],
                                 'CodAmount' => 1,
-                                'IsReceiverPayFreight' => false,
+                                'IsReceiverPayFreight' => true,
                                 'OrderAmount' => 0,
                                 'UseBaoPhat' => true,
                                 'UseHoaDon' => true,
                                 'CustomerCode' => '0843211234C333345'
                             );
                             $postdata = json_encode($data);
-
                             $ch = curl_init($url);
                             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
                             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
