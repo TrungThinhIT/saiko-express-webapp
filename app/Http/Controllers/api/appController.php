@@ -383,7 +383,7 @@ class appController extends Controller
                     }
                     $collect[] = array(
                         "SKU" => $skuSearch,
-                        "Can_Nang" =>  strval(number_format($data['weight'], 2, ".", "")),
+                        "Can_Nang" =>  strval(number_format($data['weight_per_box'], 2, ".", "")),
                         "Tracking_number" => $data['sfa']['tracking'],
                         "Uname_Send" => $sender_name,
                         "Number_Send" => $number_send,
@@ -444,8 +444,9 @@ class appController extends Controller
                         foreach ($getTracking['boxes'] as $box) {
                             if (!empty($box['logs'])) {
                                 foreach ($box['logs'] as $log) {
-                                    $content = json_decode($log['content'], true);
-                                    $content2 = implode(array_keys($content));
+                                    // $content = json_decode($log['content'], true);
+                                    $content2 = implode(array_keys($log['content']));
+                                    $valueObject = $log['content'];
                                     if ($content2 == "id") {
                                         $status = "Đã nhập kho Nhật";
                                     }
@@ -462,27 +463,27 @@ class appController extends Controller
                                         $status = "Xuống container";
                                     }
                                     if ($content2 == "delivery_status") {
-                                        if ($content['delivery_status'] == "shipping") {
+                                        if ($valueObject['delivery_status'] == "shipping") {
                                             $status = "Đang giao hàng";
                                         }
                                     }
                                     if ($content2 == "delivery_status") {
-                                        if ($content['delivery_status'] == "cancelled") {
+                                        if ($valueObject['delivery_status'] == "cancelled") {
                                             $status = "Hủy box";
                                         }
                                     }
                                     if ($content2 == "delivery_status") {
-                                        if ($content['delivery_status'] == "received") {
+                                        if ($valueObject['delivery_status'] == "received") {
                                             $status = "Đã nhận hàng";
                                         }
                                     }
                                     if ($content2 == "delivery_status") {
-                                        if ($content['delivery_status'] == "refunded") {
+                                        if ($valueObject['delivery_status'] == "refunded") {
                                             $status = "Trả lại hàng";
                                         }
                                     }
                                     if ($content2 == "delivery_status") {
-                                        if ($content['delivery_status'] == "waiting_shipment") {
+                                        if ($valueObject['delivery_status'] == "waiting_shipment") {
                                             $status = "Đợi giao hàng";
                                         }
                                     }
@@ -625,14 +626,14 @@ class appController extends Controller
                     }
                     $results = [
                         'SKU' => $data['id'],
-                        'CanNang' => $data['weight']*1000,
+                        'CanNang' => $data['weight_per_box']*1000,
                         'ChieuCao' =>  strval($data['height']),
                         'ChieuRong' =>  strval($data['width']),
                         'ChieuDai' =>  strval($data['length']),
-                        'ProvinceRev_Code' =>  $getByWardId['district']['id'],
                         'DistricRev_Code' =>  $getByWardId['district']['province']['id'],
+                        'ProvinceRev_Code' =>  $getByWardId['district']['id'],
+                        'DistricSend_Code' => $ProSend,
                         'ProvinceSend_Code' => $SendDisc,
-                        'DistricSend_Code' => $ProSend
                     ];
                     return response()->json($results);
                 } else {

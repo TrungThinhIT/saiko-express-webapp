@@ -696,48 +696,48 @@
                                                                 )
                                                         } else {
                                                             $.each(value.boxes[0].logs,function(index,value) {
-                                                                
                                                                     // let a =JSON.parse(value.content );
-                                                                    let valueObject =Object.keys(value.content)
+                                                                    let keyObject =Object.keys(value.content)
+                                                                    let valueObject = Object.values(value.content);
                                                                     var status;
-                                                                    if (valueObject =="id") {
+                                                                    if (keyObject =="id") {
                                                                         status="Đã nhập kho Nhật"
                                                                     }
-                                                                    if (valueObject =="in_pallet") {
+                                                                    if (keyObject =="in_pallet") {
                                                                         status ="Đã kiểm hàng"
                                                                     }
-                                                                    if (valueObject =="set_owner_id,set_owner_type") {
+                                                                    if (keyObject =="set_owner_id,set_owner_type") {
                                                                         status="Lên đơn hàng"
                                                                     }
-                                                                    if (valueObject =="in_container") {
+                                                                    if (keyObject =="in_container") {
                                                                         status ="Lên container"
                                                                     }
-                                                                    if (valueObject =="out_container") {
+                                                                    if (keyObject =="out_container") {
                                                                         status= "Xuống container"
                                                                     }
-                                                                    if (valueObject =="delivery_status" ) {
-                                                                        if (a.delivery_status == "shipping") {
+                                                                    if (keyObject =="delivery_status" ) {
+                                                                        if (valueObject == "shipping") {
                                                                             status="Đang giao hàng"
                                                                         }
                                                                     }
-                                                                    if (valueObject =="delivery_status") {
-                                                                        if (a.delivery_status =="cancelled"
+                                                                    if (keyObject =="delivery_status") {
+                                                                        if (valueObject =="cancelled"
                                                                         ) {
                                                                             status ="Hủy box"
                                                                         }
                                                                     }
-                                                                    if (valueObject =="delivery_status") {
-                                                                        if (a.delivery_status =="received") {
+                                                                    if (keyObject =="delivery_status") {
+                                                                        if (valueObject =="received") {
                                                                             status= "Đã nhận hàng"
                                                                         }
                                                                     }
-                                                                    if (valueObject =="delivery_status") {
-                                                                        if (a.delivery_status =="refunded") {
+                                                                    if (keyObject =="delivery_status") {
+                                                                        if (valueObject =="refunded") {
                                                                             status="Trả lại hàng"
                                                                         }
                                                                     }
-                                                                    if (valueObject =="delivery_status" ) {
-                                                                        if (a.delivery_status =="waiting_shipment") {
+                                                                    if (keyObject =="delivery_status" ) {
+                                                                        if (valueObject =="waiting_shipment") {
                                                                             status="Đợi giao hàng"
                                                                         }
                                                                     }
@@ -812,46 +812,47 @@
                 } else {
                     $.each(row, function(index, value) {
                         // let a = JSON.parse(value.content);
-                        let valueObject = Object.keys(value.content)
-                        // console.log(valueObject)
+                        let keyObject = Object.keys(value.content)
+                        let valueObject = Object.values(value.content);
+                        // console.log(keyObject)
                         var status;
-                        if (valueObject == "id") {
+                        if (keyObject == "id") {
                             status = "Đã nhập kho Nhật"
                         }
-                        if (valueObject == "in_pallet") {
+                        if (keyObject == "in_pallet") {
                             status = "Đã kiểm hàng"
                         }
-                        if (valueObject == "set_owner_id,set_owner_type") {
+                        if (keyObject == "set_owner_id,set_owner_type") {
                             status = "Lên đơn hàng"
                         }
-                        if (valueObject == "in_container") {
+                        if (keyObject == "in_container") {
                             status = "Lên container"
                         }
-                        if (valueObject == "out_container") {
+                        if (keyObject == "out_container") {
                             status = "Xuống container"
                         }
-                        if (valueObject == "delivery_status") {
-                            if (a.delivery_status == "shipping") {
+                        if (keyObject == "delivery_status") {
+                            if (valueObject == "shipping") {
                                 status = "Đang giao hàng"
                             }
                         }
-                        if (valueObject == "delivery_status") {
-                            if (a.delivery_status == "cancelled") {
+                        if (keyObject == "delivery_status") {
+                            if (valueObject == "cancelled") {
                                 status = "Hủy box"
                             }
                         }
-                        if (valueObject == "delivery_status") {
-                            if (a.delivery_status == "received") {
+                        if (keyObject == "delivery_status") {
+                            if (valueObject == "received") {
                                 status = "Đã nhận hàng"
                             }
                         }
-                        if (valueObject == "delivery_status") {
-                            if (a.delivery_status == "refunded") {
+                        if (keyObject == "delivery_status") {
+                            if (valueObject == "refunded") {
                                 status = "Trả lại hàng"
                             }
                         }
-                        if (valueObject == "delivery_status") {
-                            if (a.delivery_status == "waiting_shipment") {
+                        if (keyObject == "delivery_status") {
+                            if (valueObject == "waiting_shipment") {
                                 status = "Đợi giao hàng"
                             }
                         }
