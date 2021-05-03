@@ -134,13 +134,13 @@ class appController extends Controller
                 if ($create_shipment->status() == 201) {
                     $collect[] = array(
                         "Success" => true,
-                        "Code" => 1,
+                        "Code" => intval($item_number),
                         "Mesenger" => 'Create Tracking OK!'
                     );
                 } else {
                     $collect[] = array(
                         "Success" => false,
-                        "Code" => 0,
+                        "Code" => intval($item_number),
                         "Mesenger" => 'Fail! Tracking already exists.'
                     );
                 }

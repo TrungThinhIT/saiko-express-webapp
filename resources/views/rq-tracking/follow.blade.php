@@ -420,14 +420,29 @@
                                     </table>
                                 </div>
                                 <div class="row">
-                                   
-                                    <div class="col-md-12 col-sm-12 col-custome">
+                                    <div class="col-md-6 col-sm-6 col-custome">
                                         <div class="lftredbrdr">
                                             <ul class="timeline" id="time_line">
 
                                             </ul>
                                         </div>
                                     </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered" id="table" style="display:none">
+                                                <thead>
+                                                    <tr>
+                                                    <th style='width:100px'>Số Lượng</th>
+                                                    <th>Tên Sản Phẩm</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="load_item">
+                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                                 <div class="underline table-responsive" style="display:none" id="table-firt-vnpost">
                                     <table class="table table-striped table-bordered">
