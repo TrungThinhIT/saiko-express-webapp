@@ -92,14 +92,16 @@ class FLTrackingController extends Controller
                         foreach ($result_list_item['items'] as $item) {
                             $getInfoItem = Http::withHeaders([
                                 'Accept' => 'application/json',
-                                'Authorization' => 'Bearer ' . $token->access_token
+                                'Authorization' => 'Bearer ' . $token->access_token,
+                                'Accept-Language'=>"ja"
                             ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                             if ($getInfoItem->status() == 401) {
                                 $this->QCT->getToken();
                                 $token = token::find(1);
                                 $getInfoItem = Http::withHeaders([
                                     'Accept' => 'application/json',
-                                    'Authorization' => 'Bearer ' . $token->access_token
+                                    'Authorization' => 'Bearer ' . $token->access_token,
+                                    'Accept-Language'=>"ja"
                                 ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                             }
                             if ($getInfoItem->status() == 200) {

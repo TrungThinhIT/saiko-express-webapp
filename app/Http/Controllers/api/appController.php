@@ -402,6 +402,7 @@ class appController extends Controller
                     foreach ($data['items'] as $item) {
                         $getInfoItem = Http::withHeaders([
                             'Accept' => 'application/json',
+                            'Accept-Language' => "ja",
                             'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                         ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                         if ($getInfoItem->status() == 401) {
@@ -409,6 +410,7 @@ class appController extends Controller
                             $token = token::find(1);
                             $getInfoItem = Http::withHeaders([
                                 'Accept' => 'application/json',
+                                'Accept-Language' => "ja",
                                 'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNjMyNTk4NzYwZmY1NjExMDMzNWE0ZDA2Zjg5MzYzNGZmYzk3NWY2MjZjYmUyZTcxMDQ1ZDI0ODhjNWE5NDA2M2U3ZGM4YjNiNzA3ZGM0Y2UiLCJpYXQiOjE2MTk0MDUwMzQsIm5iZiI6MTYxOTQwNTAzNCwiZXhwIjoxNjIwNzAxMDM0LCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.iA-j7rtwOevYfVI1n8RuTfpItLFXggTSu2GCRFlukdeHLExgt1cqwU521AmdDW8MPK3GGxdO3SFbpoxJTc896yTx1DEEhtsTpUXD84KExdSSL-ewOimjw7TW3XOC7mAKRzIwMmy1H529qeYtwu1-Ga4BFvHT_45h6mED_GHpflE2iQdxlxIy4RxWqJ6YKsykwcOrbgIUQsP9yNN_5h3vLbG3FD7zkcseHgkj7PP-FaxRP0HhEWbh3tYuGxJY4570re82nGIS-JR9JUrV2cg0-Ts8PtZ8z6aGcrGCkUG8Mt6Mu3cloNaTOPC6EbxtSkoZNlnfTo4eUW5VWcHQYzZK9gBk7BnoXFFLsnVl9M-pVaCgHkI6w3BH9CabKN4j5oUQL9eIc2_LdkgPJbA0P9sOMQzmj7jvJQhDNxFTcd4HNxKHs6S0G1JIuBLlW9Yk7rHVqLRSY1Dq3WgdetMUnObYJERfVA7bdlaEyXLXT2NWEtf8DK0PM9WJ8FL1VLGNXvqVEAXFo0Pq2h78UhrFV7IA8vqXiw-sXa9UB3ke4LirhtBrQA9YP5HjoLa90wOdJYXNiys2-arQqJJU2UCT1lagA0ErxZ8IQStwTb1WOa6TPBA00C7YdgdnGydYuDKhWcy9A3Dl752geHlCPf9-LWQugBlJZnZvsV5olzn_G_oiWDU' //$token->access_token
                             ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                         }
@@ -626,7 +628,7 @@ class appController extends Controller
                     }
                     $results = [
                         'SKU' => $data['id'],
-                        'CanNang' => $data['weight_per_box']*1000,
+                        'CanNang' => $data['weight_per_box'] * 1000,
                         'ChieuCao' =>  strval($data['height']),
                         'ChieuRong' =>  strval($data['width']),
                         'ChieuDai' =>  strval($data['length']),
