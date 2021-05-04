@@ -27,128 +27,128 @@ class appController extends Controller
 
         // Log::info("app", ['METHOD_POST' => $request->all()]);
         //create Tracking
-        if ($arrTracking = $request->tracking_number) {
+        // if ($arrTracking = $request->tracking_number) {
 
-            Log::info("test", ['tess' => $request->all()]);
-            if (($request->detail_address != "VN Sai Gon" && $request->detail_address != "VN Ha Noi") && ($request->detail_address != "Văn phòng Sóc Sơn" && $request->detail_address != "Văn phòng Lạc Long Quân") && $request->detail_address != "Văn phòng Hồ Chí Minh") {
-                $code_add = $request->Code_Add;
-                $id_district = explode(",", $code_add)[0];
-                //get id province
-                $id_province = explode(",", $code_add)[1];
-                //get id ward
-                $address = $request->detail_address;
-                $catchuoi = (explode(",", $address));
-                $xa = explode(".", $catchuoi[1]);
-                $trimXa = Str::of($xa[0])->trim();
-                $getWard = explode(" ", $trimXa);
-                $add = strval($catchuoi[0]);
-                if ($getWard[0] == "Phường" || $getWard[0] == "Xã") {
-                    $slice = Str::of($xa[0])->after($getWard[0]);
-                    $ward = Str::of($slice)->trim();
-                } else {
-                    $ward = $trimXa;
-                }
-                $getIdWard = phuongxa::where('TenPhuongXa', 'like', '%' . $ward . '%')->where('MaTinhThanh', $id_province)->where('MaQuanHuyen', $id_district)->first();
-                if (!empty($getIdWard)) {
-                    $ward_id = $getIdWard->MaPhuongXa;
-                } else {
-                    $ward_id = "13900";
-                }
-            }
-            if ($request->detail_address == "VN Ha Noi") {
-                $add = "VN Ha Noi";
-                $ward_id = "13900";
-            }
-            if ($request->detail_address == "VN Sai Gon") {
-                $add = "VN Sai Gon";
-                $ward_id = "76000";
-            }
-            if ($request->detail_address == "Văn phòng Sóc Sơn") {
-                $add = "Nhận tại VP Sóc Sơn";
-                $ward_id = "76000";
-            }
-            if ($request->detail_address == "Văn phòng Lạc Long Quân") {
-                $add = "Nhận tại VP Lạc Long Quân";
-                $ward_id = "13900";
-            }
-            if ($request->detail_address == "Văn phòng Hồ Chí Minh") {
-                $add = "Nhận tại VP Hồ Chí Minh";
-                $ward_id = "76000";
-            }
-            // $d = explode(" ", $address[0]);
-            //create shipment_info
-            $token = token::find(1);
-            if (empty($token)) {
-                $this->QCT->getToken();
-            }
-            $token = token::find(1);
-            $api = Http::withHeaders([
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNTU3M2JiZWZlMDJiMmIyNDI4NGY4ZDJlNzdjMzVkZjVlMjYxNDE4MDFjYjkwNWZiNDc3NGQxZDk3MmY5M2QzM2E2OTI1NzhhMzRmMDExODIiLCJpYXQiOjE2MTkyMzY1ODMsIm5iZiI6MTYxOTIzNjU4MywiZXhwIjoxNjIwNTMyNTgzLCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.HMbraYZAUC8Z0bITP1b_eWK5mZh54MEqMua2V_sSYlHqV52t3UFLXuRn5KPnIhAJgm4M1osnJgi1PxbANAuOxQMlFKu0u0ioFUB8TLyZNIcNivHe1s0sD0OPdOk35djKLWWi50v4sqLLZ_2JeRMK8n2cdi9DOkeAfjQAtkyTEhWzipV28DV_QRcWdqch5GtXjF9v3AO14c1WxH_6ZIYZsWaqkOiV9zN-N1ncWwufoJgl62FKDui0aiIAcBaobpHgtiOcYqtG2XKoSj8FoS6TrZvikc9Cx4Ppmba8czabXomHYmK5in9AZm16muTeOv39FlxZE2MuQLmHnw4zaIw7uJmGagGs3MFFdbOtFEsIrHLx3Bi4OWCXuJSEA0rHfL9uDQk45miEYm2tSZS19TX6iz_tf_2LPKMkRL5psthujoS1SIjLJCmw9hJzRES1ZljIMDADJ9QBFX-tD5cEux60ZsM4F-HU-uRmu6skhEY7uAWTx1ZshF5cneHtFpI-vx0JQNzjCb3FFexD22Z9n1b_NH9q_M3TnLDwgkZqa8E1bjWntzC2lzszCf1ctjGmUAo4_TWM-Yy2HERdjQ1wcCCYT8c7D8dvPiT0M0uyMZ0mAORoYQ6QcbE0L72cNBNH6fsuQjbDIpA9CJ4heG9jY0zsotQuiXSBfWX9H41ga0vnl5M' //$token->access_token
-            ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
-                'consignee' => $request->receiver_name,
-                'tel' => strval($request->receiver_phone_number), //sdt ng nhận
-                'address' => $add,
-                'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
-                'sender_name' => $request->sender_name,
-                'sender_tel' => strval($request->sender_phone_number)
-            ]);
-            //xác thực 
-            if ($api->status() == 401) {
-                $this->QCT->getToken();
-                $token = token::find(1);
-                $api = Http::withHeaders([
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNTU3M2JiZWZlMDJiMmIyNDI4NGY4ZDJlNzdjMzVkZjVlMjYxNDE4MDFjYjkwNWZiNDc3NGQxZDk3MmY5M2QzM2E2OTI1NzhhMzRmMDExODIiLCJpYXQiOjE2MTkyMzY1ODMsIm5iZiI6MTYxOTIzNjU4MywiZXhwIjoxNjIwNTMyNTgzLCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.HMbraYZAUC8Z0bITP1b_eWK5mZh54MEqMua2V_sSYlHqV52t3UFLXuRn5KPnIhAJgm4M1osnJgi1PxbANAuOxQMlFKu0u0ioFUB8TLyZNIcNivHe1s0sD0OPdOk35djKLWWi50v4sqLLZ_2JeRMK8n2cdi9DOkeAfjQAtkyTEhWzipV28DV_QRcWdqch5GtXjF9v3AO14c1WxH_6ZIYZsWaqkOiV9zN-N1ncWwufoJgl62FKDui0aiIAcBaobpHgtiOcYqtG2XKoSj8FoS6TrZvikc9Cx4Ppmba8czabXomHYmK5in9AZm16muTeOv39FlxZE2MuQLmHnw4zaIw7uJmGagGs3MFFdbOtFEsIrHLx3Bi4OWCXuJSEA0rHfL9uDQk45miEYm2tSZS19TX6iz_tf_2LPKMkRL5psthujoS1SIjLJCmw9hJzRES1ZljIMDADJ9QBFX-tD5cEux60ZsM4F-HU-uRmu6skhEY7uAWTx1ZshF5cneHtFpI-vx0JQNzjCb3FFexD22Z9n1b_NH9q_M3TnLDwgkZqa8E1bjWntzC2lzszCf1ctjGmUAo4_TWM-Yy2HERdjQ1wcCCYT8c7D8dvPiT0M0uyMZ0mAORoYQ6QcbE0L72cNBNH6fsuQjbDIpA9CJ4heG9jY0zsotQuiXSBfWX9H41ga0vnl5M' //$token->access_token
-                ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
-                    'consignee' => $request->receiver_name,
-                    'tel' => strval($request->receiver_phone_number), //sdt ng nhận
-                    'address' => $add,
-                    'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
-                    'sender_name' => $request->sender_name,
-                    'sender_tel' => strval($request->sender_phone_number)
-                ]);
-            }
-            //write log check create shipment_infor
-            Log::info('App: create shipment_infor', ['body' => $api->body()]);
-            $data = json_decode($api->body(), true);
-            // return  $data;
-            //create shipment
-            // return $request->all();
-            foreach ($arrTracking as $item) {
-                $item_number = strval($item); //pass to string
-                $create_shipment = Http::withHeaders([
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNTU3M2JiZWZlMDJiMmIyNDI4NGY4ZDJlNzdjMzVkZjVlMjYxNDE4MDFjYjkwNWZiNDc3NGQxZDk3MmY5M2QzM2E2OTI1NzhhMzRmMDExODIiLCJpYXQiOjE2MTkyMzY1ODMsIm5iZiI6MTYxOTIzNjU4MywiZXhwIjoxNjIwNTMyNTgzLCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.HMbraYZAUC8Z0bITP1b_eWK5mZh54MEqMua2V_sSYlHqV52t3UFLXuRn5KPnIhAJgm4M1osnJgi1PxbANAuOxQMlFKu0u0ioFUB8TLyZNIcNivHe1s0sD0OPdOk35djKLWWi50v4sqLLZ_2JeRMK8n2cdi9DOkeAfjQAtkyTEhWzipV28DV_QRcWdqch5GtXjF9v3AO14c1WxH_6ZIYZsWaqkOiV9zN-N1ncWwufoJgl62FKDui0aiIAcBaobpHgtiOcYqtG2XKoSj8FoS6TrZvikc9Cx4Ppmba8czabXomHYmK5in9AZm16muTeOv39FlxZE2MuQLmHnw4zaIw7uJmGagGs3MFFdbOtFEsIrHLx3Bi4OWCXuJSEA0rHfL9uDQk45miEYm2tSZS19TX6iz_tf_2LPKMkRL5psthujoS1SIjLJCmw9hJzRES1ZljIMDADJ9QBFX-tD5cEux60ZsM4F-HU-uRmu6skhEY7uAWTx1ZshF5cneHtFpI-vx0JQNzjCb3FFexD22Z9n1b_NH9q_M3TnLDwgkZqa8E1bjWntzC2lzszCf1ctjGmUAo4_TWM-Yy2HERdjQ1wcCCYT8c7D8dvPiT0M0uyMZ0mAORoYQ6QcbE0L72cNBNH6fsuQjbDIpA9CJ4heG9jY0zsotQuiXSBfWX9H41ga0vnl5M' //$token->access_token
-                ]);
-                //createTrackinf
-                $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
-                    'shipment_method_id' =>  Str::ucfirst($request->shipping_method), //đường vận chuyển
-                    'shipment_infor_id' => $data['id'], //lấy id của shipment_info
-                    'type' => 'shipment',
-                    'tracking' => $item_number, //danh sách tracking
-                    'note' => $request->note,
-                    'repackage' => $request->isPackaged == false ? 0 : 1
-                ]);
-                //check status
-                if ($create_shipment->status() == 201) {
-                    $collect[] = array(
-                        "Success" => true,
-                        "Code" => intval($item_number),
-                        "Mesenger" => 'Create Tracking OK!'
-                    );
-                } else {
-                    $collect[] = array(
-                        "Success" => false,
-                        "Code" => intval($item_number),
-                        "Mesenger" => 'Fail! Tracking already exists.'
-                    );
-                }
-                sleep(0.8);
-            }
-            $temp["Result"] = $collect;
-            return response()->json($temp);
-        }
+        //     Log::info("test", ['tess' => $request->all()]);
+        //     if (($request->detail_address != "VN Sai Gon" && $request->detail_address != "VN Ha Noi") && ($request->detail_address != "Văn phòng Sóc Sơn" && $request->detail_address != "Văn phòng Lạc Long Quân") && $request->detail_address != "Văn phòng Hồ Chí Minh") {
+        //         $code_add = $request->Code_Add;
+        //         $id_district = explode(",", $code_add)[0];
+        //         //get id province
+        //         $id_province = explode(",", $code_add)[1];
+        //         //get id ward
+        //         $address = $request->detail_address;
+        //         $catchuoi = (explode(",", $address));
+        //         $xa = explode(".", $catchuoi[1]);
+        //         $trimXa = Str::of($xa[0])->trim();
+        //         $getWard = explode(" ", $trimXa);
+        //         $add = strval($catchuoi[0]);
+        //         if ($getWard[0] == "Phường" || $getWard[0] == "Xã") {
+        //             $slice = Str::of($xa[0])->after($getWard[0]);
+        //             $ward = Str::of($slice)->trim();
+        //         } else {
+        //             $ward = $trimXa;
+        //         }
+        //         $getIdWard = phuongxa::where('TenPhuongXa', 'like', '%' . $ward . '%')->where('MaTinhThanh', $id_province)->where('MaQuanHuyen', $id_district)->first();
+        //         if (!empty($getIdWard)) {
+        //             $ward_id = $getIdWard->MaPhuongXa;
+        //         } else {
+        //             $ward_id = "13900";
+        //         }
+        //     }
+        //     if ($request->detail_address == "VN Ha Noi") {
+        //         $add = "VN Ha Noi";
+        //         $ward_id = "13900";
+        //     }
+        //     if ($request->detail_address == "VN Sai Gon") {
+        //         $add = "VN Sai Gon";
+        //         $ward_id = "76000";
+        //     }
+        //     if ($request->detail_address == "Văn phòng Sóc Sơn") {
+        //         $add = "Nhận tại VP Sóc Sơn";
+        //         $ward_id = "76000";
+        //     }
+        //     if ($request->detail_address == "Văn phòng Lạc Long Quân") {
+        //         $add = "Nhận tại VP Lạc Long Quân";
+        //         $ward_id = "13900";
+        //     }
+        //     if ($request->detail_address == "Văn phòng Hồ Chí Minh") {
+        //         $add = "Nhận tại VP Hồ Chí Minh";
+        //         $ward_id = "76000";
+        //     }
+        //     // $d = explode(" ", $address[0]);
+        //     //create shipment_info
+        //     $token = token::find(1);
+        //     if (empty($token)) {
+        //         $this->QCT->getToken();
+        //     }
+        //     $token = token::find(1);
+        //     $api = Http::withHeaders([
+        //         'Accept' => 'application/json',
+        //         'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNTU3M2JiZWZlMDJiMmIyNDI4NGY4ZDJlNzdjMzVkZjVlMjYxNDE4MDFjYjkwNWZiNDc3NGQxZDk3MmY5M2QzM2E2OTI1NzhhMzRmMDExODIiLCJpYXQiOjE2MTkyMzY1ODMsIm5iZiI6MTYxOTIzNjU4MywiZXhwIjoxNjIwNTMyNTgzLCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.HMbraYZAUC8Z0bITP1b_eWK5mZh54MEqMua2V_sSYlHqV52t3UFLXuRn5KPnIhAJgm4M1osnJgi1PxbANAuOxQMlFKu0u0ioFUB8TLyZNIcNivHe1s0sD0OPdOk35djKLWWi50v4sqLLZ_2JeRMK8n2cdi9DOkeAfjQAtkyTEhWzipV28DV_QRcWdqch5GtXjF9v3AO14c1WxH_6ZIYZsWaqkOiV9zN-N1ncWwufoJgl62FKDui0aiIAcBaobpHgtiOcYqtG2XKoSj8FoS6TrZvikc9Cx4Ppmba8czabXomHYmK5in9AZm16muTeOv39FlxZE2MuQLmHnw4zaIw7uJmGagGs3MFFdbOtFEsIrHLx3Bi4OWCXuJSEA0rHfL9uDQk45miEYm2tSZS19TX6iz_tf_2LPKMkRL5psthujoS1SIjLJCmw9hJzRES1ZljIMDADJ9QBFX-tD5cEux60ZsM4F-HU-uRmu6skhEY7uAWTx1ZshF5cneHtFpI-vx0JQNzjCb3FFexD22Z9n1b_NH9q_M3TnLDwgkZqa8E1bjWntzC2lzszCf1ctjGmUAo4_TWM-Yy2HERdjQ1wcCCYT8c7D8dvPiT0M0uyMZ0mAORoYQ6QcbE0L72cNBNH6fsuQjbDIpA9CJ4heG9jY0zsotQuiXSBfWX9H41ga0vnl5M' //$token->access_token
+        //     ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+        //         'consignee' => $request->receiver_name,
+        //         'tel' => strval($request->receiver_phone_number), //sdt ng nhận
+        //         'address' => $add,
+        //         'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
+        //         'sender_name' => $request->sender_name,
+        //         'sender_tel' => strval($request->sender_phone_number)
+        //     ]);
+        //     //xác thực 
+        //     if ($api->status() == 401) {
+        //         $this->QCT->getToken();
+        //         $token = token::find(1);
+        //         $api = Http::withHeaders([
+        //             'Accept' => 'application/json',
+        //             'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNTU3M2JiZWZlMDJiMmIyNDI4NGY4ZDJlNzdjMzVkZjVlMjYxNDE4MDFjYjkwNWZiNDc3NGQxZDk3MmY5M2QzM2E2OTI1NzhhMzRmMDExODIiLCJpYXQiOjE2MTkyMzY1ODMsIm5iZiI6MTYxOTIzNjU4MywiZXhwIjoxNjIwNTMyNTgzLCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.HMbraYZAUC8Z0bITP1b_eWK5mZh54MEqMua2V_sSYlHqV52t3UFLXuRn5KPnIhAJgm4M1osnJgi1PxbANAuOxQMlFKu0u0ioFUB8TLyZNIcNivHe1s0sD0OPdOk35djKLWWi50v4sqLLZ_2JeRMK8n2cdi9DOkeAfjQAtkyTEhWzipV28DV_QRcWdqch5GtXjF9v3AO14c1WxH_6ZIYZsWaqkOiV9zN-N1ncWwufoJgl62FKDui0aiIAcBaobpHgtiOcYqtG2XKoSj8FoS6TrZvikc9Cx4Ppmba8czabXomHYmK5in9AZm16muTeOv39FlxZE2MuQLmHnw4zaIw7uJmGagGs3MFFdbOtFEsIrHLx3Bi4OWCXuJSEA0rHfL9uDQk45miEYm2tSZS19TX6iz_tf_2LPKMkRL5psthujoS1SIjLJCmw9hJzRES1ZljIMDADJ9QBFX-tD5cEux60ZsM4F-HU-uRmu6skhEY7uAWTx1ZshF5cneHtFpI-vx0JQNzjCb3FFexD22Z9n1b_NH9q_M3TnLDwgkZqa8E1bjWntzC2lzszCf1ctjGmUAo4_TWM-Yy2HERdjQ1wcCCYT8c7D8dvPiT0M0uyMZ0mAORoYQ6QcbE0L72cNBNH6fsuQjbDIpA9CJ4heG9jY0zsotQuiXSBfWX9H41ga0vnl5M' //$token->access_token
+        //         ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+        //             'consignee' => $request->receiver_name,
+        //             'tel' => strval($request->receiver_phone_number), //sdt ng nhận
+        //             'address' => $add,
+        //             'ward_id' => $ward_id, //$request->utypeadd == "blank" ? $request->ward : "73720"
+        //             'sender_name' => $request->sender_name,
+        //             'sender_tel' => strval($request->sender_phone_number)
+        //         ]);
+        //     }
+        //     //write log check create shipment_infor
+        //     Log::info('App: create shipment_infor', ['body' => $api->body()]);
+        //     $data = json_decode($api->body(), true);
+        //     // return  $data;
+        //     //create shipment
+        //     // return $request->all();
+        //     foreach ($arrTracking as $item) {
+        //         $item_number = strval($item); //pass to string
+        //         $create_shipment = Http::withHeaders([
+        //             'Accept' => 'application/json',
+        //             'Authorization' => 'Bearer ' . 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNTU3M2JiZWZlMDJiMmIyNDI4NGY4ZDJlNzdjMzVkZjVlMjYxNDE4MDFjYjkwNWZiNDc3NGQxZDk3MmY5M2QzM2E2OTI1NzhhMzRmMDExODIiLCJpYXQiOjE2MTkyMzY1ODMsIm5iZiI6MTYxOTIzNjU4MywiZXhwIjoxNjIwNTMyNTgzLCJzdWIiOiJzYWxlLnNlIiwic2NvcGVzIjpbIioiXX0.HMbraYZAUC8Z0bITP1b_eWK5mZh54MEqMua2V_sSYlHqV52t3UFLXuRn5KPnIhAJgm4M1osnJgi1PxbANAuOxQMlFKu0u0ioFUB8TLyZNIcNivHe1s0sD0OPdOk35djKLWWi50v4sqLLZ_2JeRMK8n2cdi9DOkeAfjQAtkyTEhWzipV28DV_QRcWdqch5GtXjF9v3AO14c1WxH_6ZIYZsWaqkOiV9zN-N1ncWwufoJgl62FKDui0aiIAcBaobpHgtiOcYqtG2XKoSj8FoS6TrZvikc9Cx4Ppmba8czabXomHYmK5in9AZm16muTeOv39FlxZE2MuQLmHnw4zaIw7uJmGagGs3MFFdbOtFEsIrHLx3Bi4OWCXuJSEA0rHfL9uDQk45miEYm2tSZS19TX6iz_tf_2LPKMkRL5psthujoS1SIjLJCmw9hJzRES1ZljIMDADJ9QBFX-tD5cEux60ZsM4F-HU-uRmu6skhEY7uAWTx1ZshF5cneHtFpI-vx0JQNzjCb3FFexD22Z9n1b_NH9q_M3TnLDwgkZqa8E1bjWntzC2lzszCf1ctjGmUAo4_TWM-Yy2HERdjQ1wcCCYT8c7D8dvPiT0M0uyMZ0mAORoYQ6QcbE0L72cNBNH6fsuQjbDIpA9CJ4heG9jY0zsotQuiXSBfWX9H41ga0vnl5M' //$token->access_token
+        //         ]);
+        //         //createTrackinf
+        //         $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
+        //             'shipment_method_id' =>  Str::ucfirst($request->shipping_method), //đường vận chuyển
+        //             'shipment_infor_id' => $data['id'], //lấy id của shipment_info
+        //             'type' => 'shipment',
+        //             'tracking' => $item_number, //danh sách tracking
+        //             'note' => $request->note,
+        //             'repackage' => $request->isPackaged == false ? 0 : 1
+        //         ]);
+        //         //check status
+        //         if ($create_shipment->status() == 201) {
+        //             $collect[] = array(
+        //                 "Success" => true,
+        //                 "Code" => intval($item_number),
+        //                 "Mesenger" => 'Create Tracking OK!'
+        //             );
+        //         } else {
+        //             $collect[] = array(
+        //                 "Success" => false,
+        //                 "Code" => intval($item_number),
+        //                 "Mesenger" => 'Fail! Tracking already exists.'
+        //             );
+        //         }
+        //         sleep(0.8);
+        //     }
+        //     $temp["Result"] = $collect;
+        //     return response()->json($temp);
+        // }
         //CostShipVN
         if ($costShipVN = $request->CostShipVN) {
             Log::info('Check CostShipVN', ['result' => $request->all()]);

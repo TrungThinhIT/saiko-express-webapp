@@ -71,34 +71,58 @@ class FLTrackingController extends Controller
                 ])->get('http://order.tomonisolution.com:82/api/trackings/', $dataIndex);
             }
             $results = json_decode($apiTracking->body(), true); //results of tomoni
-            //tính ký thể tích
             if (!empty($results['data'][0]['boxes'])) {
-                for ($j = 0; $j <= count($results['data'][0]['boxes']) - 1; $j++) {
-                    $length = $results['data'][0]['boxes'][$j]['length'];
-                    $width = $results['data'][0]['boxes'][$j]['width'];
-                    $height = $results['data'][0]['boxes'][$j]['height'];
-                    if (empty($results['data'][0]['orders'])) {
-                        $volumne_weight = ($length * $width * $height) / 6000;
-                    } else {
-                        usort($results['data'][0]['orders'], function ($a, $b) {
-                            return $b['shipment_infor_id'] - $a['shipment_infor_id'];
-                        }); //sort orders
-                        $method_shipment = Str::ucfirst($results['data'][0]['orders'][0]['shipment_method_id']);
-                        if ($method_shipment == "Air") {
-                            $volumne_weight = ($length * $width * $height) / 6000;
-                        } else {
-                            $volumne_weight = ($length * $width * $height) / 3500;
-                        }
+                //list item
+                for ($i = 0; $i <= count($results['data'][0]['boxes']) - 1; $i++) {
+                    $item_box  = Http::withHeaders([
+                        'Accept' => 'application/json',
+                        'Authorization' => 'Bearer ' . $token->access_token
+                    ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $results['data'][0]['boxes'][$i]['id'] . '?with=items;sfa');
+                    if ($item_box->status() == 401) {
+                        $this->QCT->getToken();
+                        $token = token::find(1);
+                        $item_box  = Http::withHeaders([
+                            'Accept' => 'application/json',
+                            'Authorization' => 'Bearer ' . $token->access_token
+                        ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $results['data'][0]['boxes'][$i]['id'] . '?with=items;sfa');
                     }
-
-                    $results['data'][0]['boxes'][$j]['volumne_weight_box'] = $volumne_weight;
-                    // dd($results['data'][0]['boxes']['volumn_weight_box']);
+                    $result_list_item = json_decode($item_box->body(), true);
+                    $detail_item = array();
+                    if (!empty($result_list_item['items'])) {
+                        foreach ($result_list_item['items'] as $item) {
+                            $getInfoItem = Http::withHeaders([
+                                'Accept' => 'application/json',
+                                'Authorization' => 'Bearer ' . $token->access_token
+                            ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
+                            if ($getInfoItem->status() == 401) {
+                                $this->QCT->getToken();
+                                $token = token::find(1);
+                                $getInfoItem = Http::withHeaders([
+                                    'Accept' => 'application/json',
+                                    'Authorization' => 'Bearer ' . $token->access_token
+                                ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
+                            }
+                            if ($getInfoItem->status() == 200) {
+                                $getInfoItem = json_decode($getInfoItem);
+                                $detail_item[] = array(
+                                    'Quantity' => $item['quantity'],
+                                    'Name' => $getInfoItem->name
+                                );
+                                $results['data'][0]['boxes'][$i]['items'] = $detail_item;
+                            }
+                            sleep(0.8);
+                        }
+                    } else {
+                        $results['data'][0]['boxes'][$i]['items'] = null;
+                    }
                 }
             }
+            //vnpost
             if (!empty($results['data'][0]['boxes'])  && !empty($results['data'][0]['orders'])) {
                 usort($results['data'][0]['orders'], function ($a, $b) {
                     return $b['shipment_infor_id'] - $a['shipment_infor_id'];
                 }); //sort orders
+                //vnpost
                 $arrCheck = ['Nhận tại VP Sóc Sơn', 'Nhận tại VP Đào Tấn', 'Nhận tại VP Tân Bình HCM', 'Nhận tại VP Lạc Long Quân', 'Nhận tại VP Hồ Chí Minh', 'VN Ha Noi', 'VN Sai Gon', 'Văn phòng Hồ Chí Minh', 'Văn phòng Sóc Sơn', 'VP Lạc Long Quân', 'Văn phòng Lạc Long Quân'];
                 if (!(in_array($results['data'][0]['orders'][0]['shipment_infor']['address'], $arrCheck))) {
                     $getWard = phuongxa::where('MaPhuongXa', ($results['data'][0]['orders'][0]['shipment_infor']['ward_id']))->first(); //get ward
@@ -137,23 +161,25 @@ class FLTrackingController extends Controller
                             $result_vnpost_list = curl_exec($ch); //result of VNPOST
                             curl_close($ch);
                             $arr = json_decode($result_vnpost_list, true);
-                            if (($provinIdRev == 10) || ($provinIdRev == 70)) {
-                                $TongCuocSauVAT = $arr[0]['TongCuocSauVAT'];
-                                $CuocCOD = $arr[0]['CuocCOD'];
-                                $PhuongThucVC = 'Chuyển Nhanh';
-                            } else {
-                                $TongCuocSauVAT = $arr[1]['TongCuocSauVAT'];
-                                $CuocCOD = $arr[1]['CuocCOD'];
-                                $PhuongThucVC = 'Chuyển Chậm';
-                            }
-                            $results_vnpost = array(
-                                'MaDichVu' => 'BƯU ĐIỆN',
-                                'TongCuocSauVAT' => number_format($TongCuocSauVAT),
-                                'CuocCOD' => number_format($CuocCOD),
-                                'SoTienCodThuNoiNguoiNhan' => number_format($CuocCOD + $TongCuocSauVAT),
-                                'PhuongThucVC' => $PhuongThucVC
-                            );
-                            $results['data'][0]['boxes'][$i]['vnpost'] = $results_vnpost;
+                            if ($arr != null) {
+                                if (($provinIdRev == 10) || ($provinIdRev == 70)) {
+                                    $TongCuocSauVAT = $arr[0]['TongCuocSauVAT'];
+                                    $CuocCOD = $arr[0]['CuocCOD'];
+                                    $PhuongThucVC = 'Chuyển Nhanh';
+                                } else {
+                                    $TongCuocSauVAT = $arr[1]['TongCuocSauVAT'];
+                                    $CuocCOD = $arr[1]['CuocCOD'];
+                                    $PhuongThucVC = 'Chuyển Chậm';
+                                }
+                                $results_vnpost = array(
+                                    'MaDichVu' => 'BƯU ĐIỆN',
+                                    'TongCuocSauVAT' => number_format($TongCuocSauVAT),
+                                    'CuocCOD' => number_format($CuocCOD),
+                                    'SoTienCodThuNoiNguoiNhan' => number_format($CuocCOD + $TongCuocSauVAT),
+                                    'PhuongThucVC' => $PhuongThucVC
+                                );
+                                $results['data'][0]['boxes'][$i]['vnpost'] = $results_vnpost;
+                            } 
                             sleep(0.8);
                         }
                     }

@@ -429,7 +429,7 @@
                                     </div>
                                     <div class="col-md-6 col-sm-6">
                                         <div class="table-responsive">
-                                            <table class="table table-striped table-bordered" id="table" style="display:none">
+                                            <table class="table table-striped table-bordered" id="table_item" style="display:none">
                                                 <thead>
                                                     <tr>
                                                     <th style='width:100px'>Số Lượng</th>
@@ -587,8 +587,7 @@
                                 $("#statusData").append('<h4>' +
                                     'Không tìm thấy mã tracking' + '</h4>')
                             } else {
-                                if (res.data[0].boxes.length == 0 & res.data[0].orders
-                                    .length == 0) {
+                                if (res.data[0].boxes.length == 0 & res.data[0].orders.length == 0) {
                                     $(".table").hide();
                                     // $("#table-firt").show();
                                     $("#body-table-firt").empty()
@@ -600,6 +599,7 @@
                                 } else {
                                     $("#statusData").css('display', 'none');
                                     $(".table").show();
+                                    $("#table_item").hide()
                                     $("#table-firt").show();
                                     if (res.data.length == 0) {
                                         $("#statusData").empty()
@@ -644,6 +644,7 @@
                                                 $("#body-table-firt-vnpost").empty()
                                                 $("#table-firt-vnpost").hide()
                                                 $("#body-table-firt").empty()
+                                                $("#load_item").empty()
                                                 $("#time_line").empty()
                                                 $("#time_line").append(
                                                     '<li>' +
@@ -699,6 +700,27 @@
                                                             '</tr>'
                                                         )
                                                     if (value.boxes.length == 1) {
+                                                        $("#table_item").show()
+                                                        $("#load_item").empty()
+                                                        if(value.boxes[0].items !=null){
+                                                            $.each(value.boxes[0].items,function(index_item,value_item){
+                                                                $("#load_item").append(
+                                                                    "<tr>"+
+                                                                    "<td>"+value_item.Quantity+"</td>"+
+                                                                    "<td>"+value_item.Name+"</td>"+
+                                                                    "</tr>"
+                                                                )
+                                                            })
+                                                            
+                                                        }else{
+                                                            $("#load_item").empty()
+                                                            $("#load_item").append(
+                                                                    "<tr>"+
+                                                                    "<td>"+value_item.Quantity+"</td>"+
+                                                                    "<td>"+value_item.Name+"</td>"+
+                                                                    "</tr>"
+                                                                )
+                                                        }
                                                         $("#time_line").empty()
                                                         if (value.boxes[0].logs.length ==0) {
                                                             $("#time_line").append(
@@ -709,6 +731,7 @@
                                                                     '</p>' +
                                                                     '</li>'
                                                                 )
+                                                           
                                                         } else {
                                                             $.each(value.boxes[0].logs,function(index,value) {
                                                                     // let a =JSON.parse(value.content );
@@ -797,7 +820,7 @@
                                                                 }else{
                                                                     vnpost = 0;
                                                                 }
-                                                                    check(value2.logs,created_at,vnpost)
+                                                                    check(value2.logs,created_at,vnpost,value2.items)
                                                                 })
                                                     }
                                                 })
@@ -808,14 +831,32 @@
                             }
                         },
                         error: function(res) {
-                            console.log('Lỗi')
+                            console.log(res)
                         }
                     })
                 })
             })
             //show log by id
-            function check(row, created_at,vnpost) {
-                
+            function check(row, created_at,vnpost,list_item) {
+                $("#table_item").show()
+                $("#load_item").empty()
+                if(list_item !=null){
+                    $.each(list_item,function(index_item,value_item){
+                        $("#load_item").append(
+                            "<tr>"+
+                            "<td>"+value_item.Quantity+"</td>"+
+                            "<td>"+value_item.Name+"</td>"+
+                            "</tr>"
+                        )
+                    })
+                }else{
+                    $("#load_item").append(
+                            "<tr>"+
+                            "<td>"+"Chưa kiểm hàng"+"</td>"+
+                            "<td>"+"Chưa kiểm hàng"+"</td>"+
+                            "</tr>"
+                        )
+                }
                 $("#time_line").empty()
                 if (row.length == 0) {
                     $("#time_line").append(
@@ -829,7 +870,6 @@
                         // let a = JSON.parse(value.content);
                         let keyObject = Object.keys(value.content)
                         let valueObject = Object.values(value.content);
-                        // console.log(keyObject)
                         var status;
                         if (keyObject == "id") {
                             status = "Đã nhập kho Nhật"
@@ -960,6 +1000,8 @@
             $("#table-firt-vnpost").hide()
             $("#statusData").empty()
             $("#statusData").hide()
+            $("#table_item").hide()
+            $("load_item").empty()
         }
     </script>
     @include('modules.nav-mobile')

@@ -907,11 +907,27 @@
                     </table>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 col-sm-12 col-custome">
+                    <div class="col-md-6 col-sm-6 col-custome">
                         <div class="lftredbrdr">
                             <ul class="timeline" id="time_line_index">
                         
                             </ul>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered" id="table_item" style="display:none">
+                                <thead>
+                                    <tr>
+                                    <th style='width:100px'>Số Lượng</th>
+                                    <th>Tên Sản Phẩm</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="load_item">
+                            
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -1652,7 +1668,6 @@
                 tracking: tracking
             },
             success: function(res) {
-                console.log(res)
                 $("#body-table-index-vnpost").empty()
                 $("#table-index-vnpost").hide()
                 if (res == 404) {
@@ -1665,8 +1680,7 @@
                     $("#statusData").append('<h4>' +
                         'Không tìm thấy mã tracking' + '</h4>')
                 } else {
-                    if (res.data[0].boxes.length == 0 & res.data[0].orders
-                        .length == 0) {
+                    if (res.data[0].boxes.length == 0 & res.data[0].orders.length == 0) {
                         $(".table").hide();
                         // $("#table-index").show();
                         $("#body-table-index").empty()
@@ -1678,6 +1692,7 @@
                     } else {
                         $("#statusData").css('display', 'none');
                         $(".table").show();
+                        $("#table_item").hide()
                         $("#table-index").show();
                         if (res.data.length == 0) {
                             $("#statusData").empty()
@@ -1722,6 +1737,7 @@
                                     $("#body-table-firt-vnpost").empty()
                                     $("#table-index-vnpost").hide()
                                     $("#body-table-index").empty()
+                                    $("#load_item").empty()
                                     $("#time_line_index").empty()
                                     $("#time_line_index").append(
                                         '<li>' +
@@ -1777,6 +1793,27 @@
                                                 '</tr>'
                                             )
                                         if (value.boxes.length == 1) {
+                                            $("#table_item").show()
+                                            $("#load_item").empty()
+                                            if(value.boxes[0].items !=null){
+                                                $.each(value.boxes[0].items,function(index_item,value_item){
+                                                    $("#load_item").append(
+                                                        "<tr>"+
+                                                        "<td>"+value_item.Quantity+"</td>"+
+                                                        "<td>"+value_item.Name+"</td>"+
+                                                        "</tr>"
+                                                    )
+                                                })
+                                                
+                                            }else{
+                                                $("#load_item").empty()
+                                                $("#load_item").append(
+                                                        "<tr>"+
+                                                        "<td>"+value_item.Quantity+"</td>"+
+                                                        "<td>"+value_item.Name+"</td>"+
+                                                        "</tr>"
+                                                    )
+                                            }
                                             $("#time_line_index").empty()
                                             if (value.boxes[0].logs.length ==0) {
                                                 $("#time_line_index").append(
@@ -1875,7 +1912,7 @@
                                                     }else{
                                                         vnpost = 0;
                                                     }
-                                                        check(value2.logs,created_at,vnpost)
+                                                        check(value2.logs,created_at,vnpost,value2.items)
                                                     })
                                         }
                                     })
@@ -1886,13 +1923,31 @@
                 }
             },
             error: function(res) {
-                console.log('Lỗi')
+                console.log(res)
             }
         })
     })
             //show log by id
-        function check(row, created_at,vnpost) {
-            
+        function check(row, created_at,vnpost,list_item) {
+            $("#table_item").show()
+            $("#load_item").empty()
+            if(list_item !=null){
+                $.each(list_item,function(index_item,value_item){
+                    $("#load_item").append(
+                        "<tr>"+
+                        "<td>"+value_item.Quantity+"</td>"+
+                        "<td>"+value_item.Name+"</td>"+
+                        "</tr>"
+                    )
+                })
+            }else{
+                $("#load_item").append(
+                        "<tr>"+
+                        "<td>"+"Chưa kiểm hàng"+"</td>"+
+                        "<td>"+"Chưa kiểm hàng"+"</td>"+
+                        "</tr>"
+                    )
+            }
             $("#time_line_index").empty()
             if (row.length == 0) {
                 $("#time_line_index").append(
@@ -2285,6 +2340,8 @@
             $("#table-index-vnpost").hide()
             $("#statusData").empty()
             $("#statusData").hide()
+            $("#table_item").hide()
+            $("load_item").empty()
         }
 </script>
 </body>
