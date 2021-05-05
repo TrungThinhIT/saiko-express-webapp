@@ -72,7 +72,7 @@ class FLTrackingController extends Controller
             }
             $results = json_decode($apiTracking->body(), true); //results of tomoni
             if (!empty($results['data'][0]['boxes'])) {
-                //list item
+                //list item & volumne
                 for ($i = 0; $i <= count($results['data'][0]['boxes']) - 1; $i++) {
                     $item_box  = Http::withHeaders([
                         'Accept' => 'application/json',
@@ -88,12 +88,13 @@ class FLTrackingController extends Controller
                     }
                     $result_list_item = json_decode($item_box->body(), true);
                     $detail_item = array();
+                    //list item
                     if (!empty($result_list_item['items'])) {
                         foreach ($result_list_item['items'] as $item) {
                             $getInfoItem = Http::withHeaders([
                                 'Accept' => 'application/json',
                                 'Authorization' => 'Bearer ' . $token->access_token,
-                                'Accept-Language'=>"ja"
+                                'Accept-Language' => "ja"
                             ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                             if ($getInfoItem->status() == 401) {
                                 $this->QCT->getToken();
@@ -101,7 +102,7 @@ class FLTrackingController extends Controller
                                 $getInfoItem = Http::withHeaders([
                                     'Accept' => 'application/json',
                                     'Authorization' => 'Bearer ' . $token->access_token,
-                                    'Accept-Language'=>"ja"
+                                    'Accept-Language' => "ja"
                                 ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                             }
                             if ($getInfoItem->status() == 200) {
@@ -117,6 +118,22 @@ class FLTrackingController extends Controller
                     } else {
                         $results['data'][0]['boxes'][$i]['items'] = null;
                     }
+                    //volumne
+                    if (empty($results['data'][0]['orders'])) {
+                        $volumne_weight =  $results['data'][0]['boxes'][$i]['volume_per_box'] / 3500;
+                    } else {
+                        usort($results['data'][0]['orders'], function ($a, $b) {
+                            return $b['shipment_infor_id'] - $a['shipment_infor_id'];
+                        }); //sort orders
+                        $method_shipment = Str::ucfirst($results['data'][0]['orders'][0]['shipment_method_id']);
+                        if ($method_shipment == "Air") {
+                            $volumne_weight = $results['data'][0]['boxes'][$i]['volume_per_box'] / 6000;
+                        } else {
+                            $volumne_weight = $results['data'][0]['boxes'][$i]['volume_per_box'] / 3500;
+                        }
+                    }
+
+                    $results['data'][0]['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
                 }
             }
             //vnpost
@@ -181,7 +198,7 @@ class FLTrackingController extends Controller
                                     'PhuongThucVC' => $PhuongThucVC
                                 );
                                 $results['data'][0]['boxes'][$i]['vnpost'] = $results_vnpost;
-                            } 
+                            }
                             sleep(0.8);
                         }
                     }

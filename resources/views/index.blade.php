@@ -1778,7 +1778,7 @@
                                                 '</td>' +
                                                 '<td>' + value2.weight_per_box.toFixed(3) +
                                                 '</td>' +
-                                                '<td>' + value2.volumetric_weight_per_box.toFixed(3) +
+                                                '<td>' + value2.volumne_weight_box.toFixed(3) +
                                                 '</td>' +
                                                 '<td>' +name_send +
                                                 '</td>' +
