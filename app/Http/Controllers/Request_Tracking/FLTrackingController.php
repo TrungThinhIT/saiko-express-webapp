@@ -129,10 +129,10 @@ class FLTrackingController extends Controller
                 if (!(in_array($results['data'][0]['orders'][0]['shipment_infor']['address'], $arrCheck))) {
                     $getWard = phuongxa::where('MaPhuongXa', ($results['data'][0]['orders'][0]['shipment_infor']['ward_id']))->first(); //get ward
                     if (!empty($getWard)) {
-                        $provinIdRev = intval($getWard->MaTinhThanh); //province rev ID
-                        $districtIdRev = intval($getWard->MaQuanHuyen); //district rev ID
-                        $provinIdSend = $provinIdRev <= 53 ? 10 : 70; //province send ID
-                        $districtIdSend = $provinIdSend == 10 ? 1390 : 7600; //district send ID
+                        $provinIdRev = strval($getWard->MaTinhThanh); //province rev ID
+                        $districtIdRev = strval($getWard->MaQuanHuyen); //district rev ID
+                        $provinIdSend = $provinIdRev <= "53" ? "10" : "70"; //province send ID
+                        $districtIdSend = $provinIdSend == "10" ? "1390" : "7600"; //district send ID
                         $url = 'https://vnpost.vnit.top/api/api/DoiTac/TinhCuocTatCaDichVu';
                         for ($i = 0; $i <= count($results['data'][0]['boxes']) - 1; $i++) {
                             $data = array(
