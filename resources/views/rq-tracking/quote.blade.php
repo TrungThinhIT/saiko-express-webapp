@@ -523,7 +523,6 @@
         var ShipAir = document.getElementById('uair').checked;
         var ShipSea = document.getElementById('usea').checked;
         var merge_box = $("#merge_box:checked").val()
-        // console.log(merge_box)
         // return
         var Upx = $('#UPhuongXa').val();
         var Code_Add = $("#Uhuyen option:selected").val() + "," + $("#Utinh option:selected").val();

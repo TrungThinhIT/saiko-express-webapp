@@ -559,6 +559,15 @@
                 });
                 $('#tracking_form').submit(function(e) {
                     e.preventDefault();
+                    $("#body-table-firt").empty()
+                    $("#time_line").empty()
+                    $("#table-firt").hide()
+                    $("#body-table-firt-vnpost").empty()
+                    $("#table-firt-vnpost").hide()
+                    $("#statusData").empty()
+                    $("#statusData").hide()
+                    $("#table_item").hide()
+                    $("load_item").empty()
                     var tracking = $("#utrack").val();
                     if(tracking.length<=5){
                         alert('Tracking chưa đúng')
@@ -575,7 +584,6 @@
                             tracking: tracking
                         },
                         success: function(res) {
-                            console.log(res)
                             $("#body-table-firt-vnpost").empty()
                             $("#table-firt-vnpost").hide()
                             if (res == 404) {
@@ -717,8 +725,8 @@
                                                             $("#load_item").empty()
                                                             $("#load_item").append(
                                                                     "<tr>"+
-                                                                    "<td>"+value_item.Quantity+"</td>"+
-                                                                    "<td>"+value_item.Name+"</td>"+
+                                                                    "<td>"+"Chưa kiểm hàng"+"</td>"+
+                                                                    "<td>"+"Chưa kiểm hàng"+"</td>"+
                                                                     "</tr>"
                                                                 )
                                                         }
@@ -994,15 +1002,7 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
         function clearAll(){
-            $("#body-table-firt").empty()
-            $("#time_line").empty()
-            $("#table-firt").hide()
-            $("#body-table-firt-vnpost").empty()
-            $("#table-firt-vnpost").hide()
-            $("#statusData").empty()
-            $("#statusData").hide()
-            $("#table_item").hide()
-            $("load_item").empty()
+            
         }
     </script>
     @include('modules.nav-mobile')
