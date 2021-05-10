@@ -1652,6 +1652,15 @@
     })
     $('#tracking_form_index').submit(function() {
         event.preventDefault();
+        $("#body-table-index").empty()
+        $("#time_line_index").empty()
+        $("#table-index").hide()
+        $("#body-table-index-vnpost").empty()
+        $("#table-index-vnpost").hide()
+        $("#statusData").empty()
+        $("#statusData").hide()
+        $("#table_item").hide()
+        $("load_item").empty()
         var tracking = $("#utrack").val();
         if(tracking.length<=5){
             alert('Tracking chưa đúng')
@@ -2333,15 +2342,7 @@
         dots: true
     });
     function clearAll(){
-            $("#body-table-index").empty()
-            $("#time_line_index").empty()
-            $("#table-index").hide()
-            $("#body-table-index-vnpost").empty()
-            $("#table-index-vnpost").hide()
-            $("#statusData").empty()
-            $("#statusData").hide()
-            $("#table_item").hide()
-            $("load_item").empty()
+           
         }
 </script>
 </body>
