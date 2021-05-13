@@ -41,67 +41,85 @@ class FLTrackingController extends Controller
             $results = json_decode($apiShow->body(), true); //results of tomoni
             if (!empty($results['boxes'])) {
                 //list item & volumne
-                for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
-                    $item_box = Http::withHeaders([
-                        'Accept' => 'application/json',
-                        'Authorization' => 'Bearer ' . $token->access_token,
-                    ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $results['boxes'][$i]['id'] . '?with=items');
-                    if ($item_box->status() == 401) {
-                        $this->QCT->getToken();
-                        $token = token::find(1);
+                if (count($results['boxes']) == 1) {
+                    for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
                         $item_box = Http::withHeaders([
                             'Accept' => 'application/json',
                             'Authorization' => 'Bearer ' . $token->access_token,
                         ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $results['boxes'][$i]['id'] . '?with=items');
-                    }
-                    $result_list_item = json_decode($item_box->body(), true);
-                    $detail_item = array();
-                    //list item
-                    if (!empty($result_list_item['items'])) {
-                        foreach ($result_list_item['items'] as $item) {
-                            $getInfoItem = Http::withHeaders([
+                        if ($item_box->status() == 401) {
+                            $this->QCT->getToken();
+                            $token = token::find(1);
+                            $item_box = Http::withHeaders([
                                 'Accept' => 'application/json',
                                 'Authorization' => 'Bearer ' . $token->access_token,
-                                'Accept-Language' => "ja",
-                            ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
-                            if ($getInfoItem->status() == 401) {
-                                $this->QCT->getToken();
-                                $token = token::find(1);
+                            ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $results['boxes'][$i]['id'] . '?with=items');
+                        }
+                        $result_list_item = json_decode($item_box->body(), true);
+                        $detail_item = array();
+                        //list item
+                        if (!empty($result_list_item['items'])) {
+                            foreach ($result_list_item['items'] as $item) {
                                 $getInfoItem = Http::withHeaders([
                                     'Accept' => 'application/json',
                                     'Authorization' => 'Bearer ' . $token->access_token,
                                     'Accept-Language' => "ja",
                                 ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
+                                if ($getInfoItem->status() == 401) {
+                                    $this->QCT->getToken();
+                                    $token = token::find(1);
+                                    $getInfoItem = Http::withHeaders([
+                                        'Accept' => 'application/json',
+                                        'Authorization' => 'Bearer ' . $token->access_token,
+                                        'Accept-Language' => "ja",
+                                    ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
+                                }
+                                if ($getInfoItem->status() == 200) {
+                                    $getInfoItem = json_decode($getInfoItem);
+                                    $detail_item[] = array(
+                                        'Quantity' => $item['quantity'],
+                                        'Name' => $getInfoItem->name,
+                                    );
+                                    $results['boxes'][$i]['items'] = $detail_item;
+                                }
                             }
-                            if ($getInfoItem->status() == 200) {
-                                $getInfoItem = json_decode($getInfoItem);
-                                $detail_item[] = array(
-                                    'Quantity' => $item['quantity'],
-                                    'Name' => $getInfoItem->name,
-                                );
-                                $results['boxes'][$i]['items'] = $detail_item;
-                            }
-                            
-                        }
-                    } else {
-                        $results['boxes'][$i]['items'] = null;
-                    }
-                    // volumne
-                    if (empty($results['orders'])) {
-                        $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
-                    } else {
-                        usort($results['orders'], function ($a, $b) {
-                            return $b['shipment_infor_id'] - $a['shipment_infor_id'];
-                        }); //sort orders
-                        $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
-                        if ($method_shipment == "Air") {
-                            $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
                         } else {
-                            $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
+                            $results['boxes'][$i]['items'] = null;
                         }
-                    }
+                        // volumne
+                        if (empty($results['orders'])) {
+                            $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
+                        } else {
+                            usort($results['orders'], function ($a, $b) {
+                                return $b['shipment_infor_id'] - $a['shipment_infor_id'];
+                            }); //sort orders
+                            $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
+                            if ($method_shipment == "Air") {
+                                $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
+                            } else {
+                                $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
+                            }
+                        }
 
-                    $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
+                        $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
+                    }
+                }else{
+                    for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
+                        if (empty($results['orders'])) {
+                            $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
+                        } else {
+                            usort($results['orders'], function ($a, $b) {
+                                return $b['shipment_infor_id'] - $a['shipment_infor_id'];
+                            }); //sort orders
+                            $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
+                            if ($method_shipment == "Air") {
+                                $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
+                            } else {
+                                $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
+                            }
+                        }
+                        $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
+                    }
                 }
             }
             //vnpost
@@ -174,5 +192,58 @@ class FLTrackingController extends Controller
             $data['data'][] = $results;
             return $data;
         }
+    }
+    public function getInforBox(Request $req){
+        // return $req->all();
+        //get token
+        $token = token::find(1);
+        if (empty($token)) {
+            return $this->QCT->getToken();
+        }
+        //get infor box
+        $item_box = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token->access_token,
+        ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $req->id_box . '?with=items&appends=logs');
+        if ($item_box->status() == 401) {
+            $this->QCT->getToken();
+            $token = token::find(1);
+            $item_box = Http::withHeaders([
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token->access_token,
+            ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $req->id_box . '?with=items');
+        }
+        $result_list_item = json_decode($item_box->body(), true);
+        $detail_item = array();
+        //list item
+        if (!empty($result_list_item['items'])) {
+            foreach ($result_list_item['items'] as $item) {
+                $getInfoItem = Http::withHeaders([
+                    'Accept' => 'application/json',
+                    'Authorization' => 'Bearer ' . $token->access_token,
+                    'Accept-Language' => "ja",
+                ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
+                if ($getInfoItem->status() == 401) {
+                    $this->QCT->getToken();
+                    $token = token::find(1);
+                    $getInfoItem = Http::withHeaders([
+                        'Accept' => 'application/json',
+                        'Authorization' => 'Bearer ' . $token->access_token,
+                        'Accept-Language' => "ja",
+                    ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
+                }
+                if ($getInfoItem->status() == 200) {
+                    $getInfoItem = json_decode($getInfoItem);
+                    $detail_item[] = array(
+                        'Quantity' => $item['quantity'],
+                        'Name' => $getInfoItem->name,
+                    );
+                    $result_list_item['items'] = $detail_item;
+                }
+            }
+        } else {
+            $result_list_item['items'] = null;
+        }
+        return $result_list_item;
     }
 }

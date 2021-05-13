@@ -39,6 +39,7 @@ Route::prefix('request-tracking')->namespace('Request_Tracking')->name('rq_tk.')
     Route::post('follow-tracking', 'FLTrackingController@getStatus')->name('getStatus');
     Route::get('createTracking','QuoteController@createTracking')->name('createTracking');
     Route::get('update-tracking', 'QuoteController@updateTracking')->name('updateTracking');
+    Route::post('get-infor-box','FLTrackingController@getInforBox')->name('getInforBox');
 
 });
 Route::prefix('blogs')->namespace('blogs')->name('blog.')->group(function () {

@@ -920,6 +920,7 @@
                             <table class="table table-striped table-bordered" id="table_item" style="display:none">
                                 <thead>
                                     <tr>
+                                    <th>STT</th>
                                     <th style='width:100px'>Số Lượng</th>
                                     <th>Tên Sản Phẩm</th>
                                     </tr>
@@ -1836,6 +1837,7 @@
                                                         '</li>'
                                                     )
                                             } else {
+                                                var size = "( Dài : "+value.boxes[0].length+"cm"+",Rộng: "+value.boxes[0].width+"cm"+",Cao: "+value.boxes[0].length+"cm )"
                                                 $.each(value.boxes[0].logs,function(index,value) {
                                                         // let a =JSON.parse(value.content );
                                                         let keyObject =Object.keys(value.content)
@@ -1845,7 +1847,7 @@
                                                             status="Đã nhập kho Nhật"
                                                         }
                                                         if (keyObject =="in_pallet") {
-                                                            status ="Đã kiểm hàng"
+                                                            status ="Đã kiểm hàng" + size
                                                         }
                                                         if (keyObject =="set_owner_id,set_owner_type") {
                                                             status="Lên đơn hàng"
@@ -1923,7 +1925,7 @@
                                                     }else{
                                                         vnpost = 0;
                                                     }
-                                                        check(value2.logs,created_at,vnpost,value2.items)
+                                                        check(value2.id,vnpost,created_at)
                                                     })
                                         }
                                     })
@@ -1939,107 +1941,221 @@
         })
     })
             //show log by id
-        function check(row, created_at,vnpost,list_item) {
-            $("#table_item").show()
-            $("#load_item").empty()
-            if(list_item !=null){
-                $.each(list_item,function(index_item,value_item){
-                    $("#load_item").append(
-                        "<tr>"+
-                        "<td>"+ ++index_item+"</td>"+    
-                        "<td>"+value_item.Quantity+"</td>"+
-                        "<td>"+value_item.Name+"</td>"+
-                        "</tr>"
-                    )
-                })
-            }else{
-                $("#load_item").append(
-                        "<tr>"+
-                        "<td>"+ "</td>"+    
-                        "<td>"+"Chưa kiểm hàng"+"</td>"+
-                        "<td>"+"Chưa kiểm hàng"+"</td>"+
-                        "</tr>"
-                    )
-            }
-            $("#time_line_index").empty()
-            if (row.length == 0) {
-                $("#time_line_index").append(
-                    '<li>' +
-                    '<a>' + 'Đang tới kho' + '</a>' +
-                    '<p>' + created_at + '</p>' +
-                    '</li>'
-                )
-            } else {
-                $.each(row, function(index, value) {
-                    // let a = JSON.parse(value.content);
-                    let keyObject = Object.keys(value.content)
-                    let valueObject = Object.values(value.content);
-                    var status;
-                    if (keyObject == "id") {
-                        status = "Đã nhập kho Nhật"
+            // row, created_at,vnpost,list_items
+        function check(id_box,vnpost,created_at) {
+            var id_box = id_box;
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type:"POST",
+                url:"{{route('rq_tk.getInforBox')}}",
+                data:{
+                    id_box:id_box
+                },success:function(res){
+                    $("#table_item").show()
+                    $("#load_item").empty()
+                    if(res.items !=null){
+                        $.each(res.items,function(index_item,value_item){
+                            $("#load_item").append(
+                                "<tr>"+
+                                "<td>"+ ++index_item+"</td>"+    
+                                "<td>"+value_item.Quantity+"</td>"+
+                                "<td>"+value_item.Name+"</td>"+
+                                "</tr>"
+                            )
+                        })
+                    }else{
+                        $("#load_item").append(
+                                "<tr>"+
+                                "<td>"+ "</td>"+    
+                                "<td>"+"Chưa kiểm hàng"+"</td>"+
+                                "<td>"+"Chưa kiểm hàng"+"</td>"+
+                                "</tr>"
+                            )
                     }
-                    if (keyObject == "in_pallet") {
-                        status = "Đã kiểm hàng"
+                    $("#time_line_index").empty()
+                    if (res.logs.length == 0) {
+                        $("#time_line_index").append(
+                            '<li>' +
+                            '<a>' + 'Đang tới kho' + '</a>' +
+                            '<p>' + created_at + '</p>' +
+                            '</li>'
+                        )
+                    } else {
+                        var size = "( Dài : "+res.length+"cm"+",Rộng: "+res.width+"cm"+",Cao: "+res.height+"cm )"
+                        $.each(res.logs, function(index, value) {
+                            // let a = JSON.parse(value.content);
+                            let keyObject = Object.keys(value.content)
+                            let valueObject = Object.values(value.content);
+                            var status;
+                            if (keyObject == "id") {
+                                status = "Đã nhập kho Nhật"
+                            }
+                            if (keyObject == "in_pallet") {
+                                status = "Đã kiểm hàng" + size
+                            }
+                            if (keyObject == "set_owner_id,set_owner_type") {
+                                status = "Lên đơn hàng"
+                            }
+                            if (keyObject == "in_container") {
+                                status = "Xuất kho Nhật"
+                            }
+                            if (keyObject == "out_container") {
+                                status = "Nhập kho Việt Nam"
+                            }
+                            if (keyObject == "delivery_status") {
+                                if (valueObject == "shipping") {
+                                    status = "Đang giao hàng"
+                                }
+                            }
+                            if (keyObject == "delivery_status") {
+                                if (valueObject == "cancelled") {
+                                    status = "Hủy box"
+                                }
+                            }
+                            if (keyObject == "delivery_status") {
+                                if (valueObject == "received") {
+                                    status = "Đã nhận hàng"
+                                }
+                            }
+                            if (keyObject == "delivery_status") {
+                                if (valueObject == "refunded") {
+                                    status = "Trả lại hàng"
+                                }
+                            }
+                            if (keyObject == "delivery_status") {
+                                if (valueObject == "waiting_shipment") {
+                                    status = "Đợi giao hàng"
+                                }
+                            }
+                            $("#time_line_index").append(
+                                '<li>' +
+                                '<a>' + status + '</a>' +
+                                '<p>' + value.created_at + '</p>' +
+                                '</li>'
+                            )
+                        })
                     }
-                    if (keyObject == "set_owner_id,set_owner_type") {
-                        status = "Lên đơn hàng"
+                    if(vnpost){
+                        $("#body-table-index-vnpost").empty()
+                        $("#body-table-index-vnpost").append(
+                            '<tr>' +
+                            '<td>' + vnpost.MaDichVu +
+                            '</td>' +
+                            '<td>' + vnpost.PhuongThucVC +
+                            '</td>' +
+                            '<td>' + vnpost.CuocCOD +
+                            '</td>' +
+                            '<td>' + vnpost.TongCuocSauVAT +
+                            '</td>' +
+                            '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
+                            '</tr>'
+                        )
+                        $("#table-index-vnpost").show()
                     }
-                    if (keyObject == "in_container") {
-                        status = "Xuất kho Nhật"
-                    }
-                    if (keyObject == "out_container") {
-                        status = "Nhập kho Việt Nam"
-                    }
-                    if (keyObject == "delivery_status") {
-                        if (valueObject == "shipping") {
-                            status = "Đang giao hàng"
-                        }
-                    }
-                    if (keyObject == "delivery_status") {
-                        if (valueObject == "cancelled") {
-                            status = "Hủy box"
-                        }
-                    }
-                    if (keyObject == "delivery_status") {
-                        if (valueObject == "received") {
-                            status = "Đã nhận hàng"
-                        }
-                    }
-                    if (keyObject == "delivery_status") {
-                        if (valueObject == "refunded") {
-                            status = "Trả lại hàng"
-                        }
-                    }
-                    if (keyObject == "delivery_status") {
-                        if (valueObject == "waiting_shipment") {
-                            status = "Đợi giao hàng"
-                        }
-                    }
-                    $("#time_line_index").append(
-                        '<li>' +
-                        '<a>' + status + '</a>' +
-                        '<p>' + value.created_at + '</p>' +
-                        '</li>'
-                    )
-                })
-            }
-            if(vnpost){
-                $("#body-table-index-vnpost").empty()
-                $("#body-table-index-vnpost").append(
-                    '<tr>' +
-                    '<td>' + vnpost.MaDichVu +
-                    '</td>' +
-                    '<td>' + vnpost.PhuongThucVC +
-                    '</td>' +
-                    '<td>' + vnpost.CuocCOD +
-                    '</td>' +
-                    '<td>' + vnpost.TongCuocSauVAT +
-                    '</td>' +
-                    '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
-                    '</tr>'
-                )
-                $("#table-index-vnpost").show()
-            }
+                }
+            })
+            // $("#table_item").show()
+            // $("#load_item").empty()
+            // if(list_item !=null){
+            //     $.each(list_item,function(index_item,value_item){
+            //         $("#load_item").append(
+            //             "<tr>"+
+            //             "<td>"+ ++index_item+"</td>"+    
+            //             "<td>"+value_item.Quantity+"</td>"+
+            //             "<td>"+value_item.Name+"</td>"+
+            //             "</tr>"
+            //         )
+            //     })
+            // }else{
+            //     $("#load_item").append(
+            //             "<tr>"+
+            //             "<td>"+ "</td>"+    
+            //             "<td>"+"Chưa kiểm hàng"+"</td>"+
+            //             "<td>"+"Chưa kiểm hàng"+"</td>"+
+            //             "</tr>"
+            //         )
+            // }
+            // $("#time_line_index").empty()
+            // if (row.length == 0) {
+            //     $("#time_line_index").append(
+            //         '<li>' +
+            //         '<a>' + 'Đang tới kho' + '</a>' +
+            //         '<p>' + created_at + '</p>' +
+            //         '</li>'
+            //     )
+            // } else {
+            //     $.each(row, function(index, value) {
+            //         // let a = JSON.parse(value.content);
+            //         let keyObject = Object.keys(value.content)
+            //         let valueObject = Object.values(value.content);
+            //         var status;
+            //         if (keyObject == "id") {
+            //             status = "Đã nhập kho Nhật"
+            //         }
+            //         if (keyObject == "in_pallet") {
+            //             status = "Đã kiểm hàng"
+            //         }
+            //         if (keyObject == "set_owner_id,set_owner_type") {
+            //             status = "Lên đơn hàng"
+            //         }
+            //         if (keyObject == "in_container") {
+            //             status = "Xuất kho Nhật"
+            //         }
+            //         if (keyObject == "out_container") {
+            //             status = "Nhập kho Việt Nam"
+            //         }
+            //         if (keyObject == "delivery_status") {
+            //             if (valueObject == "shipping") {
+            //                 status = "Đang giao hàng"
+            //             }
+            //         }
+            //         if (keyObject == "delivery_status") {
+            //             if (valueObject == "cancelled") {
+            //                 status = "Hủy box"
+            //             }
+            //         }
+            //         if (keyObject == "delivery_status") {
+            //             if (valueObject == "received") {
+            //                 status = "Đã nhận hàng"
+            //             }
+            //         }
+            //         if (keyObject == "delivery_status") {
+            //             if (valueObject == "refunded") {
+            //                 status = "Trả lại hàng"
+            //             }
+            //         }
+            //         if (keyObject == "delivery_status") {
+            //             if (valueObject == "waiting_shipment") {
+            //                 status = "Đợi giao hàng"
+            //             }
+            //         }
+            //         $("#time_line_index").append(
+            //             '<li>' +
+            //             '<a>' + status + '</a>' +
+            //             '<p>' + value.created_at + '</p>' +
+            //             '</li>'
+            //         )
+            //     })
+            // }
+            // if(vnpost){
+            //     $("#body-table-index-vnpost").empty()
+            //     $("#body-table-index-vnpost").append(
+            //         '<tr>' +
+            //         '<td>' + vnpost.MaDichVu +
+            //         '</td>' +
+            //         '<td>' + vnpost.PhuongThucVC +
+            //         '</td>' +
+            //         '<td>' + vnpost.CuocCOD +
+            //         '</td>' +
+            //         '<td>' + vnpost.TongCuocSauVAT +
+            //         '</td>' +
+            //         '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
+            //         '</tr>'
+            //     )
+            //     $("#table-index-vnpost").show()
+            // }
 
         }
 
