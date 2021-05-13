@@ -432,6 +432,7 @@
                                             <table class="table table-striped table-bordered" id="table_item" style="display:none">
                                                 <thead>
                                                     <tr>
+                                                    <th>STT</th>    
                                                     <th style='width:100px'>Số Lượng</th>
                                                     <th>Tên Sản Phẩm</th>
                                                     </tr>
@@ -694,7 +695,7 @@
                                                             '</td>' +
                                                             '<td>' + value2.weight_per_box.toFixed(3) +
                                                             '</td>' +
-                                                            '<td>' + value2.volumne_weight_box.toFixed(3) +//volumne_weight_box
+                                                            '<td>' + value2.volumne_weight_box.toFixed(3)+
                                                             '</td>' +
                                                             '<td>' +name_send +
                                                             '</td>' +
@@ -715,6 +716,7 @@
                                                             $.each(value.boxes[0].items,function(index_item,value_item){
                                                                 $("#load_item").append(
                                                                     "<tr>"+
+                                                                    "<td>"+ ++index_item+"</td>"+    
                                                                     "<td>"+value_item.Quantity+"</td>"+
                                                                     "<td>"+value_item.Name+"</td>"+
                                                                     "</tr>"
@@ -742,6 +744,7 @@
                                                                 )
                                                            
                                                         } else {
+                                                            var size = "( Dài : "+value.boxes[0].length+"cm"+",Rộng: "+value.boxes[0].width+"cm"+",Cao: "+value.boxes[0].length+"cm )"
                                                             $.each(value.boxes[0].logs,function(index,value) {
                                                                     // let a =JSON.parse(value.content );
                                                                     let keyObject =Object.keys(value.content)
@@ -751,16 +754,17 @@
                                                                         status="Đã nhập kho Nhật"
                                                                     }
                                                                     if (keyObject =="in_pallet") {
-                                                                        status ="Đã kiểm hàng"
+                                                                        status ="Đã kiểm hàng " + size
+                                                                         
                                                                     }
                                                                     if (keyObject =="set_owner_id,set_owner_type") {
                                                                         status="Lên đơn hàng"
                                                                     }
                                                                     if (keyObject =="in_container") {
-                                                                        status ="Lên container"
+                                                                        status ="Xuất kho Nhật"
                                                                     }
                                                                     if (keyObject =="out_container") {
-                                                                        status= "Xuống container"
+                                                                        status= "Nhập kho Việt Nam"
                                                                     }
                                                                     if (keyObject =="delivery_status" ) {
                                                                         if (valueObject == "shipping") {
@@ -798,23 +802,23 @@
                                                                         )
                                                                 })
                                                         }
-                                                        if(value.boxes[0]['vnpost']!=undefined){
-                                                            $("#body-table-firt-vnpost").empty()
-                                                            $("#body-table-firt-vnpost").append(
-                                                                '<tr>' +
-                                                                '<td>' + value.boxes[0]['vnpost'].MaDichVu +
-                                                                '</td>' +
-                                                                '<td>' + value.boxes[0]['vnpost'].PhuongThucVC +
-                                                                '</td>' +
-                                                                '<td>' + value.boxes[0]['vnpost'].CuocCOD +
-                                                                '</td>' +
-                                                                '<td>' +value.boxes[0]['vnpost'].TongCuocSauVAT +
-                                                                '</td>' +
-                                                                '<td>' +value.boxes[0]['vnpost'].SoTienCodThuNoiNguoiNhan +
-                                                                '</tr>'
-                                                            )
-                                                            $("#table-firt-vnpost").show()
-                                                        }
+                                                        // if(value.boxes[0]['vnpost']!=undefined){
+                                                        //     $("#body-table-firt-vnpost").empty()
+                                                        //     $("#body-table-firt-vnpost").append(
+                                                        //         '<tr>' +
+                                                        //         '<td>' + value.boxes[0]['vnpost'].MaDichVu +
+                                                        //         '</td>' +
+                                                        //         '<td>' + value.boxes[0]['vnpost'].PhuongThucVC +
+                                                        //         '</td>' +
+                                                        //         '<td>' + value.boxes[0]['vnpost'].CuocCOD +
+                                                        //         '</td>' +
+                                                        //         '<td>' +value.boxes[0]['vnpost'].TongCuocSauVAT +
+                                                        //         '</td>' +
+                                                        //         '<td>' +value.boxes[0]['vnpost'].SoTienCodThuNoiNguoiNhan +
+                                                        //         '</tr>'
+                                                        //     )
+                                                        //     $("#table-firt-vnpost").show()
+                                                        // }
                                                         
                                                     } else {
                                                         $(`#sku-row-${value2.id}`).hover(function(){
@@ -824,12 +828,14 @@
                                                         });
                                                         $(`#sku-row-${value2.id}`).on('click',function() {
                                                                 var vnpost=0;
+                                                                var size='';
                                                                 if(value2.vnpost!=undefined){
                                                                     vnpost = value2.vnpost;
                                                                 }else{
                                                                     vnpost = 0;
                                                                 }
-                                                                    check(value2.logs,created_at,vnpost,value2.items)
+                                                                    size = "Dài : "+value2.length+"cm"+",Rộng: "+value2.width+"cm"+",Cao: "+value2.length+"cm"
+                                                                    check(value2.logs,created_at,vnpost,value2.items,size)
                                                                 })
                                                     }
                                                 })
@@ -846,13 +852,14 @@
                 })
             })
             //show log by id
-            function check(row, created_at,vnpost,list_item) {
+            function check(row, created_at,vnpost,list_item,size) {
                 $("#table_item").show()
                 $("#load_item").empty()
                 if(list_item !=null){
                     $.each(list_item,function(index_item,value_item){
                         $("#load_item").append(
                             "<tr>"+
+                            "<td>"+ ++index_item+"</td>"+
                             "<td>"+value_item.Quantity+"</td>"+
                             "<td>"+value_item.Name+"</td>"+
                             "</tr>"
@@ -884,16 +891,16 @@
                             status = "Đã nhập kho Nhật"
                         }
                         if (keyObject == "in_pallet") {
-                            status = "Đã kiểm hàng"
+                            status = "Đã kiểm hàng " + "( "+size+" )"
                         }
                         if (keyObject == "set_owner_id,set_owner_type") {
                             status = "Lên đơn hàng"
                         }
                         if (keyObject == "in_container") {
-                            status = "Lên container"
+                            status = "Xuất kho Nhật"
                         }
                         if (keyObject == "out_container") {
-                            status = "Xuống container"
+                            status = "Nhập kho Việt Nam"
                         }
                         if (keyObject == "delivery_status") {
                             if (valueObject == "shipping") {

@@ -1703,10 +1703,10 @@
                         $(".table").show();
                         $("#table_item").hide()
                         $("#table-index").show();
-                        if (res.data.length == 0) {
+                        if (res.data.length == 0) {ß
                             $("#statusData").empty()
                             $("#statusData").append(
-                                '<h4>' + 'Chưa gửi hàng' + '</h4>'
+                                '<h4>' + 'Không tìm thấy tracking' + '</h4>'
                             )
                         } else {
                             $("#statusData").empty()
@@ -1818,8 +1818,8 @@
                                                 $("#load_item").empty()
                                                 $("#load_item").append(
                                                         "<tr>"+
-                                                        "<td>"+value_item.Quantity+"</td>"+
-                                                        "<td>"+value_item.Name+"</td>"+
+                                                        "<td>"+"Chưa phân hàng"+"</td>"+
+                                                        "<td>"+"Chưa phân hàng"+"</td>"+
                                                         "</tr>"
                                                     )
                                             }
@@ -1849,10 +1849,10 @@
                                                             status="Lên đơn hàng"
                                                         }
                                                         if (keyObject =="in_container") {
-                                                            status ="Lên container"
+                                                            status ="Xuất kho Nhật"
                                                         }
                                                         if (keyObject =="out_container") {
-                                                            status= "Xuống container"
+                                                            status= "Nhập kho Việt Nam"
                                                         }
                                                         if (keyObject =="delivery_status" ) {
                                                             if (valueObject == "shipping") {
@@ -1981,10 +1981,10 @@
                         status = "Lên đơn hàng"
                     }
                     if (keyObject == "in_container") {
-                        status = "Lên container"
+                        status = "Xuất kho Nhật"
                     }
                     if (keyObject == "out_container") {
-                        status = "Xuống container"
+                        status = "Nhập kho Việt Nam"
                     }
                     if (keyObject == "delivery_status") {
                         if (valueObject == "shipping") {
