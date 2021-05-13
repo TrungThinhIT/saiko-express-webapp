@@ -132,12 +132,14 @@
     .set-width-lb {
         width: 37px;
     }
-    @media (max-width: 1260px){
-        .col-md-7{
+
+    @media (max-width: 1260px) {
+        .col-md-7 {
             margin-top: 0 !important;
         }
-  }
-}
+    }
+    }
+
 </style>
 
 @include('modules.header')
@@ -174,8 +176,7 @@
 
         <div class="row">
             <div class="col-md-5">
-                <img src="assets/images/price.png"
-                    alt="Tính phí chi tiết vận chuyển">
+                <img src="assets/images/price.png" alt="Tính phí chi tiết vận chuyển">
             </div>
             <div class="col-md-7" style="margin-top: -100px">
                 <div class="fee-pro-title">
@@ -187,13 +188,11 @@
                     <div>
                         <label style="margin-right: 10px;" class="mobile-track">Hình thức vận chuyển: </label>
                         <label class="radio-inline"><input type="radio" name="tran" checked id="air"
-                                onchange="onResult()">Đường bay<a
-                                href="assets/images/services/air.png"
+                                onchange="onResult()">Đường bay<a href="assets/images/services/air.png"
                                 title='Xem bảng giá'> <i class="fa fa-eye"
                                     style="    color: burlywood;"></i></a></label>
                         <label class="radio-inline"><input type="radio" name="tran" id="sea" onchange="onResult()">Đường
-                            biển<a href="assets/images/services/sea.png"
-                                title='Xem bảng giá'> <i class="fa fa-eye"
+                            biển<a href="assets/images/services/sea.png" title='Xem bảng giá'> <i class="fa fa-eye"
                                     style="    color: burlywood;"></i></a></label>
                     </div>
                     <div>

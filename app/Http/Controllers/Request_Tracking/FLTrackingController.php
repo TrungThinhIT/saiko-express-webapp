@@ -3,16 +3,12 @@
 namespace App\Http\Controllers\Request_Tracking;
 
 use App\Http\Controllers\Controller;
-use App\Models\TimelineTrack;
-use App\Models\token;
-use App\Models\Tracking_User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 use App\Http\Controllers\Request_Tracking\QuoteController as QuoteController;
 use App\Models\phuongxa;
-use Illuminate\Support\Arr;
+use App\Models\token;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class FLTrackingController extends Controller
 {
@@ -43,7 +39,7 @@ class FLTrackingController extends Controller
             $this->QCT->getToken();
             $token = token::find(1);
             $apiShow = Http::withHeaders([
-                'Accept' => 'application/json',
+                'Accept' => 'application/json', 
                 // 'Authorization' => 'Bearer ' . $token->access_token
             ])->get('http://order.tomonisolution.com:82/api/trackings/' . $request->tracking, $dataShow);
         }
@@ -67,23 +63,23 @@ class FLTrackingController extends Controller
                 $token = token::find(1);
                 $apiTracking = Http::withHeaders([
                     'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $token->access_token
+                    'Authorization' => 'Bearer ' . $token->access_token,
                 ])->get('http://order.tomonisolution.com:82/api/trackings/', $dataIndex);
             }
             $results = json_decode($apiTracking->body(), true); //results of tomoni
             if (!empty($results['data'][0]['boxes'])) {
                 //list item & volumne
                 for ($i = 0; $i <= count($results['data'][0]['boxes']) - 1; $i++) {
-                    $item_box  = Http::withHeaders([
+                    $item_box = Http::withHeaders([
                         'Accept' => 'application/json',
-                        'Authorization' => 'Bearer ' . $token->access_token
+                        'Authorization' => 'Bearer ' . $token->access_token,
                     ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $results['data'][0]['boxes'][$i]['id'] . '?with=items;sfa');
                     if ($item_box->status() == 401) {
                         $this->QCT->getToken();
                         $token = token::find(1);
-                        $item_box  = Http::withHeaders([
+                        $item_box = Http::withHeaders([
                             'Accept' => 'application/json',
-                            'Authorization' => 'Bearer ' . $token->access_token
+                            'Authorization' => 'Bearer ' . $token->access_token,
                         ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $results['data'][0]['boxes'][$i]['id'] . '?with=items;sfa');
                     }
                     $result_list_item = json_decode($item_box->body(), true);
@@ -94,7 +90,7 @@ class FLTrackingController extends Controller
                             $getInfoItem = Http::withHeaders([
                                 'Accept' => 'application/json',
                                 'Authorization' => 'Bearer ' . $token->access_token,
-                                'Accept-Language' => "ja"
+                                'Accept-Language' => "ja",
                             ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                             if ($getInfoItem->status() == 401) {
                                 $this->QCT->getToken();
@@ -102,25 +98,24 @@ class FLTrackingController extends Controller
                                 $getInfoItem = Http::withHeaders([
                                     'Accept' => 'application/json',
                                     'Authorization' => 'Bearer ' . $token->access_token,
-                                    'Accept-Language' => "ja"
+                                    'Accept-Language' => "ja",
                                 ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                             }
                             if ($getInfoItem->status() == 200) {
                                 $getInfoItem = json_decode($getInfoItem);
                                 $detail_item[] = array(
                                     'Quantity' => $item['quantity'],
-                                    'Name' => $getInfoItem->name
+                                    'Name' => $getInfoItem->name,
                                 );
                                 $results['data'][0]['boxes'][$i]['items'] = $detail_item;
                             }
-                            sleep(0.8);
                         }
                     } else {
                         $results['data'][0]['boxes'][$i]['items'] = null;
                     }
                     //volumne
                     if (empty($results['data'][0]['orders'])) {
-                        $volumne_weight =  $results['data'][0]['boxes'][$i]['volume_per_box'] / 3500;
+                        $volumne_weight = $results['data'][0]['boxes'][$i]['volume_per_box'] / 3500;
                     } else {
                         usort($results['data'][0]['orders'], function ($a, $b) {
                             return $b['shipment_infor_id'] - $a['shipment_infor_id'];
@@ -137,7 +132,7 @@ class FLTrackingController extends Controller
                 }
             }
             //vnpost
-            if (!empty($results['data'][0]['boxes'])  && !empty($results['data'][0]['orders'])) {
+            if (!empty($results['data'][0]['boxes']) && !empty($results['data'][0]['orders'])) {
                 usort($results['data'][0]['orders'], function ($a, $b) {
                     return $b['shipment_infor_id'] - $a['shipment_infor_id'];
                 }); //sort orders
@@ -166,7 +161,7 @@ class FLTrackingController extends Controller
                                 'OrderAmount' => 0,
                                 'UseBaoPhat' => true,
                                 'UseHoaDon' => true,
-                                'CustomerCode' => '0843211234C333345'
+                                'CustomerCode' => '0843211234C333345',
                             );
                             $postdata = json_encode($data);
                             $ch = curl_init($url);
@@ -195,11 +190,10 @@ class FLTrackingController extends Controller
                                     'TongCuocSauVAT' => number_format($TongCuocSauVAT),
                                     'CuocCOD' => number_format($CuocCOD),
                                     'SoTienCodThuNoiNguoiNhan' => number_format($CuocCOD + $TongCuocSauVAT),
-                                    'PhuongThucVC' => $PhuongThucVC
+                                    'PhuongThucVC' => $PhuongThucVC,
                                 );
                                 $results['data'][0]['boxes'][$i]['vnpost'] = $results_vnpost;
                             }
-                            sleep(0.8);
                         }
                     }
                 }

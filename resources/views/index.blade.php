@@ -860,22 +860,22 @@
                         <form class="form-inline" id="tracking_form_index" method='post'>
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <p>Vui lòng nhập tracking</p>
-                                
+
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                 <div class="form-group">
                                     <input type="text" placeholder="Nhập tracking..." onclick="clearAll()" class="form-control" id="utrack">
                                 </div>
-                                
+
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
                                 <div class="form-group">
                                     <button type="submit" class="btn ed_btn pull-right ed_orange">Tìm kiếm</button>
                                 </div>
-                                
+
                             </div>
                         </form>
-                        
+
                     </div>
                     <div class="alert alert-danger" id="statusData" style="display: none;margin-top:20px;">
                     </div>
@@ -910,10 +910,10 @@
                     <div class="col-md-6 col-sm-6 col-custome">
                         <div class="lftredbrdr">
                             <ul class="timeline" id="time_line_index">
-                        
+
                             </ul>
                         </div>
-                        
+
                     </div>
                     <div class="col-md-6 col-sm-6">
                         <div class="table-responsive">
@@ -925,7 +925,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="load_item">
-                            
+
                                 </tbody>
                             </table>
                         </div>
@@ -1023,8 +1023,8 @@
        <p>Miễn phí ship nội thành Hà Nội và TP.HCM (với kiện hàng có khối lượng trên 100kg).</p>
       </div>
      </div>
-    
-    
+
+
     </div>
    </div>
         </div>
@@ -1235,12 +1235,12 @@
                     <div class="box-content">
                         Khách hàng hoàn toàn yên tâm trong quá trình kiểm hàng và chính xác cân nặng hàng hóa.
                     </div>
-                    <!-- <div class="box-header"> 
+                    <!-- <div class="box-header">
           <div class="box-icon"><i class="fa fa-child"></i></div>
           <h4>trung thực</h4>
-         <div>	
+         <div>
          <div class="box-content">
-         Khách hàng hoàn toàn yên tâm trong quá trình kiểm hàng và chính xác cân nặng hàng hóa.                                       
+         Khách hàng hoàn toàn yên tâm trong quá trình kiểm hàng và chính xác cân nặng hàng hóa.
                                     </div> -->
 
                 </div>
@@ -1664,7 +1664,7 @@
         var tracking = $("#utrack").val();
         if(tracking.length<=5){
             alert('Tracking chưa đúng')
-            return 
+            return
         }
         toggleLoading()
         $.ajax({
@@ -1813,7 +1813,7 @@
                                                         "</tr>"
                                                     )
                                                 })
-                                                
+
                                             }else{
                                                 $("#load_item").empty()
                                                 $("#load_item").append(
@@ -1907,7 +1907,7 @@
                                                 )
                                                 $("#table-index-vnpost").show()
                                             }
-                                            
+
                                         } else {
                                             $(`#sku-row-${value2.id}`).hover(function(){
                                                 $(this).addClass("tr-color addHover");
@@ -2036,7 +2036,7 @@
                 )
                 $("#table-index-vnpost").show()
             }
-            
+
         }
 
     function toggleLoading() {
@@ -2079,7 +2079,7 @@
             position: {
                 current: 0, // номер текущего слайда
                 min: 0, // первый слайд
-                max: elements.length - 1 // последний слайд	
+                max: elements.length - 1 // последний слайд
             },
             intervalSpeed: 2000, // Скорость смены слайдов в авторежиме
 
@@ -2342,7 +2342,7 @@
         dots: true
     });
     function clearAll(){
-           
+
         }
 </script>
 </body>
