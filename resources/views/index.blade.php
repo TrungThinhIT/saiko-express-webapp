@@ -1808,6 +1808,7 @@
                                                 $.each(value.boxes[0].items,function(index_item,value_item){
                                                     $("#load_item").append(
                                                         "<tr>"+
+                                                        "<td>"+ ++index_item+"</td>"+    
                                                         "<td>"+value_item.Quantity+"</td>"+
                                                         "<td>"+value_item.Name+"</td>"+
                                                         "</tr>"
@@ -1818,6 +1819,7 @@
                                                 $("#load_item").empty()
                                                 $("#load_item").append(
                                                         "<tr>"+
+                                                        "<td>"+ "</td>"+    
                                                         "<td>"+"Chưa phân hàng"+"</td>"+
                                                         "<td>"+"Chưa phân hàng"+"</td>"+
                                                         "</tr>"
@@ -1944,6 +1946,7 @@
                 $.each(list_item,function(index_item,value_item){
                     $("#load_item").append(
                         "<tr>"+
+                        "<td>"+ ++index_item+"</td>"+    
                         "<td>"+value_item.Quantity+"</td>"+
                         "<td>"+value_item.Name+"</td>"+
                         "</tr>"
@@ -1952,6 +1955,7 @@
             }else{
                 $("#load_item").append(
                         "<tr>"+
+                        "<td>"+ "</td>"+    
                         "<td>"+"Chưa kiểm hàng"+"</td>"+
                         "<td>"+"Chưa kiểm hàng"+"</td>"+
                         "</tr>"

@@ -585,6 +585,7 @@
                             tracking: tracking
                         },
                         success: function(res) {
+                            
                             $("#body-table-firt-vnpost").empty()
                             $("#table-firt-vnpost").hide()
                             if (res == 404) {
@@ -727,6 +728,7 @@
                                                             $("#load_item").empty()
                                                             $("#load_item").append(
                                                                     "<tr>"+
+                                                                    "<td>"+"</td>"+    
                                                                     "<td>"+"Chưa kiểm hàng"+"</td>"+
                                                                     "<td>"+"Chưa kiểm hàng"+"</td>"+
                                                                     "</tr>"
@@ -868,6 +870,7 @@
                 }else{
                     $("#load_item").append(
                             "<tr>"+
+                            "<td>"+"</td>"+    
                             "<td>"+"Chưa kiểm hàng"+"</td>"+
                             "<td>"+"Chưa kiểm hàng"+"</td>"+
                             "</tr>"
