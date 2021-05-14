@@ -746,7 +746,7 @@
                                                                 )
                                                            
                                                         } else {
-                                                            var size = "( Dài : "+value.boxes[0].length+"cm"+",Rộng: "+value.boxes[0].width+"cm"+",Cao: "+value.boxes[0].length+"cm )"
+                                                            var size = "( Dài : "+value.boxes[0].length+"cm"+",Rộng: "+value.boxes[0].width+"cm"+",Cao: "+value.boxes[0].height+"cm )"
                                                             $.each(value.boxes[0].logs,function(index,value) {
                                                                     // let a =JSON.parse(value.content );
                                                                     let keyObject =Object.keys(value.content)

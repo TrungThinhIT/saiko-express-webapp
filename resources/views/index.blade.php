@@ -162,6 +162,7 @@
         }
 
         .tmn-custom-mask {
+            z-index: 99;
             position: fixed;
             top: 0;
             right: 0;
@@ -1809,8 +1810,8 @@
                                                 $.each(value.boxes[0].items,function(index_item,value_item){
                                                     $("#load_item").append(
                                                         "<tr>"+
-                                                        "<td>"+ ++index_item+"</td>"+    
-                                                        "<td>"+value_item.Quantity+"</td>"+
+                                                        "<td style='text-align:center'>"+ ++index_item+"</td>"+    
+                                                        "<td style='text-align:center'>"+value_item.Quantity+"</td>"+
                                                         "<td>"+value_item.Name+"</td>"+
                                                         "</tr>"
                                                     )
@@ -1959,8 +1960,8 @@
                         $.each(res.items,function(index_item,value_item){
                             $("#load_item").append(
                                 "<tr>"+
-                                "<td>"+ ++index_item+"</td>"+    
-                                "<td>"+value_item.Quantity+"</td>"+
+                                "<td style='text-align:center'>"+ ++index_item+"</td>"+    
+                                "<td style='text-align:center'>"+value_item.Quantity+"</td>"+
                                 "<td>"+value_item.Name+"</td>"+
                                 "</tr>"
                             )

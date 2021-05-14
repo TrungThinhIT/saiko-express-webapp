@@ -114,7 +114,8 @@
     }
 
     .tmn-custom-mask {
-        position: absolute;
+        z-index: 4;
+        position: fixed;
         top: 0;
         right: 0;
         bottom: 0;
@@ -539,37 +540,56 @@
                 $('#myModal').modal('show');
             }
         }
+        if(Tracking.length>15){
+            document.getElementById("color-success").style.background = '#DF3A01'
+            $('#message').html('Tracking không được dài hơn 15 kí tự');
+            $("#exitSuccess").hide()
+            $("#exitForm").show()
+            $('#myModal').modal('show');
+            return
+        }
         if (Tracking.length <= 7) {
+            document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Nhập thiếu tracking');
             $('#myModal').modal('show');
         } else if (Name_Send.length < 3) {
+            document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Nhập thiếu tên người gửi!');
             $('#myModal').modal('show');
         } else if (Number_Send == '') {
+            document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Nhập chưa đúng số điện thoại người gửi!');
             $('#myModal').modal('show');
         } else if (Number_Send <= 8) {
+            document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Nhập thiếu số điện thoại người gửi!');
             $('#myModal').modal('show');
         } else if (Name_Rev == '') {
+            document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Nhập thiếu tên người nhận!');
             $('#myModal').modal('show');
         } else if (Name_Rev.length < 3) {
+            document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Tên người nhận quá ngắn!');
             $('#myModal').modal('show');
         } else if (AddRev.length < 4) {
+            document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Nhập thiếu địa chỉ!');
             $('#myModal').modal('show');
         } else if (Phone == '') {
+            document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Chưa nhập số điện thoại người nhận!');
             $('#myModal').modal('show');
         } else if (Phone.length <= 8) {
+            document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Nhập thiếu số điện thoại người nhận');
             $('#myModal').modal('show');
         } else if (uphone == '') {
+            document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Nhập số điện thoại người nhận');
             $('#myModal').modal('show');
         } else if (Number_Send.length <= 8) {
+            document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Nhập thiếu số điện thoại người gửi');
             $('#myModal').modal('show');
         } else {
@@ -616,7 +636,7 @@
                         } else {
                             document.getElementById("color-success").style.background = '#DF3A01'
                             $('#message').html(
-                                'Tracking này đã được tạo hoặc mã tracking dài quá 15 kí tự');
+                                'Tracking này đã được tạo');
                             $('#exitForm').hide();
                             $('#exitSuccess').show();
                             $('#myModal').modal('show');
