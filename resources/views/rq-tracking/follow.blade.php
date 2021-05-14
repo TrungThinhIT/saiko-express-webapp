@@ -432,8 +432,8 @@
                                             <table class="table table-striped table-bordered" id="table_item" style="display:none">
                                                 <thead>
                                                     <tr>
-                                                    <th>STT</th>    
-                                                    <th style='width:100px'>Số Lượng</th>
+                                                    <th style="text-align: center">STT</th>    
+                                                    <th style='width:100px;text-align:center'>Số Lượng</th>
                                                     <th>Tên Sản Phẩm</th>
                                                     </tr>
                                                 </thead>
@@ -717,8 +717,8 @@
                                                             $.each(value.boxes[0].items,function(index_item,value_item){
                                                                 $("#load_item").append(
                                                                     "<tr>"+
-                                                                    "<td>"+ ++index_item+"</td>"+    
-                                                                    "<td>"+value_item.Quantity+"</td>"+
+                                                                    "<td style='text-align: center'>"+ ++index_item+"</td>"+    
+                                                                    "<td style='text-align: center'>"+value_item.Quantity+"</td>"+
                                                                     "<td>"+value_item.Name+"</td>"+
                                                                     "</tr>"
                                                                 )
@@ -836,7 +836,7 @@
                                                                 }else{
                                                                     vnpost = 0;
                                                                 }
-                                                                    size = "Dài : "+value2.length+"cm"+",Rộng: "+value2.width+"cm"+",Cao: "+value2.length+"cm"
+                                                                    size = "Dài : "+value2.length+"cm"+",Rộng: "+value2.width+"cm"+",Cao: "+value2.height+"cm"
                                                                     check(value2.id,vnpost,created_at)
                                                                     // value2.logs,created_at,vnpost,value2.items,size,
                                                                 })
@@ -873,8 +873,8 @@
                             $.each(res.items,function(index_item,value_item){
                                 $("#load_item").append(
                                     "<tr>"+
-                                    "<td>"+ ++index_item+"</td>"+
-                                    "<td>"+value_item.Quantity+"</td>"+
+                                    "<td style='text-align: center'>"+ ++index_item+"</td>"+
+                                    "<td style='text-align: center'>"+value_item.Quantity+"</td>"+
                                     "<td>"+value_item.Name+"</td>"+
                                     "</tr>"
                                 )
@@ -897,12 +897,14 @@
                                 '</li>'
                             )
                         } else {
-                            var size = "( Dài : "+res.length+"cm"+",Rộng: "+res.width+"cm"+",Cao: "+res.height+"cm )"
+                            var size = " Dài : "+res.length+"cm"+",Rộng: "+res.width+"cm"+",Cao: "+res.height+"cm "
                             $.each(res.logs, function(index, value) {
+                                
                                 // let a = JSON.parse(value.content);
                                 let keyObject = Object.keys(value.content)
                                 let valueObject = Object.values(value.content);
                                 var status;
+                                
                                 if (keyObject == "id") {
                                     status = "Đã nhập kho Nhật"
                                 }
