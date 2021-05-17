@@ -145,6 +145,7 @@ class QuoteController extends Controller
         } else {
             $shipping = $request->checkSea;
         }
+        $arr_created = array();
         foreach ($tracking as $item) {
             if ($item == "") {
                 continue;
@@ -162,16 +163,23 @@ class QuoteController extends Controller
                 'repackage' => $request->Reparking == "true" ? 1 : 0,
                 'merge_package' => $request->merge_box ? 1 : 0
             ]);
-            if ($create_shipment->status() != 201) {
-                Log::info('create OS fail: ' . $item . ' status code: ' . $create_shipment->status() . ' content: ' . $create_shipment->body());
+
+            if ($create_shipment->status() == 201) {
+                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tạo thành công'];
             }
-            sleep(0.5);
+            if ($create_shipment->status() == 405) {
+                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tồn tại'];
+            }
+            if ($create_shipment->status() == 422) {
+                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Không được quá 15 ký tự'];
+            }
         }
-        if ($create_shipment->status() == 201) {
-            return $create_shipment->status();
-        } else {
-            return $create_shipment->status();
-        }
+        return response()->json($arr_created);
+        // if ($create_shipment->status() == 201) {
+        //     return $create_shipment->status();
+        // } else {
+        //     return $create_shipment->status();
+        // }
 
         //tạo tracking
         // $tracking = json_encode($arr);

@@ -163,15 +163,15 @@
             data: {
                 matinh: Tinh_ThanhPho,
             },
-            success: function(res) {
+            success: function (res) {
                 $("#Uhuyen").empty()
                 $("#UPhuongXa").empty()
                 $("#Uhuyen").append(new Option('Vui lòng chọn', ''))
-                $.each(res, function(index, value) {
+                $.each(res, function (index, value) {
                     $("#Uhuyen").append(new Option(value.TenQuanHuyen, value.MaQuanHuyen))
                 })
             },
-            error: function(res) {
+            error: function (res) {
                 console.log(res)
             }
         });
@@ -188,14 +188,14 @@
             data: {
                 mahuyen: Huyen_Xa,
             },
-            success: function(res) {
+            success: function (res) {
                 $("#UPhuongXa").empty()
                 $("#UPhuongXa").append(new Option('Vui lòng chọn', ''))
-                $.each(res, function(index, value) {
+                $.each(res, function (index, value) {
                     $("#UPhuongXa").append(new Option(value.TenPhuongXa, value.MaPhuongXa))
                 })
             },
-            error: function(res) {
+            error: function (res) {
                 console.log(res)
             }
         });
@@ -293,15 +293,15 @@
                                             <select id="Utinh" name="tinh" onchange="Select_Tinh(this)">
                                                 <option value="">Vui lòng chọn</option>
                                                 @foreach ($data as $item)
-                                                    <option value={{ $item->MaTinhThanh }}>{{ $item->TenTinhThanh }}
-                                                    </option>
+                                                <option value={{ $item->MaTinhThanh }}>{{ $item->TenTinhThanh }}
+                                                </option>
                                                 @endforeach
                                             </select>
                                             @error('tinh')
                                             <div class="alert alert-danger">
                                                 {{ $message }}
                                             </div>
-                                        @enderror
+                                            @enderror
                                         </p>
                                     </div>
                                     <div class="col-md-4" style="margin-top:10px">
@@ -313,7 +313,7 @@
                                             <div class="alert alert-danger">
                                                 {{ $message }}
                                             </div>
-                                        @enderror
+                                            @enderror
                                         </p>
                                     </div>
                                     <div class="col-md-4" style="margin-top:10px">
@@ -325,20 +325,20 @@
                                             <div class="alert alert-danger">
                                                 {{ $message }}
                                             </div>
-                                        @enderror
+                                            @enderror
                                         </p>
                                     </div>
 
                                     <p class="field">
                                         <label style="margin-top:10px">Thông tin số nhà tên đường<span
                                                 class="require">*</span></label>
-                                        <input placeholder="Nhập số nhà của bạn" value="{{ old('duong') }}"
-                                            name="duong" id="UaddNumber" type="text">
+                                        <input placeholder="Nhập số nhà của bạn" value="{{ old('duong') }}" name="duong"
+                                            id="UaddNumber" type="text">
                                         @error('duong')
                                         <div class="alert alert-danger">
                                             {{ $message }}
                                         </div>
-                                    @enderror
+                                        @enderror
                                     </p>
                                 </div>
 
@@ -370,14 +370,14 @@
                                 </p>
                                 <p>
                                     @if (session('success'))
-                                        <div class="alert alert-success">
-                                            {{ session('success') }}
-                                        </div>
+                                    <div class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
                                     @endif
                                     @if (session('fail'))
-                                        <div class="alert alert-success">
-                                            {{ session('fail') }}
-                                        </div>
+                                    <div class="alert alert-success">
+                                        {{ session('fail') }}
+                                    </div>
                                     @endif
                                 </p>
 
@@ -399,11 +399,12 @@
             <div class="modal-dialog modal-sm  modal-confirm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <div class="icon-box" id="color-success"><i class="material-icons"></i></div>
 
                     </div>
                     <h5 class="modal-confirm" id="message"></h5>
                     <div class="modal-footer">
+                        <table class="table" style="border: none !important" id="table_showCreatedTrackings">
+                        </table>
                         <button class="btn btn-err btn-danger btn-block" data-dismiss="modal"
                             id="exitForm">Thoát</button>
                         <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
@@ -421,9 +422,9 @@
         $('.tmn-custom-mask').toggleClass('d-none');
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
-        $('#utracking').blur(function() {
+        $('#utracking').blur(function () {
             var tracking = $('#utracking').val();
             if (!tracking) {
                 document.getElementById("utracking").style.borderColor = 'red'
@@ -432,7 +433,7 @@
             }
         });
 
-        $('#uname_send').blur(function() {
+        $('#uname_send').blur(function () {
             var uname_send = $('#uname_send').val();
             if (!uname_send) {
                 document.getElementById("uname_send").style.borderColor = 'red'
@@ -441,7 +442,7 @@
             }
         });
 
-        $('#uname_rev').blur(function() {
+        $('#uname_rev').blur(function () {
             var uname_rev = $('#uname_rev').val();
             if (!uname_rev) {
                 document.getElementById("uname_rev").style.borderColor = 'red'
@@ -450,7 +451,7 @@
             }
         });
 
-        $('#uadd').blur(function() {
+        $('#uadd').blur(function () {
             var uadd = $('#uadd').val();
             if (!uadd) {
                 document.getElementById("uadd").style.borderColor = 'red'
@@ -459,7 +460,7 @@
             }
         });
 
-        $('#uphone').blur(function() {
+        $('#uphone').blur(function () {
             var uphone = $('#uphone').val();
             if (!uphone) {
                 document.getElementById("uphone").style.borderColor = 'red'
@@ -467,10 +468,10 @@
                 document.getElementById("uphone").style.borderColor = ''
             }
         });
-        $(document).ajaxStart(function() {
+        $(document).ajaxStart(function () {
             $("#loader").show();
         });
-        $(document).ajaxStop(function() {
+        $(document).ajaxStop(function () {
             $("#loader").hide();
         });
 
@@ -505,7 +506,7 @@
             "-": "",
             ",": " ",
         };
-        var Tracking = str.replace(/-| |_|,/gi, function(matched) {
+        var Tracking = str.replace(/-| |_|,/gi, function (matched) {
             return mapObj[matched];
         });
         // var Tracking = $("#utracking").val();
@@ -539,14 +540,6 @@
                 $('#message').html('Nhập thiếu số nhà tên đường');
                 $('#myModal').modal('show');
             }
-        }
-        if(Tracking.length>15){
-            document.getElementById("color-success").style.background = '#DF3A01'
-            $('#message').html('Tracking không được dài hơn 15 kí tự');
-            $("#exitSuccess").hide()
-            $("#exitForm").show()
-            $('#myModal').modal('show');
-            return
         }
         if (Tracking.length <= 7) {
             document.getElementById("color-success").style.background = '#DF3A01'
@@ -626,22 +619,59 @@
                         checkSea: checkSea,
                         merge_box: merge_box,
                     },
-                    success: function(response) {
-                        if (response == 201) {
-                            document.getElementById("color-success").style.background = '#1ba906'
-                            $('#message').html('Tạo tracking thành công!');
-                            $('#exitForm').hide();
-                            $('#exitSuccess').show();
-                            $('#myModal').modal('show');
-                        } else {
-                            document.getElementById("color-success").style.background = '#DF3A01'
-                            $('#message').html(
-                                'Tracking này đã được tạo');
-                            $('#exitForm').hide();
-                            $('#exitSuccess').show();
-                            $('#myModal').modal('show');
+                    success: function (response) {
+                        console.log(response)
+                        $("#table_showCreatedTrackings").empty()
+                        $.each(response, function (index, value) {
+                            if (value.code == 201) {
+                                $("#table_showCreatedTrackings").append(
+                                    "<tr style='border:none'>" +
+                                    "<td style='color:green;border:none !important'>" + value
+                                    .message + " " +
+                                    "<i class='fa fa-check' style='color:green'></i>" +
+                                    "</td>" +
+                                    "</tr>"
+                                )
+                            }
+                            if (value.code == 405) {
+                                $("#table_showCreatedTrackings").append(
+                                    "<tr style='border:none'>" +
+                                    "<td style='color:#fca901;border:none !important'>" + value
+                                    .message + " " +
+                                    "<span><i class='fa fa-warning'></i></span>" +
+                                    "</td>" + "</tr>"
+                                )
+                            }
+                            if (value.code == 422) {
+                                $("#table_showCreatedTrackings").append(
+                                    "<tr style='border:none'>" +
+                                    "<td style='color:#red;border:none !important'>" + value
+                                    .message + " " +
+                                    "<span><i class='fa fa-times'></i></span>" + "</td>" +
+                                    "</tr>"
+                                )
+                            }
+                        })
+                        $('#message').html('');
+                        $('#exitForm').hide();
+                        $('#exitSuccess')
+                            .show();
+                        $('#myModal').modal('show');
+                        // if (response == 201) {
+                        //     document.getElementById("color-success").style.background = '#1ba906'
+                        //     $('#message').html('Tạo tracking thành công!');
+                        //     $('#exitForm').hide();
+                        //     $('#exitSuccess').show();
+                        //     $('#myModal').modal('show');
+                        // } else {
+                        //     document.getElementById("color-success").style.background = '#DF3A01'
+                        //     $('#message').html(
+                        //         'Tracking này đã được tạo');
+                        //     $('#exitForm').hide();
+                        //     $('#exitSuccess').show();
+                        //     $('#myModal').modal('show');
 
-                        }
+                        // }
                     }
                 });
             }
