@@ -36,7 +36,7 @@ class FLTrackingController extends Controller
         $apiShow = Http::withHeaders([
             'Accept' => 'application/json',
             // 'Authorization' => 'Bearer ' . $token->access_token
-        ])->get('http://order.tomonisolution.com/api/trackings/' . $request->tracking, $dataShow);
+        ])->get('http://order.tomonisolution.com:82/api/trackings/' . $request->tracking, $dataShow);
 
         if ($apiShow->status() == 404) {
             return $apiShow->status();
@@ -49,14 +49,14 @@ class FLTrackingController extends Controller
                         // $item_box = Http::withHeaders([
                         //     'Accept' => 'application/json',
                         //     'Authorization' => 'Bearer ' . $token->access_token,
-                        // ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $results['boxes'][$i]['id'] );
+                        // ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $results['boxes'][$i]['id'] );
                         // if ($item_box->status() == 401) {
                         //     $this->QCT->getToken();
                         //     $token = token::find(1);
                         //     $item_box = Http::withHeaders([
                         //         'Accept' => 'application/json',
                         //         'Authorization' => 'Bearer ' . $token->access_token,
-                        //     ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $results['boxes'][$i]['id'] );
+                        //     ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $results['boxes'][$i]['id'] );
                         // }
                         // $result_list_item = json_decode($item_box->body(), true);
                         // $detail_item = array();
@@ -67,7 +67,7 @@ class FLTrackingController extends Controller
                         //             'Accept' => 'application/json',
                         //             'Authorization' => 'Bearer ' . $token->access_token,
                         //             'Accept-Language' => "ja",
-                        //         ])->get('http://product.tomonisolution.com/api/products/' . $item['product_id']);
+                        //         ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                         //         if ($getInfoItem->status() == 401) {
                         //             $this->QCT->getToken();
                         //             $token = token::find(1);
@@ -111,7 +111,7 @@ class FLTrackingController extends Controller
                             if ($method_shipment == "Air") {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
                                 if ($date_box >= $date_default) {
-                                    $use_weight = $volumne_weight < $weight ? $weight : $volumne_weight;
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 1 && $use_weight < 100) {
                                         $checkProvince = "price1";
                                     }
@@ -141,7 +141,7 @@ class FLTrackingController extends Controller
                                     $results['boxes'][$i]['use_weight'] = $use_weight;
                                 }
                                 if ($date_box < $date_default) {
-                                    $use_weight = $volumne_weight < $weight ? $weight : $volumne_weight;
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 1 && $use_weight < 100) {
                                         $checkProvince = "price1";
                                     }
@@ -172,7 +172,7 @@ class FLTrackingController extends Controller
                                 }
                             } else {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
-                                $use_weight = $volumne_weight < $weight ? $weight : $volumne_weight;
+                                $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                 if ($use_weight < 150) {
                                     $price = 65000;
                                 } else {
@@ -190,7 +190,7 @@ class FLTrackingController extends Controller
                         $weight = $results['boxes'][$i]['weight_per_box'];
                         if (empty($results['orders'])) {
                             $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
-                            $use_weight = $volumne_weight < $weight ? $weight : $volumne_weight;
+                            $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                             $results['boxes'][$i]['total_money'] = '';
                             $results['boxes'][$i]['use_weight'] = $use_weight;
                             $results['boxes'][$i]['fee_ship'] = '';
@@ -209,7 +209,7 @@ class FLTrackingController extends Controller
                                 $date_box = strtotime(($date_box));
                                 $date_default = strtotime($this->date);
                                 if ($date_box >= $date_default) {
-                                    $use_weight = $volumne_weight < $weight ? $weight : $volumne_weight;
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 1 && $use_weight < 100) {
                                         $checkProvince = "price1";
                                     }
@@ -239,7 +239,7 @@ class FLTrackingController extends Controller
                                     $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
                                 }
                                 if ($date_box < $date_default) {
-                                    $use_weight = $volumne_weight < $weight ? $weight : $volumne_weight;
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 1 && $use_weight < 100) {
                                         $checkProvince = "price1";
                                     }
@@ -270,7 +270,7 @@ class FLTrackingController extends Controller
                                 }
                             } else {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
-                                $use_weight = $volumne_weight < $weight ? $weight : $volumne_weight;
+                                $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                 if ($use_weight < 150) {
                                     $price = 65000;
                                 } else {
@@ -302,14 +302,14 @@ class FLTrackingController extends Controller
         $item_box = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token,
-        ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $req->id_box . '?appends=logs');
+        ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $req->id_box . '?appends=logs');
         if ($item_box->status() == 401) {
             $this->QCT->getToken();
             $token = token::find(1);
             $item_box = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token,
-            ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $req->id_box);
+            ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $req->id_box);
         }
         $result_list_item = json_decode($item_box->body(), true);
         $detail_item = array();
@@ -320,7 +320,7 @@ class FLTrackingController extends Controller
         //             'Accept' => 'application/json',
         //             'Authorization' => 'Bearer ' . $token->access_token,
         //             'Accept-Language' => "ja",
-        //         ])->get('http://product.tomonisolution.com/api/products/' . $item['product_id']);
+        //         ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
         //         if ($getInfoItem->status() == 401) {
         //             $this->QCT->getToken();
         //             $token = token::find(1);
@@ -328,7 +328,7 @@ class FLTrackingController extends Controller
         //                 'Accept' => 'application/json',
         //                 'Authorization' => 'Bearer ' . $token->access_token,
         //                 'Accept-Language' => "ja",
-        //             ])->get('http://product.tomonisolution.com/api/products/' . $item['product_id']);
+        //             ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
         //         }
         //         if ($getInfoItem->status() == 200) {
         //             $getInfoItem = json_decode($getInfoItem);
