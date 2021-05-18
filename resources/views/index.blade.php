@@ -907,6 +907,12 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="row d-none"  id="alert" style="margin:4px"  >
+                    <div class="col-md-12 col-sm-12 bg-info ">
+                        <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : ABC. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank</p>
+                        <p class="text-danger" >Nội dung thanh toán : Mã đơn hàng OS.........</p>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <div class="table-responsive">
@@ -1675,6 +1681,7 @@
     })
     $('#tracking_form_index').submit(function() {
         event.preventDefault();
+        $("#alert").hide()
         $("#table_price_shipping").hide()
         $("#table_body_price_shipping").empty()
         $("#body-table-index").empty()
@@ -1704,6 +1711,7 @@
             success: function(res) {
                 $("#body-table-index-vnpost").empty()
                 $("#table-index-vnpost").hide()
+                $("#alert").hide()
                 if (res == 404) {
                     $("#table-index").hide();
                     $("#body-table-index").empty()
@@ -1729,6 +1737,7 @@
                         $("#table_price_shipping").hide()
                         $("#table_item").hide()
                         $("#table-index").show();
+                        $("#alert").hide()
                         if (res.data.length == 0) {ß
                             $("#statusData").empty()
                             $("#statusData").append(
@@ -1806,6 +1815,7 @@
                                 } else {
                                     $("#body-table-index").empty()
                                     $("#time_line_index").empty()
+                                    $("#alert").show()
                                     $.each(value.boxes, function(index,value2) {
                                         $("#body-table-index").append(
                                                 `<tr id="sku-row-${value2.id}">` +
@@ -1830,6 +1840,7 @@
                                         if (value.boxes.length == 1) {
                                             // $("#table_item").show()
                                             // $("#load_item").empty()
+                                            $("#alert").show()
                                             if(value2.use_weight  !=undefined){
                                                 $("#table_price_shipping").show()
                                                 $("#table_body_price_shipping").empty()
