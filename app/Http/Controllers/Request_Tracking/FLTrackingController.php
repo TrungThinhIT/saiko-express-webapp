@@ -44,6 +44,7 @@ class FLTrackingController extends Controller
             $results = json_decode($apiShow->body(), true); //results of tomoni
             if (!empty($results['boxes'])) {
                 //list item & volumne
+                $pay_money_order = 0;
                 if (count($results['boxes']) == 1) {
                     for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
                         // $item_box = Http::withHeaders([
@@ -120,24 +121,29 @@ class FLTrackingController extends Controller
                                     }
                                     if ($province <= 53) {
                                         if ($checkProvince == "price1") {
+                                            $money = $use_weight * 190000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(190000);
                                         }
                                         if ($checkProvince == "price2") {
+                                            $money = $use_weight * 185000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 185000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(185000);
                                         }
                                     }
                                     if ($province > 53) {
                                         if ($checkProvince == "price1") {
+                                            $money = $use_weight * 200000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(200000);
                                         }
                                         if ($checkProvince == "price2") {
+                                            $money = $use_weight * 195000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 195000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(195000);
                                         }
                                     }
+                                    $pay_money_order += $money;
                                     $results['boxes'][$i]['use_weight'] = $use_weight;
                                 }
                                 if ($date_box < $date_default) {
@@ -150,24 +156,29 @@ class FLTrackingController extends Controller
                                     }
                                     if ($province <= 53) {
                                         if ($checkProvince == "price1") {
+                                            $money = $use_weight * 200000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(200000);
                                         }
                                         if ($checkProvince == "price2") {
+                                            $money = $use_weight * 190000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(190000);
                                         }
                                     }
                                     if ($province > 53) {
                                         if ($checkProvince == "price1") {
+                                            $money = $use_weight * 210000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 210000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(210000);
                                         }
                                         if ($checkProvince == "price2") {
+                                            $money = $use_weight * 200000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(200000);
                                         }
                                     }
+                                    $pay_money_order += $money;
                                     $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
                                 }
                             } else {
@@ -178,10 +189,13 @@ class FLTrackingController extends Controller
                                 } else {
                                     $price = 60000;
                                 }
+                                $money = $use_weight * $price;
+                                $pay_money_order += $money;
                                 $results['boxes'][$i]['total_money'] = number_format($use_weight * $price);
                                 $results['boxes'][$i]['fee_ship'] = number_format($price);
                                 $results['boxes'][$i]['use_weight'] = $use_weight;
                             }
+                            $results['orders'][0]['pay_money'] = number_format($pay_money_order);
                         }
                         $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
                     }
@@ -218,20 +232,24 @@ class FLTrackingController extends Controller
                                     }
                                     if ($province <= 53) {
                                         if ($checkProvince == "price1") {
+                                            $money = $use_weight * 190000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(190000);
                                         }
                                         if ($checkProvince == "price2") {
+                                            $money = $use_weight * 185000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 185000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(185000);
                                         }
                                     }
                                     if ($province > 53) {
                                         if ($checkProvince == "price1") {
+                                            $money = $use_weight * 200000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(200000);
                                         }
                                         if ($checkProvince == "price2") {
+                                            $money = $use_weight * 195000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 195000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(195000);
                                         }
@@ -248,20 +266,24 @@ class FLTrackingController extends Controller
                                     }
                                     if ($province <= 53) {
                                         if ($checkProvince == "price1") {
+                                            $money = $use_weight * 200000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(200000);
                                         }
                                         if ($checkProvince == "price2") {
+                                            $money = $use_weight * 190000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(190000);
                                         }
                                     }
                                     if ($province > 53) {
                                         if ($checkProvince == "price1") {
+                                            $money = $use_weight * 210000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 210000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(210000);
                                         }
                                         if ($checkProvince == "price2") {
+                                            $money = $use_weight * 200000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(200000);
                                         }
@@ -276,10 +298,13 @@ class FLTrackingController extends Controller
                                 } else {
                                     $price = 60000;
                                 }
+                                $money = $use_weight * $price;
                                 $results['boxes'][$i]['total_money'] = number_format($use_weight * $price);
                                 $results['boxes'][$i]['fee_ship'] = number_format($price);
                                 $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
                             }
+                            $pay_money_order += $money;
+                            $results['orders'][0]['pay_money'] = number_format($pay_money_order);
                         }
                         $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
                     }

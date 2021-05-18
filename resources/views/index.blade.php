@@ -910,7 +910,8 @@
                 <div class="row d-none"  id="alert" style="margin:4px"  >
                     <div class="col-md-12 col-sm-12 bg-info ">
                         <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : ABC. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank</p>
-                        <p class="text-danger" >Nội dung thanh toán : Mã đơn hàng OS.........</p>
+                        <p class="text-danger" >Nội dung thanh toán : Mã đơn hàng <span class="text-danger" id="id_order"></span><p>
+                        <p class="text-danger">Tổng tiền: <span id="money"></span></p>
                     </div>
                 </div>
                 <div class="row">
@@ -1738,7 +1739,7 @@
                         $("#table_item").hide()
                         $("#table-index").show();
                         $("#alert").hide()
-                        if (res.data.length == 0) {ß
+                        if (res.data.length == 0) {
                             $("#statusData").empty()
                             $("#statusData").append(
                                 '<h4>' + 'Không tìm thấy tracking' + '</h4>'
@@ -1815,7 +1816,6 @@
                                 } else {
                                     $("#body-table-index").empty()
                                     $("#time_line_index").empty()
-                                    $("#alert").show()
                                     $.each(value.boxes, function(index,value2) {
                                         $("#body-table-index").append(
                                                 `<tr id="sku-row-${value2.id}">` +
@@ -1841,6 +1841,13 @@
                                             // $("#table_item").show()
                                             // $("#load_item").empty()
                                             $("#alert").show()
+                                            $("#id_order").empty()
+                                            $("#money").empty()
+                                            if(value.orders.length!=0){
+                                                $("#id_order").text(sort_order[value.orders.length - 1].id)
+                                                $("#money").text(sort_order[value.orders.length - 1].pay_money+ " VNĐ")
+                                            }
+                                            //table price
                                             if(value2.use_weight  !=undefined){
                                                 $("#table_price_shipping").show()
                                                 $("#table_body_price_shipping").empty()
@@ -1875,6 +1882,7 @@
                                             //             "</tr>"
                                             //         )
                                             // }
+                                            //log
                                             $("#time_line_index").empty()
                                             if (value.boxes[0].logs.length ==0) {
                                                 $("#time_line_index").append(
@@ -1887,6 +1895,12 @@
                                                     )
                                             } else {
                                                 var size = "( Dài : "+value.boxes[0].length+"cm"+",Rộng: "+value.boxes[0].width+"cm"+",Cao: "+value.boxes[0].height+"cm )"
+                                                $("#id_order").empty()
+                                                $("#money").empty()
+                                                if(value.orders.length!=0){
+                                                    $("#id_order").text(sort_order[value.orders.length - 1].id)
+                                                    $("#money").text(sort_order[value.orders.length - 1].pay_money+ " VNĐ")
+                                                }
                                                 $.each(value.boxes[0].logs,function(index,value) {
                                                         // let a =JSON.parse(value.content );
                                                         let keyObject =Object.keys(value.content)
@@ -1962,6 +1976,13 @@
                                             }
 
                                         } else {
+                                            $("#alert").show()
+                                            $("#id_order").empty()
+                                            $("#money").empty()
+                                            if(value.orders.length!=0){
+                                                $("#id_order").text(sort_order[value.orders.length - 1].id)
+                                                $("#money").text(sort_order[value.orders.length - 1].pay_money+ " VNĐ")
+                                            }
                                             $(`#sku-row-${value2.id}`).hover(function(){
                                                 $(this).addClass("tr-color addHover");
                                             },function(){
