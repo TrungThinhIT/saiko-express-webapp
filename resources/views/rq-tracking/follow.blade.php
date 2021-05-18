@@ -403,7 +403,7 @@
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
-                                                <th style="text-align: center;">ID</th>
+                                                <th style="text-align: center;">Box_ID</th>
                                                 <th>Cân Nặng<span style="display: block">(kg)</span></th>
                                                 <th style="text-align: center;">Ký Thể Tích<span
                                                         style="display: block">(kg)</span></th>
@@ -411,13 +411,34 @@
                                                 <th style="text-align: center;">Tên Người Nhận</th>
                                                 <th style="text-align: center;">SĐT</th>
                                                 <th style="text-align: center;">Địa chỉ</th>
-                                                <th>Đường vận chuyển</th>
+                                                <th style="text-align: center;">Đường vận chuyển</th>
                                             </tr>
                                         </thead>
                                         <tbody id="body-table-firt">
 
                                         </tbody>
                                     </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered" id="table_price_shipping" style="display:none">
+                                                <thead>
+                                                    <tr>
+                                                    <th style="text-align: center">Box_ID</th>    
+                                                    <th style='width:100px;text-align:center'>Khối lượng tính phí</th>
+                                                    <th>Đơn giá</th>
+                                                    <th>Đường vận chuyển</th>
+                                                    <th>Phí vận chuyển (Nhật - Việt)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="table_body_price_shipping">
+                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6 col-custome">
@@ -560,6 +581,8 @@
                 });
                 $('#tracking_form').submit(function(e) {
                     e.preventDefault();
+                    $("#table_price_shipping").hide()
+                    $("#table_body_price_shipping").empty()
                     $("#body-table-firt").empty()
                     $("#time_line").empty()
                     $("#table-firt").hide()
@@ -611,6 +634,7 @@
                                     $("#statusData").css('display', 'none');
                                     $(".table").show();
                                     $("#table_item").hide()
+                                    $("#table_price_shipping").hide()
                                     $("#table-firt").show();
                                     if (res.data.length == 0) {
                                         $("#statusData").empty()
@@ -711,29 +735,44 @@
                                                             '</tr>'
                                                         )
                                                     if (value.boxes.length == 1) {
-                                                        $("#table_item").show()
-                                                        $("#load_item").empty()
-                                                        if(value.boxes[0].items !=null){
-                                                            $.each(value.boxes[0].items,function(index_item,value_item){
-                                                                $("#load_item").append(
-                                                                    "<tr>"+
-                                                                    "<td style='text-align: center'>"+ ++index_item+"</td>"+    
-                                                                    "<td style='text-align: center'>"+value_item.Quantity+"</td>"+
-                                                                    "<td>"+value_item.Name+"</td>"+
-                                                                    "</tr>"
-                                                                )
-                                                            })
-                                                            
-                                                        }else{
-                                                            $("#load_item").empty()
-                                                            $("#load_item").append(
-                                                                    "<tr>"+
-                                                                    "<td>"+"</td>"+    
-                                                                    "<td>"+"Chưa kiểm hàng"+"</td>"+
-                                                                    "<td>"+"Chưa kiểm hàng"+"</td>"+
-                                                                    "</tr>"
-                                                                )
+                                                        // $("#table_item").show()
+                                                        // $("#load_item").empty()
+                                                        // if(value.orders.length!=0){
+                                                        if(value2.use_weight  !=undefined){
+                                                            $("#table_price_shipping").show()
+                                                            $("#table_body_price_shipping").empty()
+                                                            $("#table_body_price_shipping").append(
+                                                                '<tr>'+
+                                                                    '<td>'+value2.id+'</td>'+
+                                                                    '<td>'+value2.use_weight.toFixed(3)+'</td>'+
+                                                                    '<td>'+value2.fee_ship+'</td>'+
+                                                                    '<td>'+method_ship+'</td>'+
+                                                                    '<td>'+value2.total_money+' VNĐ</td>'+
+                                                                +'</tr>'
+                                                            )
                                                         }
+                                                        // }
+                                                        // if(value.boxes[0].items !=null){
+                                                        //     $.each(value.boxes[0].items,function(index_item,value_item){
+                                                        //         $("#load_item").append(
+                                                        //             "<tr>"+
+                                                        //             "<td style='text-align: center'>"+ ++index_item+"</td>"+    
+                                                        //             "<td style='text-align: center'>"+value_item.Quantity+"</td>"+
+                                                        //             "<td>"+value_item.Name+"</td>"+
+                                                        //             "</tr>"
+                                                        //         )
+                                                        //     })
+                                                            
+                                                        // }else{
+                                                        //     $("#load_item").empty()
+                                                        //     $("#load_item").append(
+                                                        //             "<tr>"+
+                                                        //             "<td>"+"</td>"+    
+                                                        //             "<td>"+"Chưa kiểm hàng"+"</td>"+
+                                                        //             "<td>"+"Chưa kiểm hàng"+"</td>"+
+                                                        //             "</tr>"
+                                                        //         )
+                                                        // }
                                                         $("#time_line").empty()
                                                         if (value.boxes[0].logs.length ==0) {
                                                             $("#time_line").append(
@@ -758,6 +797,12 @@
                                                                     if (keyObject =="in_pallet") {
                                                                         status ="Đã kiểm hàng " + size
                                                                          
+                                                                    }
+                                                                    if (keyObject == "set_user_id,set_order_id") {
+                                                                        status = "Lên đơn hàng"
+                                                                    }
+                                                                    if (keyObject == "set_user_id") {
+                                                                        status = "Lên đơn hàng"
                                                                     }
                                                                     if (keyObject =="set_owner_id,set_owner_type") {
                                                                         status="Lên đơn hàng"
@@ -837,7 +882,7 @@
                                                                     vnpost = 0;
                                                                 }
                                                                     size = "Dài : "+value2.length+"cm"+",Rộng: "+value2.width+"cm"+",Cao: "+value2.height+"cm"
-                                                                    check(value2.id,vnpost,created_at)
+                                                                    check(value2.id,vnpost,created_at,value2.use_weight,value2.fee_ship,method_ship,value2.total_money)
                                                                     // value2.logs,created_at,vnpost,value2.items,size,
                                                                 })
                                                     }
@@ -856,8 +901,21 @@
             })
             //show log by id
             // row, created_at,vnpost,list_item,size,
-            function check(id_box,vnpost,created_at) {
+            function check(id_box,vnpost,created_at,weight,fee,method,money) {
                 var id_box = id_box;
+                if(weight !=undefined){
+                    $("#table_price_shipping").show()
+                    $("#table_body_price_shipping").empty();
+                    $("#table_body_price_shipping").append(
+                        '<tr>'+
+                            '<td>'+id_box+'</td>'+
+                            '<td>'+weight.toFixed(3)+'</td>'+
+                            '<td>'+fee+'</td>'+
+                            '<td>'+method+'</td>'+
+                            '<td>'+money+' VNĐ</td>'+
+                        +'</tr>'
+                    )
+                }
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -867,27 +925,27 @@
                     data:{
                         id_box:id_box
                     },success:function(res){
-                        $("#table_item").show()
-                        $("#load_item").empty()
-                        if(res.items!=null){
-                            $.each(res.items,function(index_item,value_item){
-                                $("#load_item").append(
-                                    "<tr>"+
-                                    "<td style='text-align: center'>"+ ++index_item+"</td>"+
-                                    "<td style='text-align: center'>"+value_item.Quantity+"</td>"+
-                                    "<td>"+value_item.Name+"</td>"+
-                                    "</tr>"
-                                )
-                            })
-                        }else{
-                            $("#load_item").append(
-                                    "<tr>"+
-                                    "<td>"+"</td>"+    
-                                    "<td>"+"Chưa kiểm hàng"+"</td>"+
-                                    "<td>"+"Chưa kiểm hàng"+"</td>"+
-                                    "</tr>"
-                                )
-                        }
+                        // $("#table_item").show()
+                        // $("#load_item").empty()
+                        // if(res.items!=null){
+                        //     $.each(res.items,function(index_item,value_item){
+                        //         $("#load_item").append(
+                        //             "<tr>"+
+                        //             "<td style='text-align: center'>"+ ++index_item+"</td>"+
+                        //             "<td style='text-align: center'>"+value_item.Quantity+"</td>"+
+                        //             "<td>"+value_item.Name+"</td>"+
+                        //             "</tr>"
+                        //         )
+                        //     })
+                        // }else{
+                        //     $("#load_item").append(
+                        //             "<tr>"+
+                        //             "<td>"+"</td>"+    
+                        //             "<td>"+"Chưa kiểm hàng"+"</td>"+
+                        //             "<td>"+"Chưa kiểm hàng"+"</td>"+
+                        //             "</tr>"
+                        //         )
+                        // }
                         $("#time_line").empty()
                         if (res.logs.length == 0) {
                             $("#time_line").append(
@@ -912,6 +970,12 @@
                                     status = "Đã kiểm hàng " + "( "+size+" )"
                                 }
                                 if (keyObject == "set_owner_id,set_owner_type") {
+                                    status = "Lên đơn hàng"
+                                }
+                                if (keyObject == "set_user_id,set_order_id") {
+                                    status = "Lên đơn hàng"
+                                }
+                                if (keyObject == "set_user_id") {
                                     status = "Lên đơn hàng"
                                 }
                                 if (keyObject == "in_container") {
@@ -975,89 +1039,7 @@
                         console.log(res)
                     }
                 })
-                // $("#table_item").show()
-                // $("#load_item").empty()
-                // if(list_item !=null){
-                //     $.each(list_item,function(index_item,value_item){
-                //         $("#load_item").append(
-                //             "<tr>"+
-                //             "<td>"+ ++index_item+"</td>"+
-                //             "<td>"+value_item.Quantity+"</td>"+
-                //             "<td>"+value_item.Name+"</td>"+
-                //             "</tr>"
-                //         )
-                //     })
-                // }else{
-                //     $("#load_item").append(
-                //             "<tr>"+
-                //             "<td>"+"</td>"+    
-                //             "<td>"+"Chưa kiểm hàng"+"</td>"+
-                //             "<td>"+"Chưa kiểm hàng"+"</td>"+
-                //             "</tr>"
-                //         )
-                // }
-                // $("#time_line").empty()
-                // if (row.length == 0) {
-                //     $("#time_line").append(
-                //         '<li>' +
-                //         '<a>' + 'Đang tới kho' + '</a>' +
-                //         '<p>' + created_at + '</p>' +
-                //         '</li>'
-                //     )
-                // } else {
-                //     $.each(row, function(index, value) {
-                //         // let a = JSON.parse(value.content);
-                //         let keyObject = Object.keys(value.content)
-                //         let valueObject = Object.values(value.content);
-                //         var status;
-                //         if (keyObject == "id") {
-                //             status = "Đã nhập kho Nhật"
-                //         }
-                //         if (keyObject == "in_pallet") {
-                //             status = "Đã kiểm hàng " + "( "+size+" )"
-                //         }
-                //         if (keyObject == "set_owner_id,set_owner_type") {
-                //             status = "Lên đơn hàng"
-                //         }
-                //         if (keyObject == "in_container") {
-                //             status = "Xuất kho Nhật"
-                //         }
-                //         if (keyObject == "out_container") {
-                //             status = "Nhập kho Việt Nam"
-                //         }
-                //         if (keyObject == "delivery_status") {
-                //             if (valueObject == "shipping") {
-                //                 status = "Đang giao hàng"
-                //             }
-                //         }
-                //         if (keyObject == "delivery_status") {
-                //             if (valueObject == "cancelled") {
-                //                 status = "Hủy box"
-                //             }
-                //         }
-                //         if (keyObject == "delivery_status") {
-                //             if (valueObject == "received") {
-                //                 status = "Đã nhận hàng"
-                //             }
-                //         }
-                //         if (keyObject == "delivery_status") {
-                //             if (valueObject == "refunded") {
-                //                 status = "Trả lại hàng"
-                //             }
-                //         }
-                //         if (keyObject == "delivery_status") {
-                //             if (valueObject == "waiting_shipment") {
-                //                 status = "Đợi giao hàng"
-                //             }
-                //         }
-                //         $("#time_line").append(
-                //             '<li>' +
-                //             '<a>' + status + '</a>' +
-                //             '<p>' + value.created_at + '</p>' +
-                //             '</li>'
-                //         )
-                //     })
-                // }
+                
                 // if(vnpost){
                 //     $("#body-table-firt-vnpost").empty()
                 //     $("#body-table-firt-vnpost").append(
