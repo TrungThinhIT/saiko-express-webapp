@@ -907,13 +907,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="row d-none"  id="alert" style="margin:4px"  >
-                    <div class="col-md-12 col-sm-12 bg-info ">
-                        <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : ABC. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank</p>
-                        <p class="text-danger" >Nội dung thanh toán : Mã đơn hàng <span class="text-danger" id="id_order"></span><p>
-                        <p class="text-danger">Tổng tiền: <span id="money"></span></p>
-                    </div>
-                </div>
+                
                 <div class="row">
                     <div class="col-md-12 col-sm-12">
                         <div class="table-responsive">
@@ -933,7 +927,13 @@
                             </table>
                         </div>
                     </div>
-                    
+                </div>
+                <div class="row d-none"  id="alert" style="margin:4px"  >
+                    <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                        <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png" alt="" width="120px"></p>
+                        <p class="text-danger" >Nội dung thanh toán : <span class="text-danger" id="id_order"></span><p>
+                        <p class="text-danger">Số tiền thanh toán: <span id="money"></span></p>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-custome">
@@ -1792,6 +1792,22 @@
                                         '</p>' +
                                         '</li>'
                                     )
+                                    if(value.logs.length){
+                                        $.each(value.logs,function(logs_index,logs_value){
+                                            let keyObjectLogMerge = Object.keys(logs_value.content)
+                                            // let valueObjectkeyLogMerge = Object.values(logs_value.content);
+                                            var statusLogMerge;
+                                            if(keyObjectLogMerge=="transaction_id,amount,paid"){
+                                                statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.amount)
+                                                $("#time_line_index").append(
+                                                    '<li>' +
+                                                    '<a>' + statusLogMerge + '</a>' +
+                                                    '<p>' + logs_value.created_at + '</p>' +
+                                                    '</li>'
+                                                )
+                                            }
+                                        })  
+                                    }
                                     $("#body-table-index")
                                         .append(
                                             `<tr>` +
@@ -1840,11 +1856,11 @@
                                         if (value.boxes.length == 1) {
                                             // $("#table_item").show()
                                             // $("#load_item").empty()
-                                            $("#alert").show()
-                                            $("#id_order").empty()
-                                            $("#money").empty()
                                             if(value.orders.length!=0){
-                                                $("#id_order").text(sort_order[value.orders.length - 1].id)
+                                                $("#alert").show()
+                                                $("#id_order").empty()
+                                                $("#money").empty()
+                                                $("#id_order").text(value.id)
                                                 $("#money").text(sort_order[value.orders.length - 1].pay_money+ " VNĐ")
                                             }
                                             //table price
@@ -1893,12 +1909,28 @@
                                                         '</p>' +
                                                         '</li>'
                                                     )
+                                                if(value.logs.length){
+                                                    $.each(value.logs,function(logs_index,logs_value){
+                                                        let keyObjectLogMerge = Object.keys(logs_value.content)
+                                                        // let valueObjectkeyLogMerge = Object.values(logs_value.content);
+                                                        var statusLogMerge;
+                                                        if(keyObjectLogMerge=="transaction_id,amount,paid"){
+                                                            statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.amount)
+                                                            $("#time_line_index").append(
+                                                                '<li>' +
+                                                                '<a>' + statusLogMerge + '</a>' +
+                                                                '<p>' + logs_value.created_at + '</p>' +
+                                                                '</li>'
+                                                            )
+                                                        }
+                                                    })  
+                                                }
                                             } else {
                                                 var size = "( Dài : "+value.boxes[0].length+"cm"+",Rộng: "+value.boxes[0].width+"cm"+",Cao: "+value.boxes[0].height+"cm )"
                                                 $("#id_order").empty()
                                                 $("#money").empty()
                                                 if(value.orders.length!=0){
-                                                    $("#id_order").text(sort_order[value.orders.length - 1].id)
+                                                    $("#id_order").text(value.id)
                                                     $("#money").text(sort_order[value.orders.length - 1].pay_money+ " VNĐ")
                                                 }
                                                 $.each(value.boxes[0].logs,function(index,value) {
@@ -1916,10 +1948,25 @@
                                                             status="Lên đơn hàng"
                                                         }
                                                         if (keyObject =="in_container") {
-                                                            status ="Xuất kho Nhật"
+                                                            var parts = value.created_at.split('-')
+                                                            var year = parts[2].split(' ')
+                                                            var getDate = new Date(year[0],parts[1]-1,parts[0])
+                                                            var now = new Date()
+                                                            var date_arv = getDate-now;
+                                                            var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+6
+                                                            if(expected_date >= 0) {
+                                                                status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
+                                                            }else{
+                                                                status = "Xuất kho Nhật"
+                                                            }
+                                                            // status ="Xuất kho Nhật"
+                                                            
                                                         }
                                                         if (keyObject =="out_container") {
                                                             status= "Nhập kho Việt Nam"
+                                                        }
+                                                        if (keyObject =="outbound_warehouse") {
+                                                            status= "Xuất kho Việt Nam"
                                                         }
                                                         if (keyObject =="delivery_status" ) {
                                                             if (valueObject == "shipping") {
@@ -1955,7 +2002,8 @@
                                                                 '</p>' +
                                                                 '</li>'
                                                             )
-                                                    })
+                                                })
+                                                
                                             }
                                             if(value.boxes[0]['vnpost']!=undefined){
                                                 $("#body-table-index-vnpost").empty()
@@ -1980,7 +2028,7 @@
                                             $("#id_order").empty()
                                             $("#money").empty()
                                             if(value.orders.length!=0){
-                                                $("#id_order").text(sort_order[value.orders.length - 1].id)
+                                                $("#id_order").text(value.id)
                                                 $("#money").text(sort_order[value.orders.length - 1].pay_money+ " VNĐ")
                                             }
                                             $(`#sku-row-${value2.id}`).hover(function(){
@@ -1995,11 +2043,12 @@
                                                     }else{
                                                         vnpost = 0;
                                                     }
-                                                        check(value2.id,vnpost,created_at,value2.use_weight,value2.fee_ship,method_ship,value2.total_money)
+                                                        check(value2.id,vnpost,created_at,value2.use_weight,value2.fee_ship,method_ship,value2.total_money,value.logs)
                                                     })
                                         }
                                     })
                                 }
+                                
                             })
                         }
                     }
@@ -2012,7 +2061,7 @@
     })
             //show log by id
             // row, created_at,vnpost,list_items
-        function check(id_box,vnpost,created_at,weight,fee,method,money) {
+        function check(id_box,vnpost,created_at,weight,fee,method,money,logs_merge) {
             var id_box = id_box;
             if(weight!=undefined){
                 $("#table_price_shipping").show()
@@ -2082,10 +2131,24 @@
                                 status = "Lên đơn hàng"
                             }
                             if (keyObject == "in_container") {
-                                status = "Xuất kho Nhật"
+                                var parts = value.created_at.split('-')
+                                var year = parts[2].split(' ')
+                                var getDate = new Date(year[0],parts[1]-1,parts[0])
+                                var now = new Date()
+                                var date_arv = getDate-now;
+                                var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+6
+                                if(expected_date >= 0) {
+                                    status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
+                                }else{
+                                    status = "Xuất kho Nhật"
+                                }
+                                // status = "Xuất kho Nhật"
                             }
                             if (keyObject == "out_container") {
                                 status = "Nhập kho Việt Nam"
+                            }
+                            if (keyObject =="outbound_warehouse") {
+                                status= "Xuất kho Việt Nam"
                             }
                             if (keyObject == "delivery_status") {
                                 if (valueObject == "shipping") {
@@ -2120,23 +2183,40 @@
                             )
                         })
                     }
-                    if(vnpost){
-                        $("#body-table-index-vnpost").empty()
-                        $("#body-table-index-vnpost").append(
-                            '<tr>' +
-                            '<td>' + vnpost.MaDichVu +
-                            '</td>' +
-                            '<td>' + vnpost.PhuongThucVC +
-                            '</td>' +
-                            '<td>' + vnpost.CuocCOD +
-                            '</td>' +
-                            '<td>' + vnpost.TongCuocSauVAT +
-                            '</td>' +
-                            '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
-                            '</tr>'
-                        )
-                        $("#table-index-vnpost").show()
+                    if(logs_merge.length){
+                        $.each(logs_merge,function(logs_index,logs_value){
+                            let keyObjectLogMerge = Object.keys(logs_value.content)
+                            // let valueObjectkeyLogMerge = Object.values(logs_value.content);
+                            var statusLogMerge;
+                            var created_at_log;
+                            if(keyObjectLogMerge=="transaction_id,amount,paid"){
+                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount)
+                                $("#time_line_index").append(
+                                    '<li>' +
+                                    '<a>' + statusLogMerge + '</a>' +
+                                    '<p>' + logs_value.created_at + '</p>' +
+                                    '</li>'
+                                )
+                            }
+                        })  
                     }
+                    // if(vnpost){
+                    //     $("#body-table-index-vnpost").empty()
+                    //     $("#body-table-index-vnpost").append(
+                    //         '<tr>' +
+                    //         '<td>' + vnpost.MaDichVu +
+                    //         '</td>' +
+                    //         '<td>' + vnpost.PhuongThucVC +
+                    //         '</td>' +
+                    //         '<td>' + vnpost.CuocCOD +
+                    //         '</td>' +
+                    //         '<td>' + vnpost.TongCuocSauVAT +
+                    //         '</td>' +
+                    //         '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
+                    //         '</tr>'
+                    //     )
+                    //     $("#table-index-vnpost").show()
+                    // }
                 }
             })
             // $("#table_item").show()
@@ -2244,6 +2324,9 @@
 
     function toggleLoading() {
         $('.tmn-custom-mask').toggleClass('d-none');
+    }
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
     }
     document.getElementsByClassName("Creative-Button")[0].addEventListener("click", eventEmit);
     document.getElementsByClassName("Creative-Button")[1].addEventListener("click", eventEmit);

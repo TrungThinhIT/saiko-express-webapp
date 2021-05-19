@@ -30,7 +30,7 @@ class FLTrackingController extends Controller
         //apishow
         $dataShow = [
             'with' => 'orders.shipmentInfor',
-            'appends' => 'boxes.owners',
+            'appends' => 'boxes.owners;logs',
         ];
         //check status code
         $apiShow = Http::withHeaders([
