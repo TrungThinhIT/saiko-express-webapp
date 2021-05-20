@@ -444,7 +444,7 @@
                                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                         <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png" alt="" width="100px"></p>
                                         <p class="text-danger" >Nội dung thanh toán : <span class="text-danger" id="id_order"></span><p>
-                                        <p class="text-danger">Số tiền thanh toán: <span id="money"></span></p>
+                                        <p class="text-danger">Số tiền thanh toán: <span id="money"></span> <span>( Chưa bao gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -825,7 +825,7 @@
                                                                     // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                                                     var statusLogMerge;
                                                                     if(keyObjectLogMerge=="transaction_id,amount,paid"){
-                                                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) + "(Chưa bao gồm phí bảo hiểm, hàng hoá đặc biệt)"
+                                                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) 
                                                                         $("#time_line").append(
                                                                             '<li>' +
                                                                             '<a>' + statusLogMerge + '</a>' +
@@ -872,7 +872,7 @@
                                                                     var now = new Date()
                                                                     var date_arv = getDate-now;
                                                                     var add_date;
-                                                                    var check_method = method.charAt(0).toUpperCase() + method.slice(1);
+                                                                    var check_method = method_ship.charAt(0).toUpperCase() + method_ship.slice(1);
                                                                     if(check_method=="Air"){
                                                                         add_date = 6;
                                                                     }else{
@@ -933,7 +933,7 @@
                                                                     // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                                                     var statusLogMerge;
                                                                     if(keyObjectLogMerge=="transaction_id,amount,paid"){
-                                                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) + "(Chưa bao gồm phí bảo hiểm, hàng hoá đặc biệt)"
+                                                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) 
                                                                         $("#time_line").append(
                                                                             '<li>' +
                                                                             '<a>' + statusLogMerge + '</a>' +
@@ -1151,7 +1151,7 @@
                                 var statusLogMerge;
                                 var created_at_log;
                                 if(keyObjectLogMerge=="transaction_id,amount,paid"){
-                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) + "(Chưa bao gồm phí bảo hiểm, hàng hoá đặc biệt)"
+                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) 
                                     $("#time_line").append(
                                         '<li>' +
                                         '<a>' + statusLogMerge + '</a>' +
