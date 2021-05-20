@@ -1778,6 +1778,7 @@
                                     $('#exitSuccess').show();
                                     $('#myModal').modal('show');
                                 }
+                                //length box = 0 
                                 if (value.boxes.length == 0) {
                                     $("#body-table-firt-vnpost").empty()
                                     $("#table-index-vnpost").hide()
@@ -1798,7 +1799,7 @@
                                             // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                             var statusLogMerge;
                                             if(keyObjectLogMerge=="transaction_id,amount,paid"){
-                                                statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.amount)
+                                                statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.amount) + "(Chưa bao gồm phí bảo hiểm, hàng hoá đặc biệt)"
                                                 $("#time_line_index").append(
                                                     '<li>' +
                                                     '<a>' + statusLogMerge + '</a>' +
@@ -1829,7 +1830,7 @@
                                             '</td>' +
                                             '</tr>'
                                         )
-                                } else {
+                                } else { //lengbox !=0
                                     $("#body-table-index").empty()
                                     $("#time_line_index").empty()
                                     $.each(value.boxes, function(index,value2) {
@@ -1915,7 +1916,7 @@
                                                         // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                                         var statusLogMerge;
                                                         if(keyObjectLogMerge=="transaction_id,amount,paid"){
-                                                            statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.amount)
+                                                            statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.amount) + "(Chưa bao gồm phí bảo hiểm, hàng hoá đặc biệt)"
                                                             $("#time_line_index").append(
                                                                 '<li>' +
                                                                 '<a>' + statusLogMerge + '</a>' +
@@ -1953,8 +1954,15 @@
                                                             var getDate = new Date(year[0],parts[1]-1,parts[0])
                                                             var now = new Date()
                                                             var date_arv = getDate-now;
-                                                            var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+6
-                                                            if(expected_date >= 0) {
+                                                            var add_date;
+                                                            var check_method = method.charAt(0).toUpperCase() + method.slice(1);
+                                                            if(check_method =="Air"){
+                                                                add_date=6;
+                                                            }else{
+                                                                add_date = 30;
+                                                            }
+                                                            var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+ add_date
+                                                            if(expected_date > 0) {
                                                                 status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
                                                             }else{
                                                                 status = "Xuất kho Nhật"
@@ -2003,31 +2011,47 @@
                                                                 '</li>'
                                                             )
                                                 })
-                                                
+                                                if(value.logs.length){
+                                                    $.each(value.logs,function(logs_index,logs_value){
+                                                        let keyObjectLogMerge = Object.keys(logs_value.content)
+                                                        // let valueObjectkeyLogMerge = Object.values(logs_value.content);
+                                                        var statusLogMerge;
+                                                        if(keyObjectLogMerge=="transaction_id,amount,paid"){
+                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) + "(Chưa bao gồm phí bảo hiểm, hàng hoá đặc biệt)"
+                                                            $("#time_line_index").append(
+                                                                '<li>' +
+                                                                '<a>' + statusLogMerge + '</a>' +
+                                                                '<p>' + logs_value.created_at + '</p>' +
+                                                                '</li>'
+                                                            )
+                                                        }
+                                                    })  
+                                                }
                                             }
-                                            if(value.boxes[0]['vnpost']!=undefined){
-                                                $("#body-table-index-vnpost").empty()
-                                                $("#body-table-index-vnpost").append(
-                                                    '<tr>' +
-                                                    '<td>' + value.boxes[0]['vnpost'].MaDichVu +
-                                                    '</td>' +
-                                                    '<td>' + value.boxes[0]['vnpost'].PhuongThucVC +
-                                                    '</td>' +
-                                                    '<td>' + value.boxes[0]['vnpost'].CuocCOD +
-                                                    '</td>' +
-                                                    '<td>' +value.boxes[0]['vnpost'].TongCuocSauVAT +
-                                                    '</td>' +
-                                                    '<td>' +value.boxes[0]['vnpost'].SoTienCodThuNoiNguoiNhan +
-                                                    '</tr>'
-                                                )
-                                                $("#table-index-vnpost").show()
-                                            }
+                                            // if(value.boxes[0]['vnpost']!=undefined){
+                                            //     $("#body-table-index-vnpost").empty()
+                                            //     $("#body-table-index-vnpost").append(
+                                            //         '<tr>' +
+                                            //         '<td>' + value.boxes[0]['vnpost'].MaDichVu +
+                                            //         '</td>' +
+                                            //         '<td>' + value.boxes[0]['vnpost'].PhuongThucVC +
+                                            //         '</td>' +
+                                            //         '<td>' + value.boxes[0]['vnpost'].CuocCOD +
+                                            //         '</td>' +
+                                            //         '<td>' +value.boxes[0]['vnpost'].TongCuocSauVAT +
+                                            //         '</td>' +
+                                            //         '<td>' +value.boxes[0]['vnpost'].SoTienCodThuNoiNguoiNhan +
+                                            //         '</tr>'
+                                            //     )
+                                            //     $("#table-index-vnpost").show()
+                                            // }
 
                                         } else {
-                                            $("#alert").show()
-                                            $("#id_order").empty()
-                                            $("#money").empty()
+                                            
                                             if(value.orders.length!=0){
+                                                $("#alert").show()
+                                                $("#id_order").empty()
+                                                $("#money").empty()
                                                 $("#id_order").text(value.id)
                                                 $("#money").text(sort_order[value.orders.length - 1].pay_money+ " VNĐ")
                                             }
@@ -2108,6 +2132,7 @@
                     // }
                     $("#time_line_index").empty()
                     if (res.logs.length == 0) {
+                        
                         $("#time_line_index").append(
                             '<li>' +
                             '<a>' + 'Đang tới kho' + '</a>' +
@@ -2136,8 +2161,14 @@
                                 var getDate = new Date(year[0],parts[1]-1,parts[0])
                                 var now = new Date()
                                 var date_arv = getDate-now;
-                                var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+6
-                                if(expected_date >= 0) {
+                                var check_method = method.charAt(0).toUpperCase() + method.slice(1);
+                                if(check_method =="Air"){
+                                    add_date=6;
+                                }else{
+                                    add_date = 30;
+                                }
+                                var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+ add_date
+                                if(expected_date > 0) {
                                     status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
                                 }else{
                                     status = "Xuất kho Nhật"

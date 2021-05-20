@@ -825,7 +825,7 @@
                                                                     // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                                                     var statusLogMerge;
                                                                     if(keyObjectLogMerge=="transaction_id,amount,paid"){
-                                                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount)
+                                                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) + "(Chưa bao gồm phí bảo hiểm, hàng hoá đặc biệt)"
                                                                         $("#time_line").append(
                                                                             '<li>' +
                                                                             '<a>' + statusLogMerge + '</a>' +
@@ -871,8 +871,15 @@
                                                                     var getDate = new Date(year[0],parts[1]-1,parts[0])
                                                                     var now = new Date()
                                                                     var date_arv = getDate-now;
-                                                                    var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+6
-                                                                    if(expected_date >= 0) {
+                                                                    var add_date;
+                                                                    var check_method = method.charAt(0).toUpperCase() + method.slice(1);
+                                                                    if(check_method=="Air"){
+                                                                        add_date = 6;
+                                                                    }else{
+                                                                        add_date = 30;
+                                                                    }
+                                                                    var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+ add_date
+                                                                    if(expected_date > 0) {
                                                                         status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
                                                                     }else{
                                                                         status = "Xuất kho Nhật"
@@ -926,7 +933,7 @@
                                                                     // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                                                     var statusLogMerge;
                                                                     if(keyObjectLogMerge=="transaction_id,amount,paid"){
-                                                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount)
+                                                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) + "(Chưa bao gồm phí bảo hiểm, hàng hoá đặc biệt)"
                                                                         $("#time_line").append(
                                                                             '<li>' +
                                                                             '<a>' + statusLogMerge + '</a>' +
@@ -956,10 +963,11 @@
                                                         // }
                                                         
                                                     } else {
-                                                        $("#alert").show()
-                                                        $("#id_order").empty()
-                                                        $("#money").empty()
+                                                        
                                                         if(value.orders.length!=0){
+                                                            $("#alert").show()
+                                                            $("#id_order").empty()
+                                                            $("#money").empty()
                                                             $("#id_order").text(value.id)
                                                             $("#money").text(sort_order[value.orders.length - 1].pay_money+ " VNĐ")
                                                         }
@@ -1082,8 +1090,15 @@
                                     var getDate = new Date(year[0],parts[1]-1,parts[0])
                                     var now = new Date()
                                     var date_arv = getDate-now;
-                                    var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+6
-                                    if(expected_date >= 0) {
+                                    var add_date;
+                                    var check_method = method.charAt(0).toUpperCase() + method.slice(1);
+                                    if(check_method =="Air"){
+                                        add_date=6;
+                                    }else{
+                                        add_date = 30;
+                                    }
+                                    var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+add_date
+                                    if(expected_date > 0) {
                                         status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
                                     }else{
                                         status = "Xuất kho Nhật"
@@ -1136,7 +1151,7 @@
                                 var statusLogMerge;
                                 var created_at_log;
                                 if(keyObjectLogMerge=="transaction_id,amount,paid"){
-                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount)
+                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) + "(Chưa bao gồm phí bảo hiểm, hàng hoá đặc biệt)"
                                     $("#time_line").append(
                                         '<li>' +
                                         '<a>' + statusLogMerge + '</a>' +
