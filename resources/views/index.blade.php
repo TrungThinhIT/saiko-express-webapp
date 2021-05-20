@@ -918,7 +918,7 @@
                                     <th style='width:100px;text-align:center'>Khối lượng tính phí</th>
                                     <th>Đơn giá</th>
                                     <th>Đường vận chuyển</th>
-                                    <th>Phí vận chuyển (Nhật - Việt)</th>
+                                    <th>Phí vận chuyển (Nhật - Kho Việt)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table_body_price_shipping">
@@ -2132,13 +2132,29 @@
                     // }
                     $("#time_line_index").empty()
                     if (res.logs.length == 0) {
-                        
                         $("#time_line_index").append(
                             '<li>' +
                             '<a>' + 'Đang tới kho' + '</a>' +
                             '<p>' + created_at + '</p>' +
                             '</li>'
                         )
+                        if(logs_merge.length){
+                            $.each(logs_merge,function(logs_index,logs_value){
+                                let keyObjectLogMerge = Object.keys(logs_value.content)
+                                // let valueObjectkeyLogMerge = Object.values(logs_value.content);
+                                var statusLogMerge;
+                                var created_at_log;
+                                if(keyObjectLogMerge=="transaction_id,amount,paid" || keyObjectLogMerge=="transaction_id,amount"){
+                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) 
+                                    $("#time_line").append(
+                                        '<li>' +
+                                        '<a>' + statusLogMerge + '</a>' +
+                                        '<p>' + logs_value.created_at + '</p>' +
+                                        '</li>'
+                                    )
+                                }
+                            })  
+                        }
                     } else {
                         var size = "( Dài : "+res.length+"cm"+",Rộng: "+res.width+"cm"+",Cao: "+res.height+"cm )"
                         $.each(res.logs, function(index, value) {
