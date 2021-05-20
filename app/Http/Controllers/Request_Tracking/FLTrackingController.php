@@ -76,7 +76,7 @@ class FLTrackingController extends Controller
                         //                 'Accept' => 'application/json',
                         //                 'Authorization' => 'Bearer ' . $token->access_token,
                         //                 'Accept-Language' => "ja",
-                        //             ])->get('http://product.tomonisolution.com/api/products/' . $item['product_id']);
+                        //             ])->get('http://product.tomonisolution.com:82/api/products/' . $item['product_id']);
                         //         }
                         //         if ($getInfoItem->status() == 200) {
                         //             $getInfoItem = json_decode($getInfoItem);
@@ -108,17 +108,17 @@ class FLTrackingController extends Controller
                             $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_infor']['ward_id']))->first(); //get ward
                             $province = $getWard->MaTinhThanh; //ID province
                             $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
-
                             if ($method_shipment == "Air") {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
                                 if ($date_box >= $date_default) {
                                     $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                    if ($use_weight >= 1 && $use_weight < 100) {
+                                    if ($use_weight >= 0 && $use_weight < 100) {
                                         $checkProvince = "price1";
                                     }
                                     if ($use_weight >= 100 && $use_weight < 500) {
                                         $checkProvince = "price2";
                                     }
+
                                     if ($province <= 53) {
                                         if ($checkProvince == "price1") {
                                             $money = $use_weight * 190000;
@@ -148,7 +148,7 @@ class FLTrackingController extends Controller
                                 }
                                 if ($date_box < $date_default) {
                                     $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                    if ($use_weight >= 1 && $use_weight < 100) {
+                                    if ($use_weight >= 0 && $use_weight < 100) {
                                         $checkProvince = "price1";
                                     }
                                     if ($use_weight >= 100 && $use_weight < 500) {
@@ -171,6 +171,7 @@ class FLTrackingController extends Controller
                                             $money = $use_weight * 210000;
                                             $results['boxes'][$i]['total_money'] = number_format($use_weight * 210000);
                                             $results['boxes'][$i]['fee_ship'] = number_format(210000);
+                                            
                                         }
                                         if ($checkProvince == "price2") {
                                             $money = $use_weight * 200000;
@@ -224,7 +225,7 @@ class FLTrackingController extends Controller
                                 $date_default = strtotime($this->date);
                                 if ($date_box >= $date_default) {
                                     $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                    if ($use_weight >= 1 && $use_weight < 100) {
+                                    if ($use_weight >= 0 && $use_weight < 100) {
                                         $checkProvince = "price1";
                                     }
                                     if ($use_weight >= 100 && $use_weight < 500) {
@@ -258,7 +259,7 @@ class FLTrackingController extends Controller
                                 }
                                 if ($date_box < $date_default) {
                                     $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                    if ($use_weight >= 1 && $use_weight < 100) {
+                                    if ($use_weight >= 0 && $use_weight < 100) {
                                         $checkProvince = "price1";
                                     }
                                     if ($use_weight >= 100 && $use_weight < 500) {
