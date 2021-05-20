@@ -824,7 +824,7 @@
                                                                     let keyObjectLogMerge = Object.keys(logs_value.content)
                                                                     // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                                                     var statusLogMerge;
-                                                                    if(keyObjectLogMerge=="transaction_id,amount,paid"){
+                                                                    if(keyObjectLogMerge=="transaction_id,amount,paid" || keyObjectLogMerge=="transaction_id,amount"){
                                                                         statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) 
                                                                         $("#time_line").append(
                                                                             '<li>' +
@@ -932,7 +932,7 @@
                                                                     let keyObjectLogMerge = Object.keys(logs_value.content)
                                                                     // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                                                     var statusLogMerge;
-                                                                    if(keyObjectLogMerge=="transaction_id,amount,paid"){
+                                                                    if(keyObjectLogMerge=="transaction_id,amount,paid" || keyObjectLogMerge=="transaction_id,amount"){
                                                                         statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) 
                                                                         $("#time_line").append(
                                                                             '<li>' +
@@ -1150,7 +1150,7 @@
                                 // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                 var statusLogMerge;
                                 var created_at_log;
-                                if(keyObjectLogMerge=="transaction_id,amount,paid"){
+                                if(keyObjectLogMerge=="transaction_id,amount,paid" || keyObjectLogMerge=="transaction_id,amount"){
                                     statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) 
                                     $("#time_line").append(
                                         '<li>' +
