@@ -36,7 +36,7 @@ class FLTrackingController extends Controller
         $apiShow = Http::withHeaders([
             'Accept' => 'application/json',
             // 'Authorization' => 'Bearer ' . $token->access_token
-        ])->get('http://order.tomonisolution.com/api/trackings/' . $request->tracking, $dataShow);
+        ])->get('http://order.tomonisolution.com:82/api/trackings/' . $request->tracking, $dataShow);
 
         if ($apiShow->status() == 404) {
             return $apiShow->status();
@@ -339,14 +339,14 @@ class FLTrackingController extends Controller
         $item_box = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token,
-        ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $req->id_box . '?appends=logs');
+        ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $req->id_box . '?appends=logs');
         if ($item_box->status() == 401) {
             $this->QCT->getToken();
             $token = token::find(1);
             $item_box = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token,
-            ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $req->id_box);
+            ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $req->id_box);
         }
         $result_list_item = json_decode($item_box->body(), true);
         $detail_item = array();
