@@ -201,7 +201,7 @@ class FLTrackingController extends Controller
                                 $results['boxes'][$i]['fee_ship'] = number_format($price);
                                 $results['boxes'][$i]['use_weight'] = $use_weight;
                             }
-                            $results['orders'][0]['pay_money'] = number_format($pay_money_order);
+                            $results['orders'][0]['pay_money'] = $pay_money_order;
                         }
                         $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
                     }
@@ -316,7 +316,7 @@ class FLTrackingController extends Controller
                                 $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
                             }
                             $pay_money_order += $money;
-                            $results['orders'][0]['pay_money'] = number_format($pay_money_order);
+                            $results['orders'][0]['pay_money'] = $pay_money_order;
                         }
                         $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
                     }

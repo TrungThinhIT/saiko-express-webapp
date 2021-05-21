@@ -1753,6 +1753,7 @@
                                 var add_rev = '';
                                 var created_at = '';
                                 var method_ship = '';
+                                var pay_money = 0;
                                 if (value.orders.length != 0) {
                                     var sort_order = (value.orders).sort(function(x, y) {
                                             return new Date(x.shipment_infor_id) - new Date(y.shipment_infor_id)
@@ -1768,6 +1769,9 @@
                                     add_rev = sort_order[value.orders.length - 1].shipment_infor.full_address;
                                     created_at = sort_order[value.orders.length - 1].created_at;
                                     method_ship = sort_order[value.orders.length - 1].shipment_method_id;
+                                    if(sort_order[value.orders.length - 1].pay_money != undefined){
+                                        pay_money = sort_order[value.orders.length - 1].pay_money;
+                                    }
                                 }
                                 if (name_send == '' | tel_rev == '' |
                                     name_rev == '' | add_rev == '') {
@@ -1923,6 +1927,11 @@
                                                                 '<p>' + logs_value.created_at + '</p>' +
                                                                 '</li>'
                                                             )
+                                                            if(pay_money != undefined){
+                                                                if( logs_value.content.amount >= pay_money ){
+                                                                    $("#alert").hide()
+                                                                }
+                                                            }
                                                         }
                                                     })  
                                                 }
@@ -1932,7 +1941,7 @@
                                                 $("#money").empty()
                                                 if(value.orders.length!=0){
                                                     $("#id_order").text(value.id)
-                                                    $("#money").text(sort_order[value.orders.length - 1].pay_money+ " VNĐ")
+                                                    $("#money").text(formatNumber(sort_order[value.orders.length - 1].pay_money)+ " VNĐ")
                                                 }
                                                 $.each(value.boxes[0].logs,function(index,value) {
                                                         // let a =JSON.parse(value.content );
@@ -2024,6 +2033,11 @@
                                                                 '<p>' + logs_value.created_at + '</p>' +
                                                                 '</li>'
                                                             )
+                                                            if(pay_money != undefined){
+                                                                if( logs_value.content.amount >= pay_money ){
+                                                                    $("#alert").hide()
+                                                                }
+                                                            }
                                                         }
                                                     })  
                                                 }
@@ -2053,7 +2067,29 @@
                                                 $("#id_order").empty()
                                                 $("#money").empty()
                                                 $("#id_order").text(value.id)
-                                                $("#money").text(sort_order[value.orders.length - 1].pay_money+ " VNĐ")
+                                                $("#money").text(formatNumber(sort_order[value.orders.length - 1].pay_money)+ " VNĐ")
+                                                if(value.logs.length){
+                                                    $.each(value.logs,function(logs_index,logs_value){
+                                                        let keyObjectLogMerge = Object.keys(logs_value.content)
+                                                        // let valueObjectkeyLogMerge = Object.values(logs_value.content);
+                                                        var statusLogMerge;
+                                                        
+                                                        if(keyObjectLogMerge=="transaction_id,amount,paid" || keyObjectLogMerge=="transaction_id,amount"){
+                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) 
+                                                            $("#time_line").append(
+                                                                '<li>' +
+                                                                '<a>' + statusLogMerge + '</a>' +
+                                                                '<p>' + logs_value.created_at + '</p>' +
+                                                                '</li>'
+                                                            )
+                                                            if(pay_money != undefined){
+                                                                if( logs_value.content.amount >= pay_money ){
+                                                                    $("#alert").hide()
+                                                                }
+                                                            }
+                                                        }
+                                                    })  
+                                                }
                                             }
                                             $(`#sku-row-${value2.id}`).hover(function(){
                                                 $(this).addClass("tr-color addHover");
@@ -2138,23 +2174,6 @@
                             '<p>' + created_at + '</p>' +
                             '</li>'
                         )
-                        if(logs_merge.length){
-                            $.each(logs_merge,function(logs_index,logs_value){
-                                let keyObjectLogMerge = Object.keys(logs_value.content)
-                                // let valueObjectkeyLogMerge = Object.values(logs_value.content);
-                                var statusLogMerge;
-                                var created_at_log;
-                                if(keyObjectLogMerge=="transaction_id,amount,paid" || keyObjectLogMerge=="transaction_id,amount"){
-                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.amount) 
-                                    $("#time_line").append(
-                                        '<li>' +
-                                        '<a>' + statusLogMerge + '</a>' +
-                                        '<p>' + logs_value.created_at + '</p>' +
-                                        '</li>'
-                                    )
-                                }
-                            })  
-                        }
                     } else {
                         var size = "( Dài : "+res.length+"cm"+",Rộng: "+res.width+"cm"+",Cao: "+res.height+"cm )"
                         $.each(res.logs, function(index, value) {
