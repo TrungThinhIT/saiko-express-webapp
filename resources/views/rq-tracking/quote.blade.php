@@ -281,7 +281,7 @@
                                         <option value="Nhận tại VP Sóc Sơn">Nhận tại VP Sóc Sơn, Hà Nội</option>
                                         <option value="Nhận tại VP Đào Tấn">Nhận tại VP Đào Tấn, Hà Nội </option>
                                         <!--<option value="Nhận tại VP Tây Hồ">Nhận tại VP Tây Hồ</option>-->
-                                        <option value="Nhận tại VP Tân Bình HCM">Nhận tại VP Tân Bình HCM</option>
+                                        {{-- <option value="Nhận tại VP Tân Bình HCM">Nhận tại VP Tân Bình HCM</option> --}}
                                         <!-- <option value="FOB">Nhận trực tiếp tại VN</option> -->
 
                                     </select>
