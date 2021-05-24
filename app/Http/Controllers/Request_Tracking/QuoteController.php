@@ -109,7 +109,7 @@ class QuoteController extends Controller
         $api = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token
-        ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+        ])->post('http://127.0.0.1:8088/api/shipment-infors', [
             'consignee' => $request->Name_Rev,
             'tel' => $request->Phone, //sdt ng nhận
             'address' => $address,
@@ -125,7 +125,7 @@ class QuoteController extends Controller
             $api = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
-            ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
+            ])->post('http://127.0.0.1:8088/api/shipment-infors', [
                 'consignee' => $request->Name_Rev,
                 'tel' => $request->Phone,
                 'address' => $address,
@@ -136,6 +136,7 @@ class QuoteController extends Controller
         }
         //
         $data = json_decode($api->body(), true);
+        dd($data);
         // return $data;
         //create shipment
         $tracking = explode(" ", $request->TrackingSaiko);
@@ -154,16 +155,17 @@ class QuoteController extends Controller
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token
             ]);
-            $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
+            $create_shipment = $create_shipment->post('http://127.0.0.1:8088/api/orders', [
                 'shipment_method_id' => $shipping, //đường vận chuyển
                 'shipment_infor_id' => $data['id'], //lấy id của shipment_info
                 'type' => 'shipment',
                 'tracking' => $item, //danh sách tracking
                 'note' =>  $request->Note,
                 'repackage' => $request->Reparking == "true" ? 1 : 0,
-                'merge_package' => $request->merge_box ? 1 : 0
+                'merge_package' => $request->merge_box ? 1 : 0,
+                'insuarance_qoute' => "100000",
             ]);
-
+            dd($create_shipment->body());
             if ($create_shipment->status() == 201) {
                 $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tạo thành công'];
             }

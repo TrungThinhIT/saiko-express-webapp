@@ -2,6 +2,7 @@
 <html lang="en">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <style>
+   
     .modal-confirm {
         color: #e49e9e;
         text-align: center;
@@ -126,6 +127,7 @@
     .d-none {
         display: none;
     }
+    
 
     */ */
 
@@ -414,6 +416,44 @@
             </div>
         </div>
     </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modal_qoute">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Khai báo đơn hàng</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                {{-- <span aria-hidden="true" id="">&times;</span> --}}
+              </button>
+            </div>
+            <div class="modal-body">
+              <table class="table" >
+                <tr class="form-group" style="border: none">
+                    <td>Khai báo bảo hiểm</td>  
+                    <td><input class="form-control" type="number" name="insuarance"></td>
+                </tr>
+                <tbody id="table_product_specialty">
+                    <tr class="form-group" style="border:none">
+                        <td>
+                            <select class="form-control" onchange="change_item(this)" name="product_specialty" id="product_specialty">
+                                <option value="0">Chọn hàng đặt biệt</option>
+                                <option value="1">Điện thoại</option>
+                                <option value="2">Laptop</option>
+                            </select>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="send_tracking()">Gữi hàng</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close_modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </section>
 @include('modules.footer')
 
@@ -423,7 +463,9 @@
     }
 
     $(document).ready(function () {
-
+        $("#close_modal").click(function(){
+            $("#modal_qoute").hide()
+        })
         $('#utracking').blur(function () {
             var tracking = $('#utracking').val();
             if (!tracking) {
@@ -489,7 +531,53 @@
             document.getElementById("type-ship").style.display = "block";
         }
     }
+    var arr_check = [];
+    function arrayRemove(arr, value) { 
+        arr_check = arr.filter(item => item !== value);
+        
+    }
+    function remove_row(obj){
+        arrayRemove(arr_check,$(obj).parent().parent().children()[0].childNodes[0].data)//lấy tên bị xoá
+        $(obj).parent().parent().remove()
+    }
+    function send_tracking(utypeadd,Phone,Name_Send,Name_Rev,AddRev,Type,Note,Reparking,ShipAir,ShipSea,Code_Add,province,district,ward,checkAir,checkSea,merge_box){
+        // console.log(utypeadd,Phone,Name_Send,Name_Rev,AddRev,Type,Note,Reparking,ShipAir,ShipSea,Code_Add,province,district,ward,checkAir,checkSea,merge_box)
+        var check = $("input [name='quantity_item[]']")
+        console.log(check)
 
+
+    }
+    function change_item(obj){
+        var list_check=$(".name_items") 
+        var name_item = $("#product_specialty option:selected").text().trim()
+        if($("#product_specialty").val()!=0){
+            if(!list_check.length){
+                $("#table_product_specialty").append(
+                '<tr style="border:none">'+
+                    '<td class="name_items">'+$("#product_specialty option:selected").text()+'</td>'+
+                    '<td>'+'<input type="number" class="form-control" value="1" name="quantity_item[]">'+'</td>'+
+                    '<td><button class="btn btn-danger" onclick="remove_row(this)"><i class="fa fa-trash"></i></button>'+
+                '</tr>'
+                )
+                arr_check.push(name_item)
+            }
+            var list=$(".name_items")
+            if(list_check.length){
+                $.each(list,function(index,value){
+                    if(arr_check.indexOf(name_item) == -1 ){
+                        $("#table_product_specialty").append(
+                        '<tr style="border:none">'+
+                            '<td class="name_items">'+name_item+'</td>'+
+                            '<td>'+'<input type="number" class="form-control" value="1" name="quantity_item[]">'+'</td>'+
+                            '<td><button class="btn btn-danger" onclick="remove_row(this)"><i class="fa fa-trash"></i></button>'+
+                        '</tr>'
+                    )
+                        arr_check.push(name_item)
+                    }
+                })
+            }
+        }
+    }
     function push_tracking() {
         event.preventDefault();
         var OptionAdd = $('#utypeadd').val();
@@ -590,90 +678,92 @@
                 .length > 8 && (ShipAir == true | ShipSea == true) && (Upx != null || OptionAdd.length > 5) && (
                     UaddNumber.length >= 4 || OptionAdd.length > 5)) {
                 console.log("Sendtracking");
-                toggleLoading()
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: 'POST',
-                    url: "{{ route('rq_tk.store') }}",
-                    data: {
-                        utypeadd: utypeadd,
-                        TrackingSaiko: Tracking,
-                        Phone: Phone,
-                        Name_Send: Name_Send,
-                        Number_Send: Number_Send,
-                        Name_Rev: Name_Rev,
-                        Add: AddRev,
-                        Type: Type,
-                        Note: Note,
-                        Reparking: Reparking,
-                        ShipAir: ShipAir,
-                        ShipSea: ShipSea,
-                        Location: '203.205.41.135',
-                        Code_Add: Code_Add,
-                        province: province,
-                        district: district,
-                        ward: ward,
-                        checkAir: checkAir,
-                        checkSea: checkSea,
-                        merge_box: merge_box,
-                    },
-                    success: function (response) {
-                        console.log(response)
-                        $("#table_showCreatedTrackings").empty()
-                        $.each(response, function (index, value) {
-                            if (value.code == 201) {
-                                $("#table_showCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:green;border:none !important'>" + value
-                                    .message + " " +
-                                    "<i class='fa fa-check' style='color:green'></i>" +
-                                    "</td>" +
-                                    "</tr>"
-                                )
-                            }
-                            if (value.code == 405) {
-                                $("#table_showCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:#fca901;border:none !important'>" + value
-                                    .message + " " +
-                                    "<span><i class='fa fa-warning'></i></span>" +
-                                    "</td>" + "</tr>"
-                                )
-                            }
-                            if (value.code == 422) {
-                                $("#table_showCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:#red;border:none !important'>" + value
-                                    .message + " " +
-                                    "<span><i class='fa fa-times'></i></span>" + "</td>" +
-                                    "</tr>"
-                                )
-                            }
-                        })
-                        $('#message').html('');
-                        $('#exitForm').hide();
-                        $('#exitSuccess')
-                            .show();
-                        $('#myModal').modal('show');
-                        // if (response == 201) {
-                        //     document.getElementById("color-success").style.background = '#1ba906'
-                        //     $('#message').html('Tạo tracking thành công!');
-                        //     $('#exitForm').hide();
-                        //     $('#exitSuccess').show();
-                        //     $('#myModal').modal('show');
-                        // } else {
-                        //     document.getElementById("color-success").style.background = '#DF3A01'
-                        //     $('#message').html(
-                        //         'Tracking này đã được tạo');
-                        //     $('#exitForm').hide();
-                        //     $('#exitSuccess').show();
-                        //     $('#myModal').modal('show');
+                console.log(utypeadd,Phone,Name_Send,Name_Rev,AddRev,Type,Note,Reparking,ShipAir,ShipSea,Code_Add,province,district,ward,checkAir,checkSea,merge_box)
+                $("#modal_qoute").show()
+                // toggleLoading()
+                // $.ajax({
+                //     headers: {
+                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                //     },
+                //     type: 'POST',
+                //     url: "{{ route('rq_tk.store') }}",
+                //     data: {
+                //         utypeadd: utypeadd,
+                //         TrackingSaiko: Tracking,
+                //         Phone: Phone,
+                //         Name_Send: Name_Send,
+                //         Number_Send: Number_Send,
+                //         Name_Rev: Name_Rev,
+                //         Add: AddRev,
+                //         Type: Type,
+                //         Note: Note,
+                //         Reparking: Reparking,
+                //         ShipAir: ShipAir,
+                //         ShipSea: ShipSea,
+                //         Location: '203.205.41.135',
+                //         Code_Add: Code_Add,
+                //         province: province,
+                //         district: district,
+                //         ward: ward,
+                //         checkAir: checkAir,
+                //         checkSea: checkSea,
+                //         merge_box: merge_box,
+                //     },
+                //     success: function (response) {
+                //         console.log(response)
+                //         $("#table_showCreatedTrackings").empty()
+                //         $.each(response, function (index, value) {
+                //             if (value.code == 201) {
+                //                 $("#table_showCreatedTrackings").append(
+                //                     "<tr style='border:none'>" +
+                //                     "<td style='color:green;border:none !important'>" + value
+                //                     .message + " " +
+                //                     "<i class='fa fa-check' style='color:green'></i>" +
+                //                     "</td>" +
+                //                     "</tr>"
+                //                 )
+                //             }
+                //             if (value.code == 405) {
+                //                 $("#table_showCreatedTrackings").append(
+                //                     "<tr style='border:none'>" +
+                //                     "<td style='color:#fca901;border:none !important'>" + value
+                //                     .message + " " +
+                //                     "<span><i class='fa fa-warning'></i></span>" +
+                //                     "</td>" + "</tr>"
+                //                 )
+                //             }
+                //             if (value.code == 422) {
+                //                 $("#table_showCreatedTrackings").append(
+                //                     "<tr style='border:none'>" +
+                //                     "<td style='color:#red;border:none !important'>" + value
+                //                     .message + " " +
+                //                     "<span><i class='fa fa-times'></i></span>" + "</td>" +
+                //                     "</tr>"
+                //                 )
+                //             }
+                //         })
+                //         $('#message').html('');
+                //         $('#exitForm').hide();
+                //         $('#exitSuccess')
+                //             .show();
+                //         $('#myModal').modal('show');
+                //         // if (response == 201) {
+                //         //     document.getElementById("color-success").style.background = '#1ba906'
+                //         //     $('#message').html('Tạo tracking thành công!');
+                //         //     $('#exitForm').hide();
+                //         //     $('#exitSuccess').show();
+                //         //     $('#myModal').modal('show');
+                //         // } else {
+                //         //     document.getElementById("color-success").style.background = '#DF3A01'
+                //         //     $('#message').html(
+                //         //         'Tracking này đã được tạo');
+                //         //     $('#exitForm').hide();
+                //         //     $('#exitSuccess').show();
+                //         //     $('#myModal').modal('show');
 
-                        // }
-                    }
-                });
+                //         // }
+                //     }
+                // });
             }
         }
     }
