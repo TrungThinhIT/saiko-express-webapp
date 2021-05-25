@@ -429,15 +429,15 @@
               <table class="table" >
                 <tr class="form-group" style="border: none">
                     <td>Khai báo bảo hiểm</td>  
-                    <td><input class="form-control" type="number" name="insuarance"></td>
+                    <td><input class="form-control" type="number" name="insuarance" id="insuarance" value="0"></td>
                 </tr>
                 <tbody id="table_product_specialty">
                     <tr class="form-group" style="border:none">
                         <td>
                             <select class="form-control" onchange="change_item(this)" name="product_specialty" id="product_specialty">
                                 <option value="0">Chọn hàng đặt biệt</option>
-                                <option value="1">Điện thoại</option>
-                                <option value="2">Laptop</option>
+                                <option value="2202003090">Điện thoại</option>
+                                <option value="2222221045">Laptop</option>
                             </select>
                         </td>
                         <td>
@@ -448,7 +448,7 @@
               </table>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" onclick="send_tracking()">Gữi hàng</button>
+              <button type="button" class="btn btn-primary" id="send_tracking">Gữi hàng</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close_modal">Close</button>
             </div>
           </div>
@@ -534,48 +534,62 @@
     var arr_check = [];
     function arrayRemove(arr, value) { 
         arr_check = arr.filter(item => item !== value);
-        
     }
     function remove_row(obj){
-        arrayRemove(arr_check,$(obj).parent().parent().children()[0].childNodes[0].data)//lấy tên bị xoá
-        $(obj).parent().parent().remove()
+        arrayRemove(arr_check,obj.toString())//lấy tên bị xoá
+        $(`tr[data-id=${obj}]`).remove()
     }
-    function send_tracking(utypeadd,Phone,Name_Send,Name_Rev,AddRev,Type,Note,Reparking,ShipAir,ShipSea,Code_Add,province,district,ward,checkAir,checkSea,merge_box){
-        // console.log(utypeadd,Phone,Name_Send,Name_Rev,AddRev,Type,Note,Reparking,ShipAir,ShipSea,Code_Add,province,district,ward,checkAir,checkSea,merge_box)
-        var check = $("input [name='quantity_item[]']")
-        console.log(check)
-
-
-    }
+    
+    
     function change_item(obj){
         var list_check=$(".name_items") 
         var name_item = $("#product_specialty option:selected").text().trim()
+        let id_item =$("#product_specialty").val()
         if($("#product_specialty").val()!=0){
             if(!list_check.length){
                 $("#table_product_specialty").append(
-                '<tr style="border:none">'+
+                `<tr style="border:none" data-id=${id_item} class="get_id_value_item">`+
                     '<td class="name_items">'+$("#product_specialty option:selected").text()+'</td>'+
                     '<td>'+'<input type="number" class="form-control" value="1" name="quantity_item[]">'+'</td>'+
-                    '<td><button class="btn btn-danger" onclick="remove_row(this)"><i class="fa fa-trash"></i></button>'+
+                    `<td><button class="btn btn-danger" onclick="remove_row(${id_item})"><i class="fa fa-trash"></i></button>`+
                 '</tr>'
                 )
-                arr_check.push(name_item)
+                arr_check.push(id_item)
             }
             var list=$(".name_items")
             if(list_check.length){
                 $.each(list,function(index,value){
-                    if(arr_check.indexOf(name_item) == -1 ){
+                    if(arr_check.indexOf(id_item) == -1 ){
                         $("#table_product_specialty").append(
-                        '<tr style="border:none">'+
+                        `<tr style="border:none" data-id=${id_item} class="get_id_value_item">`+
                             '<td class="name_items">'+name_item+'</td>'+
                             '<td>'+'<input type="number" class="form-control" value="1" name="quantity_item[]">'+'</td>'+
-                            '<td><button class="btn btn-danger" onclick="remove_row(this)"><i class="fa fa-trash"></i></button>'+
+                            `<td><button class="btn btn-danger" onclick="remove_row(${id_item})"><i class="fa fa-trash"></i></button>`+
                         '</tr>'
                     )
-                        arr_check.push(name_item)
+                        arr_check.push(id_item)
                     }
                 })
             }
+        }
+    }
+    function getData(){
+        let list_check = $("tr[class='get_id_value_item']");
+        var surance = $("#insuarance").val();
+        var key;
+        var value;
+        var obj_send ={};
+        if(list_check.length){
+            $.each(list_check,function(index,value){
+                key = $(value).attr("data-id")
+                value = $(value).find("input[name='quantity_item[]']").val()
+                obj_send[key]=value;
+            })
+        }
+
+        return {
+            obj_send,
+            surance
         }
     }
     function push_tracking() {
@@ -677,93 +691,99 @@
             if (Tracking.length > 7 && Phone.length > 8 && Name_Send.length > 2 && Name_Rev.length > 2 && Number_Send
                 .length > 8 && (ShipAir == true | ShipSea == true) && (Upx != null || OptionAdd.length > 5) && (
                     UaddNumber.length >= 4 || OptionAdd.length > 5)) {
-                console.log("Sendtracking");
-                console.log(utypeadd,Phone,Name_Send,Name_Rev,AddRev,Type,Note,Reparking,ShipAir,ShipSea,Code_Add,province,district,ward,checkAir,checkSea,merge_box)
+                // send_tracking(utypeadd,Phone,Name_Send,Name_Rev,AddRev,Type,Note,Reparking,ShipAir,ShipSea,Code_Add,province,district,ward,checkAir,checkSea,merge_box,Tracking,Number_Send)
                 $("#modal_qoute").show()
-                // toggleLoading()
-                // $.ajax({
-                //     headers: {
-                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                //     },
-                //     type: 'POST',
-                //     url: "{{ route('rq_tk.store') }}",
-                //     data: {
-                //         utypeadd: utypeadd,
-                //         TrackingSaiko: Tracking,
-                //         Phone: Phone,
-                //         Name_Send: Name_Send,
-                //         Number_Send: Number_Send,
-                //         Name_Rev: Name_Rev,
-                //         Add: AddRev,
-                //         Type: Type,
-                //         Note: Note,
-                //         Reparking: Reparking,
-                //         ShipAir: ShipAir,
-                //         ShipSea: ShipSea,
-                //         Location: '203.205.41.135',
-                //         Code_Add: Code_Add,
-                //         province: province,
-                //         district: district,
-                //         ward: ward,
-                //         checkAir: checkAir,
-                //         checkSea: checkSea,
-                //         merge_box: merge_box,
-                //     },
-                //     success: function (response) {
-                //         console.log(response)
-                //         $("#table_showCreatedTrackings").empty()
-                //         $.each(response, function (index, value) {
-                //             if (value.code == 201) {
-                //                 $("#table_showCreatedTrackings").append(
-                //                     "<tr style='border:none'>" +
-                //                     "<td style='color:green;border:none !important'>" + value
-                //                     .message + " " +
-                //                     "<i class='fa fa-check' style='color:green'></i>" +
-                //                     "</td>" +
-                //                     "</tr>"
-                //                 )
-                //             }
-                //             if (value.code == 405) {
-                //                 $("#table_showCreatedTrackings").append(
-                //                     "<tr style='border:none'>" +
-                //                     "<td style='color:#fca901;border:none !important'>" + value
-                //                     .message + " " +
-                //                     "<span><i class='fa fa-warning'></i></span>" +
-                //                     "</td>" + "</tr>"
-                //                 )
-                //             }
-                //             if (value.code == 422) {
-                //                 $("#table_showCreatedTrackings").append(
-                //                     "<tr style='border:none'>" +
-                //                     "<td style='color:#red;border:none !important'>" + value
-                //                     .message + " " +
-                //                     "<span><i class='fa fa-times'></i></span>" + "</td>" +
-                //                     "</tr>"
-                //                 )
-                //             }
-                //         })
-                //         $('#message').html('');
-                //         $('#exitForm').hide();
-                //         $('#exitSuccess')
-                //             .show();
-                //         $('#myModal').modal('show');
-                //         // if (response == 201) {
-                //         //     document.getElementById("color-success").style.background = '#1ba906'
-                //         //     $('#message').html('Tạo tracking thành công!');
-                //         //     $('#exitForm').hide();
-                //         //     $('#exitSuccess').show();
-                //         //     $('#myModal').modal('show');
-                //         // } else {
-                //         //     document.getElementById("color-success").style.background = '#DF3A01'
-                //         //     $('#message').html(
-                //         //         'Tracking này đã được tạo');
-                //         //     $('#exitForm').hide();
-                //         //     $('#exitSuccess').show();
-                //         //     $('#myModal').modal('show');
+                $("#send_tracking").click(function(){
+                    toggleLoading()
+                    var {obj_send, surance} = getData();
 
-                //         // }
-                //     }
-                // });
+                    console.log({obj_send, surance}, "getData")
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'POST',
+                        url: "{{ route('rq_tk.store') }}",
+                        data: {
+                            list_item: obj_send,
+                            surance:surance,
+                            utypeadd: utypeadd,
+                            TrackingSaiko: Tracking,
+                            Phone: Phone,
+                            Name_Send: Name_Send,
+                            Number_Send: Number_Send,
+                            Name_Rev: Name_Rev,
+                            Add: AddRev,
+                            Type: Type,
+                            Note: Note,
+                            Reparking: Reparking,
+                            ShipAir: ShipAir,
+                            ShipSea: ShipSea,
+                            Location: '203.205.41.135',
+                            Code_Add: Code_Add,
+                            province: province,
+                            district: district,
+                            ward: ward,
+                            checkAir: checkAir,
+                            checkSea: checkSea,
+                            merge_box: merge_box,
+                        },
+                        success: function (response) {
+                            console.log(response)
+                            $("#table_showCreatedTrackings").empty()
+                            $.each(response, function (index, value) {
+                                if (value.code == 201) {
+                                    $("#table_showCreatedTrackings").append(
+                                        "<tr style='border:none'>" +
+                                        "<td style='color:green;border:none !important'>" + value
+                                        .message + " " +
+                                        "<i class='fa fa-check' style='color:green'></i>" +
+                                        "</td>" +
+                                        "</tr>"
+                                    )
+                                }
+                                if (value.code == 405) {
+                                    $("#table_showCreatedTrackings").append(
+                                        "<tr style='border:none'>" +
+                                        "<td style='color:#fca901;border:none !important'>" + value
+                                        .message + " " +
+                                        "<span><i class='fa fa-warning'></i></span>" +
+                                        "</td>" + "</tr>"
+                                    )
+                                }
+                                if (value.code == 422) {
+                                    $("#table_showCreatedTrackings").append(
+                                        "<tr style='border:none'>" +
+                                        "<td style='color:#red;border:none !important'>" + value
+                                        .message + " " +
+                                        "<span><i class='fa fa-times'></i></span>" + "</td>" +
+                                        "</tr>"
+                                    )
+                                }
+                            })
+                            $('#message').html('');
+                            $('#exitForm').hide();
+                            $('#exitSuccess') .show();
+                            $('#myModal').modal('show');
+                            // if (response == 201) {
+                            //     document.getElementById("color-success").style.background = '#1ba906'
+                            //     $('#message').html('Tạo tracking thành công!');
+                            //     $('#exitForm').hide();
+                            //     $('#exitSuccess').show();
+                            //     $('#myModal').modal('show');
+                            // } else {
+                            //     document.getElementById("color-success").style.background = '#DF3A01'
+                            //     $('#message').html(
+                            //         'Tracking này đã được tạo');
+                            //     $('#exitForm').hide();
+                            //     $('#exitSuccess').show();
+                            //     $('#myModal').modal('show');
+
+                            // }
+                        }
+                    });
+                })
+                
             }
         }
     }
