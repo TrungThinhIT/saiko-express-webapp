@@ -666,7 +666,15 @@
                                                     })
                                                 if (sort_order[value.orders.length - 1].shipment_infor.sender_name == null) {
                                                     var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
-                                                    name_send = parse_note.send_name;
+                                                    if(parse_note == null){
+                                                        name_send=""
+                                                    }else{
+                                                        if(parse_note.send_name == undefined){
+                                                            name_send=""
+                                                        }else{
+                                                            name_send = parse_note.send_name;
+                                                        }
+                                                    }
                                                 } else {
                                                     name_send = sort_order[value.orders.length - 1].shipment_infor.sender_name;
                                                 }
@@ -679,8 +687,7 @@
                                                     pay_money = sort_order[value.orders.length - 1].pay_money;
                                                 }
                                             }
-                                            if (name_send == '' | tel_rev == '' |
-                                                name_rev == '' | add_rev == '') {
+                                            if (tel_rev == '' |name_rev == '' | add_rev == '') {
                                                 $('#message').html(
                                                     'Khách chưa đăng kí đầy đủ thông tin tracking'
                                                 );

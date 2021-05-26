@@ -18,6 +18,7 @@ class FLTrackingController extends Controller
     public function __construct(QuoteController $QCT)
     {
         $this->date = Carbon::create(2021, 5, 15)->format("d-m-Y");
+        $this->dateDefault = Carbon::create(2021, 5, 23)->format("d-m-Y");
         $this->QCT = $QCT;
     }
     public function getStatus(Request $request)
@@ -95,6 +96,8 @@ class FLTrackingController extends Controller
                         $date_box = Carbon::parse($results['boxes'][$i]['created_at']);
                         $date_box = strtotime(($date_box));
                         $date_default = strtotime($this->date);
+                        $date_defaultNew = strtotime($this->dateDefault);
+
                         if (empty($results['orders'])) {
                             $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
                             $use_weight = $volumne_weight < $weight ? $weight : $volumne_weight;
@@ -110,7 +113,7 @@ class FLTrackingController extends Controller
                             $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
                             if ($method_shipment == "Air") {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
-                                if ($date_box >= $date_default) {
+                                if ($date_box >= $date_default && $date_box < $date_defaultNew) { //compare date
                                     $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 0 && $use_weight < 100) {
                                         if ($use_weight < 1) {
@@ -149,7 +152,7 @@ class FLTrackingController extends Controller
                                     $pay_money_order += $money;
                                     $results['boxes'][$i]['use_weight'] = $use_weight;
                                 }
-                                if ($date_box < $date_default) {
+                                if ($date_box < $date_default) {// 15-5--21
                                     $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 0 && $use_weight < 100) {
                                         if ($use_weight < 1) {
@@ -186,6 +189,45 @@ class FLTrackingController extends Controller
                                     }
                                     $pay_money_order += $money;
                                     $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
+                                }
+                                if ($date_box >= $date_defaultNew) { //compare date 23-5-2021
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
+                                    if ($use_weight >= 0 && $use_weight < 100) {
+                                        if ($use_weight < 1) {
+                                            $use_weight = 1;
+                                        }
+                                        $checkProvince = "price1";
+                                    }
+                                    if ($use_weight >= 100 && $use_weight < 500) {
+                                        $checkProvince = "price2";
+                                    }
+
+                                    if ($province <= 53) {
+                                        if ($checkProvince == "price1") {
+                                            $money = $use_weight * 190000;
+                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
+                                            $results['boxes'][$i]['fee_ship'] = number_format(190000);
+                                        }
+                                        if ($checkProvince == "price2") {
+                                            $money = $use_weight * 185000;
+                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 185000);
+                                            $results['boxes'][$i]['fee_ship'] = number_format(185000);
+                                        }
+                                    }
+                                    if ($province > 53) {
+                                        if ($checkProvince == "price1") {
+                                            $money = $use_weight * 200000;
+                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
+                                            $results['boxes'][$i]['fee_ship'] = number_format(200000);
+                                        }
+                                        if ($checkProvince == "price2") {
+                                            $money = $use_weight * 195000;
+                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 195000);
+                                            $results['boxes'][$i]['fee_ship'] = number_format(195000);
+                                        }
+                                    }
+                                    $pay_money_order += $money;
+                                    $results['boxes'][$i]['use_weight'] = $use_weight;
                                 }
                             } else {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
@@ -224,11 +266,11 @@ class FLTrackingController extends Controller
                             $weight = $results['boxes'][$i]['weight_per_box'];
                             if ($method_shipment == "Air") {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
-                                //check date_box < 15-5-2021
                                 $date_box = Carbon::parse($results['boxes'][$i]['created_at']);
                                 $date_box = strtotime(($date_box));
                                 $date_default = strtotime($this->date);
-                                if ($date_box >= $date_default) {
+                                $date_defaultNew = strtotime($this->dateDefault);
+                                if ($date_box >= $date_default && $date_box < $date_defaultNew) { //compare date 15-5-21 23-5-21
                                     $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 0 && $use_weight < 100) {
                                         if ($use_weight < 1) {
@@ -265,6 +307,7 @@ class FLTrackingController extends Controller
                                     }
                                     $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
                                 }
+                                //check date_box < 15-5-2021
                                 if ($date_box < $date_default) {
                                     $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 0 && $use_weight < 100) {
@@ -301,6 +344,45 @@ class FLTrackingController extends Controller
                                         }
                                     }
                                     $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
+                                }
+                                if ($date_box >= $date_defaultNew) { //compare date 23-5-2021
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
+                                    if ($use_weight >= 0 && $use_weight < 100) {
+                                        if ($use_weight < 1) {
+                                            $use_weight = 1;
+                                        }
+                                        $checkProvince = "price1";
+                                    }
+                                    if ($use_weight >= 100 && $use_weight < 500) {
+                                        $checkProvince = "price2";
+                                    }
+
+                                    if ($province <= 53) {
+                                        if ($checkProvince == "price1") {
+                                            $money = $use_weight * 190000;
+                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
+                                            $results['boxes'][$i]['fee_ship'] = number_format(190000);
+                                        }
+                                        if ($checkProvince == "price2") {
+                                            $money = $use_weight * 185000;
+                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 185000);
+                                            $results['boxes'][$i]['fee_ship'] = number_format(185000);
+                                        }
+                                    }
+                                    if ($province > 53) {
+                                        if ($checkProvince == "price1") {
+                                            $money = $use_weight * 200000;
+                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
+                                            $results['boxes'][$i]['fee_ship'] = number_format(200000);
+                                        }
+                                        if ($checkProvince == "price2") {
+                                            $money = $use_weight * 195000;
+                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 195000);
+                                            $results['boxes'][$i]['fee_ship'] = number_format(195000);
+                                        }
+                                    }
+                                    $pay_money_order += $money;
+                                    $results['boxes'][$i]['use_weight'] = $use_weight;
                                 }
                             } else {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
