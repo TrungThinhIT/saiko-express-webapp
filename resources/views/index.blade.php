@@ -1957,6 +1957,9 @@
                                                         if (keyObject =="set_owner_id,set_owner_type") {
                                                             status="Lên đơn hàng"
                                                         }
+                                                        if (keyObject == "set_user_id") {
+                                                            status = "Lên đơn hàng"
+                                                        }
                                                         if (keyObject =="in_container") {
                                                             var parts = value.created_at.split('-')
                                                             var year = parts[2].split(' ')
@@ -2188,6 +2191,9 @@
                                 status = "Đã kiểm hàng" + size
                             }
                             if (keyObject == "set_owner_id,set_owner_type") {
+                                status = "Lên đơn hàng"
+                            }
+                            if (keyObject == "set_user_id") {
                                 status = "Lên đơn hàng"
                             }
                             if (keyObject == "in_container") {
