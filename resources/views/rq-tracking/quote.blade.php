@@ -344,10 +344,7 @@
                                     </p>
                                 </div>
 
-                                <p class="field single-field">
-                                    <label style="margin-top:10px">Ghi chú</label>
-                                    <textarea id="unote" name="note"></textarea>
-                                </p>
+                                
                             </div>
                             <div class="col-md-4">
                                 <p class="field check-box">
@@ -426,16 +423,21 @@
               </button>
             </div>
             <div class="modal-body">
-              <table class="table" >
-                <tr class="form-group" style="border: none">
-                    <td>Khai báo bảo hiểm</td>  
-                    <td><input class="form-control" type="number" name="insuarance" id="insuarance" value="0"></td>
-                </tr>
-                <tbody id="table_product_specialty">
+                <table class="table" >
+                    <tr class="form-group" style="border: none">
+                        <td><label for=""> Bạn có muốn khai báo bảo hiểm không ? </label></td>  
+                        <td><button class="btn btn-success" id="check_insurance">Có</button></td>
+                        <td><input class="form-control" type="hidden" name="insuarance" id="insuarance" value="0" ></td>
+                    </tr>
+                    <tr class="form-group" style="border: none">
+                        <td><label for=""> Kiện hàng của bạn có hàng đặc biệt không ? </label></td>  
+                        <td><button class="btn btn-success" id="check_specialty">Có</button></td>
+                        <td></td>
+                    </tr>
                     <tr class="form-group" style="border:none">
                         <td>
-                            <select class="form-control" onchange="change_item(this)" name="product_specialty" id="product_specialty">
-                                <option value="0">Chọn hàng đặt biệt</option>
+                            <select class="form-control"  onchange="change_item(this)" name="product_specialty" id="product_specialty">
+                                <option value="0" id="first_choose">Chọn hàng đặt biệt</option>
                                 <option value="2202003090">Điện thoại</option>
                                 <option value="2222221045">Laptop</option>
                             </select>
@@ -443,12 +445,21 @@
                         <td>
 
                         </td>
+                        <td></td>
                     </tr>
-                </tbody>
-              </table>
+                    <tbody id="table_product_specialty">
+                       
+                    </tbody>
+                </table>
+                <p class="field single-field">
+                    <label style="margin-top:10px">Ghi chú</label>
+                </p>
+                <p class="field single-field">
+                    <textarea id="unote" name="note" cols="65" rows="6" ></textarea>
+                </p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" id="send_tracking">Gữi hàng</button>
+              <button type="button" class="btn fh-btn" id="send_tracking">Gửi hàng</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close_modal">Close</button>
             </div>
           </div>
@@ -463,6 +474,13 @@
     }
 
     $(document).ready(function () {
+        $("#check_specialty").click(function(){
+            $("#product_specialty").show()    
+        })
+        $("#product_specialty").hide()
+        $("#check_insurance").click(function(){
+            $("#insuarance").attr("type","number")
+        })
         $("#close_modal").click(function(){
             $("#modal_qoute").hide()
         })
@@ -550,7 +568,7 @@
                 $("#table_product_specialty").append(
                 `<tr style="border:none" data-id=${id_item} class="get_id_value_item">`+
                     '<td class="name_items">'+$("#product_specialty option:selected").text()+'</td>'+
-                    '<td>'+'<input type="number" class="form-control" value="1" name="quantity_item[]">'+'</td>'+
+                    '<td>'+'<input type="number" class="form-control" value="" placeholder="Khai giá" name="quantity_item[]" required>'+'</td>'+
                     `<td><button class="btn btn-danger" onclick="remove_row(${id_item})"><i class="fa fa-trash"></i></button>`+
                 '</tr>'
                 )
@@ -563,7 +581,7 @@
                         $("#table_product_specialty").append(
                         `<tr style="border:none" data-id=${id_item} class="get_id_value_item">`+
                             '<td class="name_items">'+name_item+'</td>'+
-                            '<td>'+'<input type="number" class="form-control" value="1" name="quantity_item[]">'+'</td>'+
+                            '<td>'+'<input type="number" class="form-control" value="" placeholder="Khai giá" name="quantity_item[]" required>'+'</td>'+
                             `<td><button class="btn btn-danger" onclick="remove_row(${id_item})"><i class="fa fa-trash"></i></button>`+
                         '</tr>'
                     )
@@ -582,7 +600,7 @@
         if(list_check.length){
             $.each(list_check,function(index,value){
                 key = $(value).attr("data-id")
-                value = $(value).find("input[name='quantity_item[]']").val()
+                value = $(value).find("input[name='quantity_item[]']").val()?$(value).find("input[name='quantity_item[]']").val():0
                 obj_send[key]=value;
             })
         }
@@ -622,7 +640,6 @@
         var Number_Send = $("#number_send").val();
         var Name_Rev = $("#uname_rev").val();
         var Type = $("#utype").val();
-        var Note = $("#unote").val();
         var Reparking = document.getElementById('ureparking').checked;
         var ShipAir = document.getElementById('uair').checked;
         var ShipSea = document.getElementById('usea').checked;
@@ -694,10 +711,14 @@
                 // send_tracking(utypeadd,Phone,Name_Send,Name_Rev,AddRev,Type,Note,Reparking,ShipAir,ShipSea,Code_Add,province,district,ward,checkAir,checkSea,merge_box,Tracking,Number_Send)
                 $("#modal_qoute").show()
                 $("#send_tracking").click(function(){
+                    $("#first_choose").attr("selected",true)
+                    $("#product_specialty").hide()
+                    $("#table_product_specialty").empty(0)
+                    var Note = $("#unote").val();
+                    $("#modal_qoute").hide()
+                    $("#table_showCreatedTrackings").empty()
                     toggleLoading()
                     var {obj_send, surance} = getData();
-
-                    console.log({obj_send, surance}, "getData")
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -729,7 +750,6 @@
                             merge_box: merge_box,
                         },
                         success: function (response) {
-                            console.log(response)
                             $("#table_showCreatedTrackings").empty()
                             $.each(response, function (index, value) {
                                 if (value.code == 201) {
