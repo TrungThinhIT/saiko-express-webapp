@@ -459,12 +459,24 @@
                 </p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn fh-btn" id="send_tracking">Gửi hàng</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close_modal">Close</button>
+                <button type="button" class="btn fh-btn" id="send_tracking">Gửi hàng</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close_modal">Close</button>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
+    <div class="modal" style="margin-top:80px !important" tabindex="-1" role="dialog" id="show_result">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-footer">
+                <table class="table" style="border: none !important" id="table_showResultCreatedTrackings">
+                </table>
+                <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
+                            id="exitSuccess" style="display:block; width:30% !important;margin:auto;">Thoát</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 @include('modules.footer')
 
@@ -750,12 +762,12 @@
                             merge_box: merge_box,
                         },
                         success: function (response) {
-                            $("#table_showCreatedTrackings").empty()
+                            $("#table_showResultCreatedTrackings").empty()
                             $.each(response, function (index, value) {
                                 if (value.code == 201) {
-                                    $("#table_showCreatedTrackings").append(
+                                    $("#table_showResultCreatedTrackings").append(
                                         "<tr style='border:none'>" +
-                                        "<td style='color:green;border:none !important'>" + value
+                                        "<td style='color:green;border:none !important;text-align:center'>" + value
                                         .message + " " +
                                         "<i class='fa fa-check' style='color:green'></i>" +
                                         "</td>" +
@@ -763,18 +775,18 @@
                                     )
                                 }
                                 if (value.code == 405) {
-                                    $("#table_showCreatedTrackings").append(
+                                    $("#table_showResultCreatedTrackings").append(
                                         "<tr style='border:none'>" +
-                                        "<td style='color:#fca901;border:none !important'>" + value
+                                        "<td style='color:#fca901;border:none !important;text-align:center'>" + value
                                         .message + " " +
                                         "<span><i class='fa fa-warning'></i></span>" +
                                         "</td>" + "</tr>"
                                     )
                                 }
                                 if (value.code == 422) {
-                                    $("#table_showCreatedTrackings").append(
+                                    $("#table_showResultCreatedTrackings").append(
                                         "<tr style='border:none'>" +
-                                        "<td style='color:#red;border:none !important'>" + value
+                                        "<td style='color:red;border:none !important;text-align:center'>" + value
                                         .message + " " +
                                         "<span><i class='fa fa-times'></i></span>" + "</td>" +
                                         "</tr>"
@@ -784,7 +796,7 @@
                             $('#message').html('');
                             $('#exitForm').hide();
                             $('#exitSuccess') .show();
-                            $('#myModal').modal('show');
+                            $('#show_result').show();
                             // if (response == 201) {
                             //     document.getElementById("color-success").style.background = '#1ba906'
                             //     $('#message').html('Tạo tracking thành công!');

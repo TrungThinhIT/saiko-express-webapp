@@ -176,8 +176,8 @@ class QuoteController extends Controller
                         $data = [
                             'order_id' => $order->id,
                             'product_id' => $key,
-                            'quantity' => $value,
-                            'price' => 1,
+                            'quantity' => 1,
+                            'price' => $value,
                             'is_box' => 0,
                             'tax_percent' => 1,
                             'discount_tax_per_tax_percent' => 1,
