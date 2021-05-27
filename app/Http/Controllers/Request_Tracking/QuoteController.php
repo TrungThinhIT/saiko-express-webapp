@@ -162,37 +162,18 @@ class QuoteController extends Controller
                 'note' =>  $request->Note,
                 'repackage' => $request->Reparking == "true" ? 1 : 0,
                 'merge_package' => $request->merge_box ? 1 : 0,
-                'insurance_quote' => floatval($request->surance),
+                'price_declaration' => floatval($request->surance),
+                'include_special_goods' => $request->include_special_goods,
             ]);
 
             if ($create_shipment->status() == 201) {
-                $order = json_decode($create_shipment->body());
-                $create_item = Http::withHeaders([
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer ' . $token->access_token
-                ]);
-                if ($list_item = $request->list_item) {
-                    foreach ($list_item as $key => $value) {
-                        $data = [
-                            'order_id' => $order->id,
-                            'product_id' => $key,
-                            'quantity' => 1,
-                            'price' => $value,
-                            'is_box' => 0,
-                            'tax_percent' => 1,
-                            'discount_tax_per_tax_percent' => 1,
-                            'specialty' => true,
-                        ];
-                        $create_item = $create_item->post('http://order.tomonisolution.com:82/api/orders/items', $data);
-                    }
-                }
-                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tạo thành công' . floatval($request->surance)];
+                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tạo thành công' . 'price:' . floatval($request->surance) . 'check:' . $request->include_special_goods];
             }
             if ($create_shipment->status() == 405) {
-                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tồn tại' . floatval($request->surance)];
+                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tồn tại' . 'price:' . floatval($request->surance) . 'check:' . $request->include_special_goods];
             }
             if ($create_shipment->status() == 422) {
-                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Không được quá 15 ký tự' . floatval($request->surance)];
+                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Không được quá 15 ký tự' . 'price:' . floatval($request->surance) . 'check:' . $request->include_special_goods];
             }
         }
         return response()->json($arr_created);

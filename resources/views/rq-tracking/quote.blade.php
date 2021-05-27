@@ -248,7 +248,7 @@
             <div class="col-md-12">
                 <form action="{{ route('rq_tk.store') }}" method="POST">
                     @csrf
-                    <div class="fh-form request-form">
+                    <div class="fh-form request-form" style="margin-bottom:40px">
                         <div class="row">
                             <div class="field col-md-4">
                                 <label>Nhập mã Tracking Number<span class="require">*</span></label>
@@ -423,18 +423,40 @@
               </button>
             </div>
             <div class="modal-body">
-                <table class="table" >
-                    <tr class="form-group" style="border: none">
-                        <td><label for=""> Bạn có muốn khai báo bảo hiểm không ? </label></td>  
-                        <td><button class="btn btn-success" id="check_insurance">Có</button></td>
-                        <td><input class="form-control" type="hidden" name="insuarance" id="insuarance" value="0" ></td>
-                    </tr>
-                    <tr class="form-group" style="border: none">
+                <div class="row">
+                    <div style="margin-left:15px">
+                        <label for=""> Bạn có muốn khai báo bảo hiểm không? </label>
+                        <input type="checkbox" id="check_BH" ><span>Có</span>
+                        <input type="checkbox" id="check_specialty" ><span>Không</span>
+                    </div>
+                </div>
+                <div class="row" id="declaration_price" style="display: none">
+                    <div style="margin-left:15px">
+                        <label for=""> Kiện hàng của bạn có hàng đặc biệt không? </label>
+                        <input type="checkbox" id="check_type_special" ><span>Có</span>
+                        <input type="checkbox" id="check_type_special_no" ><span>Không</span>
+                    </div>
+                </div>
+                <div class="row" id="enter_price" style="display:none">
+                    <div style="margin-left:15px">
+                        <label for="">Nhập số tiền:</label>
+                        <input type="number" id="insurance" value="" min="0">
+                    </div>
+                </div>
+                {{-- <div class="row">
+                    <div style="margin-left:15px">
+                        <label for="" id="content_declaration"> Bạn có muốn khai báo bảo hiểm không? </label>
+                        <input type="hidden" name="insuarance" id="insuarance" value="0" >
+                    </div>
+                </div> --}}
+                    {{-- <tr class="form-group" style="border: none">
                         <td><label for=""> Kiện hàng của bạn có hàng đặc biệt không ? </label></td>  
-                        <td><button class="btn btn-success" id="check_specialty">Có</button></td>
+                        <td><input type="checkbox" id="check_specialty">Có</td>
                         <td></td>
-                    </tr>
-                    <tr class="form-group" style="border:none">
+                    </tr> --}}
+                    
+                 
+                    {{-- <tr class="form-group" style="border:none">
                         <td>
                             <select class="form-control"  onchange="change_item(this)" name="product_specialty" id="product_specialty">
                                 <option value="0" id="first_choose">Chọn hàng đặt biệt</option>
@@ -446,16 +468,12 @@
 
                         </td>
                         <td></td>
-                    </tr>
-                    <tbody id="table_product_specialty">
-                       
-                    </tbody>
-                </table>
+                    </tr> --}}
                 <p class="field single-field">
                     <label style="margin-top:10px">Ghi chú</label>
                 </p>
                 <p class="field single-field">
-                    <textarea id="unote" name="note" cols="65" rows="6" ></textarea>
+                    <textarea id="unote" name="note" cols="65" rows="6" placeholder="Nếu có hàng đặc biệt thì hãy miêu tả chi tiết vào đây ...."></textarea>
                 </p>
             </div>
             <div class="modal-footer">
@@ -484,15 +502,39 @@
     function toggleLoading() {
         $('.tmn-custom-mask').toggleClass('d-none');
     }
+    
+    $('#check_BH').click(function() {
+        $("#check_specialty").prop('checked', false);
+        $('#declaration_price').hide()
+        $('#enter_price').show()
+        $('#insurance').val('0')
+
+
+
+    });
+    $('#check_specialty').click(function() {
+        $("#check_BH").prop('checked', false);
+        $('#declaration_price').show()
+        $('#enter_price').hide()
+        $('#insurance').val('0')
+        $('#check_type_special').prop('checked',false)
+        $('#check_type_special_no').prop('checked',false)
+    });
+
+    $('#check_type_special').click(function() {
+        $("#check_type_special_no").prop('checked', false);
+        $('#enter_price').show()
+        $('#insurance').val('0')
+    });
+
+    $('#check_type_special_no').click(function() {
+        $("#check_type_special").prop('checked', false);
+        $('#enter_price').hide()
+        $('#insurance').val('0')
+    });
 
     $(document).ready(function () {
-        $("#check_specialty").click(function(){
-            $("#product_specialty").show()    
-        })
-        $("#product_specialty").hide()
-        $("#check_insurance").click(function(){
-            $("#insuarance").attr("type","number")
-        })
+        
         $("#close_modal").click(function(){
             $("#modal_qoute").hide()
         })
@@ -561,67 +603,67 @@
             document.getElementById("type-ship").style.display = "block";
         }
     }
-    var arr_check = [];
-    function arrayRemove(arr, value) { 
-        arr_check = arr.filter(item => item !== value);
-    }
-    function remove_row(obj){
-        arrayRemove(arr_check,obj.toString())//lấy tên bị xoá
-        $(`tr[data-id=${obj}]`).remove()
-    }
+    // var arr_check = [];
+    // function arrayRemove(arr, value) { 
+    //     arr_check = arr.filter(item => item !== value);
+    // }
+    // function remove_row(obj){
+    //     arrayRemove(arr_check,obj.toString())//lấy tên bị xoá
+    //     $(`tr[data-id=${obj}]`).remove()
+    // }
     
     
-    function change_item(obj){
-        var list_check=$(".name_items") 
-        var name_item = $("#product_specialty option:selected").text().trim()
-        let id_item =$("#product_specialty").val()
-        if($("#product_specialty").val()!=0){
-            if(!list_check.length){
-                $("#table_product_specialty").append(
-                `<tr style="border:none" data-id=${id_item} class="get_id_value_item">`+
-                    '<td class="name_items">'+$("#product_specialty option:selected").text()+'</td>'+
-                    '<td>'+'<input type="number" class="form-control" value="" placeholder="Khai giá" name="quantity_item[]" required>'+'</td>'+
-                    `<td><button class="btn btn-danger" onclick="remove_row(${id_item})"><i class="fa fa-trash"></i></button>`+
-                '</tr>'
-                )
-                arr_check.push(id_item)
-            }
-            var list=$(".name_items")
-            if(list_check.length){
-                $.each(list,function(index,value){
-                    if(arr_check.indexOf(id_item) == -1 ){
-                        $("#table_product_specialty").append(
-                        `<tr style="border:none" data-id=${id_item} class="get_id_value_item">`+
-                            '<td class="name_items">'+name_item+'</td>'+
-                            '<td>'+'<input type="number" class="form-control" value="" placeholder="Khai giá" name="quantity_item[]" required>'+'</td>'+
-                            `<td><button class="btn btn-danger" onclick="remove_row(${id_item})"><i class="fa fa-trash"></i></button>`+
-                        '</tr>'
-                    )
-                        arr_check.push(id_item)
-                    }
-                })
-            }
-        }
-    }
-    function getData(){
-        let list_check = $("tr[class='get_id_value_item']");
-        var surance = $("#insuarance").val();
-        var key;
-        var value;
-        var obj_send ={};
-        if(list_check.length){
-            $.each(list_check,function(index,value){
-                key = $(value).attr("data-id")
-                value = $(value).find("input[name='quantity_item[]']").val()?$(value).find("input[name='quantity_item[]']").val():0
-                obj_send[key]=value;
-            })
-        }
+    // function change_item(obj){
+    //     var list_check=$(".name_items") 
+    //     var name_item = $("#product_specialty option:selected").text().trim()
+    //     let id_item =$("#product_specialty").val()
+    //     if($("#product_specialty").val()!=0){
+    //         if(!list_check.length){
+    //             $("#table_product_specialty").append(
+    //             `<tr style="border:none" data-id=${id_item} class="get_id_value_item">`+
+    //                 '<td class="name_items">'+$("#product_specialty option:selected").text()+'</td>'+
+    //                 '<td>'+'<input type="number" class="form-control" value="" placeholder="Khai giá" name="quantity_item[]" required>'+'</td>'+
+    //                 `<td><button class="btn btn-danger" onclick="remove_row(${id_item})"><i class="fa fa-trash"></i></button>`+
+    //             '</tr>'
+    //             )
+    //             arr_check.push(id_item)
+    //         }
+    //         var list=$(".name_items")
+    //         if(list_check.length){
+    //             $.each(list,function(index,value){
+    //                 if(arr_check.indexOf(id_item) == -1 ){
+    //                     $("#table_product_specialty").append(
+    //                     `<tr style="border:none" data-id=${id_item} class="get_id_value_item">`+
+    //                         '<td class="name_items">'+name_item+'</td>'+
+    //                         '<td>'+'<input type="number" class="form-control" value="" placeholder="Khai giá" name="quantity_item[]" required>'+'</td>'+
+    //                         `<td><button class="btn btn-danger" onclick="remove_row(${id_item})"><i class="fa fa-trash"></i></button>`+
+    //                     '</tr>'
+    //                 )
+    //                     arr_check.push(id_item)
+    //                 }
+    //             })
+    //         }
+    //     }
+    // }
+    // function getData(){
+    //     let list_check = $("tr[class='get_id_value_item']");
+    //     var surance = $("#insuarance").val();
+    //     var key;
+    //     var value;
+    //     var obj_send ={};
+    //     if(list_check.length){
+    //         $.each(list_check,function(index,value){
+    //             key = $(value).attr("data-id")
+    //             value = $(value).find("input[name='quantity_item[]']").val()?$(value).find("input[name='quantity_item[]']").val():0
+    //             obj_send[key]=value;
+    //         })
+    //     }
 
-        return {
-            obj_send,
-            surance
-        }
-    }
+    //     return {
+    //         obj_send,
+    //         surance
+    //     }
+    // }
     function push_tracking() {
         event.preventDefault();
         var OptionAdd = $('#utypeadd').val();
@@ -723,14 +765,34 @@
                 // send_tracking(utypeadd,Phone,Name_Send,Name_Rev,AddRev,Type,Note,Reparking,ShipAir,ShipSea,Code_Add,province,district,ward,checkAir,checkSea,merge_box,Tracking,Number_Send)
                 $("#modal_qoute").show()
                 $("#send_tracking").click(function(){
+                    var include_special_goods;
+                    var Note = $("#unote").val();
+                    var surance = $("#insurance").val();
+                    if(parseFloat(surance)< 0){
+                        alert('Số tiền không được nhỏ hơn 0')
+                    }
+                    if($('#check_specialty').prop('checked')==false && $('#check_BH').prop('checked')==false){
+                        alert('Vui lòng chọn khai báo bảo hiểm')
+                        return
+                    }
+                    if($('#check_type_special').prop('checked')==false && $('#check_type_special_no').prop('checked')==false){
+                        include_special_goods = false;
+                    }else{
+                        if($('#check_type_special').prop('checked')==true){
+                            include_special_goods =true;
+                        }else{
+                            include_special_goods=false;
+                        }
+                    }
+                    console.log(include_special_goods,'check','price:',surance)
                     $("#first_choose").attr("selected",true)
                     $("#product_specialty").hide()
-                    $("#table_product_specialty").empty(0)
-                    var Note = $("#unote").val();
+                    $("#table_product_specialty").empty()
+                   
                     $("#modal_qoute").hide()
                     $("#table_showCreatedTrackings").empty()
                     toggleLoading()
-                    var {obj_send, surance} = getData();
+                    // var {obj_send, surance} = getData();
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -738,7 +800,7 @@
                         type: 'POST',
                         url: "{{ route('rq_tk.store') }}",
                         data: {
-                            list_item: obj_send,
+                            include_special_goods:include_special_goods,
                             surance:surance,
                             utypeadd: utypeadd,
                             TrackingSaiko: Tracking,
