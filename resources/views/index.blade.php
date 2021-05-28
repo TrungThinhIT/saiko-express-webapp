@@ -1075,10 +1075,10 @@
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-custom">
                     <div class="ed_mostrecomeded_course">
                         <div class="ed_item_img">
-                            <img src="../assets/images/s2.jpg" alt="item1" class="img-responsive">
+                            <img src="../assets/images/checked.png" alt="item1" class="img-responsive">
                         </div>
                         <div class="ed_item_description ed_most_recomended_data">
-                            <h4><a href="course_single.html">KIỂM TRA HÀNG HÓA</a></h4>
+                            <h4><a href="course_single.html">KIỂM HÀNG CẨN THẬN</a></h4>
                             <p>Mỗi kiện hàng đến Saiko Express sẽ được kiểm tra đầy đủ và đóng lại nguyên kiện. Đảm bảo
                                 chính xác về số lượng, cân nặng và kích thước thùng hàng.</p>
                         </div>
@@ -1088,7 +1088,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-custom">
                     <div class="ed_mostrecomeded_course">
                         <div class="ed_item_img">
-                            <img src="../assets/images/s4.jpg" alt="item1" class="img-responsive">
+                            <img src="../assets/images/packaged.png" alt="item1" class="img-responsive">
                         </div>
                         <div class="ed_item_description ed_most_recomended_data">
                             <h4><a href="course_single.html">ĐÓNG GÓI CHUYÊN NGHIỆP</a></h4>
@@ -1101,7 +1101,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-custom">
                     <div class="ed_mostrecomeded_course">
                         <div class="ed_item_img">
-                            <img src="../assets/images/s1.jpg" alt="item1" class="img-responsive">
+                            <img src="../assets/images/insurance.jpg" alt="item1" class="img-responsive">
                         </div>
                         <div class="ed_item_description ed_most_recomended_data">
                             <h4><a href="course_single.html">BẢO HIỂM HÀNG HÓA</a></h4>
@@ -1127,7 +1127,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-custom">
                     <div class="ed_mostrecomeded_course">
                         <div class="ed_item_img">
-                            <img src="../assets/images/s5.jpg" alt="item1" class="img-responsive">
+                            <img src="../assets/images/warehouse.jpg" alt="item1" class="img-responsive">
                         </div>
                         <div class="ed_item_description ed_most_recomended_data">
                             <h4><a href="course_single.html">KHO BÃI HIỆN ĐẠI</a></h4>
