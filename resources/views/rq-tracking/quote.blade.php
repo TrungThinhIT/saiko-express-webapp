@@ -438,9 +438,16 @@
                     </div>
                 </div>
                 <div class="row" id="enter_price" style="display:none">
-                    <div style="margin-left:15px">
+                    <div class="field" style="margin-left:15px">
                         <label for="">Nhập số tiền:</label>
-                        <input type="number" id="insurance" value="" min="0">
+                        <input style="width: auto;
+                        border: 1px solid #ececec;
+                        padding-left: 15px;
+                        padding-right: 15px;
+                        color: #848484;
+                        background-color: #fff;
+                        -webkit-transition: 0.5s;
+                        transition: 0.5s;" type="number" id="insurance" value="" min="0">
                     </div>
                 </div>
                 {{-- <div class="row">
@@ -478,7 +485,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn fh-btn" id="send_tracking">Gửi hàng</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close_modal">Close</button>
+                <button type="button" class="btn fh-btn" style="background-color: silver !important" data-dismiss="modal" id="close_modal">Close</button>
                 </div>
             </div>
         </div>
@@ -776,12 +783,12 @@
                         return
                     }
                     if($('#check_type_special').prop('checked')==false && $('#check_type_special_no').prop('checked')==false){
-                        include_special_goods = false;
+                        include_special_goods = 0;
                     }else{
                         if($('#check_type_special').prop('checked')==true){
-                            include_special_goods =true;
+                            include_special_goods = 1;
                         }else{
-                            include_special_goods=false;
+                            include_special_goods= 0;
                         }
                     }
                     console.log(include_special_goods,'check','price:',surance)
