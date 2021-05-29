@@ -928,6 +928,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="row d-none" id="declaration_price" style="margin:4px">
+                    <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                        <p class="text-danger" ><label for="" id="special"></label>: <span id="insurance"></span> </p>
+                    </div>
+                </div>
                 <div class="row d-none"  id="alert" style="margin:4px"  >
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png" alt="" width="120px"></p>

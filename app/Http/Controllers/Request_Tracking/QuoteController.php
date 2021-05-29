@@ -146,7 +146,8 @@ class QuoteController extends Controller
             $shipping = $request->checkSea;
         }
         $arr_created = array();
-        $insurance = str_replace(',', '', $request->surance);
+        $insurance = str_replace(',', '', $request->insurance);
+        $special_price = str_replace(',', '', $request->special_price);
         foreach ($tracking as $item) {
             if ($item == "") {
                 continue;
@@ -163,17 +164,17 @@ class QuoteController extends Controller
                 'note' =>  $request->Note,
                 'repackage' => $request->Reparking == "true" ? 1 : 0,
                 'merge_package' => $request->merge_box ? 1 : 0,
-                'price_declaration' => floatval($insurance),
-                'include_special_goods' => $request->include_special_goods ? true : false,
+                'insurance_declaration' => floatval($insurance),
+                'special_declaration' => floatval($special_price),
             ]);
             if ($create_shipment->status() == 201) {
                 $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tạo thành công'];
             }
             if ($create_shipment->status() == 405) {
-                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tồn tại' . 'price:'];
+                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tồn tại'];
             }
             if ($create_shipment->status() == 422) {
-                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Không được quá 15 ký tự' . 'price:'];
+                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Không được quá 15 ký tự'];
             }
         }
         return response()->json($arr_created);

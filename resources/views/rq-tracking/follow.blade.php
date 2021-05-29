@@ -438,7 +438,14 @@
                                             </table>
                                         </div>
                                     </div>
-                                    
+                                </div>
+                                <div class="row d-none" id="declaration_price" style="margin:4px">
+                                    <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                                        <p class="text-danger" ><label for="" >Tiền bảo hiểm đơn hàng</label>: <span id="insurance_result"></span> </p>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                                        <p class="text-danger" ><label for="" id="special">Tiền hàng đặc biệt</label>: <span id="special_result"></span> </p>
+                                    </div>
                                 </div>
                                 <div class="row d-none"  id="alert" style="margin:4px"  >
                                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
@@ -588,6 +595,7 @@
                 });
                 $('#tracking_form').submit(function(e) {
                     e.preventDefault();
+                    $("#declaration_price").hide()
                     $("#alert").hide()
                     $("#table_price_shipping").hide()
                     $("#table_body_price_shipping").empty()
@@ -660,6 +668,9 @@
                                             var created_at = '';
                                             var method_ship = '';
                                             var pay_money = 0;
+                                            var insurance_result;
+                                            var special_result;
+                                            var text_alert;
                                             if (value.orders.length != 0) {
                                                 var sort_order = (value.orders).sort(function(x, y) {
                                                         return new Date(x.shipment_infor_id) - new Date(y.shipment_infor_id)
@@ -686,6 +697,11 @@
                                                 if(sort_order[value.orders.length - 1].pay_money != undefined){
                                                     pay_money = sort_order[value.orders.length - 1].pay_money;
                                                 }
+                                                insurance_result = sort_order[value.orders.length - 1].insurance_declaration
+                                                special_result = sort_order[value.orders.length - 1].special_declaration
+                                                $("#declaration_price").show()
+                                                $("#insurance_result").text(formatNumber(insurance_result))
+                                                $("#special_result").text(formatNumber(special_result))
                                             }
                                             if (tel_rev == '' |name_rev == '' | add_rev == '') {
                                                 $('#message').html(

@@ -443,17 +443,23 @@
                         <input type="checkbox" id="check_specialty" ><span>.Không</span>
                     </div>
                 </div>
-                <div class="row" id="declaration_price" style="display: none">
+                <div class="row" id="enter_insurance" style="display:none">
+                    <div  style="margin-left:15px">
+                        <label for="">Nhập số tiền:</label>
+                        <input class="inpute-insuaran"  type="text" pattern="[0-9]" id="insurance_enter" value="" min="0">
+                    </div>
+                </div>
+                <div class="row" id="declaration_price" >
                     <div style="margin-left:15px">
                         <label for=""> Kiện hàng của bạn có hàng đặc biệt không? </label>
                         <input type="checkbox" id="check_type_special" ><span>.Có</span>
                         <input type="checkbox" id="check_type_special_no" ><span>.Không</span>
                     </div>
                 </div>
-                <div class="row" id="enter_price" style="display:none">
+                <div class="row" id="enter_special" style="display:none">
                     <div  style="margin-left:15px">
                         <label for="">Nhập số tiền:</label>
-                        <input class="inpute-insuaran"  type="text" pattern="[0-9]" id="insurance" value="" min="0">
+                        <input class="inpute-insuaran"  type="text" pattern="[0-9]" id="special_enter" value="" min="0">
                     </div>
                 </div>
                 {{-- <div class="row">
@@ -511,42 +517,38 @@
 </section>
 @include('modules.footer')
 <script>
-    let formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    })
     function toggleLoading() {
         $('.tmn-custom-mask').toggleClass('d-none');
     }
     
     $('#check_BH').click(function() {
         $("#check_specialty").prop('checked', false);
-        $('#declaration_price').hide()
-        $('#enter_price').show()
-        $('#insurance').val('0')
+        $('#enter_insurance').show()
+        $('#insurance_enter').val('0')
     });
     $('#check_specialty').click(function() {
         $("#check_BH").prop('checked', false);
         $('#declaration_price').show()
-        $('#enter_price').hide()
-        $('#insurance').val('0')
-        $('#check_type_special').prop('checked',false)
-        $('#check_type_special_no').prop('checked',false)
+        $('#enter_insurance').hide()
+        $('#insurance_enter').val('0')
     });
 
     $('#check_type_special').click(function() {
         $("#check_type_special_no").prop('checked', false);
-        $('#enter_price').show()
-        $('#insurance').val('0')
+        $('#enter_special').show()
+        $('#special_enter').val('0')
     });
 
     $('#check_type_special_no').click(function() {
         $("#check_type_special").prop('checked', false);
-        $('#enter_price').hide()
-        $('#insurance').val('0')
+        $('#enter_special').hide()
+        $('#special_enter').val('0')
     });
     $(document).ready(function () {
-        $('#insurance').maskNumber({
+        $('#insurance_enter').maskNumber({
+            integer:true,
+        });
+        $('#special_enter').maskNumber({
             integer:true,
         });
         $("#close_modal").click(function(){
@@ -683,8 +685,6 @@
         event.preventDefault();
         var OptionAdd = $('#utypeadd').val();
         var AddRev = $("#UaddNumber").val();
-        // + ", " + $("#UPhuongXa option:selected").text() + ", " + $(
-        //     "#Uhuyen option:selected").text() + ", " + $("#Utinh option:selected").text();
         if (OptionAdd.length > 5) {
             AddRev = OptionAdd;
         }
@@ -698,7 +698,6 @@
         var Tracking = str.replace(/-| |_|,/gi, function (matched) {
             return mapObj[matched];
         });
-        // var Tracking = $("#utracking").val();
         var checkAir = document.getElementById('uair').value;
         var checkSea = document.getElementById('usea').value;
         var province = $("#Utinh").val();
@@ -777,37 +776,49 @@
             if (Tracking.length > 7 && Phone.length > 8 && Name_Send.length > 2 && Name_Rev.length > 2 && Number_Send
                 .length > 8 && (ShipAir == true | ShipSea == true) && (Upx != null || OptionAdd.length > 5) && (
                     UaddNumber.length >= 4 || OptionAdd.length > 5)) {
-                // send_tracking(utypeadd,Phone,Name_Send,Name_Rev,AddRev,Type,Note,Reparking,ShipAir,ShipSea,Code_Add,province,district,ward,checkAir,checkSea,merge_box,Tracking,Number_Send)
                 $("#modal_qoute").show()
                 $("#send_tracking").click(function(){
-                    var include_special_goods;
+                    var special_price = $("#special_enter").val();
+                    var insurance_price = $("#insurance_enter").val();
                     var Note = $("#unote").val();
-                    var surance = $("#insurance").val();
-                    if(parseFloat(surance)< 0){
+                    var check_insurance = parseFloat(insurance_price.replaceAll(",",""))
+                    var check_special = parseFloat(special_price.replaceAll(",",""))
+                    if(parseFloat(insurance_price)< 0){
                         alert('Số tiền không được nhỏ hơn 0')
                     }
                     if($('#check_specialty').prop('checked')==false && $('#check_BH').prop('checked')==false){
                         alert('Vui lòng chọn khai báo bảo hiểm')
                         return
                     }
-                    if($('#check_type_special').prop('checked')==false && $('#check_type_special_no').prop('checked')==false){
-                        include_special_goods = 0;
+                    if(ShipAir){
+                        if(check_insurance>20000000){
+                            alert('Bảo hiểm đơn hàng đường bay không được lớn hơn 20,000,000'  )
+                            return
+                        }
+                        if(check_special>20000000){
+                            alert('Giá hàng hoá đặc biệt đường bay không được lớn hơn 20,000,000'  )
+                            return
+                        }
                     }else{
-                        if($('#check_type_special').prop('checked')==true){
-                            include_special_goods = 1;
-                        }else{
-                            include_special_goods= 0;
+                        if(check_insurance>50000000){
+                            alert('Bảo hiểm đơn hàng đường biển không được lớn hơn 50,000,000'  )
+                            return
+                        }
+                        if(check_special>50000000){
+                            alert('Giá hàng hoá đặc biệt đường biển không được lớn hơn 50,000,000'  )
+                            return
                         }
                     }
-                    console.log(include_special_goods,'check','price:',surance)
+                    if($('#check_type_special').prop('checked')==false && $('#check_type_special_no').prop('checked')==false){
+                        alert('Vui lòng chọn khai báo hàng đặc biệt')
+                        return
+                    }
                     $("#first_choose").attr("selected",true)
                     $("#product_specialty").hide()
                     $("#table_product_specialty").empty()
-                   
                     $("#modal_qoute").hide()
                     $("#table_showCreatedTrackings").empty()
                     toggleLoading()
-                    // var {obj_send, surance} = getData();
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -815,8 +826,8 @@
                         type: 'POST',
                         url: "{{ route('rq_tk.store') }}",
                         data: {
-                            include_special_goods:include_special_goods,
-                            surance:surance,
+                            special_price:special_price,
+                            insurance:insurance_price,
                             utypeadd: utypeadd,
                             TrackingSaiko: Tracking,
                             Phone: Phone,
@@ -874,21 +885,6 @@
                             $('#exitForm').hide();
                             $('#exitSuccess') .show();
                             $('#show_result').show();
-                            // if (response == 201) {
-                            //     document.getElementById("color-success").style.background = '#1ba906'
-                            //     $('#message').html('Tạo tracking thành công!');
-                            //     $('#exitForm').hide();
-                            //     $('#exitSuccess').show();
-                            //     $('#myModal').modal('show');
-                            // } else {
-                            //     document.getElementById("color-success").style.background = '#DF3A01'
-                            //     $('#message').html(
-                            //         'Tracking này đã được tạo');
-                            //     $('#exitForm').hide();
-                            //     $('#exitSuccess').show();
-                            //     $('#myModal').modal('show');
-
-                            // }
                         }
                     });
                 })
