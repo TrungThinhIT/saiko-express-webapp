@@ -19,6 +19,8 @@
     <meta http-equiv='pragma' content='no-cache'>
     <script type="text/javascript" src="assets/js/saiko-jquery-1.12.2.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="assets/js/jquery.masknumber.js"></script>
     <style>
         @media (max-width: 576px) {
             .phone-mobile {

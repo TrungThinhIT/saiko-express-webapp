@@ -3,6 +3,19 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <style>
    
+    .inpute-insuaran{
+        width: auto;
+        font-size: 20px;
+        height: 45px;
+        line-height: 45px;
+        border: 1px solid #ececec;
+        padding-left: 15px;
+        padding-right: 15px;
+        color: #fca901;
+        background-color: #fff;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+    }
     .modal-confirm {
         color: #e49e9e;
         text-align: center;
@@ -426,28 +439,21 @@
                 <div class="row">
                     <div style="margin-left:15px">
                         <label for=""> Bạn có muốn khai báo bảo hiểm không? </label>
-                        <input type="checkbox" id="check_BH" ><span>Có</span>
-                        <input type="checkbox" id="check_specialty" ><span>Không</span>
+                        <input type="checkbox" id="check_BH" ><span>.Có</span>
+                        <input type="checkbox" id="check_specialty" ><span>.Không</span>
                     </div>
                 </div>
                 <div class="row" id="declaration_price" style="display: none">
                     <div style="margin-left:15px">
                         <label for=""> Kiện hàng của bạn có hàng đặc biệt không? </label>
-                        <input type="checkbox" id="check_type_special" ><span>Có</span>
-                        <input type="checkbox" id="check_type_special_no" ><span>Không</span>
+                        <input type="checkbox" id="check_type_special" ><span>.Có</span>
+                        <input type="checkbox" id="check_type_special_no" ><span>.Không</span>
                     </div>
                 </div>
                 <div class="row" id="enter_price" style="display:none">
-                    <div class="field" style="margin-left:15px">
+                    <div  style="margin-left:15px">
                         <label for="">Nhập số tiền:</label>
-                        <input style="width: auto;
-                        border: 1px solid #ececec;
-                        padding-left: 15px;
-                        padding-right: 15px;
-                        color: #848484;
-                        background-color: #fff;
-                        -webkit-transition: 0.5s;
-                        transition: 0.5s;" type="number" id="insurance" value="" min="0">
+                        <input class="inpute-insuaran"  type="text" pattern="[0-9]" id="insurance" value="" min="0">
                     </div>
                 </div>
                 {{-- <div class="row">
@@ -480,7 +486,7 @@
                     <label style="margin-top:10px">Ghi chú</label>
                 </p>
                 <p class="field single-field">
-                    <textarea id="unote" name="note" cols="65" rows="6" placeholder="Nếu có hàng đặc biệt thì hãy miêu tả chi tiết vào đây ...."></textarea>
+                    <textarea id="unote" name="note" style="height: 100px;width:100%"  placeholder="Nhập ghi chú hoặc mô tả chi tiết hàng hoá đặc biệt ...."></textarea>
                 </p>
             </div>
             <div class="modal-footer">
@@ -504,8 +510,11 @@
     </div>
 </section>
 @include('modules.footer')
-
 <script>
+    let formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    })
     function toggleLoading() {
         $('.tmn-custom-mask').toggleClass('d-none');
     }
@@ -515,9 +524,6 @@
         $('#declaration_price').hide()
         $('#enter_price').show()
         $('#insurance').val('0')
-
-
-
     });
     $('#check_specialty').click(function() {
         $("#check_BH").prop('checked', false);
@@ -539,9 +545,10 @@
         $('#enter_price').hide()
         $('#insurance').val('0')
     });
-
     $(document).ready(function () {
-        
+        $('#insurance').maskNumber({
+            integer:true,
+        });
         $("#close_modal").click(function(){
             $("#modal_qoute").hide()
         })
@@ -610,6 +617,7 @@
             document.getElementById("type-ship").style.display = "block";
         }
     }
+    
     // var arr_check = [];
     // function arrayRemove(arr, value) { 
     //     arr_check = arr.filter(item => item !== value);

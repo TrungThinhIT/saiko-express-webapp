@@ -146,6 +146,7 @@ class QuoteController extends Controller
             $shipping = $request->checkSea;
         }
         $arr_created = array();
+        $insurance = str_replace(',', '', $request->surance);
         foreach ($tracking as $item) {
             if ($item == "") {
                 continue;
@@ -162,7 +163,7 @@ class QuoteController extends Controller
                 'note' =>  $request->Note,
                 'repackage' => $request->Reparking == "true" ? 1 : 0,
                 'merge_package' => $request->merge_box ? 1 : 0,
-                'price_declaration' => floatval($request->surance),
+                'price_declaration' => floatval($insurance),
                 'include_special_goods' => $request->include_special_goods ? true : false,
             ]);
             if ($create_shipment->status() == 201) {

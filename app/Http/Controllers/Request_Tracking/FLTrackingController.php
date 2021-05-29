@@ -23,6 +23,9 @@ class FLTrackingController extends Controller
     }
     public function getStatus(Request $request)
     {
+        $a = "43546325";
+        $a = json_decode($a,true);
+        
         //get token
         $token = token::find(1);
         if (empty($token)) {
@@ -152,7 +155,7 @@ class FLTrackingController extends Controller
                                     $pay_money_order += $money;
                                     $results['boxes'][$i]['use_weight'] = $use_weight;
                                 }
-                                if ($date_box < $date_default) {// 15-5--21
+                                if ($date_box < $date_default) { // 15-5--21
                                     $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 0 && $use_weight < 100) {
                                         if ($use_weight < 1) {
