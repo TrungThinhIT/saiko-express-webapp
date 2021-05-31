@@ -330,7 +330,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="page_title">
-                            <h2>THEO DÕI LÔ HÀNG</h2>
+                            <h2>THEO DÕI KIỆN HÀNG CỦA BẠN </h2>
                         </div>
                     </div>
 
@@ -348,13 +348,11 @@
             <div class="container">
 
                 <div class="row quote1top">
-                    <div class="col-md-8 col-sm-12">
+                    <div class="col-md-12 col-sm-12">
                         <div class="fh-section-title clearfix f30  text-left version-dark paddbtm40">
                             <h2>Theo dõi lô hàng của bạn</h2>
                         </div>
-                        <p>Nếu bạn yêu cầu khả năng hiển thị tối đa đối với các giao dịch Vận chuyển hàng hóa của mình,
-                            hãy liên hệ với nhóm khách hàng hậu cần của chúng tôi hoặc bạn có thể theo dõi hàng hóa của
-                            mình bằng cách sử dụng hệ thống theo dõi bên dưới.</p>
+                        <p>Để theo dõi lộ trình kiện hàng của bạn, vui lòng nhập mã tracking dưới đây:</p>
                         <div class="row paddtop30">
                             <form id="tracking_form" method='post'>
                                 <div class="col-sm-9">
@@ -499,7 +497,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <div class="tracksidebar">
 
                             <div class="fh-contact-box type-address "><i class="flaticon-pin"></i>
@@ -560,7 +558,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="tmn-custom-mask d-none" id="loader">

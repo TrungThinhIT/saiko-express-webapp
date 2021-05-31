@@ -169,7 +169,7 @@
         <div class="row quote1top">
             <div class="col-sm-12">
                 <div class="fh-section-title clearfix f30  text-left version-dark paddbtm40">
-                    <h2>yêu cầu báo giá</h2>
+                    <h2>CHI TIẾT BÁO GIÁ</h2>
                 </div>
             </div>
         </div>
@@ -197,10 +197,10 @@
                     </div>
                     <div>
                         <label style="margin-right: 10px;" class="mobile-track">Phí bảo hiểm: </label>
-                        <label class="radio-inline mobile-block mobile-block-f"><input type="radio" name="check" checked
-                                id="sbuy">(5% giá trị khai báo) </label>
-                        <label class="radio-inline mobile-block"><input type="radio" name="check" checked id="buy">(3%
-                            giá trị khai báo) </label>
+                        {{-- <label class="radio-inline mobile-block mobile-block-f"><input type="radio" name="check" checked
+                                id="sbuy">(5% giá trị khai báo) </label> --}}
+                        <label class="radio-inline mobile-block"><input type="radio" name="check" checked id="buy">3%
+                            giá trị khai báo </label>
                         <label class="radio-inline mobile-block"><input type="radio" name="check" id="noBuy">Không
                             mua</label>
                     </div>
@@ -239,6 +239,27 @@
                                 </div>
 
                             </div>
+                            <div class="form-group">
+                                <div style="display: inline-flex;">
+                                    <label class="control-label" style="width:100px">Chiều rộng:</label>
+                                    <input type="number" onchange="domesticShipping()" class="form-control set-ml"
+                                        value="0" id="width" onkeyup="onResult()">
+                                    <label class="set-width-lb">cm</label>
+                                </div>
+                            </div>
+                          
+                        </div>
+                        {{-- column2 --}}
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <div style="display: inline-flex;">
+                                    <label class="control-label font-weight-bold mobile-w150">Trọng lượng
+                                        thực:</label>
+                                    <input type="number" onchange="domesticShipping()" class="form-control set-ml"
+                                        value="0" id="wei" onkeyup="weightChange()">
+                                    <label class="set-width-lb">kg</label>
+                                </div>
+                            </div>
                             <div class="unset-border">
                                 <div class="form-group">
                                     <div style="display: inline-flex;">
@@ -249,26 +270,6 @@
 
                                         <label class="set-width-lb">kg</label>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- column2 --}}
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div style="display: inline-flex;">
-                                    <label class="control-label" style="width:100px">Chiều rộng:</label>
-                                    <input type="number" onchange="domesticShipping()" class="form-control set-ml"
-                                        value="0" id="width" onkeyup="onResult()">
-                                    <label class="set-width-lb">cm</label>
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <div style="display: inline-flex;">
-                                    <label class="control-label font-weight-bold mobile-w150">Trọng lượng
-                                        thực:</label>
-                                    <input type="number" onchange="domesticShipping()" class="form-control set-ml"
-                                        value="0" id="wei" onkeyup="weightChange()">
-                                    <label class="set-width-lb">kg</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -285,9 +286,22 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="fee-pro-title">
                     <span class="fee-pro-number">3</span>
-                    <span class="fee-pro-name">Giao hàng trong nước</span>
+                    <span class="fee-pro-name">Phí vận chuyển Nhật - Việt: </span>
+                    <i class="fa fa-angle-down"></i>
+                </div>
+                <div>
+                    <label class="control-label">Giá cước vận chuyển Nhật về Việt là : <span
+                            id="result">0</span>VNĐ</label>
+                </div>
+                <h5 style="color: #fca901;
+                font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline của Saiko để nhận được báo giá tốt nhất</h5>
+                
+                <div class="fee-pro-title">
+                    <span class="fee-pro-number">4</span>
+                    <span class="fee-pro-name">Giao hàng nội địa Việt Nam</span>
                     <i class="fa fa-angle-down"></i>
                 </div>
                 <div class="unset-border custom-row-inline">
@@ -410,22 +424,7 @@
                         <label for="" class="form-control unset-border width-custom" id="money"></label><span>VNĐ</span>
                     </div> --}}
                 </div>
-                <div class="fee-pro-title">
-                    <span class="fee-pro-number">4</span>
-                    <span class="fee-pro-name">Kết quả tính toán: </span>
-                    <i class="fa fa-angle-down"></i>
-
-                </div>
-
-
-
-                <div>
-                    <label class="control-label">Giá cước vận chuyển Nhật về Việt là : <span
-                            id="result">0</span>VNĐ</label>
-                </div>
-                <h5 style="color: #fca901;
-font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline của Saiko để nhận được báo giá tốt nhất</h5>
-
+              
                 <div class="form-group text-center">
                     <input value="Gửi hàng ngay" class="fh-btn" type="submit" placeholder="" onclick="send()">
                 </div>

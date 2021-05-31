@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-md-9">
                                 <ul class="menu service-menu" style="display:inline-flex">
-                                    <li class="menu-item current-menu-item"><a href="{{route('service.air')}}">Giao nhận đường biển</a></li>
+                                    <li class="menu-item current-menu-item"><a href="{{route('service.air')}}">Giao nhận đường bay</a></li>
                                     <li class="menu-item "><a href="{{route('service.sea')}}">Giao nhận đường biển</a></li>
                                     <!-- <li class="menu-item "><a href="warehous.php">Kho vận và lưu trữ</a></li> -->
                                 </ul>
@@ -124,7 +124,7 @@
                         <img src="assets/images/services/air.png">
                         <hr class="margtb40">
                         <div class="fh-section-title f20 clearfix  text-left version-dark paddbtm40">
-                            <h2>PHƯƠNG THỨC VẬN CHUYỂN NỘI ĐỊA</h2>
+                            <h2>NỘI DUNG LƯU Ý</h2>
                         </div>
                             <p>- Đối với khách hàng hạng Business và Premium: Miễn phí giao hàng nội thành HN và HCM. 
 Khách hạng Business vẫn có thể yêu cầu giao hàng nhiều địa điểm nhưng sẽ mất phí giao hàng nội địa giống như hạng Eco.</p>

@@ -248,13 +248,14 @@
                 {{-- <div class="alert alert-danger">
                     <p>Hệ thống đang cập nhật</p>
                 </div> --}}
-                <p>Chúng tôi luôn quan tâm đến các dự án mới, dù lớn hay nhỏ. Gửi email cho chúng tôi và chúng tôi sẽ
+                {{-- <p>Chúng tôi luôn quan tâm đến các dự án mới, dù lớn hay nhỏ. Gửi email cho chúng tôi và chúng tôi sẽ
                     liên lạc ngay hoặc điện thoại trong khoảng thời gian từ 9:00 sáng đến 8:00 tối từ thứ Hai đến thứ
-                    Bảy.</p>
+                    Bảy.</p> --}}
+                <p>Gọi hotline hoặc nhắn tin trực tiếp trên Fanpage Saiko Express (từ 8h đến 19h hàng ngày) để được CSKH hỗ trợ nhập thông tin kiện hàng dưới đây:</p>
             </div>
 
             <div class="col-sm-4">
-                <img src="assets/images/resources/cargocar.png" alt="">
+                <img src="assets/images/cargocar.png" alt="">
             </div>
         </div>
         <div class="row quote1forms">
@@ -377,8 +378,7 @@
                                 </p>
                                 <p class="field submit">
                                     <button class="btn fh-btn" name="push-tracking" onclick="push_tracking()"
-                                        type="submit">Gửi hàng
-                                        ngay</button>
+                                        type="submit">Nhập thông tin kiện hàng</button>
                                 </p>
                                 <p>
                                     @if (session('success'))

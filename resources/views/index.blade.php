@@ -6,6 +6,10 @@
 
 <!--header end -->
 <style>
+    .color-arrow{
+        font-size: 18px;
+        color: #fca901;
+    }
       .modal-confirm .modal-content {
             padding: 20px;
             border-radius: 5px;
@@ -841,7 +845,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
                 <div class="ed_search_image">
-                    <img src="../assets/images/aba.jpg" alt="" title="">
+                    <img src="../assets/images/aba.jpg" alt="" title="map" height="500px">
                 </div>
 
 
@@ -849,13 +853,13 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 m-custom-tracking">
                 <div class="row">
                     <div class="col-md-11 col-sm-11" style="float:right">
-                        <p class="text-tracking"><img src="../assets/images/right.jpg"> Kiện
+                        <p class="text-tracking"><i class="fa fa-arrow-circle-right color-arrow" ></i> Kiện
                             hàng của tôi cân nặng bao nhiêu?</p>
-                        <p class="text-tracking" >
-                            <img src="../assets/images/right.jpg"> Tình trạng hàng hóa đang ở
+                        <p class="text-tracking" style="margin-left: 30px">
+                            <i class="fa fa-arrow-circle-right color-arrow" ></i> Tình trạng hàng hóa đang ở
                             đâu?
                         </p>
-                        <p class="text-tracking"><img src="../assets/images/right.jpg"> Làm
+                        <p class="text-tracking"><i class="fa fa-arrow-circle-right color-arrow" ></i> Làm
                             thế nào để tự mình kiểm tra?</p>
                     </div>
                 </div>

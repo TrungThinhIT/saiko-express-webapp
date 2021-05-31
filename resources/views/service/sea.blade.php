@@ -79,7 +79,7 @@
 
                 <hr class="margtb40">
                 <div class="fh-section-title f20 clearfix  text-left version-dark paddbtm40">
-                    <h2>PHƯƠNG THỨC VẬN CHUYỂN NỘI ĐỊA</h2>
+                    <h2>NỘI DUNG LƯU Ý</h2>
                 </div>
                 <p>- Đối với khách hàng hạng Business và Premium: Miễn phí giao hàng nội thành HN và HCM.
                     Khách hạng Business vẫn có thể yêu cầu giao hàng nhiều địa điểm nhưng sẽ mất phí giao hàng nội địa
