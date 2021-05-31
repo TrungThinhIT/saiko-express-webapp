@@ -438,22 +438,33 @@
     <div class="slider-content">
         <div class="slider-content-wrapper">
             <div class="slider-content__item image-1 image-height-mobile">
-                <img src="../assets/images/slide1.jpg">
+                <img src="../assets/images/update_index.png" >
 
                 <div class="content-slide">
-                    <p class="title-slide" style="text-shadow: 0.1em 0.1em #333;">VẬN CHUYỂN ĐƯỜNG BAY</p>
-                    <p class="text-slide" style="text-shadow: 0.1em 0.1em #333;"> Vận chuyển hàng hoá từ Nhật về Việt
+                    <p class="title-slide" >THÔNG TIN CẬP NHẬT</p>
+                    {{-- <p class="text-slide" > Vận chuyển hàng hoá từ Nhật về Việt
+                        Nam <br />bằng máy bay nhận hàng chỉ từ 5 - 7 ngày</p>
+                    <button onclick="openQuote()" class="btn ed_btn ed_orange">GỬI HÀNG NGAY</button> --}}
+                </div>
+
+            </div>
+            <div class="slider-content__item image-1 image-height-mobile">
+                <img src="../assets/images/air_index.jpg" >
+
+                <div class="content-slide">
+                    <p class="title-slide" >VẬN CHUYỂN ĐƯỜNG BAY</p>
+                    <p class="text-slide" > Vận chuyển hàng hoá từ Nhật về Việt
                         Nam <br />bằng máy bay nhận hàng chỉ từ 5 - 7 ngày</p>
                     <button onclick="openQuote()" class="btn ed_btn ed_orange">GỬI HÀNG NGAY</button>
                 </div>
 
             </div>
             <div class="slider-content__item image-2 image-height-mobile">
-                <img src="../assets/images/slide2.jpg">
+                <img src="../assets/images/sea_index.png">
 
                 <div class="content-slide">
-                    <p class="title-slide" style="text-shadow: 0.1em 0.1em #333;">VẬN CHUYỂN ĐƯỜNG BIỂN</p>
-                    <p class="text-slide" style="text-shadow: 0.1em 0.1em #333;">
+                    <p class="title-slide">VẬN CHUYỂN ĐƯỜNG BIỂN</p>
+                    <p class="text-slide" >
                         Vận chuyển hàng hoá từ Nhật về Việt Nam<br />bằng tàu nhận hàng từ 24-36 ngày</p>
                     <button onclick="openQuote()" class="btn ed_btn ed_orange">GỬI HÀNG NGAY</button>
                 </div>
@@ -840,7 +851,7 @@
                     <div class="col-md-11 col-sm-11" style="float:right">
                         <p class="text-tracking"><img src="../assets/images/right.jpg"> Kiện
                             hàng của tôi cân nặng bao nhiêu?</p>
-                        <p class="text-tracking" style=" margin-left:30px">
+                        <p class="text-tracking" >
                             <img src="../assets/images/right.jpg"> Tình trạng hàng hóa đang ở
                             đâu?
                         </p>
@@ -849,12 +860,12 @@
                     </div>
                 </div>
 
-                <div class="row" style="text-align: center;margin-top: 30px;">
+                {{-- <div class="row" style="text-align: center;margin-top: 30px;">
                     <a style=" border: 1px solid #fca901; padding: 10px;"><span style="margin: 10px;">NHẬP
                             NGAY</span></a>
-                </div>
+                </div> --}}
                 <div class="row" style="text-align: center;margin-top: 30px;">
-                    <a><i class="transition fa fa-hand-o-down fa-2x"></i></a>
+                    <a><i class="transition fa fa-arrow-circle-down  fa-2x" style="color: #fca901 "></i></a>
                 </div>
                 <div class="row" style="margin-top:30px">
                     <div class="ed_search_form">
@@ -1075,7 +1086,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="ed_heading_top ed_bottompadder50">
-                    <h3>DỊCH VỤ CỦA SAIKO EXPRESS</h3>
+                    <h3>Tại sao nên lựa chọn dịch vụ của Saiko Express</h3>
                 </div>
             </div>
             <div class="ed_mostrecomeded_course_slider">
@@ -1083,7 +1094,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-custom">
                     <div class="ed_mostrecomeded_course">
                         <div class="ed_item_img">
-                            <img src="../assets/images/checked.png" alt="item1" class="img-responsive">
+                            <img src="../assets/images/checked.jpeg" alt="item1" class="img-responsive">
                         </div>
                         <div class="ed_item_description ed_most_recomended_data">
                             <h4><a href="course_single.html">KIỂM HÀNG CẨN THẬN</a></h4>
@@ -1096,7 +1107,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-custom">
                     <div class="ed_mostrecomeded_course">
                         <div class="ed_item_img">
-                            <img src="../assets/images/packaged.png" alt="item1" class="img-responsive">
+                            <img src="../assets/images/packaged.jpeg" alt="item1" class="img-responsive">
                         </div>
                         <div class="ed_item_description ed_most_recomended_data">
                             <h4><a href="course_single.html">ĐÓNG GÓI CHUYÊN NGHIỆP</a></h4>
@@ -1122,7 +1133,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-custom">
                     <div class="ed_mostrecomeded_course">
                         <div class="ed_item_img">
-                            <img src="../assets/images/s6.jpg" alt="item1" class="img-responsive">
+                            <img src="../assets/images/payment.jpeg" alt="item1" class="img-responsive">
                         </div>
                         <div class="ed_item_description ed_most_recomended_data">
                             <h4><a href="course_single.html">HÌNH THỨC THANH TOÁN</a></h4>
@@ -1135,7 +1146,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 col-custom">
                     <div class="ed_mostrecomeded_course">
                         <div class="ed_item_img">
-                            <img src="../assets/images/warehouse.jpg" alt="item1" class="img-responsive">
+                            <img src="../assets/images/warehouse.jpeg" alt="item1" class="img-responsive">
                         </div>
                         <div class="ed_item_description ed_most_recomended_data">
                             <h4><a href="course_single.html">KHO BÃI HIỆN ĐẠI</a></h4>
@@ -1149,7 +1160,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="ed_mostrecomeded_course">
                         <div class="ed_item_img">
-                            <img src="../assets/images/s3.jpg" alt="item1" class="img-responsive">
+                            <img src="../assets/images/shipping.jpeg" alt="item1" class="img-responsive">
                         </div>
                         <div class="ed_item_description ed_most_recomended_data">
                             <h4><a href="course_single.html">GIAO HÀNG TẬN NƠI</a></h4>
@@ -1168,7 +1179,7 @@
 </div>
 <!-- Services end -->
 <!--Timer Section three start -->
-<div class="ed_timer_section ed_toppadder90 ed_bottompadder60">
+{{-- <div class="ed_timer_section ed_toppadder90 ed_bottompadder60">
     <div class="ed_img_overlay"></div>
     <div class="container">
         <div class="row">
@@ -1207,7 +1218,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <!--Timer Section three end -->
 <!--Our expertise section one start -->
 <div class="ed_transprentbg ed_toppadder90 ed_bottompadder90">
@@ -1254,7 +1265,7 @@
 </div>
 <!--Our expertise section one end -->
 <!--skill section start -->
-<div class="ed_graysection ed_toppadder90 ed_bottompadder60">
+{{-- <div class="ed_graysection ed_toppadder90 ed_bottompadder60">
     <div class="container">
         <div class="row">
 
@@ -1344,7 +1355,7 @@
 
         </div>
     </div>
-</div>
+</div> --}}
 <!--skill section end -->
 <!-- pricing table section start -->
 <div class="ed_pricing_section ed_toppadder90 ed_bottompadder60">
@@ -1362,12 +1373,12 @@
                         <div class="ed_pricing_heading">
                             <h2>HẠNG Eco</h2>
                             <div class="ed_table_price">
-                                <p><sup></sup>~210.000đ<sub> /kg</sub></p>
+                                <p><sup></sup>190.000đ<sub> /kg</sub></p>
                             </div>
                         </div>
                         <ul>
-                            <li>Nhận hàng từ 1kg</li>
-                            <li>Bảo hiểm 5% giá trị hàng</li>
+                            <li>Nhận hàng từ 1 - 100kg/ chuyến</li>
+                            <li>Bảo hiểm 3% giá trị hàng</li>
                             <li>Hỗ trợ 24/7</li>
                             <li>Giao hàng qua VNPOST</li>
                             <li>thanh toán trước</li>
@@ -1382,14 +1393,14 @@
                         <div class="ed_pricing_heading">
                             <h2>HẠNG premium</h2>
                             <div class="ed_table_price">
-                                <p class="ed_price_dollar"><sup></sup>~195.000đ<sub> /kg</sub></p>
+                                <p class="ed_price_dollar"><sup></sup>185.000đ<sub> /kg</sub></p>
                             </div>
                         </div>
                         <ul>
-                            <li>Nhận hàng từ 100kg/ lần</li>
+                            <li>Nhận hàng từ 100 - 500kg/ chuyến</li>
                             <li>Bảo hiểm 3% giá trị hàng</li>
                             <li>Hỗ trợ 24/7</li>
-                            <li>Miễn phí giao hàng nội thành HN và HCM</li>
+                            <li>Miễn phí giao hàng nội thành Hà Nội</li>
                             <li>Thanh toán trước</li>
                         </ul>
                         <div class="ed_pricing_tabel_footer">
@@ -1403,15 +1414,15 @@
                         <div class="ed_pricing_heading">
                             <h2>HẠNG Business</h2>
                             <div class="ed_table_price">
-                                <p class="ed_price_dollar"><sup></sup>~180.000đ<sub> /kg</sub></p>
+                                <p class="ed_price_dollar"><sup></sup>Thương lượng<sub> /kg</sub></p>
                             </div>
                         </div>
                         <ul>
-                            <li>nhận hàng từ 1000kg/ tháng</li>
+                            <li>nhận hàng từ 500kg/ chuyến</li>
                             <li>Bảo hiểm 3% giá trị hàng</li>
-                            <li>nhân viên chăm sóc riêng</li>
-                            <li>miễn phí giao hàng nội thành HN, SG</li>
-                            <li>thanh toán trước 80%</li>
+                            <li>Có chuyên viên CSKH riêng</li>
+                            <li>miễn phí giao hàng nội thành Hà Nội</li>
+                            <li>thanh toán thương lượng</li>
                         </ul>
                         <div class="ed_pricing_tabel_footer">
                             <a href="{{ route('rq_tk.quote') }}" class="btn ed_btn ed_green">gửi hàng ngay</a>
@@ -1439,14 +1450,13 @@
                         <div class="ed_pricing_heading">
                             <h2>HẠNG Eco</h2>
                             <div class="ed_table_price">
-                                <p style="font-size: 30px;"><sup></sup>~80.000đ<sub> /kg</sub></p>
+                                <p style="font-size: 30px;"><sup></sup>65.000đ<sub> /kg</sub></p>
                             </div>
                         </div>
                         <ul>
-                            <li>Nhận hàng từ 50kg/ Lần</li>
-                            <li>Bảo hiểm 5% giá trị hàng</li>
+                            <li>Nhận hàng dưới 150kg/ chuyến</li>
+                            <li>Bảo hiểm 3% giá trị hàng</li>
                             <li>Hỗ trợ 24/7</li>
-                            <li>Giao hàng nội thành HN và HCM 40k/kiện</li>
                             <li>thanh toán trước</li>
                         </ul>
 
@@ -1465,10 +1475,9 @@
                             </div>
                         </div>
                         <ul>
-                            <li>Nhận hàng từ 1000kg/ lần</li>
+                            <li>Nhận hàng từ 150 - 300kg/ chuyến</li>
                             <li>Bảo hiểm 3% giá trị hàng</li>
                             <li>Hỗ trợ 24/7</li>
-                            <li>Miễn phí giao hàng nội thành HN và HCM</li>
                             <li>Thanh toán trước</li>
                         </ul>
                         <div class="ed_pricing_tabel_footer">
@@ -1482,16 +1491,14 @@
                         <div class="ed_pricing_heading">
                             <h2>HẠNG Business</h2>
                             <div class="ed_table_price">
-                                <p class="ed_price_dollar" style="font-size: 30px;"><sup></sup>~15.000.000đ<sub>
-                                        /350kg</sub></p>
+                                <p class="ed_price_dollar" style="font-size: 30px;"><sup></sup>Thương lượng<sub></sub></p>
                             </div>
                         </div>
                         <ul>
-                            <li>nhận hàng từ 5250kg/ tháng</li>
+                            <li>nhận hàng từ 300kg/ tháng</li>
                             <li>Bảo hiểm 3% giá trị hàng</li>
-                            <li>nhân viên chăm sóc riêng</li>
-                            <li>miễn phí giao hàng nội thành HN, SG</li>
-                            <li>thanh toán trước 80%</li>
+                            <li>Có chuyên viên CSKH riêng</li>
+                            <li>Thanh toán thương lượng</li>
                         </ul>
                         <div class="ed_pricing_tabel_footer">
                             <a href="{{ route('rq_tk.quote') }}" class="btn ed_btn ed_green">gửi hàng ngay</a>
@@ -1513,7 +1520,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ed_bottompadder80">
                 <div class="ed_heading_top">
-                    <h3>CẢM NHẬN CỦA KHÁCH HÀNG</h3>
+                    <h3>PHẢN HỒI CỦA KHÁCH HÀNG</h3>
                 </div>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1627,7 +1634,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="ed_newsletter_section_heading">
-                            <h4>Bạn sẽ nhận được Email tư vấn và hỗ trợ từ chúng tôi.</h4>
+                            <h4>Gữi mail ngay để được tư vấn.</h4>
                         </div>
                     </div>
                     <div
@@ -2007,8 +2014,14 @@
                                                             // status ="Xuất kho Nhật"
                                                             
                                                         }
-                                                        if (keyObject == "shipping_code") {
+                                                        if (keyObject == "shipping_code" && value.type_id == "created") {
                                                             status = "Mã giao hàng: " + value.content.shipping_code
+                                                        }
+                                                        if (keyObject == "shipping_code" && value.type_id == "updated") {
+                                                            status = "Cập nhật mã giao hàng: " + value.content.shipping_code
+                                                        }
+                                                        if (keyObject == "shipping_code" && value.type_id == "deleted") {
+                                                            status = "Huỷ mã giao hàng: " + value.content.shipping_code
                                                         }
                                                         if (keyObject =="out_container") {
                                                             status= "Nhập kho Việt Nam"
@@ -2228,8 +2241,14 @@
                                 }
                                 // status = "Xuất kho Nhật"
                             }
-                            if (keyObject == "shipping_code") {
+                            if (keyObject == "shipping_code" && value.type_id == "created") {
                                 status = "Mã giao hàng: " + value.content.shipping_code
+                            }
+                            if (keyObject == "shipping_code" && value.type_id == "updated") {
+                                status = "Cập nhật mã giao hàng: " + value.content.shipping_code
+                            }
+                            if (keyObject == "shipping_code" && value.type_id == "deleted") {
+                                status = "Huỷ mã giao hàng: " + value.content.shipping_code
                             }
                             if (keyObject == "out_container") {
                                 status = "Nhập kho Việt Nam"
@@ -2273,7 +2292,6 @@
                     if(logs_merge.length){
                         $.each(logs_merge,function(logs_index,logs_value){
                             let keyObjectLogMerge = Object.keys(logs_value.content)
-                            // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                             var statusLogMerge;
                             var created_at_log;
                             if(keyObjectLogMerge=="transaction"){
@@ -2306,107 +2324,7 @@
                     // }
                 }
             })
-            // $("#table_item").show()
-            // $("#load_item").empty()
-            // if(list_item !=null){
-            //     $.each(list_item,function(index_item,value_item){
-            //         $("#load_item").append(
-            //             "<tr>"+
-            //             "<td>"+ ++index_item+"</td>"+    
-            //             "<td>"+value_item.Quantity+"</td>"+
-            //             "<td>"+value_item.Name+"</td>"+
-            //             "</tr>"
-            //         )
-            //     })
-            // }else{
-            //     $("#load_item").append(
-            //             "<tr>"+
-            //             "<td>"+ "</td>"+    
-            //             "<td>"+"Chưa kiểm hàng"+"</td>"+
-            //             "<td>"+"Chưa kiểm hàng"+"</td>"+
-            //             "</tr>"
-            //         )
-            // }
-            // $("#time_line_index").empty()
-            // if (row.length == 0) {
-            //     $("#time_line_index").append(
-            //         '<li>' +
-            //         '<a>' + 'Đang tới kho' + '</a>' +
-            //         '<p>' + created_at + '</p>' +
-            //         '</li>'
-            //     )
-            // } else {
-            //     $.each(row, function(index, value) {
-            //         // let a = JSON.parse(value.content);
-            //         let keyObject = Object.keys(value.content)
-            //         let valueObject = Object.values(value.content);
-            //         var status;
-            //         if (keyObject == "id") {
-            //             status = "Đã nhập kho Nhật"
-            //         }
-            //         if (keyObject == "in_pallet") {
-            //             status = "Đã kiểm hàng"
-            //         }
-            //         if (keyObject == "set_owner_id,set_owner_type") {
-            //             status = "Lên đơn hàng"
-            //         }
-            //         if (keyObject == "in_container") {
-            //             status = "Xuất kho Nhật"
-            //         }
-            //         if (keyObject == "out_container") {
-            //             status = "Nhập kho Việt Nam"
-            //         }
-            //         if (keyObject == "delivery_status") {
-            //             if (valueObject == "shipping") {
-            //                 status = "Đang giao hàng"
-            //             }
-            //         }
-            //         if (keyObject == "delivery_status") {
-            //             if (valueObject == "cancelled") {
-            //                 status = "Hủy box"
-            //             }
-            //         }
-            //         if (keyObject == "delivery_status") {
-            //             if (valueObject == "received") {
-            //                 status = "Đã nhận hàng"
-            //             }
-            //         }
-            //         if (keyObject == "delivery_status") {
-            //             if (valueObject == "refunded") {
-            //                 status = "Trả lại hàng"
-            //             }
-            //         }
-            //         if (keyObject == "delivery_status") {
-            //             if (valueObject == "waiting_shipment") {
-            //                 status = "Đợi giao hàng"
-            //             }
-            //         }
-            //         $("#time_line_index").append(
-            //             '<li>' +
-            //             '<a>' + status + '</a>' +
-            //             '<p>' + value.created_at + '</p>' +
-            //             '</li>'
-            //         )
-            //     })
-            // }
-            // if(vnpost){
-            //     $("#body-table-index-vnpost").empty()
-            //     $("#body-table-index-vnpost").append(
-            //         '<tr>' +
-            //         '<td>' + vnpost.MaDichVu +
-            //         '</td>' +
-            //         '<td>' + vnpost.PhuongThucVC +
-            //         '</td>' +
-            //         '<td>' + vnpost.CuocCOD +
-            //         '</td>' +
-            //         '<td>' + vnpost.TongCuocSauVAT +
-            //         '</td>' +
-            //         '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
-            //         '</tr>'
-            //     )
-            //     $("#table-index-vnpost").show()
-            // }
-
+            
         }
 
     function toggleLoading() {
@@ -2454,7 +2372,7 @@
                 min: 0, // первый слайд
                 max: elements.length - 1 // последний слайд
             },
-            intervalSpeed: 2000, // Скорость смены слайдов в авторежиме
+            intervalSpeed: 5000, // Скорость смены слайдов в авторежиме
 
             update: function(value) {
                 this.position.current = value;

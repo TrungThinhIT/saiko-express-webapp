@@ -892,8 +892,14 @@
                                                                     }
                                                                    
                                                                 }
-                                                                if (keyObject == "shipping_code") {
+                                                                if (keyObject == "shipping_code" && value.type_id == "created") {
                                                                     status = "Mã giao hàng: " + value.content.shipping_code
+                                                                }
+                                                                if (keyObject == "shipping_code" && value.type_id == "updated") {
+                                                                    status = "Cập nhật mã giao hàng: " + value.content.shipping_code
+                                                                }
+                                                                if (keyObject == "shipping_code" && value.type_id == "deleted") {
+                                                                    status = "Huỷ mã giao hàng: " + value.content.shipping_code
                                                                 }
                                                                 if (keyObject =="out_container") {
                                                                     status= "Nhập kho Việt Nam"
@@ -1175,8 +1181,14 @@
                                         status = "Đợi giao hàng"
                                     }
                                 }
-                                if (keyObject == "shipping_code") {
+                                if (keyObject == "shipping_code" && value.type_id == "created") {
                                     status = "Mã giao hàng: " + value.content.shipping_code
+                                }
+                                if (keyObject == "shipping_code" && value.type_id == "updated") {
+                                    status = "Cập nhật mã giao hàng: " + value.content.shipping_code
+                                }
+                                if (keyObject == "shipping_code" && value.type_id == "deleted") {
+                                    status = "Huỷ mã giao hàng: " + value.content.shipping_code
                                 }
                                 $("#time_line").append(
                                     '<li>' +

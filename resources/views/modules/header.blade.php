@@ -14,6 +14,7 @@
     <link href="assets/css/frontend.css" rel="stylesheet">
     <link href="assets/css/flaticon.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="assets/css/font-awesome.min.css" />
     <meta http-equiv='cache-control' content='no-cache'>
     <meta http-equiv='expires' content='0'>
     <meta http-equiv='pragma' content='no-cache'>
@@ -21,6 +22,7 @@
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="assets/js/jquery.masknumber.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <style>
         @media (max-width: 576px) {
             .phone-mobile {
@@ -146,8 +148,8 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="pro_call">
-                                <span>Gọi ngay <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
-                                    080.7965.3923(JP) <span class="phone-mobile"> 1900.2149(VN)</span></span>
+                                <span>Hotline <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
+                                   <span class="phone-mobile"> 1900.2149(VN)</span></span>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -156,15 +158,9 @@
                                     <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip"
                                             data-placement="bottom" title="Facebook"><i class="fa fa-facebook"
                                                 aria-hidden="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><i
-                                                class="fa fa-google-plus" aria-hidden="true"></i></a></li>
-                                    <li><a href="https://twitter.com/saikoexpress" data-toggle="tooltip"
-                                            data-placement="bottom" title="Twitter"><i class="fa fa-twitter"
-                                                aria-hidden="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i
-                                                class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Whatsapp"><i
-                                                class="fa fa-whatsapp" aria-hidden="true"></i></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><img src="../assets/images/zalo.jpeg" alt=""></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Viber"><i class="fab fa-viber"></i></a></li>
+                                   
                                 </ul>
                             </div>
                         </div>
@@ -196,9 +192,8 @@
                                     <li><a href="{{ route('index') }}">Trang chủ</a></li>
                                     <li><a href="javascript:;">Dịch vụ</a>
                                         <ul class="sub-menu">
-                                            <li><a href="{{ route('service.sea') }}">Vận chuyển đường biển</a></li>
                                             <li><a href="{{ route('service.air') }}">Vận chuyển đường bay</a></li>
-
+                                            <li><a href="{{ route('service.sea') }}">Vận chuyển đường biển</a></li>
                                             <li><a href="{{ route('service.procedure') }}">Quy trình gửi hàng</a></li>
                                         </ul>
                                     </li>
@@ -211,7 +206,7 @@
 
                                             <li><a href="{{ route('about.policy') }}">Chính
                                                     Sách</a></li>
-                                            <li><a href="{{ route('about.gallery') }}">Gallery</a>
+                                            <li><a href="{{ route('about.gallery') }}">Hình ảnh thựct tế</a>
                                             </li>
                                         </ul>
                                     </li>

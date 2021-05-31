@@ -29,60 +29,21 @@
 <div class="service_dtl1 secpadd layout-main">
     <div class="container">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-12">
                 <div class="widget services-menu-widget">
-                    <h4 class="widget-title">Dịch vụ của chúng tôi</h4>
-                    <ul class="menu service-menu">
-                        <li class="menu-item current-menu-item"><a href="{{route('service.sea')}}">Giao nhận đường biển</a></li>
-                        <li class="menu-item "><a href="{{route('service.air')}}">Giao nhận hàng không</a></li>
-                        <!-- <li class="menu-item "><a href="warehous.php">Kho vận và lưu trữ</a></li> -->
-                    </ul>
-                </div>
-
-                <!-- <div class="widget_text widget widget_custom_html">
-                            <h4 class="widget-title">Tài liệu quảng cáo của chúng tôi</h4>
-                            <div class="textwidget custom-html-widget">
-                                <div class="download">
-                                    <div class="item-download">
-                                        <a href="#" target="_blank"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>Sách giới thiệu dịch vụ.Pdf</a>
-                                    </div>
-                                    <div class="item-download">
-                                        <a href="#" target="_blank"><i class="fa fa-file-word-o" aria-hidden="true"></i>Giới thiệu về công ty.Doc</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
-                <div class="widget_text widget widget_custom_html">
-                    <h4 class="widget-title">Liên hệ chúng tôi</h4>
-                    <div class="textwidget custom-html-widget">
-                        <div class="cargo-contact-widget">
-                            <div class="detail address">
-                                <i class="flaticon-signs"></i>
-                                <h5>Văn phòng SaikoExpress</h5>
-                                <p>5101-1 Kaminokawa-machi Kawachi-gun, Tochigi-ken, Japan</p>
-                                <!-- <p>Kanji:</p> -->
-
-
-                            </div>
-
-                            <div class="detail phone">
-                                <i class="flaticon-phone-call"></i>
-                                <h5>Gọi cho chúng tôi</h5>
-                                <p>080.7965.3923(JP) </p>
-                                <p>19009249(VN)</p>
-                            </div>
-
-                            <div class="detail email">
-                                <i class="flaticon-message-1"></i>
-                                <h5>Email Saiko</h5>
-                                <p>info@saikoexpress.com</p>
-                            </div>
-                        </div>
+                    <div class="col-md-3">
+                        <h4 class="widget-title ">Dịch vụ của chúng tôi</h4>
+                    </div>
+                    <div class="col-md-9">
+                        <ul class="menu service-menu " style="display:inline-flex">
+                            <li class="menu-item current-menu-item"><a href="{{route('service.sea')}}">Giao nhận đường biển</a></li>
+                            <li class="menu-item "><a href="{{route('service.air')}}">Giao nhận đường bay</a></li>
+                            <!-- <li class="menu-item "><a href="warehous.php">Kho vận và lưu trữ</a></li> -->
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-12">
                 <div class="servdtlimg margbtm30">
                     <img src="assets/images/services/slide1-3.jpg" alt="">
                 </div>
@@ -129,7 +90,7 @@
                 <p>+ Văn phòng tại Hà Nội: </p>
                 <p>Địa chỉ: số 615 đường Lạc Long Quân, Hà Nội ( gần 2 con rồng Hồ Tây )</p>
                 <p>+ Văn phòng tại Đà Nẵng: </p>
-                <p>Địa chỉ: số 53 đường Hóa Mỹ, Đà Nẵng ( Phí vận chuyển đường bộ từ HN và HCM vào văn phòng Đà Nẵng là
+                <p>Địa chỉ: số 15 Bùi kỷ, Đà Nẵng ( Phí vận chuyển đường bộ từ HN và HCM vào văn phòng Đà Nẵng là
                     100.000VNĐ/ kiện dưới 30 kg )</p>
                 <p>+ Văn phòng tại HCM: </p>
                 <p>Địa chỉ: số 37/13 đường C18, phường 13, quận Tân Bình, HCM</p>
@@ -141,10 +102,10 @@
                     trách nhiệm đối với trường hợp mất mát hàng hóa sau khi đã giao hàng cho bên vận chuyển quốc nội.
                 </p>
                 <hr class="margtb40">
-                <div class="fh-section-title f20 clearfix  text-left version-dark paddbtm40">
+                {{-- <div class="fh-section-title f20 clearfix  text-left version-dark paddbtm40">
                     <h2>VẬN CHUYỂN AN TOÀN</h2>
-                </div>
-                <div class="row">
+                </div> --}}
+                {{-- <div class="row">
                     <div class="col-sm-6">
                         <div class="fh-service-box-2   box-style-1  no-thumb">
                             <div class="box-thumb"></div>
@@ -190,9 +151,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-
+                </div> --}}
                 <div clas="row">
                     <div class="fh-section-title f20 clearfix  text-left version-dark paddbtm40">
                         <h2>Lợi ích của dịch vụ</h2>

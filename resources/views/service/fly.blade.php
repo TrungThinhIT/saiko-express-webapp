@@ -41,16 +41,19 @@
         <div class="service_dtl1 secpadd layout-main">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-12">
                         <div class="widget services-menu-widget">
-                            <h4 class="widget-title">Dịch vụ của chúng tôi</h4>
-                            <ul class="menu service-menu">
-                                <li class="menu-item "><a href="{{route('service.sea')}}">Giao nhận đường biển</a></li>
-                                <li class="menu-item current-menu-item"><a href="{{route('service.air')}}">Giao nhận hàng không</a></li>
-                                <!-- <li class="menu-item "><a href="warehous.php">Kho vận và lưu trữ</a></li> -->
-                            </ul>
+                            <div class="col-md-3">
+                                <h4 class="widget-title">Dịch vụ của chúng tôi</h4>
+                            </div>
+                            <div class="col-md-9">
+                                <ul class="menu service-menu" style="display:inline-flex">
+                                    <li class="menu-item current-menu-item"><a href="{{route('service.air')}}">Giao nhận đường biển</a></li>
+                                    <li class="menu-item "><a href="{{route('service.sea')}}">Giao nhận đường biển</a></li>
+                                    <!-- <li class="menu-item "><a href="warehous.php">Kho vận và lưu trữ</a></li> -->
+                                </ul>
+                            </div>
                         </div>
-
                         <!-- <div class="widget_text widget widget_custom_html">
                             <h4 class="widget-title">Tài liệu quảng cáo của chúng tôi</h4>
                             <div class="textwidget custom-html-widget">
@@ -64,8 +67,7 @@
                                 </div>
                             </div>
                         </div> -->
-
-                        <div class="widget_text widget widget_custom_html">
+                        {{-- <div class="widget_text widget widget_custom_html">
                             <h4 class="widget-title">Liên hệ chúng tôi</h4>
                             <div class="textwidget custom-html-widget">
                                 <div class="cargo-contact-widget">
@@ -92,9 +94,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div class="servdtlimg margbtm30">
                             <img src="assets/images/services/slide1-3.jpg" alt="">
                         </div>
@@ -131,7 +133,7 @@ Khách hạng Business vẫn có thể yêu cầu giao hàng nhiều địa đi�
                             <p>+ Văn phòng tại Hà Nội: </p>
                             <p>Địa chỉ: số 615 đường Lạc Long Quân, Hà Nội ( gần 2 con rồng Hồ Tây )</p>
                             <p>+ Văn phòng tại Đà Nẵng: </p>
-                            <p>Địa chỉ: số 53 đường Hóa Mỹ, Đà Nẵng ( Phí vận chuyển đường bộ từ HN và HCM vào văn phòng Đà Nẵng là 100.000VNĐ/ kiện dưới 30 kg )</p>
+                            <p>Địa chỉ: số 15 Bùi Kỷ, Đà Nẵng ( Phí vận chuyển đường bộ từ HN và HCM vào văn phòng Đà Nẵng là 100.000VNĐ/ kiện dưới 30 kg )</p>
                             <p>+ Văn phòng tại HCM: </p>
                             <p>Địa chỉ: số 37/13 đường C18, phường 13, quận Tân Bình, HCM</p>
                             <p>Khách hàng đến trực tiếp lấy hàng cần lưu ý mang theo Chứng mình thư Nhân dân hoặc Bằng lái xe, đặc biệt SĐT đã được đăng ký trên địa chỉ nhận hàng.</p>

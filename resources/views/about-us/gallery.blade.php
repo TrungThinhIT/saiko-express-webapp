@@ -69,7 +69,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="page_title">
-                    <h2>GALLERY</h2>
+                    <h2>HÌNH ẢNH THỰC TẾ</h2>
                 </div>
             </div>
 
@@ -90,7 +90,7 @@
     <div class="container">
 
         <br />
-        <div class="container">
+        {{-- <div class="container">
             <ul class="list-group list-group-horizontal">
                 <li class="list-group-item active" onclick="change(1)" id="one">Kho Takadanobaba, Tokyo</li>
                 <li class="list-group-item" id="three" onclick="change(3)">Kho Tochigi, Japan</li>
@@ -98,7 +98,7 @@
                 <li class="list-group-item" id="four" onclick="change(4)">Khai thác hàng hóa bay về</li>
                 <!-- <li class="list-group-item" id="five"  onclick="change(5)">5</li> -->
             </ul>
-        </div>
+        </div> --}}
 
         <div class="row">
             <div class="ed_gallery_wrapper popup-gallery" id="category1">
