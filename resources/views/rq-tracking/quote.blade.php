@@ -496,7 +496,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn fh-btn" id="send_tracking">Gửi hàng</button>
+                <button type="button" class="btn fh-btn" id="send_infor_tracking">Gửi hàng</button>
                 <button type="button" class="btn fh-btn" style="background-color: silver !important" data-dismiss="modal" id="close_modal">Close</button>
                 </div>
             </div>
@@ -605,6 +605,155 @@
             $("#loader").hide();
         });
 
+        $("#send_infor_tracking").click(function(){
+
+            var OptionAdd = $('#utypeadd').val();
+            var AddRev = $("#UaddNumber").val();
+            if (OptionAdd.length > 5) {
+                AddRev = OptionAdd;
+            }
+            var str = $("#utracking").val();
+            var mapObj = {
+                "_": "",
+                " ": " ",
+                "-": "",
+                ",": " ",
+            };
+            var Tracking = str.replace(/-| |_|,/gi, function (matched) {
+                return mapObj[matched];
+            });
+            var checkAir = document.getElementById('uair').value;
+            var checkSea = document.getElementById('usea').value;
+            var province = $("#Utinh").val();
+            var district = $("#Uhuyen").val();
+            var ward = $("#UPhuongXa").val();
+            var Phone = $("#uphone").val();
+            var Name_Send = $("#uname_send").val();
+            var Number_Send = $("#number_send").val();
+            var Name_Rev = $("#uname_rev").val();
+            var Type = $("#utype").val();
+            var Reparking = document.getElementById('ureparking').checked;
+            var ShipAir = document.getElementById('uair').checked;
+            var ShipSea = document.getElementById('usea').checked;
+            var merge_box = $("#merge_box:checked").val()
+            // return
+            var Upx = $('#UPhuongXa').val();
+            var Code_Add = $("#Uhuyen option:selected").val() + "," + $("#Utinh option:selected").val();
+            var UaddNumber = $("#UaddNumber").val();
+            var uphone = $("#uphone").val();
+            var utypeadd = $("#utypeadd").val();
+            var special_price = $("#special_enter").val();
+            var insurance_price = $("#insurance_enter").val();
+            var Note = $("#unote").val();
+            var check_insurance = parseFloat(insurance_price.replaceAll(",",""))
+            var check_special = parseFloat(special_price.replaceAll(",",""))
+            if(parseFloat(insurance_price)< 0){
+                alert('Số tiền không được nhỏ hơn 0')
+            }
+            if($('#check_specialty').prop('checked')==false && $('#check_BH').prop('checked')==false){
+                alert('Vui lòng chọn khai báo bảo hiểm')
+                return
+            }
+            if(ShipAir){
+                if(check_insurance>20000000){
+                    alert('Bảo hiểm đơn hàng đường bay không được lớn hơn 20,000,000'  )
+                    return
+                }
+                if(check_special>20000000){
+                    alert('Giá hàng hoá đặc biệt đường bay không được lớn hơn 20,000,000'  )
+                    return
+                }
+            }else{
+                if(check_insurance>50000000){
+                    alert('Bảo hiểm đơn hàng đường biển không được lớn hơn 50,000,000'  )
+                    return
+                }
+                if(check_special>50000000){
+                    alert('Giá hàng hoá đặc biệt đường biển không được lớn hơn 50,000,000'  )
+                    return
+                }
+            }
+            if($('#check_type_special').prop('checked')==false && $('#check_type_special_no').prop('checked')==false){
+                alert('Vui lòng chọn khai báo hàng đặc biệt')
+                return
+            }
+            $("#first_choose").attr("selected",true)
+            $("#product_specialty").hide()
+            $("#table_product_specialty").empty()
+            $("#modal_qoute").hide()
+            $("#table_showCreatedTrackings").empty()
+            toggleLoading()
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: "{{ route('rq_tk.store') }}",
+                data: {
+                    special_price:special_price,
+                    insurance:insurance_price,
+                    utypeadd: utypeadd,
+                    TrackingSaiko: Tracking,
+                    Phone: Phone,
+                    Name_Send: Name_Send,
+                    Number_Send: Number_Send,
+                    Name_Rev: Name_Rev,
+                    Add: AddRev,
+                    Type: Type,
+                    Note: Note,
+                    Reparking: Reparking,
+                    ShipAir: ShipAir,
+                    ShipSea: ShipSea,
+                    Location: '203.205.41.135',
+                    Code_Add: Code_Add,
+                    province: province,
+                    district: district,
+                    ward: ward,
+                    checkAir: checkAir,
+                    checkSea: checkSea,
+                    merge_box: merge_box,
+                },
+                success: function (response) {
+                    $("#table_showResultCreatedTrackings").empty()
+                    $.each(response, function (index, value) {
+                        if (value.code == 201) {
+                            $("#table_showResultCreatedTrackings").append(
+                                "<tr style='border:none'>" +
+                                "<td style='color:green;border:none !important;text-align:center'>" + value
+                                .message + " " +
+                                "<i class='fa fa-check' style='color:green'></i>" +
+                                "</td>" +
+                                "</tr>"
+                            )
+                        }
+                        if (value.code == 405) {
+                            $("#table_showResultCreatedTrackings").append(
+                                "<tr style='border:none'>" +
+                                "<td style='color:#fca901;border:none !important;text-align:center'>" + value
+                                .message + " " +
+                                "<span><i class='fa fa-warning'></i></span>" +
+                                "</td>" + "</tr>"
+                            )
+                        }
+                        if (value.code == 422) {
+                            $("#table_showResultCreatedTrackings").append(
+                                "<tr style='border:none'>" +
+                                "<td style='color:red;border:none !important;text-align:center'>" + value
+                                .message + " " +
+                                "<span><i class='fa fa-times'></i></span>" + "</td>" +
+                                "</tr>"
+                            )
+                        }
+                    })
+                    $('#message').html('');
+                    $('#exitForm').hide();
+                    $('#exitSuccess') .show();
+                    $('#show_result').show();
+                }
+            });
+            })
+
+
     });
 
     function exitSuccess() {
@@ -620,67 +769,6 @@
         }
     }
     
-    // var arr_check = [];
-    // function arrayRemove(arr, value) { 
-    //     arr_check = arr.filter(item => item !== value);
-    // }
-    // function remove_row(obj){
-    //     arrayRemove(arr_check,obj.toString())//lấy tên bị xoá
-    //     $(`tr[data-id=${obj}]`).remove()
-    // }
-    
-    
-    // function change_item(obj){
-    //     var list_check=$(".name_items") 
-    //     var name_item = $("#product_specialty option:selected").text().trim()
-    //     let id_item =$("#product_specialty").val()
-    //     if($("#product_specialty").val()!=0){
-    //         if(!list_check.length){
-    //             $("#table_product_specialty").append(
-    //             `<tr style="border:none" data-id=${id_item} class="get_id_value_item">`+
-    //                 '<td class="name_items">'+$("#product_specialty option:selected").text()+'</td>'+
-    //                 '<td>'+'<input type="number" class="form-control" value="" placeholder="Khai giá" name="quantity_item[]" required>'+'</td>'+
-    //                 `<td><button class="btn btn-danger" onclick="remove_row(${id_item})"><i class="fa fa-trash"></i></button>`+
-    //             '</tr>'
-    //             )
-    //             arr_check.push(id_item)
-    //         }
-    //         var list=$(".name_items")
-    //         if(list_check.length){
-    //             $.each(list,function(index,value){
-    //                 if(arr_check.indexOf(id_item) == -1 ){
-    //                     $("#table_product_specialty").append(
-    //                     `<tr style="border:none" data-id=${id_item} class="get_id_value_item">`+
-    //                         '<td class="name_items">'+name_item+'</td>'+
-    //                         '<td>'+'<input type="number" class="form-control" value="" placeholder="Khai giá" name="quantity_item[]" required>'+'</td>'+
-    //                         `<td><button class="btn btn-danger" onclick="remove_row(${id_item})"><i class="fa fa-trash"></i></button>`+
-    //                     '</tr>'
-    //                 )
-    //                     arr_check.push(id_item)
-    //                 }
-    //             })
-    //         }
-    //     }
-    // }
-    // function getData(){
-    //     let list_check = $("tr[class='get_id_value_item']");
-    //     var surance = $("#insuarance").val();
-    //     var key;
-    //     var value;
-    //     var obj_send ={};
-    //     if(list_check.length){
-    //         $.each(list_check,function(index,value){
-    //             key = $(value).attr("data-id")
-    //             value = $(value).find("input[name='quantity_item[]']").val()?$(value).find("input[name='quantity_item[]']").val():0
-    //             obj_send[key]=value;
-    //         })
-    //     }
-
-    //     return {
-    //         obj_send,
-    //         surance
-    //     }
-    // }
     function push_tracking() {
         event.preventDefault();
         var OptionAdd = $('#utypeadd').val();
@@ -777,117 +865,6 @@
                 .length > 8 && (ShipAir == true | ShipSea == true) && (Upx != null || OptionAdd.length > 5) && (
                     UaddNumber.length >= 4 || OptionAdd.length > 5)) {
                 $("#modal_qoute").show()
-                $("#send_tracking").click(function(){
-                    var special_price = $("#special_enter").val();
-                    var insurance_price = $("#insurance_enter").val();
-                    var Note = $("#unote").val();
-                    var check_insurance = parseFloat(insurance_price.replaceAll(",",""))
-                    var check_special = parseFloat(special_price.replaceAll(",",""))
-                    if(parseFloat(insurance_price)< 0){
-                        alert('Số tiền không được nhỏ hơn 0')
-                    }
-                    if($('#check_specialty').prop('checked')==false && $('#check_BH').prop('checked')==false){
-                        alert('Vui lòng chọn khai báo bảo hiểm')
-                        return
-                    }
-                    if(ShipAir){
-                        if(check_insurance>20000000){
-                            alert('Bảo hiểm đơn hàng đường bay không được lớn hơn 20,000,000'  )
-                            return
-                        }
-                        if(check_special>20000000){
-                            alert('Giá hàng hoá đặc biệt đường bay không được lớn hơn 20,000,000'  )
-                            return
-                        }
-                    }else{
-                        if(check_insurance>50000000){
-                            alert('Bảo hiểm đơn hàng đường biển không được lớn hơn 50,000,000'  )
-                            return
-                        }
-                        if(check_special>50000000){
-                            alert('Giá hàng hoá đặc biệt đường biển không được lớn hơn 50,000,000'  )
-                            return
-                        }
-                    }
-                    if($('#check_type_special').prop('checked')==false && $('#check_type_special_no').prop('checked')==false){
-                        alert('Vui lòng chọn khai báo hàng đặc biệt')
-                        return
-                    }
-                    $("#first_choose").attr("selected",true)
-                    $("#product_specialty").hide()
-                    $("#table_product_specialty").empty()
-                    $("#modal_qoute").hide()
-                    $("#table_showCreatedTrackings").empty()
-                    toggleLoading()
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type: 'POST',
-                        url: "{{ route('rq_tk.store') }}",
-                        data: {
-                            special_price:special_price,
-                            insurance:insurance_price,
-                            utypeadd: utypeadd,
-                            TrackingSaiko: Tracking,
-                            Phone: Phone,
-                            Name_Send: Name_Send,
-                            Number_Send: Number_Send,
-                            Name_Rev: Name_Rev,
-                            Add: AddRev,
-                            Type: Type,
-                            Note: Note,
-                            Reparking: Reparking,
-                            ShipAir: ShipAir,
-                            ShipSea: ShipSea,
-                            Location: '203.205.41.135',
-                            Code_Add: Code_Add,
-                            province: province,
-                            district: district,
-                            ward: ward,
-                            checkAir: checkAir,
-                            checkSea: checkSea,
-                            merge_box: merge_box,
-                        },
-                        success: function (response) {
-                            $("#table_showResultCreatedTrackings").empty()
-                            $.each(response, function (index, value) {
-                                if (value.code == 201) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:green;border:none !important;text-align:center'>" + value
-                                        .message + " " +
-                                        "<i class='fa fa-check' style='color:green'></i>" +
-                                        "</td>" +
-                                        "</tr>"
-                                    )
-                                }
-                                if (value.code == 405) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:#fca901;border:none !important;text-align:center'>" + value
-                                        .message + " " +
-                                        "<span><i class='fa fa-warning'></i></span>" +
-                                        "</td>" + "</tr>"
-                                    )
-                                }
-                                if (value.code == 422) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:red;border:none !important;text-align:center'>" + value
-                                        .message + " " +
-                                        "<span><i class='fa fa-times'></i></span>" + "</td>" +
-                                        "</tr>"
-                                    )
-                                }
-                            })
-                            $('#message').html('');
-                            $('#exitForm').hide();
-                            $('#exitSuccess') .show();
-                            $('#show_result').show();
-                        }
-                    });
-                })
                 
             }
         }

@@ -1691,6 +1691,7 @@
     $('#tracking_form_index').submit(function() {
         event.preventDefault();
         $("#alert").hide()
+        $("#declaration_price").hide()
         $("#table_price_shipping").hide()
         $("#table_body_price_shipping").empty()
         $("#body-table-index").empty()
@@ -1700,7 +1701,6 @@
         $("#table-index-vnpost").hide()
         $("#statusData").empty()
         $("#statusData").hide()
-        // $("#table_item").hide()
         $("load_item").empty()
         var tracking = $("#utrack").val();
         if(tracking.length<=5){

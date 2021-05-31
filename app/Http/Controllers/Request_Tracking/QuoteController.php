@@ -148,44 +148,36 @@ class QuoteController extends Controller
         $arr_created = array();
         $insurance = str_replace(',', '', $request->insurance);
         $special_price = str_replace(',', '', $request->special_price);
-        foreach ($tracking as $item) {
-            if ($item == "") {
-                continue;
-            }
-            $create_shipment = Http::withHeaders([
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token->access_token
-            ]);
-            $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders', [
-                'shipment_method_id' => $shipping, //đường vận chuyển
-                'shipment_infor_id' => $data['id'], //lấy id của shipment_info
-                'type' => 'shipment',
-                'tracking' => $item, //danh sách tracking
-                'note' =>  $request->Note,
-                'repackage' => $request->Reparking == "true" ? 1 : 0,
-                'merge_package' => $request->merge_box ? 1 : 0,
-                'insurance_declaration' => floatval($insurance),
-                'special_declaration' => floatval($special_price),
-            ]);
-            if ($create_shipment->status() == 201) {
-                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tạo thành công'];
-            }
-            if ($create_shipment->status() == 405) {
-                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Đã tồn tại'];
-            }
-            if ($create_shipment->status() == 422) {
-                $arr_created[] = ['code' => $create_shipment->status(), 'message' => $item . ' Không được quá 15 ký tự'];
-            }
+        // foreach ($tracking as $item) {
+        //     if ($item == "") {
+        //         continue;
+        //     }
+        $create_shipment = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token->access_token
+        ]);
+        $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders/shipment/create-with-trackings', [
+            'shipment_method_id' => $shipping, //đường vận chuyển
+            'shipment_infor_id' => $data['id'], //lấy id của shipment_info
+            'type' => 'shipment',
+            'trackings' => $tracking, //danh sách tracking
+            'note' =>  $request->Note,
+            'repackage' => $request->Reparking == "true" ? 1 : 0,
+            'merge_package' => $request->merge_box ? 1 : 0,
+            'insurance_declaration' => floatval($insurance),
+            'special_declaration' => floatval($special_price),
+        ]);
+        // dd($create_shipment->body(), $create_shipment->status());
+        if ($create_shipment->status() == 201) {
+            $arr_created[] = ['code' => $create_shipment->status(), 'message' =>  ' Mã tracking đã tạo thành công'];
+        }
+        if ($create_shipment->status() == 405) {
+            $arr_created[] = ['code' => $create_shipment->status(), 'message' =>  ' Mã tracking đã tồn tại'];
+        }
+        if ($create_shipment->status() == 422) {
+            $arr_created[] = ['code' => $create_shipment->status(), 'message' => ' Mã tracking không được quá 15 ký tự'];
         }
         return response()->json($arr_created);
-        // if ($create_shipment->status() == 201) {
-        //     return $create_shipment->status();
-        // } else {
-        //     return $create_shipment->status();
-        // }
 
-        //tạo tracking
-        // $tracking = json_encode($arr);
-        //note
     }
 }
