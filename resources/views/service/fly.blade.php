@@ -136,7 +136,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="img">
-                                        <img src="assets/images/item_special.png" alt="" style="width:100vw">
+                                        <img src="assets/images/item_special.jpg" alt="" style="width:100vw">
                                     </div>
                                 </div>
                             </div>

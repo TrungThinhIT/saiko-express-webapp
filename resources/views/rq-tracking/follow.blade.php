@@ -37,7 +37,7 @@
             background-image: url(../assets/images/trip.png) !important
         }
         .ed_footer_wrapper {
-            height: 100vh !important;
+            height: 50vh !important;
         }
         .modal-confirm .modal-content {
             padding: 20px;

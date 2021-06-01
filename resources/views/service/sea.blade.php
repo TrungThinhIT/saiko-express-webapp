@@ -80,7 +80,7 @@
                 <p> Các hàng hóa đặc biệt: Loa / Ampli / Điện thoại di động / Ipad / Laptop / Rượu / Đồng hồ đeo tay / Đồ cổ. Các hàng hóa thuộc danh sách trên nếu không được khai báo sẽ bị phạt cước vận chuyển tùy theo số lượng và giá trị món hàng</p>
                 <div class="row">
                     <div class="col-md-12">
-                        <img src="assets/images/item_special.png" style="width:100vw" >
+                        <img src="assets/images/item_special.jpg" style="width:100vw" >
                     </div>
                 </div>
                 <p>(3)</p>
