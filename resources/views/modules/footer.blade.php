@@ -1,5 +1,5 @@
 <!--Footer Top section start-->
-<div class="ed_footer_wrapper ed_toppadder60 ed_bottompadder30">
+<div class="ed_footer_wrapper ed_toppadder60 ed_bottompadder30" >
     <div class="ed_footer_top">
         <div class="container">
             <div class="row">
@@ -14,7 +14,9 @@
                             <ul>
                                 <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip" data-placement="bottom"
                                         title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                
+                                <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip" data-placement="bottom"
+                                title="Facebook"><i class="iconify" data-icon="simple-icons:viber" data-inline="true"></i></a></li>
+                                <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><img src="../assets/images/zalo.png" alt="" width="30px" height="15px"></a></li>
                             </ul>
                         </div>
                     </div>
@@ -41,7 +43,7 @@
                             <ul>
                                 <li><a href="{{ route('index') }}">Trang chủ</a></li>
                                 <li><a href="{{ route('about.index') }}">Về chúng tôi</a></li>
-                                <li><a href="{{ route('about.gallery') }}">Gallery</a></li>
+                                <li><a href="{{ route('about.gallery') }}">Hình ảnh thực tế</a></li>
                                 <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
                                 <li><a href="{{ route('rq_tk.price') }}">Báo giá</a></li>
                             </ul>
@@ -53,7 +55,7 @@
                         <h4 class="widget-title">Liên hệ</h4>
                         <p><i class="fa fa-home" aria-hidden="true"></i> 5101-1 Kaminokawa-machi Kawachi-gun,
                             Tochigi-ken, Japan</p>
-                        <p><i class="fa fa-home" aria-hidden="true"></i> 329-0611 栃木県河内郡上三川町 上三川 5101-1</p>
+                        <p><i class="fa fa-home" aria-hidden="true"></i> 329-0611 栃木県河内郡上三川町 上三川 51011</p>
                         <p><i class="fa fa-envelope" aria-hidden="true"></i>info@saikoexpress.com </p>
                         <p><i class="fa fa-phone" aria-hidden="true"></i> 1900.2149(VN)</p>
                     </div>

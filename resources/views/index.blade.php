@@ -446,9 +446,7 @@
 
                 <div class="content-slide">
                     <p class="title-slide" >THÔNG TIN CẬP NHẬT</p>
-                    {{-- <p class="text-slide" > Vận chuyển hàng hoá từ Nhật về Việt
-                        Nam <br />bằng máy bay nhận hàng chỉ từ 5 - 7 ngày</p>
-                    <button onclick="openQuote()" class="btn ed_btn ed_orange">GỬI HÀNG NGAY</button> --}}
+                    <a href="{{route('blog.index')}}"><button onclick="openQuote()" class="btn ed_btn ed_orange">Xem thêm</button></a>
                 </div>
 
             </div>
@@ -474,11 +472,11 @@
                 </div>
             </div>
             <div class="slider-content__item image-3 image-height-mobile">
-                <img src="../assets/images/slider3.jpg">
+                <img src="../assets/images/solution.jpg">
 
                 <div class="content-slide">
                     <p class="title-slide">CUNG CẤP GIẢI PHÁP HIỆU QUẢ</p>
-                    <p class="text-slide" style="text-shadow: 0.1em 0.1em #333;">
+                    <p class="text-slide" >
                         Hệ thống tracking thông minh hiện đại hỗ trợ khách hàng <br />kiểm soát chi phí vận chuyển nhận
                         hàng tại nhà
                     </p>
@@ -1038,11 +1036,11 @@
             </div>
             <div class="ed_mostrecomeded_course_slider" style="text-align:center">
                 <div>
-                    <img class="img-mobile-index" src="../assets/images/procedu.jpg" alt="item1" class="img-responsive">
+                    <img class="img-mobile-index" src="../assets/images/send_order.png" alt="item1" class="img-responsive">
                 </div>
-                <div style="margin-top:10px">
+                {{-- <div style="margin-top:10px">
                     <a href="{{ route('service.procedure') }}" class="btn ed_btn ed_orange">Xem thêm</a>
-                </div>
+                </div> --}}
 
             </div>
 
@@ -1090,7 +1088,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="ed_heading_top ed_bottompadder50">
-                    <h3>Tại sao nên lựa chọn dịch vụ của Saiko Express</h3>
+                    <h3>TẠI SAO NÊN LỰA CHỌN DỊCH VỤ CỦA SAIKO EXPRESS ?</h3>
                 </div>
             </div>
             <div class="ed_mostrecomeded_course_slider">
@@ -1418,7 +1416,7 @@
                         <div class="ed_pricing_heading">
                             <h2>HẠNG Business</h2>
                             <div class="ed_table_price">
-                                <p class="ed_price_dollar"><sup></sup>Thương lượng<sub> /kg</sub></p>
+                                <p class="ed_price_dollar"><sup></sup><b style="font-size:30px">Thương Lượng</b></p>
                             </div>
                         </div>
                         <ul>
@@ -1474,7 +1472,7 @@
                         <div class="ed_pricing_heading">
                             <h2>HẠNG premium</h2>
                             <div class="ed_table_price">
-                                <p class="ed_price_dollar" style="font-size: 30px;"><sup></sup>~60.000đ<sub> /kg</sub>
+                                <p class="ed_price_dollar" style="font-size: 30px;"><sup></sup>60.000đ<sub> /kg</sub>
                                 </p>
                             </div>
                         </div>
@@ -1495,11 +1493,11 @@
                         <div class="ed_pricing_heading">
                             <h2>HẠNG Business</h2>
                             <div class="ed_table_price">
-                                <p class="ed_price_dollar" style="font-size: 30px;"><sup></sup>Thương lượng<sub></sub></p>
+                                <p class="ed_price_dollar" style="font-size: 30px;"><sup></sup>Thương lượng</p>
                             </div>
                         </div>
                         <ul>
-                            <li>nhận hàng từ 300kg/ tháng</li>
+                            <li>nhận hàng từ 300kg/chuyến</li>
                             <li>Bảo hiểm 3% giá trị hàng</li>
                             <li>Có chuyên viên CSKH riêng</li>
                             <li>Thanh toán thương lượng</li>
@@ -1638,7 +1636,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="ed_newsletter_section_heading">
-                            <h4>Gữi mail ngay để được tư vấn.</h4>
+                            <h4>GỬI MAIL NGAY ĐỂ ĐƯỢC TƯ VẤN</h4>
                         </div>
                     </div>
                     <div

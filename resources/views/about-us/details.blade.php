@@ -110,7 +110,7 @@
                                     src="assets/images/about-us2.jpg" />
                             </div>
                             <p>Mục tiêu của chúng tôi là trở thành một trong những công ty dịch vụ vận chuyển lớn mạnh
-                                tại Nhật Bản và đáng tin cậy, cùng khách hàng tăng doanh thu và lợi nhuận. Phát triển
+                                tại Việt Nam và đáng tin cậy, cùng khách hàng tăng doanh thu và lợi nhuận. Phát triển
                                 mảng giao thương hàng hóa quốc tế. Khách hàng không cần lo lắng khi muốn sử dụng hàng
                                 hóa từ nước ngoài.</p>
                             <div class="fh-section-title clearfix f30  text-left version-dark paddbtm40">
@@ -122,7 +122,7 @@
                             </div>
                             <p>Saiko Express thực hiện việc giao vận, góp phần quan trọng vào sự phát triển chung của
                                 thị trường thương mại điện tử. Saiko Express vượt qua các công ty đa quốc gia về dịch vụ
-                                giao nhận hàng hóa tại Việt Nam và Nhật bản, qua đó khẳng định sức mạnh của mình.</p>
+                                giao nhận hàng hóa tại Việt Nam và Nhật Bản, qua đó khẳng định sức mạnh của mình.</p>
                         </div>
 
                     </div>

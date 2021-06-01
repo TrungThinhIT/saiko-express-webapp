@@ -2,6 +2,9 @@
 <html lang="en">
 <!--<![endif]-->
 <style>
+    .ed_pagetitle{
+        background-image: url(../assets/images/relity_bg.png) !important
+    }
     .nav_main_item {
         width: 33.33%;
         min-height: 56px;
@@ -131,7 +134,7 @@
 
 <script>
     var HTML1 = "";
-    for (var i = 1; i <= 8; i++) {
+    for (var i = 1; i <= 1; i++) {
         // var dot = "jpg";
         // if(i>=18 && i<=34 || i==52){
         // 	dot="png";
@@ -140,12 +143,12 @@
         // if(i>=5){
         // classChange = 'col-custom';
         // }
-        var data = "<div class='col-lg-3 col-md-3 col-sm-4 col-xs-3 " + classChange + "'>" +
-            "<div class='ed_gallery_member'>" +
-            "<div class='ed_gallery_member_img'>" +
-            "<a href='assets/images/gellery/1/" + i +
-            ".jpg' title=''><img src='../assets/images/gellery/1/" +
-            i + ".jpg' alt='item7' class='img-responsive'></a>" +
+        var data = "<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 " + classChange + "'>" +
+            "<div class='ed_gallery_member' >" +
+            "<div class='ed_gallery_member_img' >" +
+            "<a href='assets/images/about-us" + i +
+            ".png' title=''><img src='../assets/images/about-us" +
+            i + ".png' alt='item7' class='img-responsive'></a>" +
             "</div>" +
             "</div>" +
             "</div>";

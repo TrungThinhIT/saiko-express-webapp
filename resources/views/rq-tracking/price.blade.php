@@ -132,6 +132,9 @@
     .set-width-lb {
         width: 37px;
     }
+    .ed_pagetitle{
+        background-image: url(../assets/images/calulate.jpg) !important;
+    }
 
     @media (max-width: 1260px) {
         .col-md-7 {
@@ -149,7 +152,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="page_title">
-                    <h2>BÁO GIÁ</h2>
+                    <h2>BÁO GIÁ CHI TIẾT</h2>
                 </div>
             </div>
 
@@ -158,7 +161,6 @@
                     <li><a href="javascript:;" style="color:white;font-weight:500">SAIKO EXPRESS</a></li>
                 </ul>
             </div>
-
         </div>
     </div>
 </div>
@@ -169,16 +171,16 @@
         <div class="row quote1top">
             <div class="col-sm-12">
                 <div class="fh-section-title clearfix f30  text-left version-dark paddbtm40">
-                    <h2>CHI TIẾT BÁO GIÁ</h2>
+                    <h2>BÁO GIÁ CHI TIẾT</h2>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-md-5">
-                <img src="assets/images/price.png" alt="Tính phí chi tiết vận chuyển">
-            </div>
-            <div class="col-md-7" style="margin-top: -100px">
+            {{-- <div class="col-md-5">
+                <img src="assets/images/calulate.jpeg" alt="Tính phí chi tiết vận chuyển" height="500px">
+            </div> --}}
+            <div class="col-md-12" >
                 <div class="fee-pro-title">
                     <span class="fee-pro-number">1</span>
                     <span class="fee-pro-name">Thông tin kiện hàng</span>
@@ -203,6 +205,12 @@
                             giá trị khai báo </label>
                         <label class="radio-inline mobile-block"><input type="radio" name="check" id="noBuy">Không
                             mua</label>
+                    </div>
+                    <div>
+                        <label class="mobile-track d-flex">Hàng đặc biệt: </label>
+                        {{-- <label class="radio-inline mobile-block mobile-block-f"><input type="radio" name="check" checked
+                                id="sbuy">(5% giá trị khai báo) </label> --}}
+                        <label class="radio-inline mobile-block">Loa/ Ampli/ Điện thoại di động/ Ipad/ Laptop/ Rượu/ Đồng hồ đeo tay/ Đồ cổ (tính thêm 2% giá trị khai báo)</label>                     
                     </div>
                 </div>
                 <div class="fee-pro-title">
@@ -263,7 +271,7 @@
                             <div class="unset-border">
                                 <div class="form-group">
                                     <div style="display: inline-flex;">
-                                        <label class="control-label"><i class="fa fa-hand-o-right"></i> Trọng lượng thể
+                                        <label class="control-label"> Trọng lượng thể
                                             tích:</label>
                                         <span style="width:80px;font-weight: bold; margin-left: 10px;"
                                             id="weight">0</span>

@@ -3,6 +3,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <style>
    
+    .ed_pagetitle{
+        background-image: url(../assets/images/item.png) !important;
+    }
     .inpute-insuaran{
         width: auto;
         font-size: 20px;

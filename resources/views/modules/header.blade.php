@@ -14,7 +14,7 @@
     <link href="assets/css/frontend.css" rel="stylesheet">
     <link href="assets/css/flaticon.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="assets/css/font-awesome.min.css" />
+    {{-- <link type="text/css" rel="stylesheet" href="assets/css/font-awesome.min.css" /> --}}
     <meta http-equiv='cache-control' content='no-cache'>
     <meta http-equiv='expires' content='0'>
     <meta http-equiv='pragma' content='no-cache'>
@@ -22,7 +22,7 @@
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="assets/js/jquery.masknumber.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <style>
         @media (max-width: 576px) {
             .phone-mobile {
@@ -158,8 +158,8 @@
                                     <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip"
                                             data-placement="bottom" title="Facebook"><i class="fa fa-facebook"
                                                 aria-hidden="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><img src="../assets/images/zalo.jpeg" alt=""></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Viber"><i class="fab fa-viber"></i></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Viber"><i class="iconify" data-icon="simple-icons:viber" data-inline="true"></i></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><img src="../assets/images/zalo.png" alt=""></a></li>
                                    
                                 </ul>
                             </div>
@@ -206,17 +206,15 @@
 
                                             <li><a href="{{ route('about.policy') }}">Chính
                                                     Sách</a></li>
-                                            <li><a href="{{ route('about.gallery') }}">Hình ảnh thựct tế</a>
+                                            <li><a href="{{ route('about.gallery') }}">Hình ảnh thực tế</a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li><a href="javascript:;">Request &
                                             Tracking</a>
                                         <ul class="sub-menu">
-                                            <li><a href="{{ route('rq_tk.price') }}">Yêu
-                                                    cầu báo giá</a></li>
-                                            <li><a href="{{ route('rq_tk.quote') }}">Gửi
-                                                    hàng ngay</a></li>
+                                            <li><a href="{{ route('rq_tk.price') }}">Báo giá chi tiết</a></li>
+                                            <li><a href="{{ route('rq_tk.quote') }}">Thông tin kiện hàng</a></li>
                                             <li><a href="{{ route('rq_tk.shipment') }}">Theo
                                                     dõi kiện hàng</a></li>
                                         </ul>

@@ -33,6 +33,12 @@
   } */
         }
 
+        .ed_pagetitle{
+            background-image: url(../assets/images/trip.png) !important
+        }
+        .ed_footer_wrapper {
+            height: 100vh !important;
+        }
         .modal-confirm .modal-content {
             padding: 20px;
             border-radius: 5px;
@@ -175,7 +181,7 @@
 
 <body>
     <!--Page main section start-->
-    <div id="pro_wrapper">
+    <div id="pro_wrapper" >
         <!--Header start-->
         @include('modules.header')
     
@@ -344,13 +350,13 @@
             </div>
         </div>
 
-        <section class="tracksipment secpadd layout-main">
+        <section class="tracksipment secpadd layout-main" >
             <div class="container">
 
                 <div class="row quote1top">
                     <div class="col-md-12 col-sm-12">
                         <div class="fh-section-title clearfix f30  text-left version-dark paddbtm40">
-                            <h2>Theo dõi lô hàng của bạn</h2>
+                            <h2>Theo dõi kiện hàng của bạn</h2>
                         </div>
                         <p>Để theo dõi lộ trình kiện hàng của bạn, vui lòng nhập mã tracking dưới đây:</p>
                         <div class="row paddtop30">
