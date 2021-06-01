@@ -24,8 +24,8 @@ class FLTrackingController extends Controller
     public function getStatus(Request $request)
     {
         $a = "43546325";
-        $a = json_decode($a,true);
-        
+        $a = json_decode($a, true);
+
         //get token
         $token = token::find(1);
         if (empty($token)) {
@@ -204,31 +204,17 @@ class FLTrackingController extends Controller
                                     if ($use_weight >= 100 && $use_weight < 500) {
                                         $checkProvince = "price2";
                                     }
-
-                                    if ($province <= 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 190000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(190000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 185000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 185000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(185000);
-                                        }
+                                    if ($checkProvince == "price1") {
+                                        $money = $use_weight * 190000;
+                                        $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
+                                        $results['boxes'][$i]['fee_ship'] = number_format(190000);
                                     }
-                                    if ($province > 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 200000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(200000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 195000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 195000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(195000);
-                                        }
+                                    if ($checkProvince == "price2") {
+                                        $money = $use_weight * 185000;
+                                        $results['boxes'][$i]['total_money'] = number_format($use_weight * 185000);
+                                        $results['boxes'][$i]['fee_ship'] = number_format(185000);
                                     }
+                                   
                                     $pay_money_order += $money;
                                     $results['boxes'][$i]['use_weight'] = $use_weight;
                                 }
