@@ -472,7 +472,7 @@
                 </div>
             </div>
             <div class="slider-content__item image-3 image-height-mobile">
-                <img src="../assets/images/solution.jpg">
+                <img src="../assets/images/solution.png">
 
                 <div class="content-slide">
                     <p class="title-slide">CUNG CẤP GIẢI PHÁP HIỆU QUẢ</p>

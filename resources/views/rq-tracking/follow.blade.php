@@ -36,9 +36,9 @@
         .ed_pagetitle{
             background-image: url(../assets/images/trip.png) !important
         }
-        .ed_footer_wrapper {
+        /* .ed_footer_wrapper {
             height: 50vh !important;
-        }
+        } */
         .modal-confirm .modal-content {
             padding: 20px;
             border-radius: 5px;
@@ -91,7 +91,9 @@
             text-align: center;
             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
         }
-
+        .tracksipment{
+            margin-bottom:200px;
+        }
 
         .modal-confirm .icon-box i {
             font-size: 56px;

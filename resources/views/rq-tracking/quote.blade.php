@@ -261,6 +261,7 @@
                 <img src="assets/images/cargocar.png" alt="">
             </div>
         </div>
+        <br>
         <div class="row quote1forms">
             <div class="col-md-12">
                 <form action="{{ route('rq_tk.store') }}" method="POST">
@@ -268,13 +269,13 @@
                     <div class="fh-form request-form" style="margin-bottom:40px">
                         <div class="row">
                             <div class="field col-md-4">
-                                <label>Nhập mã Tracking Number<span class="require">*</span></label>
+                                <label>Nhập mã Tracking<span class="require">*</span></label>
                                 <input placeholder="Nhập số tracking" name="tracking" id="utracking"
                                     value="{{ old('tracking') }}" type="text" required>
                             </div>
                             <div class="field col-md-4">
                                 <label>Tên người gửi<span class="require">*</span></label>
-                                <input placeholder="Facebook hoặc tên người làm việc với SAIKO"
+                                <input placeholder="Tên Facebook hoặc người làm việc với SAIKO"
                                     value="{{ old('name') }}" name="name" id="uname_send" type="text" required>
                             </div>
                             <div class="field col-md-4">
