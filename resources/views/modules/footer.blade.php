@@ -1,5 +1,5 @@
 <!--Footer Top section start-->
-<div class="ed_footer_wrapper ed_toppadder60 ed_bottompadder30" >
+<div class="ed_footer_wrapper ed_toppadder60 ed_bottompadder30">
     <div class="ed_footer_top">
         <div class="container">
             <div class="row">
@@ -15,8 +15,10 @@
                                 <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip" data-placement="bottom"
                                         title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
                                 <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip" data-placement="bottom"
-                                title="Facebook"><i class="iconify" data-icon="simple-icons:viber" data-inline="true"></i></a></li>
-                                <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><img src="../assets/images/zalo.png" alt="" width="30px" height="15px"></a></li>
+                                        title="Facebook"><i class="iconify" data-icon="simple-icons:viber"
+                                            data-inline="true"></i></a></li>
+                                <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><img
+                                            src="../assets/images/zalo.png" alt="" width="30px" height="15px"></a></li>
                             </ul>
                         </div>
                     </div>
@@ -97,13 +99,68 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12 col-sm-12 col-custome">
-                                    <div class="lftredbrdr">
-                                        <ul class="timeline" id="time_line_tracking">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered" id="table_price_shipping_footer_2"
+                                        style="display:none">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center">Box_ID</th>
+                                                <th style='width:100px;text-align:center'>Khối lượng tính phí</th>
+                                                <th>Đơn giá</th>
+                                                <th>Đường vận chuyển</th>
+                                                <th>Phí vận chuyển (Nhật - Kho Việt)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table_body_price_shipping_footer">
 
-                                        </ul>
-                                    </div>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-none" id="declaration_price_footer" style="margin:4px">
+                            <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                                <div class="col-md-6 " style="padding-left: unset">
+                                    <p class="text-danger"><label for="">Tiền bảo hiểm đơn hàng</label>: <span
+                                            id="insurance_result_footer"></span> </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="text-danger"><label for="">Phí bảo hiểm (3%)</label>: <span
+                                            id="insurance_result_fee_footer"></span> </p>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                                <div class="col-md-6" style="padding-left: unset">
+                                    <p class="text-danger"><label for="" id="special_footer">Tiền hàng đặc biệt</label>:
+                                        <span id="special_result_footer"></span> </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="text-danger"><label for="" id="special_footer">Phí hàng đặc biệt
+                                            (2%)</label>: <span id="special_result_fee_footer"></span> </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row d-none" id="alert_footer" style="margin:4px">
+                            <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                                <p class="text-danger">Xin quý khách vui lòng thanh toán đến STK :
+                                    <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img
+                                        src="images/TCB_icon.png" alt="" width="120px"></p>
+                                <p class="text-danger">Nội dung thanh toán : <span class="text-danger"
+                                        id="id_order_footer"></span>
+                                <p>
+                                <p class="text-danger">Số tiền thanh toán: <span id="money_footer"></span><span>( Đã bao
+                                        gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 col-custome">
+                                <div class="lftredbrdr">
+                                    <ul class="timeline" id="time_line_tracking">
+
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +170,7 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tắt</button>
                 </div>
             </div>
-           
+
         </div>
     </div>
     <div class="modal fade" id="myModal_tracking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -128,8 +185,8 @@
                 <div class="modal-footer">
                     <button class="btn btn-err btn-danger btn-block" data-dismiss="modal"
                         id="exitForm_tracking">Thoát</button>
-                    <button class="btn btn-danger btn-block" data-dismiss="modal"
-                         id="exitSuccess_tracking" style="display:none">Thoát</button>
+                    <button class="btn btn-danger btn-block" data-dismiss="modal" id="exitSuccess_tracking"
+                        style="display:none">Thoát</button>
                 </div>
             </div>
         </div>
@@ -217,16 +274,20 @@
     }(document, 'script', 'facebook-jssdk'));
 
     function track() {
+        $("#table_price_shipping_footer_2").hide()
+        $("#alert_footer").hide()
+        $("#declaration_price_footer").hide()
         $(".table").hide();
         $("#statusData_tracking").empty('');
-        $("#statusData_tracking").css('display','none');
+        $("#statusData_tracking").css('display', 'none');
         $("#time_line_tracking").empty()
+        $("#table_body_price_shipping_first").empty()
         $("#body-table-tracking").empty();
         $("#modal_tracking").modal('show')
         var tracking = $("#track_tracking").val();
-        if(tracking==""){
-            $("#statusData_tracking").append('<h4>' +'Chưa nhập tracking' + '</h4>')
-            $("#statusData_tracking").css('display','block');
+        if (tracking == "") {
+            $("#statusData_tracking").append('<h4>' + 'Chưa nhập tracking' + '</h4>')
+            $("#statusData_tracking").css('display', 'block');
         }
         $.ajax({
             headers: {
@@ -240,9 +301,6 @@
             success: function(res) {
                 if (res == 404) {
                     $("#table").hide();
-                    $("#body-table-tracking").empty()
-                    $("#time_line_tracking").empty()
-                    $("#statusData_tracking").empty();
                     $(".table").hide();
                     $("#statusData_tracking").css('display', 'block');
                     $("#statusData_tracking").append('<h4>' +
@@ -261,6 +319,9 @@
                     } else {
                         $("#statusData_tracking").css('display', 'none');
                         $(".table").show();
+                        $("#table-index").hide()
+                        $("#table_price_shipping").hide()
+                        $("#table_item").hide()
                         $("#table-firt-tracking").show();
                         if (res.data.length == 0) {
                             $("#statusData_tracking").empty()
@@ -276,27 +337,60 @@
                                 var add_rev = '';
                                 var created_at = '';
                                 var method_ship = '';
+                                var pay_money = 0;
+                                var insurance_result;
+                                var special_result;
+                                var insurance_result_fee = 0;
+                                var special_result_fee = 0;
                                 if (value.orders.length != 0) {
                                     var sort_order = (value.orders).sort(function(x, y) {
-                                            return new Date(x.shipment_infor_id) - new Date(y.shipment_infor_id)
-                                        })
-                                    // if (sort_order[value.orders.length -
-                                    //         1].shipment_infor
-                                    //     .sender_name == null) {
-                                    var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
-                                    name_send = parse_note.send_name;
-                                    // } else {
-                                    //     name_send = sort_order[value
-                                    //             .orders.length - 1]
-                                    //         .shipment_infor.sender_name;
-                                    // }
-                                    tel_rev = sort_order[value.orders.length - 1].shipment_infor .tel;
-                                    name_rev = sort_order[value.orders.length - 1].shipment_infor .consignee;
-                                    add_rev = sort_order[value.orders .length - 1].shipment_infor.full_address;
+                                        return new Date(x.shipment_infor_id) - new Date(y
+                                            .shipment_infor_id)
+                                    })
+                                    if (sort_order[value.orders.length - 1].shipment_infor
+                                        .sender_name == null) {
+                                        var parse_note = JSON.parse(sort_order[value.orders.length -
+                                            1].note);
+                                        if (parse_note == null) {
+                                            name_send = ""
+                                        } else {
+                                            if (parse_note.send_name == undefined) {
+                                                name_send = ""
+                                            } else {
+                                                name_send = parse_note.send_name;
+                                            }
+                                        }
+                                    } else {
+                                        name_send = sort_order[value.orders.length - 1]
+                                            .shipment_infor.sender_name;
+                                    }
+                                    tel_rev = sort_order[value.orders.length - 1].shipment_infor
+                                    .tel;
+                                    name_rev = sort_order[value.orders.length - 1].shipment_infor
+                                        .consignee;
+                                    add_rev = sort_order[value.orders.length - 1].shipment_infor
+                                        .full_address;
                                     created_at = sort_order[value.orders.length - 1].created_at;
-                                    method_ship = sort_order[value .orders.length - 1].shipment_method_id;
+                                    method_ship = sort_order[value.orders.length - 1]
+                                        .shipment_method_id;
+                                    if (sort_order[value.orders.length - 1].pay_money !=
+                                        undefined) {
+                                        pay_money = sort_order[value.orders.length - 1].total_fee;
+                                    }
+                                    insurance_result = sort_order[value.orders.length - 1]
+                                        .insurance_declaration //tiền bảo hiểm
+                                    special_result = sort_order[value.orders.length - 1]
+                                        .special_declaration //tiền hàng đặc biệt
+                                    $("#declaration_price_footer").show()
+                                    $("#insurance_result_footer").text(formatNumber(
+                                        insurance_result))
+                                    $("#special_result_footer").text(formatNumber(special_result))
+                                    $("#insurance_result_fee_footer").text(formatNumber(sort_order[
+                                        value.orders.length - 1].insurance_result_fee))
+                                    $("#special_result_fee_footer").text(formatNumber(sort_order[
+                                        value.orders.length - 1].special_result_fee))
                                 }
-                                if (name_send == '' | tel_rev == '' |name_rev == '' | add_rev == '') {
+                                if (tel_rev == '' | name_rev == '' | add_rev == '') {
                                     $('#message_tracking').html(
                                         'Khách chưa đăng kí đầy đủ thông tin tracking'
                                     );
@@ -315,6 +409,26 @@
                                         '</p>' +
                                         '</li>'
                                     )
+                                    if (value.logs.length) { //log thanh toán
+                                        $.each(value.logs, function(logs_index, logs_value) {
+                                            let keyObjectLogMerge = Object.keys(logs_value
+                                                .content)
+                                            // let valueObjectkeyLogMerge = Object.values(logs_value.content);
+                                            var statusLogMerge;
+                                            if (keyObjectLogMerge == "transaction") {
+                                                statusLogMerge = "Đã thanh toán " +
+                                                    formatNumber(logs_value.content
+                                                        .transaction.amount)
+                                                $("#time_line").append(
+                                                    '<li>' +
+                                                    '<a>' + statusLogMerge + '</a>' +
+                                                    '<p>' + logs_value.created_at +
+                                                    '</p>' +
+                                                    '</li>'
+                                                )
+                                            }
+                                        })
+                                    }
                                     $("#body-table-tracking")
                                         .append(
                                             `<tr ">` +
@@ -337,37 +451,60 @@
                                             '</tr>'
                                         )
                                 } else {
-                                    $("#body-table-tracking").empty()
-                                    $("#time_line_tracking").empty()
-                                    $.each(value.boxes, function(index,
-                                        value2) {
-                                        $("#body-table-tracking")
-                                            .append(
-                                                `<tr id="sku-row-${value2.id}">` +
-                                                '<td>' + value2.id +
-                                                '</td>' +
-                                                '<td>' + value2 .weight.toFixed(3) +
-                                                '</td>' +
-                                                '<td>' + value2.volume.toFixed(3) +
-                                                '</td>' +
-                                                '<td>' +name_send +
-                                                '</td>' +
-                                                '<td>' +name_rev +
-                                                '</td>' +
-                                                '<td>' +
-                                                tel_rev +
-                                                '</td>' +
-                                                '<td>' +
-                                                add_rev +
-                                                '</td>' +
-                                                '<td>' +
-                                                method_ship +
-                                                '</td>' +
-                                                '</tr>'
-                                            )
+                                    $.each(value.boxes, function(index, value2) {
+                                        console.log(value2.id, 'table')
+                                        $("#body-table-tracking").append(
+                                            `<tr id="sku-row-${value2.id}">` +
+                                            '<td>' + value2.id +
+                                            '</td>' +
+                                            '<td>' + value2.weight.toFixed(3) +
+                                            '</td>' +
+                                            '<td>' + value2.volume.toFixed(3) +
+                                            '</td>' +
+                                            '<td>' + name_send +
+                                            '</td>' +
+                                            '<td>' + name_rev +
+                                            '</td>' +
+                                            '<td>' +
+                                            tel_rev +
+                                            '</td>' +
+                                            '<td>' +
+                                            add_rev +
+                                            '</td>' +
+                                            '<td>' +
+                                            method_ship +
+                                            '</td>' +
+                                            '</tr>'
+                                        )
                                         if (value.boxes.length == 1) {
+                                            if (value.orders.length != 0) {
+                                                $("#alert_footer").show()
+                                                $("#id_order_footer").empty()
+                                                $("#money_footer").empty()
+                                                $("#id_order_footer").text(value.id)
+                                                $("#money_footer").text(formatNumber(
+                                                    sort_order[value.orders.length -
+                                                        1].total_fee) + " VNĐ")
+                                            }
+                                            //fee_shipping
+                                            if (value2.use_weight != undefined) {
+                                                $("#table_price_shipping_footer").show()
+                                                $("#table_body_price_shipping_footer")
+                                                    .empty()
+                                                $("#table_body_price_shipping_footer")
+                                                    .append(
+                                                        '<tr>' +
+                                                        '<td>' + value2.id + '</td>' +
+                                                        '<td>' + value2.use_weight.toFixed(
+                                                            3) + '</td>' +
+                                                        '<td>' + value2.fee_ship + '</td>' +
+                                                        '<td>' + method_ship + '</td>' +
+                                                        '<td>' + value2.total_money +
+                                                        ' VNĐ</td>' +
+                                                        +'</tr>'
+                                                    )
+                                            }
                                             $("#time_line_tracking").empty()
-
                                             if (value.boxes[0].logs.length == 0) {
                                                 $("#time_line_tracking").append(
                                                     '<li>' +
@@ -376,47 +513,138 @@
                                                     '</li>'
                                                 )
                                             } else {
-                                                $.each(value.boxes[0].logs, function(index, value) {
-                                                    let a = JSON.parse(value.content);
-                                                    let valueObject = Object.keys(a);
+                                                var size = "( Dài : " + value.boxes[0]
+                                                    .length + "cm" + ",Rộng: " + value
+                                                    .boxes[0].width + "cm" + ",Cao: " +
+                                                    value.boxes[0].height + "cm )"
+                                                $("#id_order_footer").empty()
+                                                $("#money_footer").empty()
+                                                if (value.orders.length != 0) {
+                                                    $("#id_order_footer").text(value.id)
+                                                    $("#money_footer").text(formatNumber(
+                                                            sort_order[value.orders
+                                                                .length - 1].total_fee
+                                                            ) + " VNĐ")
+                                                }
+                                                $.each(value.boxes[0].logs, function(index,
+                                                    value) {
+                                                    let valueObject = Object.keys(
+                                                        value.content);
+                                                    let valueOfKey = Object.values(
+                                                        value.content);
                                                     var status;
                                                     if (valueObject == "id") {
                                                         status = "Đã nhập kho Nhật"
                                                     }
-                                                    if (valueObject =="in_pallet") {
+                                                    if (valueObject ==
+                                                        "in_pallet") {
                                                         status = "Đã kiểm hàng"
                                                     }
-                                                    if (valueObject =="set_owner_id,set_owner_type") {
+                                                    if (valueObject ==
+                                                        "set_owner_id,set_owner_type"
+                                                        ) {
                                                         status = "Lên đơn hàng"
                                                     }
-                                                    if (valueObject =="in_container") {
+                                                    if (valueObject ==
+                                                        "in_container") {
                                                         status = "Lên container"
                                                     }
-                                                    if (valueObject == "out_container") {
+                                                    if (valueObject ==
+                                                        "out_container") {
                                                         status = "Xuống container"
                                                     }
-                                                    if (valueObject =="delivery_status") {
-                                                        if (a.delivery_status =="shipping") {
-                                                            status = "Đang giao hàng"
+                                                    if (valueObject ==
+                                                        "in_container") {
+                                                        var parts = value.created_at
+                                                            .split('-')
+                                                        var year = parts[2].split(
+                                                            ' ')
+                                                        var getDate = new Date(year[
+                                                                0], parts[1] -
+                                                            1, parts[0])
+                                                        var now = new Date()
+                                                        var date_arv = getDate -
+                                                        now;
+                                                        var add_date;
+                                                        var check_method =
+                                                            method_ship.charAt(0)
+                                                            .toUpperCase() +
+                                                            method_ship.slice(1);
+                                                        if (check_method == "Air") {
+                                                            add_date = 6;
+                                                        } else {
+                                                            add_date = 30;
+                                                        }
+                                                        var expected_date =
+                                                            parseInt(date_arv / (
+                                                                1000 * 3600 * 24
+                                                                )) + add_date
+                                                        if (expected_date > 0) {
+                                                            status =
+                                                                "Xuất kho Nhật" +
+                                                                " ( Dự kiến đến kho VN " +
+                                                                expected_date +
+                                                                " ngày nữa )"
+                                                        } else {
+                                                            status = "Xuất kho Nhật"
                                                         }
                                                     }
-                                                    if (valueObject == "delivery_status") {
-                                                        if (a.delivery_status =="cancelled") {
+                                                    if (valueObject ==
+                                                        "shipping_code" && value
+                                                        .type_id == "created") {
+                                                        status = "Mã giao hàng: " +
+                                                            value.content
+                                                            .shipping_code
+                                                    }
+                                                    if (valueObject ==
+                                                        "shipping_code" && value
+                                                        .type_id == "updated") {
+                                                        status =
+                                                            "Cập nhật mã giao hàng: " +
+                                                            value.content
+                                                            .shipping_code
+                                                    }
+                                                    if (valueObject ==
+                                                        "shipping_code" && value
+                                                        .type_id == "deleted") {
+                                                        status =
+                                                            "Huỷ mã giao hàng: " +
+                                                            value.content
+                                                            .shipping_code
+                                                    }
+                                                    if (valueObject ==
+                                                        "delivery_status") {
+                                                        if (valueOfKey ==
+                                                            "shipping") {
+                                                            status =
+                                                                "Đang giao hàng"
+                                                        }
+                                                    }
+                                                    if (valueObject ==
+                                                        "delivery_status") {
+                                                        if (valueOfKey ==
+                                                            "cancelled") {
                                                             status = "Hủy box"
                                                         }
                                                     }
-                                                    if (valueObject =="delivery_status") {
-                                                        if (a.delivery_status =="received") {
+                                                    if (valueObject ==
+                                                        "delivery_status") {
+                                                        if (valueOfKey ==
+                                                            "received") {
                                                             status = "Đã nhận hàng"
                                                         }
                                                     }
-                                                    if (valueObject =="delivery_status") {
-                                                        if (a.delivery_status =="refunded") {
+                                                    if (valueObject ==
+                                                        "delivery_status") {
+                                                        if (valueOfKey ==
+                                                            "refunded") {
                                                             status = "Trả lại hàng"
                                                         }
                                                     }
-                                                    if (valueObject =="delivery_status") {
-                                                        if (a.delivery_status =="waiting_shipment") {
+                                                    if (valueObject ==
+                                                        "delivery_status") {
+                                                        if (valueOfKey ==
+                                                            "waiting_shipment") {
                                                             status = "Đợi giao hàng"
                                                         }
                                                     }
@@ -430,11 +658,124 @@
                                                         '</li>'
                                                     )
                                                 })
+                                                if (value.logs.length) {
+                                                    var total_pay = 0;
+                                                    $.each(value.logs, function(logs_index,
+                                                        logs_value) {
+                                                        let keyObjectLogMerge =
+                                                            Object.keys(logs_value
+                                                                .content)
+                                                        // let valueObjectkeyLogMerge = Object.values(logs_value.content);
+                                                        var statusLogMerge;
+                                                        if (keyObjectLogMerge ==
+                                                            "transaction") {
+                                                            statusLogMerge =
+                                                                "Đã thanh toán " +
+                                                                formatNumber(
+                                                                    logs_value
+                                                                    .content
+                                                                    .transaction
+                                                                    .amount)
+                                                            $("#time_line_tracking")
+                                                                .append(
+                                                                    '<li>' +
+                                                                    '<a>' +
+                                                                    statusLogMerge +
+                                                                    '</a>' +
+                                                                    '<p>' +
+                                                                    logs_value
+                                                                    .created_at +
+                                                                    '</p>' +
+                                                                    '</li>'
+                                                                )
+                                                            total_pay += logs_value
+                                                                .content.transaction
+                                                                .amount
+                                                        }
+                                                    })
+                                                    if (pay_money != undefined) {
+                                                        if (total_pay >= pay_money) {
+                                                            $("#alert_footer").hide()
+                                                        }
+                                                    }
+                                                }
                                             }
                                         } else {
+                                            $("#table_price_shipping_footer_2").hide()
+                                            if (value.orders.length != 0) {
+                                                $("#alert_footer").show()
+                                                $("#id_order_footer").empty()
+                                                $("#money_footer").empty()
+                                                $("#id_order_footer").text(value.id)
+                                                $("#money_footer").text(formatNumber(
+                                                    sort_order[value.orders.length -
+                                                        1].total_fee) + " VNĐ")
+                                                if (value.logs.length) {
+                                                    var total_pay = 0
+                                                    $.each(value.logs, function(logs_index,
+                                                        logs_value) {
+                                                        let keyObjectLogMerge =
+                                                            Object.keys(logs_value
+                                                                .content)
+                                                        // let valueObjectkeyLogMerge = Object.values(logs_value.content);
+                                                        var statusLogMerge;
+                                                        var created_at_log;
+                                                        if (keyObjectLogMerge ==
+                                                            "transaction") {
+                                                            total_pay += logs_value
+                                                                .content.transaction
+                                                                .amount
+                                                            statusLogMerge =
+                                                                "Đã thanh toán " +
+                                                                formatNumber(
+                                                                    logs_value
+                                                                    .content
+                                                                    .transaction
+                                                                    .amount)
+                                                            $("#time_line_tracking")
+                                                                .append(
+                                                                    '<li>' +
+                                                                    '<a>' +
+                                                                    statusLogMerge +
+                                                                    '</a>' +
+                                                                    '<p>' +
+                                                                    logs_value
+                                                                    .created_at +
+                                                                    '</p>' +
+                                                                    '</li>'
+                                                                )
+
+                                                        }
+                                                    })
+                                                    if (pay_money != undefined) {
+                                                        if (total_pay >= pay_money) {
+                                                            $("#alert").hide()
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            $(`#sku-row-${value2.id}`).hover(function() {
+                                                $(this).addClass(
+                                                    "tr-color addHover");
+                                            }, function() {
+                                                $(this).removeClass(
+                                                    "tr-color addHover");
+                                            });
                                             $(`#sku-row-${value2.id}`).on('click',
                                                 function() {
-                                                    check_footer(value2.logs, created_at)
+                                                    var vnpost = 0;
+                                                    var size = '';
+                                                    if (value2.vnpost != undefined) {
+                                                        vnpost = value2.vnpost;
+                                                    } else {
+                                                        vnpost = 0;
+                                                    }
+                                                    check_footer(value2.id, vnpost,
+                                                        created_at, value2
+                                                        .use_weight, value2
+                                                        .fee_ship, method_ship,
+                                                        value2.total_money, value
+                                                        .logs, pay_money)
                                                 })
                                         }
                                     })
@@ -450,70 +791,200 @@
         })
     }
 
-    function check_footer(row, created_at) {
-        $("#time_line_tracking").empty()
-
-        if (row.length == 0) {
-            $("#time_line_tracking").append(
-                '<li>' +
-                '<a>' + 'Đang tới kho' + '</a>' +
-                '<p>' + created_at + '</p>' +
-                '</li>'
+    function check_footer(id_box, vnpost, created_at, weight, fee, method, money, logs_merge, pay_money) {
+        var id_box = id_box;
+        //fee ship
+        if (weight != undefined) {
+            $("#table_price_shipping_footer_2").show()
+            $("#table_body_price_shipping_footer").empty();
+            $("#table_body_price_shipping_footer").append(
+                '<tr>' +
+                '<td>' + id_box + '</td>' +
+                '<td>' + weight.toFixed(3) + '</td>' +
+                '<td>' + fee + '</td>' +
+                '<td>' + method + '</td>' +
+                '<td>' + money + ' VNĐ</td>' +
+                +'</tr>'
             )
-        } else {
-            $.each(row, function(index, value) {
-                let a = JSON.parse(value.content);
-                let valueObject = Object.keys(a)
-                var status;
-                if (valueObject == "id") {
-                    status = "Đã nhập kho Nhật"
-                }
-                if (valueObject == "in_pallet") {
-                    status = "Đã kiểm hàng"
-                }
-                if (valueObject == "set_owner_id,set_owner_type") {
-                    status = "Lên đơn hàng"
-                }
-                if (valueObject == "in_container") {
-                    status = "Lên container"
-                }
-                if (valueObject == "out_container") {
-                    status = "Xuống container"
-                }
-                if (valueObject == "delivery_status") {
-                    if (a.delivery_status == "shipping") {
-                        status = "Đang giao hàng"
-                    }
-                }
-                if (valueObject == "delivery_status") {
-                    if (a.delivery_status == "cancelled") {
-                        status = "Hủy box"
-                    }
-                }
-                if (valueObject == "delivery_status") {
-                    if (a.delivery_status == "received") {
-                        status = "Đã nhận hàng"
-                    }
-                }
-                if (valueObject == "delivery_status") {
-                    if (a.delivery_status == "refunded") {
-                        status = "Trả lại hàng"
-                    }
-                }
-                if (valueObject == "delivery_status") {
-                    if (a.delivery_status == "waiting_shipment") {
-                        status = "Đợi giao hàng"
-                    }
-                }
-
-                $("#time_line_tracking").append(
-                    '<li>' +
-                    '<a>' + status + '</a>' +
-                    '<p>' + value.created_at + '</p>' +
-                    '</li>'
-                )
-            })
         }
+        $("#time_line_tracking").empty()
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: "{{ route('rq_tk.getInforBox') }}",
+            data: {
+                id_box: id_box
+            },
+            success: function(res) {
+                // $("#table_item").show()
+                // $("#load_item").empty()
+                // if(res.items!=null){
+                //     $.each(res.items,function(index_item,value_item){
+                //         $("#load_item").append(
+                //             "<tr>"+
+                //             "<td style='text-align: center'>"+ ++index_item+"</td>"+
+                //             "<td style='text-align: center'>"+value_item.Quantity+"</td>"+
+                //             "<td>"+value_item.Name+"</td>"+
+                //             "</tr>"
+                //         )
+                //     })
+                // }else{
+                //     $("#load_item").append(
+                //             "<tr>"+
+                //             "<td>"+"</td>"+    
+                //             "<td>"+"Chưa kiểm hàng"+"</td>"+
+                //             "<td>"+"Chưa kiểm hàng"+"</td>"+
+                //             "</tr>"
+                //         )
+                // }
+                //log box
+                $("#time_line_tracking").empty()
+                if (res.logs.length == 0) {
+                    $("#time_line_tracking").append(
+                        '<li>' +
+                        '<a>' + 'Đang tới kho' + '</a>' +
+                        '<p>' + created_at + '</p>' +
+                        '</li>'
+                    )
+                } else {
+                    var size = " Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res
+                        .height + "cm "
+                    $.each(res.logs, function(index, value) {
+                        // let a = JSON.parse(value.content);
+                        let keyObject = Object.keys(value.content)
+                        let valueObject = Object.values(value.content);
+                        var status;
+
+                        if (keyObject == "id") {
+                            status = "Đã nhập kho Nhật"
+                        }
+                        if (keyObject == "in_pallet") {
+                            status = "Đã kiểm hàng " + "( " + size + " )"
+                        }
+                        if (keyObject == "set_owner_id,set_owner_type") {
+                            status = "Lên đơn hàng"
+                        }
+                        if (keyObject == "set_user_id,set_order_id") {
+                            status = "Lên đơn hàng"
+                        }
+                        if (keyObject == "set_user_id") {
+                            status = "Lên đơn hàng"
+                        }
+                        if (keyObject == "in_container") {
+                            var parts = value.created_at.split('-')
+                            var year = parts[2].split(' ')
+                            var getDate = new Date(year[0], parts[1] - 1, parts[0])
+                            var now = new Date()
+                            var date_arv = getDate - now;
+                            var add_date;
+                            var check_method = method.charAt(0).toUpperCase() + method.slice(1);
+                            if (check_method == "Air") {
+                                add_date = 6;
+                            } else {
+                                add_date = 30;
+                            }
+                            var expected_date = parseInt(date_arv / (1000 * 3600 * 24)) + add_date
+                            if (expected_date > 0) {
+                                status = "Xuất kho Nhật" + " ( Dự kiến đến kho VN " +
+                                    expected_date + " ngày nữa )"
+                            } else {
+                                status = "Xuất kho Nhật"
+                            }
+                        }
+                        if (keyObject == "out_container") {
+                            status = "Nhập kho Việt Nam"
+                        }
+                        if (keyObject == "outbound_warehouse") {
+                            status = "Xuất kho Việt Nam"
+                        }
+                        if (keyObject == "delivery_status") {
+                            if (valueObject == "shipping") {
+                                status = "Đang giao hàng"
+                            }
+                        }
+                        if (keyObject == "delivery_status") {
+                            if (valueObject == "cancelled") {
+                                status = "Hủy box"
+                            }
+                        }
+                        if (keyObject == "delivery_status") {
+                            if (valueObject == "received") {
+                                status = "Đã nhận hàng"
+                            }
+                        }
+                        if (keyObject == "delivery_status") {
+                            if (valueObject == "refunded") {
+                                status = "Trả lại hàng"
+                            }
+                        }
+                        if (keyObject == "delivery_status") {
+                            if (valueObject == "waiting_shipment") {
+                                status = "Đợi giao hàng"
+                            }
+                        }
+                        if (keyObject == "shipping_code" && value.type_id == "created") {
+                            status = "Mã giao hàng: " + value.content.shipping_code
+                        }
+                        if (keyObject == "shipping_code" && value.type_id == "updated") {
+                            status = "Cập nhật mã giao hàng: " + value.content.shipping_code
+                        }
+                        if (keyObject == "shipping_code" && value.type_id == "deleted") {
+                            status = "Huỷ mã giao hàng: " + value.content.shipping_code
+                        }
+                        $("#time_line_tracking").append(
+                            '<li>' +
+                            '<a>' + status + '</a>' +
+                            '<p>' + value.created_at + '</p>' +
+                            '</li>'
+                        )
+                    })
+                }
+                //adđ log payment
+                if (logs_merge.length) {
+                    $.each(logs_merge, function(logs_index, logs_value) {
+                        let keyObjectLogMerge = Object.keys(logs_value.content)
+                        // let valueObjectkeyLogMerge = Object.values(logs_value.content);
+                        var statusLogMerge;
+                        var created_at_log;
+                        if (keyObjectLogMerge == "transaction") {
+                            statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
+                                .transaction.amount)
+                            $("#time_line_tracking").append(
+                                '<li>' +
+                                '<a>' + statusLogMerge + '</a>' +
+                                '<p>' + logs_value.created_at + '</p>' +
+                                '</li>'
+                            )
+                        }
+                    })
+                }
+                // vnpost
+                // if(vnpost){
+                //     $("#body-table-firt-vnpost").empty()
+                //     $("#body-table-firt-vnpost").append(
+                //         '<tr>' +
+                //         '<td>' + vnpost.MaDichVu +
+                //         '</td>' +
+                //         '<td>' + vnpost.PhuongThucVC +
+                //         '</td>' +
+                //         '<td>' + vnpost.CuocCOD +
+                //         '</td>' +
+                //         '<td>' + vnpost.TongCuocSauVAT +
+                //         '</td>' +
+                //         '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
+                //         '</tr>'
+                //     )
+                //     $("#table-firt-vnpost").show()
+                // }
+
+            },
+            error: function(res) {
+                console.log(res)
+            }
+        })
+
     }
 
 </script>

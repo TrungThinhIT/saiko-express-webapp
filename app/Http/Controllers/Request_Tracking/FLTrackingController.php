@@ -46,6 +46,10 @@ class FLTrackingController extends Controller
             return $apiShow->status();
         } else {
             $results = json_decode($apiShow->body(), true); //results of tomoni
+            if (!empty($results['orders'])) {
+                $results['orders'][0]['insurance_result_fee'] = round($results['orders'][0]['insurance_declaration'] / 100 * 3, 3); //tính phí bảo hiểm
+                $results['orders'][0]['special_result_fee'] = round($results['orders'][0]['special_declaration'] / 100 * 2, 3); // tính phí đặc biệt
+            }
             if (!empty($results['boxes'])) {
                 //list item & volumne
                 $pay_money_order = 0;
@@ -111,6 +115,7 @@ class FLTrackingController extends Controller
                             usort($results['orders'], function ($a, $b) {
                                 return $b['shipment_infor_id'] - $a['shipment_infor_id'];
                             }); //sort orders
+
                             $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_infor']['ward_id']))->first(); //get ward
                             $province = $getWard->MaTinhThanh; //ID province
                             $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
@@ -214,7 +219,7 @@ class FLTrackingController extends Controller
                                         $results['boxes'][$i]['total_money'] = number_format($use_weight * 185000);
                                         $results['boxes'][$i]['fee_ship'] = number_format(185000);
                                     }
-                                   
+
                                     $pay_money_order += $money;
                                     $results['boxes'][$i]['use_weight'] = $use_weight;
                                 }
@@ -234,6 +239,7 @@ class FLTrackingController extends Controller
                             }
                             $results['orders'][0]['pay_money'] = $pay_money_order;
                         }
+                        $results['orders'][0]['total_fee'] =  $results['orders'][0]['pay_money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'];
                         $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
                     }
                 } else {
@@ -385,12 +391,13 @@ class FLTrackingController extends Controller
                                 $results['boxes'][$i]['total_money'] = number_format($use_weight * $price);
                                 $results['boxes'][$i]['fee_ship'] = number_format($price);
                                 $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
+                                $pay_money_order += $money;
                             }
-                            $pay_money_order += $money;
-                            $results['orders'][0]['pay_money'] = $pay_money_order;
                         }
+                        $results['orders'][0]['pay_money'] = $pay_money_order;
                         $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
                     }
+                    $results['orders'][0]['total_fee'] =  $results['orders'][0]['pay_money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'];
                 }
             }
 

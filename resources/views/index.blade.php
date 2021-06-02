@@ -943,17 +943,27 @@
                 </div>
                 <div class="row d-none" id="declaration_price" style="margin:4px">
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
-                        <p class="text-danger" ><label for="" >Tiền bảo hiểm đơn hàng</label>: <span id="insurance_result"></span> </p>
+                        <div class="col-md-6 " style="padding-left: unset">
+                            <p class="text-danger" ><label for="" >Tiền bảo hiểm đơn hàng</label>: <span id="insurance_result"></span> </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-danger" ><label for="" >Phí bảo hiểm (3%)</label>: <span id="insurance_result_fee"></span> </p>
+                        </div>
                     </div>
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
-                        <p class="text-danger" ><label for="" id="special">Tiền hàng đặc biệt</label>: <span id="special_result"></span> </p>
+                        <div class="col-md-6" style="padding-left: unset">
+                            <p class="text-danger" ><label for="" id="special">Tiền hàng đặc biệt</label>: <span id="special_result"></span> </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-danger" ><label for="" id="special">Phí hàng đặc biệt (2%)</label>: <span id="special_result_fee"></span> </p>
+                        </div>
                     </div>
                 </div>
                 <div class="row d-none"  id="alert" style="margin:4px"  >
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png" alt="" width="120px"></p>
                         <p class="text-danger" >Nội dung thanh toán : <span class="text-danger" id="id_order"></span><p>
-                        <p class="text-danger">Số tiền thanh toán: <span id="money"></span><span>( Chưa bao gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
+                        <p class="text-danger">Số tiền thanh toán: <span id="money"></span><span>( Đã bao gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
                     </div>
                 </div>
                 <div class="row">
@@ -966,7 +976,7 @@
 
                     </div>
                     <div class="col-md-6 col-sm-6">
-                        <div class="table-responsive">
+                        <div class="table-responsive" id="table_item">
                             <table class="table table-striped table-bordered" id="table_item" style="display:none">
                                 <thead>
                                     <tr>
@@ -1797,13 +1807,15 @@
                                     created_at = sort_order[value.orders.length - 1].created_at;
                                     method_ship = sort_order[value.orders.length - 1].shipment_method_id;
                                     if(sort_order[value.orders.length - 1].pay_money != undefined){
-                                        pay_money = sort_order[value.orders.length - 1].pay_money;
+                                        pay_money = sort_order[value.orders.length - 1].total_fee;
                                     }
                                     insurance_result = sort_order[value.orders.length - 1].insurance_declaration
                                     special_result = sort_order[value.orders.length - 1].special_declaration
                                     $("#declaration_price").show()
                                     $("#insurance_result").text(formatNumber(insurance_result))
                                     $("#special_result").text(formatNumber(special_result))
+                                    $("#insurance_result_fee").text(formatNumber(sort_order[value.orders.length - 1].insurance_result_fee))
+                                    $("#special_result_fee").text(formatNumber(sort_order[value.orders.length - 1].special_result_fee))
                                 }
                                 if (tel_rev == '' |name_rev == '' | add_rev == '') {
                                     $('#message').html(
@@ -1897,7 +1909,7 @@
                                                 $("#id_order").empty()
                                                 $("#money").empty()
                                                 $("#id_order").text(value.id)
-                                                $("#money").text(sort_order[value.orders.length - 1].pay_money+ " VNĐ")
+                                                $("#money").text(sort_order[value.orders.length - 1].total_fee+ " VNĐ")
                                             }
                                             //table price
                                             if(value2.use_weight  !=undefined){
@@ -1975,7 +1987,7 @@
                                                 $("#money").empty()
                                                 if(value.orders.length!=0){
                                                     $("#id_order").text(value.id)
-                                                    $("#money").text(formatNumber(sort_order[value.orders.length - 1].pay_money)+ " VNĐ")
+                                                    $("#money").text(formatNumber(sort_order[value.orders.length - 1].total_fee)+ " VNĐ")
                                                 }
                                                 $.each(value.boxes[0].logs,function(index,value) {
                                                         // let a =JSON.parse(value.content );
@@ -2115,7 +2127,7 @@
                                                 $("#id_order").empty()
                                                 $("#money").empty()
                                                 $("#id_order").text(value.id)
-                                                $("#money").text(formatNumber(sort_order[value.orders.length - 1].pay_money)+ " VNĐ")
+                                                $("#money").text(formatNumber(sort_order[value.orders.length - 1].total_fee)+ " VNĐ")
                                                 if(value.logs.length){
                                                     var total_pay = 0;
                                                     $.each(value.logs,function(logs_index,logs_value){
