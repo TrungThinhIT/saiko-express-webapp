@@ -448,7 +448,7 @@
                                 <div class="row d-none" id="declaration_price" style="margin:4px">
                                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                         <div class="col-md-6 " style="padding-left: unset">
-                                            <p class="text-danger" ><label for="" >Tiền bảo hiểm đơn hàng</label>: <span id="insurance_result"></span> </p>
+                                            <p class="text-danger" ><label for="" >Giá trị gói bảo hiểm</label>: <span id="insurance_result"></span> </p>
                                         </div>
                                         <div class="col-md-6">
                                             <p class="text-danger" ><label for="" >Phí bảo hiểm (3%)</label>: <span id="insurance_result_fee"></span> </p>
@@ -456,18 +456,20 @@
                                     </div>
                                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                         <div class="col-md-6" style="padding-left: unset">
-                                            <p class="text-danger" ><label for="" id="special">Tiền hàng đặc biệt</label>: <span id="special_result"></span> </p>
+                                            <p class="text-danger" ><label for="" id="special">Giá trị hàng hoá đặc biệt</label>: <span id="special_result"></span> </p>
                                         </div>
                                         <div class="col-md-6">
-                                            <p class="text-danger" ><label for="" id="special">Phí hàng đặc biệt (2%)</label>: <span id="special_result_fee"></span> </p>
+                                            <p class="text-danger" ><label for="" id="special">Phí hàng hoá đặc biệt (2%)</label>: <span id="special_result_fee"></span> </p>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row d-none"  id="alert" style="margin:4px"  >
+                                <div class="row d-none"  id="alert" style="margin:4px" >
+                                    
                                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                                        <h2 class="text-center text-danger font-weight-bold"> <b> PHIẾU YÊU CẦU THANH TOÁN </b></h2>
                                         <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png" alt="" width="100px"></p>
-                                        <p class="text-danger" >Nội dung thanh toán : <span class="text-danger" id="id_order"></span><p>
-                                        <p class="text-danger">Số tiền thanh toán: <span id="money"></span> <span>( Đã bao gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
+                                        <p class="text-danger font-weight-bold" style="font-weight: bold"> Nội dung thanh toán : <span class="text-danger" id="id_order"></span><p>
+                                        <p class="text-danger text-uppercase font-weight-bold" style="font-weight: bold">Số tiền thanh toán: <span id="money"></span> <span style="font-weight: normal !important">( Đã bao gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -878,8 +880,7 @@
                                                                     status="Đã nhập kho Nhật"
                                                                 }
                                                                 if (keyObject =="in_pallet") {
-                                                                    status ="Đã kiểm hàng " + size
-                                                                        
+                                                                    status ="Đã kiểm hàng " + size                                                                      
                                                                 }
                                                                 if (keyObject == "set_user_id,set_order_id") {
                                                                     status = "Lên đơn hàng"

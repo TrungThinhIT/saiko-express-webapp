@@ -257,9 +257,9 @@
                 <p>Gọi hotline hoặc nhắn tin trực tiếp trên Fanpage Saiko Express (từ 8h đến 19h hàng ngày) để được CSKH hỗ trợ nhập thông tin kiện hàng dưới đây:</p>
             </div>
 
-            <div class="col-sm-4">
+            {{-- <div class="col-sm-4">
                 <img src="assets/images/cargocar.png" alt="">
-            </div>
+            </div> --}}
         </div>
         <br>
         <div class="row quote1forms">
@@ -297,11 +297,11 @@
                                 <div class="col-md-4">
                                     <label>Hình thức nhận hàng</label>
                                     <select id="utypeadd" name="hinhthuc" onchange="onChange()">
-                                        <option value="blank">Địa chỉ cụ thể</option>
+                                        <option value="blank" id="first_option">Địa chỉ cụ thể</option>
                                         <option value="Nhận tại VP Sóc Sơn">Nhận tại VP Sóc Sơn, Hà Nội</option>
                                         <option value="Nhận tại VP Đào Tấn">Nhận tại VP Đào Tấn, Hà Nội </option>
                                         <!--<option value="Nhận tại VP Tây Hồ">Nhận tại VP Tây Hồ</option>-->
-                                        {{-- <option value="Nhận tại VP Tân Bình HCM">Nhận tại VP Tân Bình HCM</option> --}}
+                                        <option value="Nhận tại VP Tân Bình HCM" id="trip_sea" style="display: none">Nhận tại VP Tân Bình HCM</option>
                                         <!-- <option value="FOB">Nhận trực tiếp tại VN</option> -->
 
                                     </select>
@@ -361,8 +361,6 @@
                                         @enderror
                                     </p>
                                 </div>
-
-                                
                             </div>
                             <div class="col-md-4">
                                 <p class="field check-box">
@@ -434,12 +432,38 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Khai báo đơn hàng</h5>
+              <h3 class="modal-title">Khai báo đơn hàng</h3>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 {{-- <span aria-hidden="true" id="">&times;</span> --}}
               </button>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <div style="margin-left:15px">
+                        <div class="text-danger">    
+                            <label for="">
+                                Địa chỉ nhận hàng:
+                            </label>
+                            <span id="address_modal">
+                                
+                            </span>
+                        </div>
+                    
+                    </div>
+                </div>
+                <div class="row">
+                    <div style="margin-left:15px">
+                        <div class="text-danger">    
+                            <label for="">
+                                Hình thức:
+                            </label>
+                            <span id="method_modal">
+                                
+                            </span>
+                        </div>
+                    
+                    </div>
+                </div>
                 <div class="row">
                     <div style="margin-left:15px">
                         <label for=""> Bạn có muốn khai báo bảo hiểm không? </label>
@@ -449,49 +473,43 @@
                 </div>
                 <div class="row" id="enter_insurance" style="display:none">
                     <div  style="margin-left:15px">
+                        <p class="text-danger">
+                            Bạn phải trả thêm 3% giá trị khai báo
+                        </p>
                         <label for="">Nhập số tiền:</label>
                         <input class="inpute-insuaran"  type="text" pattern="[0-9]" id="insurance_enter" value="" min="0">
                     </div>
                 </div>
+                <div class="row" id="alert_insurance" style="display:none">
+                    <div  style="margin-left:15px">
+                        <p class="text-danger">
+                            Nếu không đóng bảo hiểm chúng tôi chỉ đền bù 4 lần phí vận chuyển trong trường hợp hư hỏng và mất mát hàng hoá. Xin cân nhắc nếu kiện hàng của bạn có giá trị cao
+                        </p>
+                    </div>
+                </div>
                 <div class="row" id="declaration_price" >
                     <div style="margin-left:15px">
-                        <label for=""> Kiện hàng của bạn có hàng đặc biệt không? </label>
+                        <label for=""> Kiện hàng của bạn có hàng hoá đặc biệt không? </label>
                         <input type="checkbox" id="check_type_special" ><span>.Có</span>
                         <input type="checkbox" id="check_type_special_no" ><span>.Không</span>
                     </div>
                 </div>
                 <div class="row" id="enter_special" style="display:none">
-                    <div  style="margin-left:15px">
+                    <div style="margin-left:15px">
+                        <p class="text-danger">
+                            Bạn phải trả thêm 2% phụ phí thông quan khi nhập cảng Việt Nam
+                        </p>
                         <label for="">Nhập số tiền:</label>
                         <input class="inpute-insuaran"  type="text" pattern="[0-9]" id="special_enter" value="" min="0">
                     </div>
                 </div>
-                {{-- <div class="row">
-                    <div style="margin-left:15px">
-                        <label for="" id="content_declaration"> Bạn có muốn khai báo bảo hiểm không? </label>
-                        <input type="hidden" name="insuarance" id="insuarance" value="0" >
+                <div class="row" id="alert_special" style="display:none">
+                    <div  style="margin-left:15px">
+                        <p class="text-danger">
+                            Nếu hàng hoá đặc biệt không được khai báo thì kiện hàng ko thể thông quan tại Việt Nam
+                        </p>
                     </div>
-                </div> --}}
-                    {{-- <tr class="form-group" style="border: none">
-                        <td><label for=""> Kiện hàng của bạn có hàng đặc biệt không ? </label></td>  
-                        <td><input type="checkbox" id="check_specialty">Có</td>
-                        <td></td>
-                    </tr> --}}
-                    
-                 
-                    {{-- <tr class="form-group" style="border:none">
-                        <td>
-                            <select class="form-control"  onchange="change_item(this)" name="product_specialty" id="product_specialty">
-                                <option value="0" id="first_choose">Chọn hàng đặt biệt</option>
-                                <option value="2202003090">Điện thoại</option>
-                                <option value="2222221045">Laptop</option>
-                            </select>
-                        </td>
-                        <td>
-
-                        </td>
-                        <td></td>
-                    </tr> --}}
+                </div>
                 <p class="field single-field">
                     <label style="margin-top:10px">Ghi chú</label>
                 </p>
@@ -528,11 +546,13 @@
     $('#check_BH').click(function() {
         $("#check_specialty").prop('checked', false);
         $('#enter_insurance').show()
+        $("#alert_insurance").hide()
         $('#insurance_enter').val('0')
     });
     $('#check_specialty').click(function() {
         $("#check_BH").prop('checked', false);
         $('#declaration_price').show()
+        $("#alert_insurance").show()
         $('#enter_insurance').hide()
         $('#insurance_enter').val('0')
     });
@@ -540,12 +560,14 @@
     $('#check_type_special').click(function() {
         $("#check_type_special_no").prop('checked', false);
         $('#enter_special').show()
+        $("#alert_special").hide()
         $('#special_enter').val('0')
     });
 
     $('#check_type_special_no').click(function() {
         $("#check_type_special").prop('checked', false);
         $('#enter_special').hide()
+        $("#alert_special").show()
         $('#special_enter').val('0')
     });
     $(document).ready(function () {
@@ -608,7 +630,29 @@
         $(document).ajaxStop(function () {
             $("#loader").hide();
         });
-
+        $("#uair").on("click",function(){
+            $("#uair").one("change",function(){
+                if($("#uair").prop('checked')){
+                    $("#trip_sea").css('display','none')
+                    $("#first_option").attr('selected')
+                    // $("#utypeadd").val($("#utypeadd option:selected"))
+                    $("#utypeadd").val("blank").change();
+                }else{
+                    console.log('false')
+                }
+            })
+        })
+        $("#usea").on("click",function(){
+            $("#usea").one("change",function(){
+                if($("#usea").prop('checked')){
+                    $("#trip_sea").css('display','unset')
+                    $("#first_option").attr('selected')
+                    $("#utypeadd").val("blank").change();
+                }else{
+                    console.log('false')
+                }
+            })
+        })
         $("#send_infor_tracking").click(function(){
 
             var OptionAdd = $('#utypeadd').val();
@@ -868,6 +912,22 @@
             if (Tracking.length > 7 && Phone.length > 8 && Name_Send.length > 2 && Name_Rev.length > 2 && Number_Send
                 .length > 8 && (ShipAir == true | ShipSea == true) && (Upx != null || OptionAdd.length > 5) && (
                     UaddNumber.length >= 4 || OptionAdd.length > 5)) {
+                $("#address_modal").empty()
+                $("#method_modal").empty()
+                var address_modal = '';
+                var method_modal = '';
+                if(OptionAdd.length>5){
+                    address_modal = $("#utypeadd option:selected").text()
+                }else{
+                    address_modal =  $("#UaddNumber").val()+',' + $("#UPhuongXa option:selected").text() +',' + $("#Uhuyen option:selected").text()+',' + $("#Utinh option:selected").text()
+                }
+                if(ShipAir){
+                    method_modal = 'Vận chuyển đường bay'
+                }else{
+                    method_modal = 'Vận chuyển đường biển'
+                }
+                $("#address_modal").text(address_modal)
+                $("#method_modal").text(method_modal)
                 $("#modal_qoute").show()
                 
             }
