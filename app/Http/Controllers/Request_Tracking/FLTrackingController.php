@@ -237,9 +237,9 @@ class FLTrackingController extends Controller
                                 $results['boxes'][$i]['fee_ship'] = number_format($price);
                                 $results['boxes'][$i]['use_weight'] = $use_weight;
                             }
-                            $results['orders'][0]['pay_money'] = $pay_money_order;
+                            $results['orders'][0]['pay_money'] = round($pay_money_order,0);
                         }
-                        $results['orders'][0]['total_fee'] =  $results['orders'][0]['pay_money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'];
+                        $results['orders'][0]['total_fee'] =  round($results['orders'][0]['pay_money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'],0);
                         $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
                     }
                 } else {
@@ -394,10 +394,10 @@ class FLTrackingController extends Controller
                                 $pay_money_order += $money;
                             }
                         }
-                        $results['orders'][0]['pay_money'] = $pay_money_order;
+                        $results['orders'][0]['pay_money'] = round($pay_money_order,0);
                         $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
                     }
-                    $results['orders'][0]['total_fee'] =  $results['orders'][0]['pay_money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'];
+                    $results['orders'][0]['total_fee'] =  round($results['orders'][0]['pay_money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'],0);
                 }
             }
 
