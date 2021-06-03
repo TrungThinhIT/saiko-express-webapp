@@ -122,7 +122,7 @@ class FLTrackingController extends Controller
                             if ($method_shipment == "Air") {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
                                 if ($date_box >= $date_default && $date_box < $date_defaultNew) { //compare date
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 0);
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 0 && $use_weight < 100) {
                                         if ($use_weight < 1) {
                                             $use_weight = 1;
@@ -161,7 +161,7 @@ class FLTrackingController extends Controller
                                     $results['boxes'][$i]['use_weight'] = $use_weight;
                                 }
                                 if ($date_box < $date_default) { // 15-5--21
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 0);
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 0 && $use_weight < 100) {
                                         if ($use_weight < 1) {
                                             $use_weight = 1;
@@ -199,7 +199,7 @@ class FLTrackingController extends Controller
                                     $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
                                 }
                                 if ($date_box >= $date_defaultNew) { //compare date 23-5-2021
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 0);
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 0 && $use_weight < 100) {
                                         if ($use_weight < 1) {
                                             $use_weight = 1;
@@ -225,7 +225,7 @@ class FLTrackingController extends Controller
                                 }
                             } else {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
-                                $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 0);
+                                $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                 if ($use_weight < 150) {
                                     $price = 65000;
                                 } else {
@@ -247,7 +247,7 @@ class FLTrackingController extends Controller
                         $weight = $results['boxes'][$i]['weight_per_box'];
                         if (empty($results['orders'])) {
                             $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
-                            $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 0);
+                            $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                             $results['boxes'][$i]['total_money'] = '';
                             $results['boxes'][$i]['use_weight'] = $use_weight;
                             $results['boxes'][$i]['fee_ship'] = '';
@@ -266,7 +266,7 @@ class FLTrackingController extends Controller
                                 $date_default = strtotime($this->date);
                                 $date_defaultNew = strtotime($this->dateDefault);
                                 if ($date_box >= $date_default && $date_box < $date_defaultNew) { //compare date 15-5-21 23-5-21
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 0);
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 0 && $use_weight < 100) {
                                         if ($use_weight < 1) {
                                             $use_weight = 1;
@@ -304,7 +304,7 @@ class FLTrackingController extends Controller
                                 }
                                 //check date_box < 15-5-2021
                                 if ($date_box < $date_default) {
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 0);
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 0 && $use_weight < 100) {
                                         if ($use_weight < 1) {
                                             $use_weight = 1;
@@ -341,7 +341,7 @@ class FLTrackingController extends Controller
                                     $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
                                 }
                                 if ($date_box >= $date_defaultNew) { //compare date 23-5-2021
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 0);
+                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                     if ($use_weight >= 0 && $use_weight < 100) {
                                         if ($use_weight < 1) {
                                             $use_weight = 1;
@@ -381,7 +381,7 @@ class FLTrackingController extends Controller
                                 }
                             } else {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
-                                $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 0);
+                                $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
                                 if ($use_weight < 150) {
                                     $price = 65000;
                                 } else {
