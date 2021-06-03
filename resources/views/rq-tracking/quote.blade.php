@@ -492,6 +492,7 @@
                         <label for=""> Kiện hàng của bạn có hàng hoá đặc biệt không? </label>
                         <input type="checkbox" id="check_type_special" ><span>.Có</span>
                         <input type="checkbox" id="check_type_special_no" ><span>.Không</span>
+                        <p class="text-danger" style="font-weight: 500">Hàng hoá đặc biệt: Loa / Ampli / Điện thoại di động / Ipad / Laptop / Rượu / Đồng hồ đeo tay / Đồ cổ</p>
                     </div>
                 </div>
                 <div class="row" id="enter_special" style="display:none">

@@ -38,14 +38,14 @@
                                 <h4 class="panel-title">
                                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion"
                                         href="#collapseOne">
-                                        Tôi muốn gửi hàng từ Nhật Bản đi Việt Nam, tôi cần làm những gì?
+                                         Tôi muốn gửi hàng từ Nhật Bản đi Việt Nam, tôi cần làm những gì?
                                     </a>
                                 </h4>
                             </div>
                             <div id="collapseOne" class="panel-collapse collapse in">
                                 <div class="panel-body">
                                     <p>
-                                        Trước hết, quý khách vui lòng liên hệ tới chúng tôi qua Facebook, Viber, hay
+                                        Trước hết, quý khách vui lòng liên hệ tới chúng tôi qua Facebook, Viber, Zalo hay
                                         số
                                         điện thoại để cho chúng tôi biết danh mục gửi hàng của mình. Chúng tôi sẽ
                                         thông
@@ -340,6 +340,10 @@
                         </p>
                         <p class="field">
                             <input placeholder="Subject" type="text">
+
+                        </p>
+                        <p class="field">
+                            <input placeholder="Phone*" type="text">
 
                         </p>
                         <p class="field single-field">

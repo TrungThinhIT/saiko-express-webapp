@@ -159,7 +159,7 @@
                                             data-placement="bottom" title="Facebook"><i class="fa fa-facebook"
                                                 aria-hidden="true"></i></a></li>
                                     <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Viber"><i class="iconify" data-icon="simple-icons:viber" data-inline="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><img src="../assets/images/zalo.png" alt=""></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Zalo"><img src="../assets/images/zalo.png" alt=""></a></li>
                                    
                                 </ul>
                             </div>
