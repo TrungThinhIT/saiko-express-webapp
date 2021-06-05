@@ -34,13 +34,13 @@ class FLTrackingController extends Controller
         //apishow
         $dataShow = [
             'with' => 'orders.shipmentInfor',
-            'appends' => 'boxes.owners;logs',
+            'appends' => 'boxes.owners;logs;sfa',
         ];
         //check status code
         $apiShow = Http::withHeaders([
             'Accept' => 'application/json',
             // 'Authorization' => 'Bearer ' . $token->access_token
-        ])->get('http://order.tomonisolution.com:82/api/trackings/' . $request->tracking, $dataShow);
+        ])->get('http://order.tomonisolution.com/api/trackings/' . $request->tracking, $dataShow);
 
         if ($apiShow->status() == 404) {
             return $apiShow->status();
@@ -52,205 +52,50 @@ class FLTrackingController extends Controller
             }
             if (!empty($results['boxes'])) {
                 //list item & volumne
-                $pay_money_order = 0;
+                $total_weight = 0;
+                $total_volume = 0;
                 if (count($results['boxes']) == 1) {
                     for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
-                        // $item_box = Http::withHeaders([
-                        //     'Accept' => 'application/json',
-                        //     'Authorization' => 'Bearer ' . $token->access_token,
-                        // ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $results['boxes'][$i]['id'] );
-                        // if ($item_box->status() == 401) {
-                        //     $this->QCT->getToken();
-                        //     $token = token::find(1);
-                        //     $item_box = Http::withHeaders([
-                        //         'Accept' => 'application/json',
-                        //         'Authorization' => 'Bearer ' . $token->access_token,
-                        //     ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $results['boxes'][$i]['id'] );
-                        // }
-                        // $result_list_item = json_decode($item_box->body(), true);
-                        // $detail_item = array();
-                        //list item
-                        // if (!empty($result_list_item['items'])) {
-                        //     foreach ($result_list_item['items'] as $item) {
-                        //         $getInfoItem = Http::withHeaders([
-                        //             'Accept' => 'application/json',
-                        //             'Authorization' => 'Bearer ' . $token->access_token,
-                        //             'Accept-Language' => "ja",
-                        //         ])->get('http://product.tomonisolution.com/api/products/' . $item['product_id']);
-                        //         if ($getInfoItem->status() == 401) {
-                        //             $this->QCT->getToken();
-                        //             $token = token::find(1);
-                        //             $getInfoItem = Http::withHeaders([
-                        //                 'Accept' => 'application/json',
-                        //                 'Authorization' => 'Bearer ' . $token->access_token,
-                        //                 'Accept-Language' => "ja",
-                        //             ])->get('http://product.tomonisolution.com/api/products/' . $item['product_id']);
-                        //         }
-                        //         if ($getInfoItem->status() == 200) {
-                        //             $getInfoItem = json_decode($getInfoItem);
-                        //             $detail_item[] = array(
-                        //                 'Quantity' => $item['quantity'],
-                        //                 'Name' => $getInfoItem->name,
-                        //             );
-                        //             $results['boxes'][$i]['items'] = $detail_item;
-                        //         }
-                        //     }
-                        // } else {
-                        //     $results['boxes'][$i]['items'] = null;
-                        // }
                         // volumne
                         $weight = $results['boxes'][$i]['weight_per_box'];
-                        $date_box = Carbon::parse($results['boxes'][$i]['created_at']);
-                        $date_box = strtotime(($date_box));
                         $date_default = strtotime($this->date);
                         $date_defaultNew = strtotime($this->dateDefault);
-
                         if (empty($results['orders'])) {
                             $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
                             $use_weight = $volumne_weight < $weight ? $weight : $volumne_weight;
-                            $results['boxes'][$i]['total_money'] = '';
                             $results['boxes'][$i]['use_weight'] = $use_weight;
-                            $results['boxes'][$i]['fee_ship'] = '';
                         } else {
                             usort($results['orders'], function ($a, $b) {
                                 return $b['shipment_infor_id'] - $a['shipment_infor_id'];
                             }); //sort orders
-
                             $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_infor']['ward_id']))->first(); //get ward
                             $province = $getWard->MaTinhThanh; //ID province
                             $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
                             if ($method_shipment == "Air") {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
-                                if ($date_box >= $date_default && $date_box < $date_defaultNew) { //compare date
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                    if ($use_weight >= 0 && $use_weight < 100) {
-                                        if ($use_weight < 1) {
-                                            $use_weight = 1;
-                                        }
-                                        $checkProvince = "price1";
-                                    }
-                                    if ($use_weight >= 100 && $use_weight < 500) {
-                                        $checkProvince = "price2";
-                                    }
-
-                                    if ($province <= 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 190000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(190000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 185000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 185000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(185000);
-                                        }
-                                    }
-                                    if ($province > 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 200000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(200000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 195000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 195000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(195000);
-                                        }
-                                    }
-                                    $pay_money_order += $money;
-                                    $results['boxes'][$i]['use_weight'] = $use_weight;
-                                }
-                                if ($date_box < $date_default) { // 15-5--21
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                    if ($use_weight >= 0 && $use_weight < 100) {
-                                        if ($use_weight < 1) {
-                                            $use_weight = 1;
-                                        }
-                                        $checkProvince = "price1";
-                                    }
-                                    if ($use_weight >= 100 && $use_weight < 500) {
-                                        $checkProvince = "price2";
-                                    }
-                                    if ($province <= 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 200000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(200000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 190000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(190000);
-                                        }
-                                    }
-                                    if ($province > 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 210000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 210000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(210000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 200000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(200000);
-                                        }
-                                    }
-                                    $pay_money_order += $money;
-                                    $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
-                                }
-                                if ($date_box >= $date_defaultNew) { //compare date 23-5-2021
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                    if ($use_weight >= 0 && $use_weight < 100) {
-                                        if ($use_weight < 1) {
-                                            $use_weight = 1;
-                                        }
-                                        $checkProvince = "price1";
-                                    }
-                                    if ($use_weight >= 100 && $use_weight < 500) {
-                                        $checkProvince = "price2";
-                                    }
-                                    if ($checkProvince == "price1") {
-                                        $money = $use_weight * 190000;
-                                        $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
-                                        $results['boxes'][$i]['fee_ship'] = number_format(190000);
-                                    }
-                                    if ($checkProvince == "price2") {
-                                        $money = $use_weight * 185000;
-                                        $results['boxes'][$i]['total_money'] = number_format($use_weight * 185000);
-                                        $results['boxes'][$i]['fee_ship'] = number_format(185000);
-                                    }
-
-                                    $pay_money_order += $money;
-                                    $results['boxes'][$i]['use_weight'] = $use_weight;
-                                }
                             } else {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
-                                $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                if ($use_weight < 150) {
-                                    $price = 65000;
-                                } else {
-                                    $price = 60000;
-                                }
-                                $money = $use_weight * $price;
-                                $pay_money_order += $money;
-                                $results['boxes'][$i]['total_money'] = number_format($use_weight * $price);
-                                $results['boxes'][$i]['fee_ship'] = number_format($price);
-                                $results['boxes'][$i]['use_weight'] = $use_weight;
                             }
-                            $results['orders'][0]['pay_money'] = round($pay_money_order, 0);
                         }
-                        $results['orders'][0]['total_fee'] =  round($results['orders'][0]['pay_money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'], 0);
-                        $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
+                        $total_volume += round($volumne_weight, 3);
+                        $total_weight += round($weight, 3);
+                        $results['boxes'][$i]['volumne_weight_box'] = round($volumne_weight, 3); //box
+
+                    }
+                    if (!empty($results['orders'])) {
+                        $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew);
+                        $results['orders'][0]['total_fee'] =  round($fee['money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'], 0);
+                        $results['orders'][0]['pay_money'] = $fee['total_money'];
+                        $results['orders'][0]['total_weight'] = $fee['total_weight'];
+                        $results['orders'][0]['fee_ship'] = $fee['fee_ship'];
                     }
                 } else {
                     for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
-                        $weight = $results['boxes'][$i]['weight_per_box'];
+                        $weight = round($results['boxes'][$i]['weight_per_box'], 3);
+                        $date_default = strtotime($this->date);
+                        $date_defaultNew = strtotime($this->dateDefault);
                         if (empty($results['orders'])) {
                             $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
-                            $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                            $results['boxes'][$i]['total_money'] = '';
-                            $results['boxes'][$i]['use_weight'] = $use_weight;
-                            $results['boxes'][$i]['fee_ship'] = '';
                         } else {
                             usort($results['orders'], function ($a, $b) {
                                 return $b['shipment_infor_id'] - $a['shipment_infor_id'];
@@ -258,152 +103,137 @@ class FLTrackingController extends Controller
                             $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_infor']['ward_id']))->first(); //get ward
                             $province = $getWard->MaTinhThanh; //ID province
                             $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
-                            $weight = $results['boxes'][$i]['weight_per_box'];
                             if ($method_shipment == "Air") {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
-                                $date_box = Carbon::parse($results['boxes'][$i]['created_at']);
-                                $date_box = strtotime(($date_box));
-                                $date_default = strtotime($this->date);
-                                $date_defaultNew = strtotime($this->dateDefault);
-                                if ($date_box >= $date_default && $date_box < $date_defaultNew) { //compare date 15-5-21 23-5-21
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                    if ($use_weight >= 0 && $use_weight < 100) {
-                                        if ($use_weight < 1) {
-                                            $use_weight = 1;
-                                        }
-                                        $checkProvince = "price1";
-                                    }
-                                    if ($use_weight >= 100 && $use_weight < 500) {
-                                        $checkProvince = "price2";
-                                    }
-                                    if ($province <= 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 190000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(190000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 185000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 185000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(185000);
-                                        }
-                                    }
-                                    if ($province > 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 200000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(200000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 195000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 195000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(195000);
-                                        }
-                                    }
-                                    $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
-                                }
-                                //check date_box < 15-5-2021
-                                if ($date_box < $date_default) {
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                    if ($use_weight >= 0 && $use_weight < 100) {
-                                        if ($use_weight < 1) {
-                                            $use_weight = 1;
-                                        }
-                                        $checkProvince = "price1";
-                                    }
-                                    if ($use_weight >= 100 && $use_weight < 500) {
-                                        $checkProvince = "price2";
-                                    }
-                                    if ($province <= 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 200000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(200000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 190000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(190000);
-                                        }
-                                    }
-                                    if ($province > 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 210000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 210000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(210000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 200000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(200000);
-                                        }
-                                    }
-                                    $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
-                                }
-                                if ($date_box >= $date_defaultNew) { //compare date 23-5-2021
-                                    $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                    if ($use_weight >= 0 && $use_weight < 100) {
-                                        if ($use_weight < 1) {
-                                            $use_weight = 1;
-                                        }
-                                        $checkProvince = "price1";
-                                    }
-                                    if ($use_weight >= 100 && $use_weight < 500) {
-                                        $checkProvince = "price2";
-                                    }
-
-                                    if ($province <= 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 190000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 190000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(190000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 185000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 185000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(185000);
-                                        }
-                                    }
-                                    if ($province > 53) {
-                                        if ($checkProvince == "price1") {
-                                            $money = $use_weight * 200000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 200000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(200000);
-                                        }
-                                        if ($checkProvince == "price2") {
-                                            $money = $use_weight * 195000;
-                                            $results['boxes'][$i]['total_money'] = number_format($use_weight * 195000);
-                                            $results['boxes'][$i]['fee_ship'] = number_format(195000);
-                                        }
-                                    }
-                                    $pay_money_order += $money;
-                                    $results['boxes'][$i]['use_weight'] = $use_weight;
-                                }
                             } else {
                                 $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
-                                $use_weight = round($volumne_weight < $weight ? $weight : $volumne_weight, 3);
-                                if ($use_weight < 150) {
-                                    $price = 65000;
-                                } else {
-                                    $price = 60000;
-                                }
-                                $money = $use_weight * $price;
-                                $results['boxes'][$i]['total_money'] = number_format($use_weight * $price);
-                                $results['boxes'][$i]['fee_ship'] = number_format($price);
-                                $results['boxes'][$i]['use_weight'] = $use_weight ?? '';
-                                $pay_money_order += $money;
                             }
                         }
-                        $results['orders'][0]['pay_money'] = round($pay_money_order, 0);
-                        $results['boxes'][$i]['volumne_weight_box'] = $volumne_weight;
+                        $total_volume += round($volumne_weight, 3);
+                        $total_weight += round($weight, 3);
+                        $results['boxes'][$i]['volumne_weight_box'] = round($volumne_weight, 3);
                     }
-                    $results['orders'][0]['total_fee'] =  round($results['orders'][0]['pay_money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'], 0);
+                    if (!empty($results['orders'])) {
+                        $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew);
+                        $results['orders'][0]['pay_money'] = $fee['total_money'];
+                        $results['orders'][0]['total_fee'] =  round($fee['money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'], 0);
+                        $results['orders'][0]['total_weight'] = $fee['total_weight'];
+                        $results['orders'][0]['fee_ship'] = $fee['fee_ship'];
+                    }
                 }
             }
-
             $data['data'][] = $results;
             return $data;
         }
+    }
+    public function calFeeFollowSFA($weight, $sfa, $province, $method_shipment, $date_default, $date_defaultNew)
+    {
+        $dateSFA = strtotime($sfa['created_at']);
+        if ($method_shipment == "Air") {
+
+            if ($dateSFA >= $date_default && $dateSFA < $date_defaultNew) { //compare date 15-5-21 23-5-21
+                if ($weight >= 0 && $weight < 100) {
+                    if ($weight < 1) {
+                        $weight = 1;
+                    }
+                    $checkProvince = "price1";
+                }
+                if ($weight >= 100 && $weight < 500) {
+                    $checkProvince = "price2";
+                }
+                if ($province <= 53) {
+                    if ($checkProvince == "price1") {
+                        $money = $weight * 190000;
+                        $total_money = number_format($weight * 190000);
+                        $fee_ship = number_format(190000);
+                    }
+                    if ($checkProvince == "price2") {
+                        $money = $weight * 185000;
+                        $total_money = number_format($weight * 185000);
+                        $fee_ship = number_format(185000);
+                    }
+                }
+                if ($province > 53) {
+                    if ($checkProvince == "price1") {
+                        $money = $weight * 200000;
+                        $total_money = number_format($weight * 200000);
+                        $fee_ship = number_format(200000);
+                    }
+                    if ($checkProvince == "price2") {
+                        $money = $weight * 195000;
+                        $total_money = number_format($weight * 195000);
+                        $fee_ship = number_format(195000);
+                    }
+                }
+            }
+            //check date_box < 15-5-2021
+            if ($dateSFA < $date_default) {
+                if ($weight >= 0 && $weight < 100) {
+                    if ($weight < 1) {
+                        $weight = 1;
+                    }
+                    $checkProvince = "price1";
+                }
+                if ($weight >= 100 && $weight < 500) {
+                    $checkProvince = "price2";
+                }
+                if ($province <= 53) {
+                    if ($checkProvince == "price1") {
+                        $money = $weight * 200000;
+                        $total_money = number_format($weight * 200000);
+                        $fee_ship = number_format(200000);
+                    }
+                    if ($checkProvince == "price2") {
+                        $money = $weight * 190000;
+                        $total_money = number_format($weight * 190000);
+                        $fee_ship = number_format(190000);
+                    }
+                }
+                if ($province > 53) {
+                    if ($checkProvince == "price1") {
+                        $money = $weight * 210000;
+                        $total_money = number_format($weight * 210000);
+                        $fee_ship = number_format(210000);
+                    }
+                    if ($checkProvince == "price2") {
+                        $money = $weight * 200000;
+                        $total_money = number_format($weight * 200000);
+                        $fee_ship = number_format(200000);
+                    }
+                }
+            }
+            if ($dateSFA >= $date_defaultNew) { //compare date 23-5-2021
+                if ($weight >= 0 && $weight < 100) {
+                    if ($weight < 1) {
+                        $weight = 1;
+                    }
+                    $checkProvince = "price1";
+                }
+                if ($weight >= 100 && $weight < 500) {
+                    $checkProvince = "price2";
+                }
+                if ($checkProvince == "price1") {
+                    $money = $weight * 190000;
+                    $total_money = number_format($weight * 190000);
+                    $fee_ship = number_format(190000);
+                }
+                if ($checkProvince == "price2") {
+                    $money = $weight * 185000;
+                    $total_money = number_format($weight * 185000);
+                    $fee_ship  = number_format(185000);
+                }
+            }
+        } else {
+            if ($weight < 150) {
+                $price = 65000;
+            } else {
+                $price = 60000;
+            }
+            $money = $weight * $price;
+            $total_money = number_format($weight * $price);
+            $fee_ship = number_format($price);
+        }
+        return ['total_money' => $total_money, 'money' => round($money), 'fee_ship' => $fee_ship, 'total_weight' => $weight];
     }
     public function getInforBox(Request $req)
     {
@@ -417,14 +247,14 @@ class FLTrackingController extends Controller
         $item_box = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token,
-        ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $req->id_box . '?appends=logs');
+        ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $req->id_box . '?appends=logs');
         if ($item_box->status() == 401) {
             $this->QCT->getToken();
             $token = token::find(1);
             $item_box = Http::withHeaders([
                 'Accept' => 'application/json',
                 'Authorization' => 'Bearer ' . $token->access_token,
-            ])->get('http://warehouse.tomonisolution.com:82/api/boxes/' . $req->id_box);
+            ])->get('http://warehouse.tomonisolution.com/api/boxes/' . $req->id_box);
         }
         $result_list_item = json_decode($item_box->body(), true);
         $detail_item = array();

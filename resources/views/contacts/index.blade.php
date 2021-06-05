@@ -70,11 +70,20 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="fh-contact-box type-address "><i class="flaticon-pin"></i>
-                            <h4 class="box-title">Văn phòng Saiko</h4>
+                            <h4 class="box-title">Văn phòng Saiko ở Nhật</h4>
                             <div class="desc">
                                 <p>5101-1 Kaminokawa-machi Kawachi-gun, Tochigi-ken, Japan</p>
+                                <p>329-0611 栃木県河内郡上三川町 上三川 51011</p>
                                 <!-- <p>Kanji:</p> -->
 
+                            </div>
+                        </div>
+                        <div class="fh-contact-box type-address "><i class="flaticon-pin"></i>
+                            <h4 class="box-title">Văn phòng Saiko ở Việt Nam</h4>
+                            <div class="desc">
+                                <p></p>
+                                <p></p>
+                                <!-- <p>Kanji:</p> -->
                             </div>
                         </div>
                         <div class="fh-contact-box type-email "><i class="flaticon-business"></i>
@@ -90,7 +99,7 @@
                         <div class="fh-contact-box type-phone "><i class="flaticon-phone-call "></i>
                             <h4 class="box-title">Gọi ngay cho Saiko</h4>
                             <div class="desc">
-                                <p>080.7965.3923(JP) </p>
+                                {{-- <p>080.7965.3923(JP) </p> --}}
                                 <p>1900.9249(VN)</p>
                             </div>
                         </div>
@@ -105,40 +114,32 @@
                                 </li>
                                 <li class="twitter">
                                     <a href="#" target="_blank">
-                                        <i class="fa fa-twitter"></i>
+                                        <i class="iconify" data-icon="simple-icons:viber" style="font-size:38px" data-inline="true"></i>
                                     </a>
                                 </li>
                                 <li class="googleplus">
                                     <a href="#" target="_blank">
-                                        <i class="fa fa-google-plus"></i>
-                                    </a>
-                                </li>
-                                <li class="pinterest">
-                                    <a href="#" target="_blank">
-                                        <i class="fa fa-pinterest"></i>
-                                    </a>
-                                </li>
-                                <li class="linkedin">
-                                    <a href="#" target="_blank">
-                                        <i class="fa fa-linkedin"></i>
+                                        <img src="../assets/images/icon_zalo.png" alt="">
                                     </a>
                                 </li>
                             </ul>
                         </div>
+                      
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="opening-hours vc_opening-hours">
                     <h3>THỜI GIAN LÀM VIỆC</h3>
-                    <p>Niềm vui công việc sẽ cho bạn một hạnh phúc trọn vẹn.</p>
+                    {{-- <p>Niềm vui công việc sẽ cho bạn một hạnh phúc trọn vẹn.</p> --}}
                     <ul>
-                        <li>Thứ Hai <span class="hour">9:00 am – 20.00 pm</span></li>
-                        <li>Thứ Ba<span class="hour">9:00 am – 20.00 pm</span></li>
-                        <li>Thứ Tư <span class="hour">9:00 am – 20.00 pm</span></li>
-                        <li>Thứ Năm <span class="hour">9:00 am – 20.00 pm</span></li>
-                        <li>Thứ Sáu <span class="hour">9:00 am – 20.00 pm</span></li>
-                        <li>Thứ 7 & Chủ Nhật<span class="hour main-color">Thư giãn</span></li>
+                        <li>Thứ Hai <span class="hour">8:00 am – 19.00 pm</span></li>
+                        <li>Thứ Ba<span class="hour">8:00 am – 19.00 pm</span></li>
+                        <li>Thứ Tư <span class="hour">8:00 am – 19.00 pm</span></li>
+                        <li>Thứ Năm <span class="hour">8:00 am – 19.00 pm</span></li>
+                        <li>Thứ Sáu <span class="hour">8:00 am – 19.00 pm</span></li>
+                        <li>Thứ 7 <span class="hour">8:00 am – 19.00 pm</span></li>
+                        <li>Chủ Nhật<span class="hour main-color">Thư giãn</span></li>
                     </ul>
                 </div>
             </div>

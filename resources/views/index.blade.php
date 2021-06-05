@@ -927,8 +927,8 @@
                             <table class="table table-striped table-bordered" id="table_price_shipping" style="display:none">
                                 <thead>
                                     <tr>
-                                    <th style="text-align: center">Box_ID</th>    
-                                    <th style='width:100px;text-align:center'>Khối lượng tính phí</th>
+                                    <th style="text-align: center">Mã Tracking</th>    
+                                    <th style='width:100px;text-align:center'>Tổng khối lượng tính phí</th>
                                     <th>Đơn giá</th>
                                     <th>Đường vận chuyển</th>
                                     <th>Phí vận chuyển (Nhật - Kho Việt)</th>
@@ -944,18 +944,18 @@
                 <div class="row d-none" id="declaration_price" style="margin:4px">
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <div class="col-md-6 " style="padding-left: unset">
-                            <p class="text-danger" ><label for="" >Giá trị gói bảo hiểm</label>: <span id="insurance_result"></span> </p>
+                            <p class="" ><label for="" >Giá trị gói bảo hiểm</label>: <span id="insurance_result"></span> </p>
                         </div>
                         <div class="col-md-6">
-                            <p class="text-danger" ><label for="" >Phí bảo hiểm (3%)</label>: <span id="insurance_result_fee"></span> </p>
+                            <p class="" ><label for="" >Phí bảo hiểm (3%)</label>: <span id="insurance_result_fee"></span> </p>
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <div class="col-md-6" style="padding-left: unset">
-                            <p class="text-danger" ><label for="" id="special">Giá trị hàng hoá đặc biệt</label>: <span id="special_result"></span> </p>
+                            <p class="" ><label for="" id="special">Giá trị hàng hoá đặc biệt</label>: <span id="special_result"></span> </p>
                         </div>
                         <div class="col-md-6">
-                            <p class="text-danger" ><label for="" id="special">Phí hàng hoá đặc biệt (2%)</label>: <span id="special_result_fee"></span> </p>
+                            <p class="" ><label for="" id="special">Phí hàng hoá đặc biệt (2%)</label>: <span id="special_result_fee"></span> </p>
                         </div>
                     </div>
                 </div>
@@ -963,8 +963,8 @@
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <h2 class="text-center text-danger font-weight-bold"> <b> PHIẾU YÊU CẦU THANH TOÁN </b></h2>
                         <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png" alt="" width="100px"></p>
-                        <p class="text-danger font-weight-bold" style="font-weight: bold"> Nội dung thanh toán : <span class="text-danger" id="id_order"></span><p>
-                        <p class="text-danger text-uppercase font-weight-bold" style="font-weight: bold">Số tiền thanh toán: <span id="money"></span> <span style="font-weight: normal !important">( Đã bao gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
+                        <p class="text-danger font-weight-bold" style="font-weight: bold"> Nội dung thanh toán : <span class="text-danger" style="font-size: 25px" id="id_order"></span><p>
+                        <p class="text-danger text-uppercase font-weight-bold" style="font-weight: bold">Số tiền thanh toán: <span id="money" style="font-size: 25px"></span> <span style="font-weight: normal !important;">( Đã bao gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
                     </div>
                 </div>
                 <div class="row">
@@ -1817,6 +1817,19 @@
                                     $("#special_result").text(formatNumber(special_result))
                                     $("#insurance_result_fee").text(formatNumber(sort_order[value.orders.length - 1].insurance_result_fee))
                                     $("#special_result_fee").text(formatNumber(sort_order[value.orders.length - 1].special_result_fee))
+                                    if (value.boxes.length ){
+                                        $("#table_price_shipping").show()
+                                        $("#table_body_price_shipping").empty()
+                                        $("#table_body_price_shipping").append(
+                                            '<tr>'+
+                                                '<td>'+sort_order[value.orders.length - 1].pivot.tracking_id+'</td>'+
+                                                '<td>'+sort_order[value.orders.length - 1].total_weight.toFixed(3)+'</td>'+
+                                                '<td>'+sort_order[value.orders.length - 1].fee_ship+'</td>'+
+                                                '<td>'+method_ship+'</td>'+
+                                                '<td>'+formatNumber(sort_order[value.orders.length - 1].total_fee)+' VNĐ</td>'+
+                                            +'</tr>'
+                                        )
+                                    }
                                 }
                                 if (tel_rev == '' |name_rev == '' | add_rev == '') {
                                     $('#message').html(
@@ -1913,19 +1926,19 @@
                                                 $("#money").text(sort_order[value.orders.length - 1].total_fee+ " VNĐ")
                                             }
                                             //table price
-                                            if(value2.use_weight  !=undefined){
-                                                $("#table_price_shipping").show()
-                                                $("#table_body_price_shipping").empty()
-                                                $("#table_body_price_shipping").append(
-                                                    '<tr>'+
-                                                        '<td>'+value2.id+'</td>'+
-                                                        '<td>'+value2.use_weight.toFixed(3)+'</td>'+
-                                                        '<td>'+value2.fee_ship+'</td>'+
-                                                        '<td>'+method_ship+'</td>'+
-                                                        '<td>'+value2.total_money+' VNĐ</td>'+
-                                                    +'</tr>'
-                                                )
-                                            }
+                                            // if(value2.use_weight  !=undefined){
+                                            //     $("#table_price_shipping").show()
+                                            //     $("#table_body_price_shipping").empty()
+                                            //     $("#table_body_price_shipping").append(
+                                            //         '<tr>'+
+                                            //             '<td>'+value2.id+'</td>'+
+                                            //             '<td>'+value2.use_weight.toFixed(3)+'</td>'+
+                                            //             '<td>'+value2.fee_ship+'</td>'+
+                                            //             '<td>'+method_ship+'</td>'+
+                                            //             '<td>'+value2.total_money+' VNĐ</td>'+
+                                            //         +'</tr>'
+                                            //     )
+                                            // }
                                             // if(value.boxes[0].items !=null){
                                             //     $.each(value.boxes[0].items,function(index_item,value_item){
                                             //         $("#load_item").append(
