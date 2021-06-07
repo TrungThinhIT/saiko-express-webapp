@@ -297,16 +297,16 @@
                                 <div class="col-md-4">
                                     <label>Hình thức nhận hàng</label>
                                     <select id="utypeadd" name="hinhthuc" onchange="onChange()">
-                                        <option value="blank" id="first_option">Địa chỉ cụ thể</option>
                                         <option value="Nhận tại VP Sóc Sơn">Nhận tại VP Sóc Sơn, Hà Nội</option>
                                         <option value="Nhận tại VP Đào Tấn">Nhận tại VP Đào Tấn, Hà Nội </option>
-                                        <!--<option value="Nhận tại VP Tây Hồ">Nhận tại VP Tây Hồ</option>-->
                                         <option value="Nhận tại VP Tân Bình HCM" id="trip_sea" style="display: none">Nhận tại VP Tân Bình HCM</option>
+                                        <option value="blank" id="first_option">Địa chỉ cụ thể</option>
+                                        <!--<option value="Nhận tại VP Tây Hồ">Nhận tại VP Tây Hồ</option>-->
                                         <!-- <option value="FOB">Nhận trực tiếp tại VN</option> -->
 
                                     </select>
                                 </div>
-                                <div id="type-ship">
+                                <div id="type-ship" class="d-none">
                                     <div class="col-md-4" style="margin-top:10px">
                                         <p class="field">
                                             <label>Tỉnh/Thành Phố<span class="require">*</span></label>
@@ -370,10 +370,10 @@
                                                     type="radio" checked>Vận chuyển đường bay</label></span>
                                         <span class="checkbox_item"><label><input name="fh_radio" value="Sea" id="usea"
                                                     type="radio">Vận chuyển đường biển</label></span>
-                                        <span class="checkbox_item"><label><input id="ureparking" name="donggoi"
+                                        <span class="checkbox_item " style="display:none"><label><input id="ureparking" name="donggoi"
                                                     value="Repark" type="checkbox">Đóng gói lại kiện hàng
                                             </label></span>
-                                        <span class="checkbox_item"><label><input id="merge_box" name="merge_box"
+                                        <span class="checkbox_item" style="display:none"><label><input id="merge_box" name="merge_box"
                                                     value="1" type="checkbox">Gộp thùng
                                             </label></span>
                                     </span>
@@ -429,7 +429,7 @@
         </div>
     </div>
     <div class="modal" tabindex="-1" role="dialog" id="modal_qoute">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document" >
           <div class="modal-content">
             <div class="modal-header">
               <h3 class="modal-title">Khai báo đơn hàng</h3>
@@ -438,7 +438,7 @@
               </button>
             </div>
             <div class="modal-body">
-                <div class="row">
+                <div class="row" style="background-color: #fca901">
                     <div style="margin-left:15px">
                         <div class="text-danger">    
                             <label for="">
@@ -450,8 +450,6 @@
                         </div>
                     
                     </div>
-                </div>
-                <div class="row">
                     <div style="margin-left:15px">
                         <div class="text-danger">    
                             <label for="">
@@ -466,7 +464,7 @@
                 </div>
                 <div class="row">
                     <div style="margin-left:15px">
-                        <label for=""> Bạn có muốn khai báo bảo hiểm không? </label>
+                        <label for=""> Bạn có muốn đăng ký báo bảo hiểm không? </label>
                         <input type="checkbox" id="check_BH" ><span>.Có</span>
                         <input type="checkbox" id="check_specialty" ><span>.Không</span>
                     </div>
@@ -474,8 +472,9 @@
                 <div class="row" id="enter_insurance" style="display:none">
                     <div  style="margin-left:15px">
                         <p class="text-danger">
-                            Bạn phải trả thêm 3% giá trị khai báo
+                            Phí bảo hiểm là 3% giá trị kiện hàng
                         </p>
+                        <p class="text">Lưu ý: Chúng tối không nhận bảo hiểm đối với hàng dễ vỡ, hư hỏng như là thuỷ tinh, máy móc chính xác,...</p>
                         <label for="">Nhập số tiền:</label>
                         <input class="inpute-insuaran"  type="text" pattern="[0-9]" id="insurance_enter" value="" min="0">
                     </div>
@@ -489,16 +488,18 @@
                 </div>
                 <div class="row" id="declaration_price" >
                     <div style="margin-left:15px">
-                        <label for=""> Kiện hàng của bạn có hàng hoá đặc biệt không? </label>
-                        <input type="checkbox" id="check_type_special" ><span>.Có</span>
-                        <input type="checkbox" id="check_type_special_no" ><span>.Không</span>
-                        <p class="text-danger" style="font-weight: 500">Hàng hoá đặc biệt: Loa / Ampli / Điện thoại di động / Ipad / Laptop / Rượu / Đồng hồ đeo tay / Đồ cổ</p>
+                        <label for=""> Kiện hàng của bạn có chứa những hàng hoá đặc biệt dưới đây không?</label>
+                        <div class="d-block">
+                            <input type="checkbox" id="check_type_special" ><span>.Có</span>
+                            <input type="checkbox" id="check_type_special_no" ><span>.Không</span>
+                        </div>
+                        <p class="text-danger" style="font-weight: 500">Loa / Ampli / Điện thoại di động / Ipad / Laptop / Rượu / Đồng hồ đeo tay / Đồ cổ</p>
                     </div>
                 </div>
                 <div class="row" id="enter_special" style="display:none">
                     <div style="margin-left:15px">
                         <p class="text-danger">
-                            Bạn phải trả thêm 2% phụ phí thông quan khi nhập cảng Việt Nam
+                            Phụ phí thông quan khi nhập cảng Việt Nam là 2% giá trị hàng đặc biệt
                         </p>
                         <label for="">Nhập số tiền:</label>
                         <input class="inpute-insuaran"  type="text" pattern="[0-9]" id="special_enter" value="" min="0">
@@ -507,7 +508,7 @@
                 <div class="row" id="alert_special" style="display:none">
                     <div  style="margin-left:15px">
                         <p class="text-danger">
-                            Nếu hàng hoá đặc biệt không được khai báo thì kiện hàng ko thể thông quan tại Việt Nam
+                            Các hàng hóa thuộc danh sách trên nếu không được khai báo sẽ bị phạt cước vận chuyển tùy theo số lượng và giá trị món hàng
                         </p>
                     </div>
                 </div>
@@ -637,9 +638,7 @@
                     $("#trip_sea").css('display','none')
                     $("#first_option").attr('selected')
                     // $("#utypeadd").val($("#utypeadd option:selected"))
-                    $("#utypeadd").val("blank").change();
-                }else{
-                    console.log('false')
+                    $("#utypeadd").val("Nhận tại VP Sóc Sơn").change();
                 }
             })
         })
@@ -648,9 +647,7 @@
                 if($("#usea").prop('checked')){
                     $("#trip_sea").css('display','unset')
                     $("#first_option").attr('selected')
-                    $("#utypeadd").val("blank").change();
-                }else{
-                    console.log('false')
+                    $("#utypeadd").val("Nhận tại VP Sóc Sơn").change();
                 }
             })
         })
@@ -708,19 +705,19 @@
                     alert('Bảo hiểm đơn hàng đường bay không được lớn hơn 20,000,000'  )
                     return
                 }
-                if(check_special>20000000){
-                    alert('Giá hàng hoá đặc biệt đường bay không được lớn hơn 20,000,000'  )
-                    return
-                }
+                // if(check_special>20000000){
+                //     alert('Giá hàng hoá đặc biệt đường bay không được lớn hơn 20,000,000'  )
+                //     return
+                // }
             }else{
                 if(check_insurance>50000000){
                     alert('Bảo hiểm đơn hàng đường biển không được lớn hơn 50,000,000'  )
                     return
                 }
-                if(check_special>50000000){
-                    alert('Giá hàng hoá đặc biệt đường biển không được lớn hơn 50,000,000'  )
-                    return
-                }
+                // if(check_special>50000000){
+                //     alert('Giá hàng hoá đặc biệt đường biển không được lớn hơn 50,000,000'  )
+                //     return
+                // }
             }
             if($('#check_type_special').prop('checked')==false && $('#check_type_special_no').prop('checked')==false){
                 alert('Vui lòng chọn khai báo hàng đặc biệt')

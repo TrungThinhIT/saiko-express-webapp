@@ -1797,16 +1797,16 @@
                                             return new Date(x.shipment_infor_id) - new Date(y.shipment_infor_id)
                                         })
                                     if (sort_order[value.orders.length - 1].shipment_infor.sender_name == null) {
-                                        var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
-                                        if(parse_note == null){
-                                            name_send=""
-                                        }else{
+                                        if( sort_order[value.orders.length - 1].note instanceof Object){
+                                            var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
                                             if(parse_note.send_name == undefined){
                                                 name_send=""
                                             }else{
                                                 name_send = parse_note.send_name;
                                             }
-                                        }
+                                        }else{
+                                            name_send=""
+                                        }  
                                     } else {
                                         name_send = sort_order[value.orders.length - 1].shipment_infor.sender_name;
                                     }

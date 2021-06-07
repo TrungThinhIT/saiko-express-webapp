@@ -167,7 +167,6 @@ class QuoteController extends Controller
             'insurance_declaration' => floatval($insurance),
             'special_declaration' => floatval($special_price),
         ]);
-        // dd($create_shipment->body(), $create_shipment->status());
         if ($create_shipment->status() == 201) {
             $arr_created[] = ['code' => $create_shipment->status(), 'message' =>  ' Mã tracking đã tạo thành công'];
         }
