@@ -57,11 +57,11 @@ class FLTrackingController extends Controller
                 if (count($results['boxes']) == 1) {
                     for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
                         // volumne
-                        $weight = $results['boxes'][$i]['weight_per_box'];
+                        $weight = $results['boxes'][$i]['weight'];
                         $date_default = strtotime($this->date);
                         $date_defaultNew = strtotime($this->dateDefault);
                         if (empty($results['orders'])) {
-                            $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
+                            $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
                             $use_weight = $volumne_weight < $weight ? $weight : $volumne_weight;
                             $results['boxes'][$i]['use_weight'] = $use_weight;
                         } else {
@@ -72,14 +72,14 @@ class FLTrackingController extends Controller
                             $province = $getWard->MaTinhThanh; //ID province
                             $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
                             if ($method_shipment == "Air") {
-                                $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
+                                $volumne_weight = $results['boxes'][$i]['volume'] / 6000;
                             } else {
-                                $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
+                                $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
                             }
                         }
                         $total_volume += round($volumne_weight, 3);
                         $total_weight += round($weight, 3);
-                        $results['boxes'][$i]['volumne_weight_box'] = round($volumne_weight, 3); //box
+                        $results['boxes'][$i]['volume_weight_box'] = round($volumne_weight, 3); //box
 
                     }
                     if (!empty($results['orders'])) {
@@ -91,11 +91,11 @@ class FLTrackingController extends Controller
                     }
                 } else {
                     for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
-                        $weight = round($results['boxes'][$i]['weight_per_box'], 3);
+                        $weight = round($results['boxes'][$i]['weight'], 3);
                         $date_default = strtotime($this->date);
                         $date_defaultNew = strtotime($this->dateDefault);
                         if (empty($results['orders'])) {
-                            $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
+                            $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
                         } else {
                             usort($results['orders'], function ($a, $b) {
                                 return $b['shipment_infor_id'] - $a['shipment_infor_id'];
@@ -104,14 +104,14 @@ class FLTrackingController extends Controller
                             $province = $getWard->MaTinhThanh; //ID province
                             $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
                             if ($method_shipment == "Air") {
-                                $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 6000;
+                                $volumne_weight = $results['boxes'][$i]['volume'] / 6000;
                             } else {
-                                $volumne_weight = $results['boxes'][$i]['volume_per_box'] / 3500;
+                                $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
                             }
                         }
                         $total_volume += round($volumne_weight, 3);
                         $total_weight += round($weight, 3);
-                        $results['boxes'][$i]['volumne_weight_box'] = round($volumne_weight, 3);
+                        $results['boxes'][$i]['volume_weight_box'] = round($volumne_weight, 3);
                     }
                     if (!empty($results['orders'])) {
                         $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew);
@@ -308,7 +308,7 @@ class FLTrackingController extends Controller
         //                     'ReceiverProvinceId' => $provinIdRev,
         //                     'SenderDistrictId' => $districtIdSend,
         //                     'SenderProvinceId' => $provinIdSend,
-        //                     'Weight' => $result_list_item['boxes'][$i]['weight_per_box'] * 1000,
+        //                     'Weight' => $result_list_item['boxes'][$i]['weight'] * 1000,
         //                     'Width' => $result_list_item['boxes'][$i]['width'],
         //                     'Length' => $result_list_item['boxes'][$i]['length'],
         //                     'Height' => $result_list_item['boxes'][$i]['height'],

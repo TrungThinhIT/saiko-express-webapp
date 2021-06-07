@@ -413,6 +413,7 @@
                                                 <th>Cân Nặng<span style="display: block">(kg)</span></th>
                                                 <th style="text-align: center;">Ký Thể Tích<span
                                                         style="display: block">(kg)</span></th>
+                                                <th style="text-align:center">Số lượng</th>
                                                 <th style="text-align: center;">Tên Người Gửi</th>
                                                 <th style="text-align: center;">Tên Người Nhận</th>
                                                 <th style="text-align: center;">SĐT</th>
@@ -786,6 +787,8 @@
                                                         '</td>' +
                                                         '<td>' +
                                                         '</td>' +
+                                                        '<td>'+
+                                                        '</td>'+
                                                         '<td>' + name_send +
                                                         '</td>' +
                                                         '<td>' + name_rev +
@@ -806,10 +809,12 @@
                                                             `<tr id="sku-row-${value2.id}">` +
                                                             '<td>' + value2.id +
                                                             '</td>' +
-                                                            '<td>' + value2.weight_per_box.toFixed(3) +
+                                                            '<td>' + value2.weight.toFixed(3) +
                                                             '</td>' +
-                                                            '<td>' + value2.volumne_weight_box.toFixed(3)+
+                                                            '<td>' + value2.volume_weight_box.toFixed(3)+
                                                             '</td>' +
+                                                            '<td class="text-center">'+value2.duplicate+
+                                                            '</td>'+
                                                             '<td>' +name_send +
                                                             '</td>' +
                                                             '<td>' +name_rev +
