@@ -473,6 +473,12 @@
                                         <p class="text-danger text-uppercase font-weight-bold" style="font-weight: bold">Số tiền thanh toán: <span id="money" style="font-size: 25px"></span> <span style="font-weight: normal !important;">( Đã bao gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
                                     </div>
                                 </div>
+                                <div class="row d-none"  id="paid" style="margin:4px" >
+                                    <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                                        <h2 class="text-center text-danger font-weight-bold"> <b> Đã Thanh Toán </b></h2>
+                                        <h2 class="text-center text-danger">Cảm Ơn Quý Khách</h2>
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6 col-sm-6 col-custome">
                                         <div class="lftredbrdr">
@@ -627,6 +633,7 @@
                     $("#statusData").hide()
                     $("#table_item").hide()
                     $("load_item").empty()
+                    $("#paid").hide()
                     var tracking = $("#utrack").val();
                     if(tracking.length<=5){
                         alert('Tracking chưa đúng')
@@ -879,6 +886,7 @@
                                                                 if(pay_money != undefined){
                                                                     if( total_pay >= pay_money ){
                                                                         $("#alert").hide()
+                                                                        $("#paid").show()
                                                                     }
                                                                 } 
                                                             }
@@ -1000,6 +1008,7 @@
                                                                 if(pay_money != undefined){
                                                                     if(total_pay >= pay_money ){
                                                                         $("#alert").hide()
+                                                                        $("#paid").show()
                                                                     }
                                                                 }
                                                             }
@@ -1051,6 +1060,7 @@
                                                                 if(pay_money != undefined){
                                                                     if(total_pay >= pay_money ){
                                                                         $("#alert").hide()
+                                                                        $("#paid").show()
                                                                     }
                                                                 }
                                                             }
@@ -1091,20 +1101,7 @@
             // row, created_at,vnpost,list_item,size,
             function check(id_box,vnpost,created_at,weight,fee,method,money,logs_merge,pay_money) {
                 var id_box = id_box;
-                //fee_shipping
-                // if(weight !=undefined){
-                //     $("#table_price_shipping").show()
-                //     $("#table_body_price_shipping").empty();
-                //     $("#table_body_price_shipping").append(
-                //         '<tr>'+
-                //             '<td>'+id_box+'</td>'+
-                //             '<td>'+weight.toFixed(3)+'</td>'+
-                //             '<td>'+fee+'</td>'+
-                //             '<td>'+method+'</td>'+
-                //             '<td>'+money+' VNĐ</td>'+
-                //         +'</tr>'
-                //     )
-                // }
+                
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1115,28 +1112,7 @@
                         id_box:id_box
                     },success:function(res){
                         console.log(res)
-                        // $("#table_item").show()
-                        // $("#load_item").empty()
-                        // if(res.items!=null){
-                        //     $.each(res.items,function(index_item,value_item){
-                        //         $("#load_item").append(
-                        //             "<tr>"+
-                        //             "<td style='text-align: center'>"+ ++index_item+"</td>"+
-                        //             "<td style='text-align: center'>"+value_item.Quantity+"</td>"+
-                        //             "<td>"+value_item.Name+"</td>"+
-                        //             "</tr>"
-                        //         )
-                        //     })
-                        // }else{
-                        //     $("#load_item").append(
-                        //             "<tr>"+
-                        //             "<td>"+"</td>"+    
-                        //             "<td>"+"Chưa kiểm hàng"+"</td>"+
-                        //             "<td>"+"Chưa kiểm hàng"+"</td>"+
-                        //             "</tr>"
-                        //         )
-                        // }
-                        //log box
+                       
                         $("#time_line").empty()
                         if (res.logs.length == 0) {
                             $("#time_line").append(

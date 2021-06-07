@@ -968,6 +968,12 @@
                         <p class="text-danger text-uppercase font-weight-bold" style="font-weight: bold">Số tiền thanh toán: <span id="money" style="font-size: 25px"></span> <span style="font-weight: normal !important;">( Đã bao gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
                     </div>
                 </div>
+                <div class="row d-none"  id="paid" style="margin:4px"  >
+                    <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                        <h2 class="text-center text-danger font-weight-bold"> <b> Đã Thanh Toán </b></h2>
+                        <h2 class="text-center text-danger">Cảm Ơn Quý Khách</h2>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-custome">
                         <div class="lftredbrdr">
@@ -1712,6 +1718,7 @@
     $('#tracking_form_index').submit(function() {
         event.preventDefault();
         $("#alert").hide()
+        $("#paid").hide()
         $("#declaration_price").hide()
         $("#table_price_shipping").hide()
         $("#table_body_price_shipping").empty()
@@ -1997,6 +2004,7 @@
                                                     if(pay_money != undefined){
                                                         if( total_pay >= pay_money ){
                                                             $("#alert").hide()
+                                                            $("#paid").show()
                                                         }
                                                     }
                                                 }
@@ -2117,6 +2125,7 @@
                                                     if(pay_money != undefined){
                                                         if( total_pay >= pay_money ){
                                                             $("#alert").hide()
+                                                            $("#paid").show()
                                                         }
                                                     }
                                                 }
@@ -2168,6 +2177,7 @@
                                                     if(pay_money != undefined){
                                                         if( total_pay >= pay_money ){
                                                             $("#alert").hide()
+                                                            $("#paid").show()
                                                         }
                                                     } 
                                                 }
