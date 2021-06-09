@@ -1937,41 +1937,7 @@
                                                 $("#id_order").text(value.id)
                                                 $("#money").text(sort_order[value.orders.length - 1].total_fee+ " VNĐ")
                                             }
-                                            //table price
-                                            // if(value2.use_weight  !=undefined){
-                                            //     $("#table_price_shipping").show()
-                                            //     $("#table_body_price_shipping").empty()
-                                            //     $("#table_body_price_shipping").append(
-                                            //         '<tr>'+
-                                            //             '<td>'+value2.id+'</td>'+
-                                            //             '<td>'+value2.use_weight.toFixed(3)+'</td>'+
-                                            //             '<td>'+value2.fee_ship+'</td>'+
-                                            //             '<td>'+method_ship+'</td>'+
-                                            //             '<td>'+value2.total_money+' VNĐ</td>'+
-                                            //         +'</tr>'
-                                            //     )
-                                            // }
-                                            // if(value.boxes[0].items !=null){
-                                            //     $.each(value.boxes[0].items,function(index_item,value_item){
-                                            //         $("#load_item").append(
-                                            //             "<tr>"+
-                                            //             "<td style='text-align:center'>"+ ++index_item+"</td>"+    
-                                            //             "<td style='text-align:center'>"+value_item.Quantity+"</td>"+
-                                            //             "<td>"+value_item.Name+"</td>"+
-                                            //             "</tr>"
-                                            //         )
-                                            //     })
-
-                                            // }else{
-                                            //     $("#load_item").empty()
-                                            //     $("#load_item").append(
-                                            //             "<tr>"+
-                                            //             "<td>"+ "</td>"+    
-                                            //             "<td>"+"Chưa phân hàng"+"</td>"+
-                                            //             "<td>"+"Chưa phân hàng"+"</td>"+
-                                            //             "</tr>"
-                                            //         )
-                                            // }
+                                          
                                             //log
                                             $("#time_line_index").empty()
                                             if (value.boxes[0].logs.length ==0) {
@@ -2214,19 +2180,6 @@
             // row, created_at,vnpost,list_items
         function check(id_box,vnpost,created_at,weight,fee,method,money,logs_merge) {
             var id_box = id_box;
-            if(weight!=undefined){
-                $("#table_price_shipping").show()
-                $("#table_body_price_shipping").empty();
-                $("#table_body_price_shipping").append(
-                    '<tr>'+
-                        '<td>'+id_box+'</td>'+
-                        '<td>'+weight.toFixed(3)+'</td>'+
-                        '<td>'+fee+'</td>'+
-                        '<td>'+method+'</td>'+
-                        '<td>'+money+' VNĐ</td>'+
-                    +'</tr>'
-                )
-            }
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
