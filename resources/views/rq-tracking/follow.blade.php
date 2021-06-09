@@ -979,14 +979,15 @@
                                                                         status="Đợi giao hàng"
                                                                     }
                                                                 }
-
-                                                                $("#time_line").append(
-                                                                    '<li>' +
-                                                                    '<a>' +status +
-                                                                    '</a>' +'<p>' +value.created_at +
-                                                                    '</p>' +
-                                                                    '</li>'
-                                                                )
+                                                                if(status != undefined){
+                                                                    $("#time_line").append(
+                                                                        '<li>' +
+                                                                        '<a>' +status +
+                                                                        '</a>' +'<p>' +value.created_at +
+                                                                        '</p>' +
+                                                                        '</li>'
+                                                                    )
+                                                                }
                                                             })
                                                             if(value.logs.length){
                                                                 var total_pay = 0;
@@ -1204,12 +1205,14 @@
                                 if (keyObject == "shipping_code" && value.type_id == "deleted") {
                                     status = "Huỷ mã giao hàng: " + value.content.shipping_code
                                 }
-                                $("#time_line").append(
-                                    '<li>' +
-                                    '<a>' + status + '</a>' +
-                                    '<p>' + value.created_at + '</p>' +
-                                    '</li>'
-                                )
+                                if(status != undefined){                                    
+                                    $("#time_line").append(
+                                        '<li>' +
+                                        '<a>' + status + '</a>' +
+                                        '<p>' + value.created_at + '</p>' +
+                                        '</li>'
+                                    )
+                                }
                             })
                         }
                         //adđ log payment
