@@ -319,6 +319,7 @@
                     } else {
                         $("#statusData_tracking").css('display', 'none');
                         $(".table").show();
+                        $("#table_price_shipping_footer_2").hide()
                         $("#table-index").hide()
                         $("#table_price_shipping").hide()
                         $("#table_item").hide()
@@ -794,19 +795,19 @@
     function check_footer(id_box, vnpost, created_at, weight, fee, method, money, logs_merge, pay_money) {
         var id_box = id_box;
         //fee ship
-        if (weight != undefined) {
-            $("#table_price_shipping_footer_2").show()
-            $("#table_body_price_shipping_footer").empty();
-            $("#table_body_price_shipping_footer").append(
-                '<tr>' +
-                '<td>' + id_box + '</td>' +
-                '<td>' + weight.toFixed(3) + '</td>' +
-                '<td>' + fee + '</td>' +
-                '<td>' + method + '</td>' +
-                '<td>' + money + ' VNĐ</td>' +
-                +'</tr>'
-            )
-        }
+        // if (weight != undefined) {
+        //     // $("#table_price_shipping_footer_2").show()
+        //     $("#table_body_price_shipping_footer").empty();
+        //     $("#table_body_price_shipping_footer").append(
+        //         '<tr>' +
+        //         '<td>' + id_box + '</td>' +
+        //         '<td>' + weight.toFixed(3) + '</td>' +
+        //         '<td>' + fee + '</td>' +
+        //         '<td>' + method + '</td>' +
+        //         '<td>' + money + ' VNĐ</td>' +
+        //         +'</tr>'
+        //     )
+        // }
         $("#time_line_tracking").empty()
         $.ajax({
             headers: {
