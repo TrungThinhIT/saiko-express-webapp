@@ -23,9 +23,6 @@ class FLTrackingController extends Controller
     }
     public function getStatus(Request $request)
     {
-        $a = "43546325";
-        $a = json_decode($a, true);
-
         //get token
         $token = token::find(1);
         if (empty($token)) {
@@ -114,7 +111,7 @@ class FLTrackingController extends Controller
                         $results['boxes'][$i]['volume_weight_box'] = round($volumne_weight, 3);
                     }
                     if (!empty($results['orders'])) {
-                        $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew);
+                        $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default);
                         $results['orders'][0]['pay_money'] = $fee['total_money'];
                         $results['orders'][0]['total_fee'] =  round($fee['money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'], 0);
                         $results['orders'][0]['total_weight'] = $fee['total_weight'];
@@ -126,55 +123,35 @@ class FLTrackingController extends Controller
             return $data;
         }
     }
-    public function calFeeFollowSFA($weight, $sfa, $province, $method_shipment, $date_default, $date_defaultNew)
+    public function calFeeFollowSFA($weight, $sfa, $province, $method_shipment, $date_default)
     {
-        $dateSFA = strtotime($sfa['created_at']);
+        $weight_real = $weight;
+        //token
+        $dateSFA = date('Y-m-d', intval(strtotime($sfa['created_at'])));
+        $data = [
+            'conditions[type]' => 'shipping-fee',
+            'conditions[shipment-method]' => $method_shipment,
+            'conditions[from]' => 'jp',
+            'conditions[to]' => $province <= 53 ? 'vn-hn' : 'vn-sg',
+            'range' => $weight,
+            'timeline' =>  $dateSFA,
+        ];
+        $call = Http::withHeaders([
+            'Accept' => 'application/json',
+            // 'Authorization' => 'Bearer ' . $token->access_token
+        ])->get('http://warehouse.tomonisolution.com/api/amount-with-conditions', $data);
+        $amount = (intval($call->body()));
+        $parse_int = strtotime($sfa['created_at']);
         if ($method_shipment == "Air") {
-
-            if ($dateSFA >= $date_default && $dateSFA < $date_defaultNew) { //compare date 15-5-21 23-5-21
+            // check date_box < 15-5-2021
+            if ($parse_int < $date_default) {
                 if ($weight >= 0 && $weight < 100) {
                     if ($weight < 1) {
                         $weight = 1;
                     }
                     $checkProvince = "price1";
                 }
-                if ($weight >= 100 && $weight < 500) {
-                    $checkProvince = "price2";
-                }
-                if ($province <= 53) {
-                    if ($checkProvince == "price1") {
-                        $money = $weight * 190000;
-                        $total_money = number_format($weight * 190000);
-                        $fee_ship = number_format(190000);
-                    }
-                    if ($checkProvince == "price2") {
-                        $money = $weight * 185000;
-                        $total_money = number_format($weight * 185000);
-                        $fee_ship = number_format(185000);
-                    }
-                }
-                if ($province > 53) {
-                    if ($checkProvince == "price1") {
-                        $money = $weight * 200000;
-                        $total_money = number_format($weight * 200000);
-                        $fee_ship = number_format(200000);
-                    }
-                    if ($checkProvince == "price2") {
-                        $money = $weight * 195000;
-                        $total_money = number_format($weight * 195000);
-                        $fee_ship = number_format(195000);
-                    }
-                }
-            }
-            //check date_box < 15-5-2021
-            if ($dateSFA < $date_default) {
-                if ($weight >= 0 && $weight < 100) {
-                    if ($weight < 1) {
-                        $weight = 1;
-                    }
-                    $checkProvince = "price1";
-                }
-                if ($weight >= 100 && $weight < 500) {
+                if ($weight >= 100) {
                     $checkProvince = "price2";
                 }
                 if ($province <= 53) {
@@ -201,39 +178,31 @@ class FLTrackingController extends Controller
                         $fee_ship = number_format(200000);
                     }
                 }
-            }
-            if ($dateSFA >= $date_defaultNew) { //compare date 23-5-2021
-                if ($weight >= 0 && $weight < 100) {
-                    if ($weight < 1) {
-                        $weight = 1;
-                    }
-                    $checkProvince = "price1";
-                }
-                if ($weight >= 100 && $weight < 500) {
-                    $checkProvince = "price2";
-                }
-                if ($checkProvince == "price1") {
-                    $money = $weight * 190000;
-                    $total_money = number_format($weight * 190000);
-                    $fee_ship = number_format(190000);
-                }
-                if ($checkProvince == "price2") {
-                    $money = $weight * 185000;
-                    $total_money = number_format($weight * 185000);
-                    $fee_ship  = number_format(185000);
-                }
+            } else {
+                $money = $weight * $amount;
+                $total_money = number_format($weight * $amount);
+                $fee_ship = number_format($amount);
             }
         } else {
-            if ($weight < 150) {
-                $price = 65000;
+            //check date_box < 15-5-2021
+            if ($parse_int < $date_default) {
+                if ($weight < 150) {
+                    $price = 65000;
+                } else {
+                    $price = 60000;
+                }
             } else {
-                $price = 60000;
+                if ($weight < 150) {
+                    $price = $amount;
+                } else {
+                    $price = $amount;
+                }
             }
             $money = $weight * $price;
             $total_money = number_format($weight * $price);
             $fee_ship = number_format($price);
         }
-        return ['total_money' => $total_money, 'money' => round($money), 'fee_ship' => $fee_ship, 'total_weight' => $weight];
+        return ['total_money' => $total_money, 'money' => round($money), 'fee_ship' => $fee_ship, 'total_weight' => $weight_real];
     }
     public function getInforBox(Request $req)
     {
