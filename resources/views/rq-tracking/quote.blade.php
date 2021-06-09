@@ -428,8 +428,8 @@
             </div>
         </div>
     </div>
-    <div class="modal" tabindex="-1" role="dialog" id="modal_qoute">
-        <div class="modal-dialog" role="document" >
+    <div class="modal " tabindex="-1" role="dialog" id="modal_qoute">
+        <div class="modal-dialog modal-lg" role="document" >
           <div class="modal-content">
             <div class="modal-header">
               <h3 class="modal-title">Khai báo đơn hàng</h3>
@@ -489,10 +489,8 @@
                 <div class="row" id="declaration_price" >
                     <div style="margin-left:15px">
                         <label for=""> Kiện hàng của bạn có chứa những hàng hoá đặc biệt dưới đây không?</label>
-                        <div class="d-block">
-                            <input type="checkbox" id="check_type_special" ><span>.Có</span>
-                            <input type="checkbox" id="check_type_special_no" ><span>.Không</span>
-                        </div>
+                        <input type="checkbox" id="check_type_special" ><span>.Có</span>
+                        <input type="checkbox" id="check_type_special_no" ><span>.Không</span>
                         <p class="text-danger" style="font-weight: 500">Loa / Ampli / Điện thoại di động / Ipad / Laptop / Rượu / Đồng hồ đeo tay / Đồ cổ</p>
                     </div>
                 </div>
