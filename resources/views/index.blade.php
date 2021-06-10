@@ -1970,7 +1970,11 @@
                                                     if(pay_money != undefined){
                                                         if( total_pay >= pay_money ){
                                                             $("#alert").hide()
-                                                            $("#paid").show()
+                                                            if(value.orders.length){
+                                                                $("#paid").show()
+                                                            }else{
+                                                                $("#paid").hide()
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -2091,7 +2095,11 @@
                                                     if(pay_money != undefined){
                                                         if( total_pay >= pay_money ){
                                                             $("#alert").hide()
-                                                            $("#paid").show()
+                                                            if(value.orders.length){
+                                                                $("#paid").show()
+                                                            }else{
+                                                                $("#paid").hide()
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -2143,7 +2151,11 @@
                                                     if(pay_money != undefined){
                                                         if( total_pay >= pay_money ){
                                                             $("#alert").hide()
-                                                            $("#paid").show()
+                                                            if(value.orders.length){
+                                                                $("#paid").show()
+                                                            }else{
+                                                                $("#paid").hide()
+                                                            }
                                                         }
                                                     } 
                                                 }

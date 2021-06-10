@@ -746,6 +746,7 @@
                                                     )
                                                 }
                                             }
+                                        
                                             if (tel_rev == '' |name_rev == '' | add_rev == '') {
                                                 $('#message').html(
                                                     'Khách chưa đăng kí đầy đủ thông tin tracking'
@@ -886,7 +887,11 @@
                                                                 if(pay_money != undefined){
                                                                     if( total_pay >= pay_money ){
                                                                         $("#alert").hide()
-                                                                        $("#paid").show()
+                                                                        if(value.orders.length){
+                                                                            $("#paid").show()
+                                                                        }else{
+                                                                            $("#paid").hide()
+                                                                        }
                                                                     }
                                                                 } 
                                                             }
@@ -1009,7 +1014,11 @@
                                                                 if(pay_money != undefined){
                                                                     if(total_pay >= pay_money ){
                                                                         $("#alert").hide()
-                                                                        $("#paid").show()
+                                                                        if(value.orders.length){
+                                                                            $("#paid").show()
+                                                                        }else{
+                                                                            $("#paid").hide()
+                                                                        }
                                                                     }
                                                                 }
                                                             }
@@ -1061,7 +1070,11 @@
                                                                 if(pay_money != undefined){
                                                                     if(total_pay >= pay_money ){
                                                                         $("#alert").hide()
-                                                                        $("#paid").show()
+                                                                        if(value.orders.length){
+                                                                            $("#paid").show()
+                                                                        }else{
+                                                                            $("#paid").hide()
+                                                                        }
                                                                     }
                                                                 }
                                                             }
