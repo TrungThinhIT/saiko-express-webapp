@@ -404,6 +404,7 @@
                         <div class="alert alert-danger" id="statusData" style="display: none;margin-top:20px;">
                         </div>
                         <div class="row paddtop30">
+                            
                             <div class="col-sm-12 col-md-12">
                                 <div class="underline table-responsive" style="display:none" id="table-firt">
                                     <table class="table table-striped table-bordered">
@@ -463,9 +464,18 @@
                                             <p class="" ><label for="" id="special">Phí hàng hoá đặc biệt (2%)</label>: <span id="special_result_fee"></span> </p>
                                         </div>
                                     </div>
+                                    <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                                        <div class="col-md-6" style="padding-left: unset">
+                                            <p class="" ><label for="" id="shipping_inside_jp">Phí vận chuyển nội địa Nhật(Yên)</label>: <span id="fee_shipping_inside_jp"></span> </p>
+                                        </div>
+                                        <div class="col-md-6" >
+                                            <p class="" ><label for="" id="shipping_inside_vn">Phí vận chuyển nội địa Nhật(VNĐ)</label>: <span id="fee_shipping_inside_vn"></span> </p>
+                                        </div>
+                                       
+                                    </div>
                                 </div>
                                 <div class="row d-none"  id="alert" style="margin:4px" >
-                                    
+                                        
                                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                         <h2 class="text-center text-danger font-weight-bold"> <b> PHIẾU YÊU CẦU THANH TOÁN </b></h2>
                                         <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png" alt="" width="100px"></p>
@@ -483,11 +493,11 @@
                                     <div class="col-md-6 col-sm-6 col-custome">
                                         <div class="lftredbrdr">
                                             <ul class="timeline" id="time_line">
-
+    
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-sm-6">
+                                    {{-- <div class="col-md-6 col-sm-6">
                                         <div class="table-responsive">
                                             <table class="table table-striped table-bordered" id="table_item" style="display:none">
                                                 <thead>
@@ -502,7 +512,8 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>
+                                    </div> --}}
+                                    
                                     
                                 </div>
                                 <div class="underline table-responsive" style="display:none" id="table-firt-vnpost">
@@ -524,68 +535,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-md-4">
-                        <div class="tracksidebar">
-
-                            <div class="fh-contact-box type-address "><i class="flaticon-pin"></i>
-                                <h4 class="box-title">Văn phòng chúng tôi</h4>
-                                <div class="desc">
-                                    <p>5101-1 Kaminokawa-machi Kawachi-gun, Tochigi-ken, Japan</p>
-                                    <!-- <p>Kanji:</p> -->
-                                    <p>1006 - COOP II Fujiwa Takadanobaba Building 4-9-11Takadanobaba Ward, Shinjuku
-                                        District, Tokyo Capital ,JAPAN</p>
-
-                                </div>
-                            </div>
-                            <div class="fh-contact-box type-email "><i class="flaticon-business"></i>
-                                <h4 class="box-title">Email:</h4>
-                                <div class="desc">
-                                    <p>info@saikoexpress.com
-                                        <br>support@saikoexpress.com
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="fh-contact-box type-phone "><i class="flaticon-phone-call "></i>
-                                <h4 class="box-title">Gọi cho chúng tôi</h4>
-                                <div class="desc">
-                                    <p>080.7965.3923(JP) </p>
-                                    <p>090.7238.264(VN)</p>
-                                </div>
-                            </div>
-                            <div class="fh-contact-box type-social "><i class="flaticon-share"></i>
-                                <h4 class="box-title">Mạng xã hội Saiko</h4>
-                                <ul class="clearfix">
-                                    <li class="facebook">
-                                        <a href="https://fb.com/saikoexpress" target="_blank">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li class="twitter">
-                                        <a href="https://twitter.com/saikoexpress" target="_blank">
-                                            <i class="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li class="googleplus">
-                                        <a href="#" target="_blank">
-                                            <i class="fa fa-google-plus"></i>
-                                        </a>
-                                    </li>
-                                    <li class="pinterest">
-                                        <a href="#" target="_blank">
-                                            <i class="fa fa-pinterest"></i>
-                                        </a>
-                                    </li>
-                                    <li class="linkedin">
-                                        <a href="#" target="_blank">
-                                            <i class="fa fa-linkedin"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div>
-                    </div> --}}
                 </div>
             </div>
             <div class="tmn-custom-mask d-none" id="loader">
@@ -634,6 +583,8 @@
                     $("#table_item").hide()
                     $("load_item").empty()
                     $("#paid").hide()
+                    $("#fee_shipping_inside_jp").text(0)
+                    $("#fee_shipping_inside_vn").text(0)
                     var tracking = $("#utrack").val();
                     if(tracking.length<=5){
                         alert('Tracking chưa đúng')
@@ -731,6 +682,11 @@
                                                 $("#special_result").text(formatNumber(special_result))
                                                 $("#insurance_result_fee").text(formatNumber(sort_order[value.orders.length - 1].insurance_result_fee))
                                                 $("#special_result_fee").text(formatNumber(sort_order[value.orders.length - 1].special_result_fee))
+                                                
+                                                if(value.sfa !=null){
+                                                    $("#fee_shipping_inside_jp").text(formatNumber(value.sfa.shipping_inside))
+                                                    $("#fee_shipping_inside_vn").text(formatNumber(value.sfa.shipping_inside*215))
+                                                }
                                                 // BẢNG GIÁ
                                                 if (value.boxes.length ){
                                                     $("#table_price_shipping").show()
@@ -843,20 +799,7 @@
                                                             $("#id_order").text(value.id)
                                                             $("#money").text(formatNumber(sort_order[value.orders.length - 1].total_fee)+ " VNĐ")
                                                         }
-                                                        //fee_shipping
-                                                        // if(value2.use_weight  !=undefined){
-                                                        //     $("#table_price_shipping").show()
-                                                        //     $("#table_body_price_shipping").empty()
-                                                        //     $("#table_body_price_shipping").append(
-                                                        //         '<tr>'+
-                                                        //             '<td>'+value2.id+'</td>'+
-                                                        //             '<td>'+value2.use_weight.toFixed(3)+'</td>'+
-                                                        //             '<td>'+value2.fee_ship+'</td>'+
-                                                        //             '<td>'+method_ship+'</td>'+
-                                                        //             '<td>'+value2.total_money+' VNĐ</td>'+
-                                                        //         +'</tr>'
-                                                        //     )
-                                                        // }
+                                                        
                                                         $("#time_line").empty()
                                                         if (value.boxes[0].logs.length ==0) {
                                                             $("#time_line").append(
@@ -881,7 +824,6 @@
                                                                             '</li>'
                                                                         )
                                                                         total_pay += logs_value.content.transaction.amount
-                                                                        
                                                                     }
                                                                 }) 
                                                                 if(pay_money != undefined){
@@ -895,7 +837,6 @@
                                                                     }
                                                                 } 
                                                             }
-                                                            
                                                         } else {
                                                             var size = "( Dài : "+value.boxes[0].length+"cm"+",Rộng: "+value.boxes[0].width+"cm"+",Cao: "+value.boxes[0].height+"cm )"
                                                             $("#id_order").empty()
@@ -1112,10 +1053,8 @@
                 })
             })
             //show log by id
-            // row, created_at,vnpost,list_item,size,
             function check(id_box,vnpost,created_at,weight,fee,method,money,logs_merge,pay_money) {
                 var id_box = id_box;
-                
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1125,8 +1064,6 @@
                     data:{
                         id_box:id_box
                     },success:function(res){
-                        console.log(res)
-                       
                         $("#time_line").empty()
                         if (res.logs.length == 0) {
                             $("#time_line").append(
@@ -1138,7 +1075,6 @@
                         } else {
                             var size = " Dài : "+res.length+"cm"+",Rộng: "+res.width+"cm"+",Cao: "+res.height+"cm "
                             $.each(res.logs, function(index, value) {
-                                // let a = JSON.parse(value.content);
                                 let keyObject = Object.keys(value.content)
                                 let valueObject = Object.values(value.content);
                                 var status;
@@ -1232,7 +1168,6 @@
                         if(logs_merge.length){
                             $.each(logs_merge,function(logs_index,logs_value){
                                 let keyObjectLogMerge = Object.keys(logs_value.content)
-                                // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                 var statusLogMerge;
                                 var created_at_log;
                                 if(keyObjectLogMerge=="transaction"){
@@ -1269,34 +1204,13 @@
                         console.log(res)
                     }
                 })
-                
-                // if(vnpost){
-                //     $("#body-table-firt-vnpost").empty()
-                //     $("#body-table-firt-vnpost").append(
-                //         '<tr>' +
-                //         '<td>' + vnpost.MaDichVu +
-                //         '</td>' +
-                //         '<td>' + vnpost.PhuongThucVC +
-                //         '</td>' +
-                //         '<td>' + vnpost.CuocCOD +
-                //         '</td>' +
-                //         '<td>' + vnpost.TongCuocSauVAT +
-                //         '</td>' +
-                //         '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
-                //         '</tr>'
-                //     )
-                //     $("#table-firt-vnpost").show()
-                // }
-                
             }
-
             function toggleLoading() {
                 $('.tmn-custom-mask').toggleClass('d-none');
             }
             function formatNumber(num) {
                 return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
             }
-
         </script>
 
         <!--Footer Top section start-->

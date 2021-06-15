@@ -922,7 +922,7 @@
                     </table>
                 </div>
                 
-                <div class="row">
+                <div class="row ">
                     <div class="col-md-12 col-sm-12">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered" id="table_price_shipping" style="display:none">
@@ -958,6 +958,15 @@
                         <div class="col-md-6">
                             <p class="" ><label for="" id="special">Phí hàng hoá đặc biệt (2%)</label>: <span id="special_result_fee"></span> </p>
                         </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                        <div class="col-md-6" style="padding-left: unset">
+                            <p class="" ><label for="" id="shipping_inside_jp">Phí vận chuyển nội địa Nhật(Yên)</label>: <span id="fee_shipping_inside_jp"></span> </p>
+                        </div>
+                        <div class="col-md-6" >
+                            <p class="" ><label for="" id="shipping_inside_vn">Phí vận chuyển nội địa Nhật(VNĐ)</label>: <span id="fee_shipping_inside_vn"></span> </p>
+                        </div>
+                       
                     </div>
                 </div>
                 <div class="row d-none"  id="alert" style="margin:4px"  >
@@ -1066,39 +1075,6 @@
         </div>
     </div>
 </div>
-<!--chart section start -->
-<!-- <div class="ed_transprentbg ed_toppadder100">
- <div class="container">
-  <div class="row">
-   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="ed_counter_wrapper">
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-      <div class="ed_chart_ratio" style="height: 250px;">
-       <i class="fa fa-plane" aria-hidden="true"></i>
-       <h4>Vận chuyển đường bay</h4>
-       <p>Nhanh chóng, tiện lợi. Saiko có sản lượng hàng hóa về VN đứng đầu tại Nhật Bản.</p>
-      </div>
-     </div>
-     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-      <div class="ed_chart_ratio" style="height: 250px;">
-       <i class="fa fa-ship" aria-hidden="true"></i>
-       <h4>Vận chuyển đường biển</h4>Chi phí thấp, tải trọng lớn, lịch cont đếu đặn, chủng loại hàng hóa đa dạng.</p>
-      </div>
-     </div>
-     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-      <div class="ed_chart_ratio" style="height: 250px;">
-       <i class="fa fa-bus" aria-hidden="true"></i>
-       <h4>Freeship nội thành HN-HCM</h4>
-       <p>Miễn phí ship nội thành Hà Nội và TP.HCM (với kiện hàng có khối lượng trên 100kg).</p>
-      </div>
-     </div>
-
-
-    </div>
-   </div>
-        </div>
- </div>
-</div> -->
 <!-- chart Section end -->
 <!-- Services start -->
 <div class="ed_graysection ed_toppadder90 ed_bottompadder60">
@@ -1197,48 +1173,7 @@
         </div>
     </div><!-- /.container -->
 </div>
-<!-- Services end -->
-<!--Timer Section three start -->
-{{-- <div class="ed_timer_section ed_toppadder90 ed_bottompadder60">
-    <div class="ed_img_overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="ed_heading_top ed_bottompadder50">
-                    <h3>TẠI SAO CHỌN CHÚNG TÔI</h3>
-                </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="ed_counter_wrapper">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        <div class="ed_counter">
-                            <h2 class="timer" data-from="0" data-to="3" data-speed="5"></h2>
-                            <h4>3 chuyến/ 1 tuần</h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        <div class="ed_counter">
-                            <h2 class="timer" data-from="0" data-to="100000" data-speed="500000"></h2>
-                            <h4>Khách hàng Saiko</h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        <div class="ed_counter">
-                            <h2 class="timer" data-from="0" data-to="980000" data-speed="400000"></h2>
-                            <h4>Số KG đã vận chuyển</h4>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        <div class="ed_counter">
-                            <h2 class="timer" data-from="0" data-to="5" data-speed="100"></h2>
-                            <h4>Năm kinh nghiệm</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> --}}
+
 <!--Timer Section three end -->
 <!--Our expertise section one start -->
 <div class="ed_transprentbg ed_toppadder90 ed_bottompadder90">
@@ -1262,120 +1197,21 @@
 
                 <div class="ed_video_section">
                     <div class="embed-responsive embed-responsive-16by9">
-                        <!-- <div class="ed_video">
-       <img src="http://kamleshyadav.com/html/transport/transport/images/content/v_bg.jpg" style="cursor:pointer"  alt="1" />
-       <div class="ed_img_overlay">
-        <a href="#"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
-       </div>
-      </div> -->
+                        
                         <video controls>
                             <source src="../assets/saiko.mp4" type="video/mp4">
 
                             Your browser does not support the video tag.
                         </video>
-                        <!-- <video >
-  <source class="embed-responsive-item" src="assets/saiko.mp4" type="video/mp4">
-</video> -->
-                        <!-- <iframe class="embed-responsive-item" src="assets/saiko.mp4" allowfullscreen></iframe> -->
+                        
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div><!-- /.container -->
 </div>
-<!--Our expertise section one end -->
-<!--skill section start -->
-{{-- <div class="ed_graysection ed_toppadder90 ed_bottompadder60">
-    <div class="container">
-        <div class="row">
 
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="ed_heading_top ed_bottompadder50">
-                    <h3 class="text-mobile-dh">ĐỒNG HÀNH CÙNG SAIKO EXPRESS <br>HƠN CẢ MỘT DỊCH VỤ</h3>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                <div class="iconbox style1 skill_section">
-
-                    <div class="box-header">
-                        <div class="box-icon"><i class="fa fa-child"></i></div>
-                        <h4>trung thực</h4>
-                    </div>
-                    <div class="box-content">
-                        Khách hàng hoàn toàn yên tâm trong quá trình kiểm hàng và chính xác cân nặng hàng hóa.
-                    </div>
-                    <!-- <div class="box-header">
-          <div class="box-icon"><i class="fa fa-child"></i></div>
-          <h4>trung thực</h4>
-         <div>
-         <div class="box-content">
-         Khách hàng hoàn toàn yên tâm trong quá trình kiểm hàng và chính xác cân nặng hàng hóa.
-                                    </div> -->
-
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                <div class="iconbox style1 skill_section">
-                    <div class="box-header">
-                        <div class="box-icon"><i class="fa fa-tags"></i></div>
-                        <h4>tiện lợi</h4>
-                    </div>
-                    <div class="box-content">
-                        Cung cấp giải pháp về vận chuyển hàng hóa tối ưu nhất. KH tự theo dõi Tracking Online.
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                <div class="iconbox style1 skill_section">
-                    <div class="box-header">
-                        <div class="box-icon"><i class="fa fa-handshake-o"></i></div>
-                        <h4>uy tín</h4>
-                    </div>
-                    <div class="box-content">
-                        Nhiều năm hoạt động lĩnh vực vận chuyển. Am hiểu chuyên môn và thủ tục thông quan.
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                <div class="iconbox style1 skill_section">
-                    <div class="box-header">
-                        <div class="box-icon"><i class="fa fa-users"></i></div>
-                        <h4>hỗ trợ 24x7</h4>
-                    </div>
-                    <div class="box-content">
-                        Đội ngũ nhân viên tận tình, sẵn sàng hỗ trợ tư vấn và giải đáp thắc mắc 24/7.
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                <div class="iconbox style1 skill_section">
-                    <div class="box-header">
-                        <div class="box-icon"><i class="fa fa-money"></i></div>
-                        <h4>tiết kiệm</h4>
-                    </div>
-                    <div class="box-content">
-                        Giá cước vận chuyển hợp lý, số lượng hàng hóa gửi càng nhiều giá cước càng rẻ.
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                <div class="iconbox style1 skill_section">
-                    <div class="box-header">
-                        <div class="box-icon"><i class="fa fa-street-view"></i></div>
-                        <h4>trách nhiệm</h4>
-                    </div>
-                    <div class="box-content">
-                        Saiko Express luôn đảm bảo độ tin cậy từng kiện hàng của quý khách.
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
-    </div>
-</div> --}}
 <!--skill section end -->
 <!-- pricing table section start -->
 <div class="ed_pricing_section ed_toppadder90 ed_bottompadder60">
@@ -1730,6 +1566,8 @@
         $("#statusData").empty()
         $("#statusData").hide()
         $("load_item").empty()
+        $("#fee_shipping_inside_jp").text(0)
+        $("#fee_shipping_inside_vn").text(0)
         var tracking = $("#utrack").val();
         if(tracking.length<=5){
             alert('Tracking chưa đúng')
@@ -1825,6 +1663,11 @@
                                     $("#special_result").text(formatNumber(special_result))
                                     $("#insurance_result_fee").text(formatNumber(sort_order[value.orders.length - 1].insurance_result_fee))
                                     $("#special_result_fee").text(formatNumber(sort_order[value.orders.length - 1].special_result_fee))
+                                    if(value.sfa != null){
+                                        $("#fee_shipping_inside_jp").text(formatNumber(value.sfa.shipping_inside))
+                                        $("#fee_shipping_inside_vn").text(formatNumber(value.sfa.shipping_inside*215))
+                                    }
+                                    
                                     if (value.boxes.length ){
                                         $("#table_price_shipping").show()
                                         $("#table_body_price_shipping").empty()
@@ -1996,6 +1839,12 @@
                                                         }
                                                         if (keyObject =="in_pallet") {
                                                             status ="Đã kiểm hàng" + size
+                                                        }
+                                                        if (keyObject == "set_user_id,set_order_id") {
+                                                            status = "Lên đơn hàng"
+                                                        }
+                                                        if (keyObject == "set_user_id") {
+                                                            status = "Lên đơn hàng"
                                                         }
                                                         if (keyObject =="set_owner_id,set_owner_type") {
                                                             status="Lên đơn hàng"
@@ -2188,8 +2037,7 @@
             }
         })
     })
-            //show log by id
-            // row, created_at,vnpost,list_items
+        //show log by id
         function check(id_box,vnpost,created_at,weight,fee,method,money,logs_merge) {
             var id_box = id_box;
             $.ajax({
@@ -2213,7 +2061,6 @@
                     } else {
                         var size = "( Dài : "+res.length+"cm"+",Rộng: "+res.width+"cm"+",Cao: "+res.height+"cm )"
                         $.each(res.logs, function(index, value) {
-                            // let a = JSON.parse(value.content);
                             let keyObject = Object.keys(value.content)
                             let valueObject = Object.values(value.content);
                             var status;
@@ -2222,6 +2069,12 @@
                             }
                             if (keyObject == "in_pallet") {
                                 status = "Đã kiểm hàng" + size
+                            }
+                            if (keyObject == "set_user_id,set_order_id") {
+                                status = "Lên đơn hàng"
+                            }
+                            if (keyObject == "set_user_id") {
+                                status = "Lên đơn hàng"
                             }
                             if (keyObject == "set_owner_id,set_owner_type") {
                                 status = "Lên đơn hàng"
@@ -2247,7 +2100,6 @@
                                 }else{
                                     status = "Xuất kho Nhật"
                                 }
-                                // status = "Xuất kho Nhật"
                             }
                             if (keyObject == "shipping_code" && value.type_id == "created") {
                                 status = "Mã giao hàng: " + value.content.shipping_code

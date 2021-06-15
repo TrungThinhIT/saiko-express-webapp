@@ -428,7 +428,7 @@
             </div>
         </div>
     </div>
-    <div class="modal " tabindex="-1" role="dialog" id="modal_qoute">
+    <div class="modal " tabindex="-1" role="dialog" id="modal_qoute" style="overflow-y: auto;">
         <div class="modal-dialog modal-lg" role="document" >
           <div class="modal-content">
             <div class="modal-header">
@@ -520,7 +520,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn fh-btn" id="send_infor_tracking">Gửi hàng</button>
                 <button type="button" class="btn fh-btn" style="background-color: silver !important" data-dismiss="modal" id="close_modal">Close</button>
-                </div>
             </div>
         </div>
     </div>

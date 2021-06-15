@@ -81,7 +81,7 @@ class FLTrackingController extends Controller
                     }
                     if (!empty($results['orders'])) {
                         $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew);
-                        $results['orders'][0]['total_fee'] =  round($fee['money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'], 0);
+                        $results['orders'][0]['total_fee'] =  round($fee['money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'] + ($results['sfa']['shipping_inside']*215), 0);
                         $results['orders'][0]['pay_money'] = $fee['total_money'];
                         $results['orders'][0]['total_weight'] = $fee['total_weight'];
                         $results['orders'][0]['fee_ship'] = $fee['fee_ship'];
@@ -113,7 +113,7 @@ class FLTrackingController extends Controller
                     if (!empty($results['orders'])) {
                         $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default);
                         $results['orders'][0]['pay_money'] = $fee['total_money'];
-                        $results['orders'][0]['total_fee'] =  round($fee['money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'], 0);
+                        $results['orders'][0]['total_fee'] =  round($fee['money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'] + ($results['sfa']['shipping_inside']*215), 0);
                         $results['orders'][0]['total_weight'] = $fee['total_weight'];
                         $results['orders'][0]['fee_ship'] = $fee['fee_ship'];
                     }
