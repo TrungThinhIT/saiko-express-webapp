@@ -921,14 +921,14 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <div class="row ">
                     <div class="col-md-12 col-sm-12">
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered" id="table_price_shipping" style="display:none">
                                 <thead>
                                     <tr>
-                                    <th style="text-align: center">Mã Tracking</th>    
+                                    <th style="text-align: center">Mã Tracking</th>
                                     <th style='width:100px;text-align:center'>Tổng khối lượng tính phí</th>
                                     <th>Đơn giá</th>
                                     <th>Đường vận chuyển</th>
@@ -936,7 +936,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="table_body_price_shipping">
-                            
+
                                 </tbody>
                             </table>
                         </div>
@@ -966,7 +966,7 @@
                         <div class="col-md-6" >
                             <p class="" ><label for="" id="shipping_inside_vn">Phí vận chuyển nội địa Nhật(VNĐ)</label>: <span id="fee_shipping_inside_vn"></span> </p>
                         </div>
-                       
+
                     </div>
                 </div>
                 <div class="row d-none"  id="alert" style="margin:4px"  >
@@ -1197,14 +1197,14 @@
 
                 <div class="ed_video_section">
                     <div class="embed-responsive embed-responsive-16by9">
-                        
+
                         <video controls>
                             <source src="../assets/saiko.mp4" type="video/mp4">
 
                             Your browser does not support the video tag.
                         </video>
-                        
-                        
+
+
                     </div>
                 </div>
             </div>
@@ -1543,6 +1543,14 @@
 @include('modules.nav-mobile')
 
 <script>
+    function isValidJSONString(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
     $(document).ready(function(){
         $(document).ajaxStart(function() {
             $("#loader").show();
@@ -1634,17 +1642,18 @@
                                     var sort_order = (value.orders).sort(function(x, y) {
                                             return new Date(x.shipment_infor_id) - new Date(y.shipment_infor_id)
                                         })
-                                    if (sort_order[value.orders.length - 1].shipment_infor.sender_name == null) {
-                                        if( sort_order[value.orders.length - 1].note instanceof Object){
+
+                                    if ( sort_order[value.orders.length - 1].shipment_infor.sender_name == null) {
+                                        if( isValidJSONString(sort_order[value.orders.length - 1].note)){
                                             var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
-                                            if(parse_note.send_name == undefined){
+                                            if(parse_note.send_name == ""){
                                                 name_send=""
                                             }else{
                                                 name_send = parse_note.send_name;
                                             }
                                         }else{
                                             name_send=""
-                                        }  
+                                        }
                                     } else {
                                         name_send = sort_order[value.orders.length - 1].shipment_infor.sender_name;
                                     }
@@ -1667,7 +1676,7 @@
                                         $("#fee_shipping_inside_jp").text(formatNumber(value.sfa.shipping_inside))
                                         $("#fee_shipping_inside_vn").text(formatNumber(value.sfa.shipping_inside*215))
                                     }
-                                    
+
                                     if (value.boxes.length ){
                                         $("#table_price_shipping").show()
                                         $("#table_body_price_shipping").empty()
@@ -1690,7 +1699,7 @@
                                     $('#exitSuccess').show();
                                     $('#myModal').modal('show');
                                 }
-                                //length box = 0 
+                                //length box = 0
                                 if (value.boxes.length == 0) {
                                     $("#body-table-firt-vnpost").empty()
                                     $("#table-index-vnpost").hide()
@@ -1719,7 +1728,7 @@
                                                     '</li>'
                                                 )
                                             }
-                                        })  
+                                        })
                                     }
                                     $("#body-table-index")
                                         .append(
@@ -1780,7 +1789,7 @@
                                                 $("#id_order").text(value.id)
                                                 $("#money").text(sort_order[value.orders.length - 1].total_fee+ " VNĐ")
                                             }
-                                          
+
                                             //log
                                             $("#time_line_index").empty()
                                             if (value.boxes[0].logs.length ==0) {
@@ -1800,16 +1809,16 @@
                                                         var statusLogMerge;
                                                         if(keyObjectLogMerge=="transaction"){
                                                             total_pay += logs_value.content.transaction.amount
-                                                            statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount) 
+                                                            statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
                                                             $("#time_line_index").append(
                                                                 '<li>' +
                                                                 '<a>' + statusLogMerge + '</a>' +
                                                                 '<p>' + logs_value.created_at + '</p>' +
                                                                 '</li>'
                                                             )
-                                                            
+
                                                         }
-                                                    })  
+                                                    })
                                                     if(pay_money != undefined){
                                                         if( total_pay >= pay_money ){
                                                             $("#alert").hide()
@@ -1872,7 +1881,7 @@
                                                                 status = "Xuất kho Nhật"
                                                             }
                                                             // status ="Xuất kho Nhật"
-                                                            
+
                                                         }
                                                         if (keyObject == "shipping_code" && value.type_id == "created") {
                                                             status = "Mã giao hàng: " + value.content.shipping_code
@@ -1932,7 +1941,7 @@
                                                         var statusLogMerge;
                                                         if(keyObjectLogMerge=="transaction"){
                                                             total_pay += logs_value.content.transaction.amount
-                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount) 
+                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
                                                             $("#time_line_index").append(
                                                                 '<li>' +
                                                                 '<a>' + statusLogMerge + '</a>' +
@@ -1940,7 +1949,7 @@
                                                                 '</li>'
                                                             )
                                                         }
-                                                    })  
+                                                    })
                                                     if(pay_money != undefined){
                                                         if( total_pay >= pay_money ){
                                                             $("#alert").hide()
@@ -1972,7 +1981,7 @@
                                             // }
 
                                         } else {
-                                            
+
                                             if(value.orders.length!=0){
                                                 $("#alert").show()
                                                 $("#id_order").empty()
@@ -1987,16 +1996,16 @@
                                                         var statusLogMerge;
                                                         if(keyObjectLogMerge=="transaction"){
                                                             total_pay += logs_value.content.transaction.amount
-                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount) 
+                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
                                                             $("#time_line").append(
                                                                 '<li>' +
                                                                 '<a>' + statusLogMerge + '</a>' +
                                                                 '<p>' + logs_value.created_at + '</p>' +
                                                                 '</li>'
                                                             )
-                                                            
+
                                                         }
-                                                    }) 
+                                                    })
                                                     if(pay_money != undefined){
                                                         if( total_pay >= pay_money ){
                                                             $("#alert").hide()
@@ -2006,7 +2015,7 @@
                                                                 $("#paid").hide()
                                                             }
                                                         }
-                                                    } 
+                                                    }
                                                 }
                                             }
                                             $(`#sku-row-${value2.id}`).hover(function(){
@@ -2026,7 +2035,7 @@
                                         }
                                     })
                                 }
-                                
+
                             })
                         }
                     }
@@ -2049,7 +2058,7 @@
                 data:{
                     id_box:id_box
                 },success:function(res){
-                  
+
                     $("#time_line_index").empty()
                     if (res.logs.length == 0) {
                         $("#time_line_index").append(
@@ -2163,7 +2172,7 @@
                                     '</li>'
                                 )
                             }
-                        })  
+                        })
                     }
                     // if(vnpost){
                     //     $("#body-table-index-vnpost").empty()
@@ -2184,7 +2193,7 @@
                     // }
                 }
             })
-            
+
         }
 
     function toggleLoading() {
