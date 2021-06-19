@@ -833,6 +833,16 @@
                                                                         )
                                                                         total_pay += logs_value.content.transaction.amount
                                                                     }
+                                                                    if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                                        $("#time_line").append(
+                                                                            '<li>' +
+                                                                            '<a>' + statusLogMerge + '</a>' +
+                                                                            '<p>' + logs_value.created_at + '</p>' +
+                                                                            '</li>'
+                                                                        )
+                                                                        total_pay += logs_value.content.service_fee_paid
+                                                                    }
                                                                 })
                                                                 if(pay_money != undefined){
                                                                     if( total_pay >= pay_money ){
@@ -843,6 +853,7 @@
                                                                             $("#paid").hide()
                                                                         }
                                                                     }
+
                                                                 }
                                                             }
                                                         } else {
@@ -872,7 +883,7 @@
                                                                 if (keyObject =="set_owner_id,set_owner_type") {
                                                                     status="Lên đơn hàng"
                                                                 }
-                                                                if (keyObject =="in_container") {
+                                                                if (keyObject =="in_container" || keyObject == "in_container,from,to") {
                                                                     var parts = value.created_at.split('-')
                                                                     var year = parts[2].split(' ')
                                                                     var getDate = new Date(year[0],parts[1]-1,parts[0])
@@ -892,6 +903,7 @@
                                                                         status = "Xuất kho Nhật"
                                                                     }
                                                                 }
+
                                                                 if (keyObject == "shipping_code" && value.type_id == "created") {
                                                                     status = "Mã giao hàng: " + value.content.shipping_code
                                                                 }
@@ -901,7 +913,7 @@
                                                                 if (keyObject == "shipping_code" && value.type_id == "deleted") {
                                                                     status = "Huỷ mã giao hàng: " + value.content.shipping_code
                                                                 }
-                                                                if (keyObject =="out_container") {
+                                                                if (keyObject =="out_container" || keyObject =="out_container,from,to") {
                                                                     status= "Nhập kho Việt Nam"
                                                                 }
                                                                 if (keyObject =="outbound_warehouse") {
@@ -959,6 +971,16 @@
                                                                         )
                                                                         total_pay += logs_value.content.transaction.amount
                                                                     }
+                                                                    if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                                        $("#time_line").append(
+                                                                            '<li>' +
+                                                                            '<a>' + statusLogMerge + '</a>' +
+                                                                            '<p>' + logs_value.created_at + '</p>' +
+                                                                            '</li>'
+                                                                        )
+                                                                        total_pay += logs_value.content.service_fee_paid
+                                                                    }
                                                                 })
                                                                 if(pay_money != undefined){
                                                                     if(total_pay >= pay_money ){
@@ -1015,6 +1037,16 @@
                                                                         )
 
                                                                     }
+                                                                    if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                                        $("#time_line").append(
+                                                                            '<li>' +
+                                                                            '<a>' + statusLogMerge + '</a>' +
+                                                                            '<p>' + logs_value.created_at + '</p>' +
+                                                                            '</li>'
+                                                                        )
+                                                                        total_pay += logs_value.content.service_fee_paid
+                                                                    }
                                                                 })
                                                                 if(pay_money != undefined){
                                                                     if(total_pay >= pay_money ){
@@ -1043,7 +1075,6 @@
                                                             }
                                                             size = "Dài : "+value2.length+"cm"+",Rộng: "+value2.width+"cm"+",Cao: "+value2.height+"cm"
                                                             check(value2.id,vnpost,created_at,value2.use_weight,value2.fee_ship,method_ship,value2.total_money,value.logs,pay_money)
-                                                            // value2.logs,created_at,vnpost,value2.items,size,
                                                         })
                                                     }
                                                 })
@@ -1187,7 +1218,27 @@
                                         '</li>'
                                     )
                                 }
+                                if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                    $("#time_line").append(
+                                        '<li>' +
+                                        '<a>' + statusLogMerge + '</a>' +
+                                        '<p>' + logs_value.created_at + '</p>' +
+                                        '</li>'
+                                    )
+                                    total_pay += logs_value.content.service_fee_paid
+                                }
                             })
+                            if(pay_money != undefined){
+                                if(total_pay >= pay_money ){
+                                    $("#alert").hide()
+                                    if(value.orders.length){
+                                        $("#paid").show()
+                                    }else{
+                                        $("#paid").hide()
+                                    }
+                                }
+                            }
                         }
                         // vnpost
                         // if(vnpost){
