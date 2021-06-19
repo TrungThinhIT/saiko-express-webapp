@@ -428,6 +428,18 @@
             </div>
         </div>
     </div>
+    <div class="modal" style="margin-top:80px !important" tabindex="-1" role="dialog" id="show_result">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-footer">
+                <table class="table" style="border: none !important" id="table_showResultCreatedTrackings">
+                </table>
+                <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
+                            id="exitSuccess" style="display:block; width:30% !important;margin:auto;">Thoát</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal " tabindex="-1" role="dialog" id="modal_qoute" style="overflow-y: auto;">
         <div class="modal-dialog modal-lg" role="document" >
           <div class="modal-content">
@@ -523,18 +535,7 @@
             </div>
         </div>
     </div>
-    <div class="modal" style="margin-top:80px !important" tabindex="-1" role="dialog" id="show_result">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-footer">
-                <table class="table" style="border: none !important" id="table_showResultCreatedTrackings">
-                </table>
-                <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
-                            id="exitSuccess" style="display:block; width:30% !important;margin:auto;">Thoát</button>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 </section>
 @include('modules.footer')
 <script>
@@ -702,27 +703,17 @@
                     alert('Bảo hiểm đơn hàng đường bay không được lớn hơn 20,000,000'  )
                     return
                 }
-                // if(check_special>20000000){
-                //     alert('Giá hàng hoá đặc biệt đường bay không được lớn hơn 20,000,000'  )
-                //     return
-                // }
             }else{
                 if(check_insurance>50000000){
                     alert('Bảo hiểm đơn hàng đường biển không được lớn hơn 50,000,000'  )
                     return
                 }
-                // if(check_special>50000000){
-                //     alert('Giá hàng hoá đặc biệt đường biển không được lớn hơn 50,000,000'  )
-                //     return
-                // }
             }
             if($('#check_type_special').prop('checked')==false && $('#check_type_special_no').prop('checked')==false){
                 alert('Vui lòng chọn khai báo hàng đặc biệt')
                 return
             }
             $("#first_choose").attr("selected",true)
-            $("#product_specialty").hide()
-            $("#table_product_specialty").empty()
             $("#modal_qoute").hide()
             $("#table_showCreatedTrackings").empty()
             toggleLoading()
