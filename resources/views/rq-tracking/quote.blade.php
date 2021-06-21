@@ -2,7 +2,7 @@
 <html lang="en">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <style>
-   
+
     .ed_pagetitle{
         background-image: url(../assets/images/item.png) !important;
     }
@@ -143,7 +143,7 @@
     .d-none {
         display: none;
     }
-    
+
 
     */ */
 
@@ -452,26 +452,26 @@
             <div class="modal-body">
                 <div class="row" style="background-color: #fca901">
                     <div style="margin-left:15px">
-                        <div class="text-danger">    
+                        <div class="text-danger">
                             <label for="">
                                 Địa chỉ nhận hàng:
                             </label>
                             <span id="address_modal">
-                                
+
                             </span>
                         </div>
-                    
+
                     </div>
                     <div style="margin-left:15px">
-                        <div class="text-danger">    
+                        <div class="text-danger">
                             <label for="">
                                 Hình thức:
                             </label>
                             <span id="method_modal">
-                                
+
                             </span>
                         </div>
-                    
+
                     </div>
                 </div>
                 <div class="row">
@@ -535,14 +535,13 @@
             </div>
         </div>
     </div>
-   
 </section>
 @include('modules.footer')
 <script>
     function toggleLoading() {
         $('.tmn-custom-mask').toggleClass('d-none');
     }
-    
+
     $('#check_BH').click(function() {
         $("#check_specialty").prop('checked', false);
         $('#enter_insurance').show()
@@ -781,7 +780,7 @@
                     })
                     $('#message').html('');
                     $('#exitForm').hide();
-                    $('#exitSuccess') .show();
+                    $('#exitSuccess').show();
                     $('#show_result').show();
                 }
             });
@@ -802,7 +801,7 @@
             document.getElementById("type-ship").style.display = "block";
         }
     }
-    
+
     function push_tracking() {
         event.preventDefault();
         var OptionAdd = $('#utypeadd').val();
@@ -844,6 +843,7 @@
             if (Upx == null || Upx == "") {
                 $('#message').html('Xin vui lòng chọn Thành Phố Quận/Huyện ');
                 $('#myModal').modal('show');
+                return
             }
             if (UaddNumber.length <= 4) {
                 $('#message').html('Nhập thiếu số nhà tên đường');
@@ -915,7 +915,6 @@
                 $("#address_modal").text(address_modal)
                 $("#method_modal").text(method_modal)
                 $("#modal_qoute").show()
-                
             }
         }
     }

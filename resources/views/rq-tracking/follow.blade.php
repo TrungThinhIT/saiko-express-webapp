@@ -659,9 +659,9 @@
                                             var special_result_fee = 0;
                                             if (value.orders.length != 0) {
                                                 var sort_order = (value.orders).sort(function(x, y) {
-                                                        return new Date(x.shipment_infor_id) - new Date(y.shipment_infor_id)
+                                                        return new Date(x.shipment_info_id) - new Date(y.shipment_info_id)
                                                     })
-                                                if (sort_order[value.orders.length - 1].shipment_infor.sender_name == null) {
+                                                if (sort_order[value.orders.length - 1].shipment_info.sender_name == null) {
                                                     if( isValidJSONString(sort_order[value.orders.length - 1].note)){
                                                         var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
                                                         if(parse_note.send_name == undefined){
@@ -673,11 +673,11 @@
                                                         name_send=""
                                                     }
                                                 } else {
-                                                    name_send = sort_order[value.orders.length - 1].shipment_infor.sender_name;
+                                                    name_send = sort_order[value.orders.length - 1].shipment_info.sender_name;
                                                 }
-                                                tel_rev = sort_order[value.orders.length - 1].shipment_infor.tel;
-                                                name_rev = sort_order[value.orders.length - 1].shipment_infor.consignee;
-                                                add_rev = sort_order[value.orders.length - 1].shipment_infor.full_address;
+                                                tel_rev = sort_order[value.orders.length - 1].shipment_info.tel;
+                                                name_rev = sort_order[value.orders.length - 1].shipment_info.consignee;
+                                                add_rev = sort_order[value.orders.length - 1].shipment_info.full_address;
                                                 created_at = sort_order[value.orders.length - 1].created_at;
                                                 method_ship = sort_order[value.orders.length - 1].shipment_method_id;
                                                 if(sort_order[value.orders.length - 1].pay_money != undefined){
@@ -1133,7 +1133,7 @@
                                 if (keyObject == "set_user_id") {
                                     status = "Lên đơn hàng"
                                 }
-                                if (keyObject == "in_container") {
+                                if (keyObject == "in_container"|| keyObject == "in_container,from,to") {
                                     var parts = value.created_at.split('-')
                                     var year = parts[2].split(' ')
                                     var getDate = new Date(year[0],parts[1]-1,parts[0])
@@ -1205,11 +1205,13 @@
                         }
                         //adđ log payment
                         if(logs_merge.length){
+                            var total_pay = 0;
                             $.each(logs_merge,function(logs_index,logs_value){
                                 let keyObjectLogMerge = Object.keys(logs_value.content)
                                 var statusLogMerge;
                                 var created_at_log;
                                 if(keyObjectLogMerge=="transaction"){
+                                    total_pay += logs_value.content.transaction.amount
                                     statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
                                     $("#time_line").append(
                                         '<li>' +

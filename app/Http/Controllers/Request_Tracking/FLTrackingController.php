@@ -30,7 +30,7 @@ class FLTrackingController extends Controller
         }
         //apishow
         $dataShow = [
-            'with' => 'orders.shipmentInfor',
+            'with' => 'orders.shipmentInfo',
             'appends' => 'boxes.owners;logs;sfa',
         ];
         //check status code
@@ -63,9 +63,9 @@ class FLTrackingController extends Controller
                             $results['boxes'][$i]['use_weight'] = $use_weight;
                         } else {
                             usort($results['orders'], function ($a, $b) {
-                                return $b['shipment_infor_id'] - $a['shipment_infor_id'];
+                                return $b['shipment_info_id'] - $a['shipment_info_id'];
                             }); //sort orders
-                            $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_infor']['ward_id']))->first(); //get ward
+                            $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_info']['ward_id']))->first(); //get ward
                             $province = $getWard->MaTinhThanh; //ID province
                             $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
                             if ($method_shipment == "Air") {
@@ -81,7 +81,7 @@ class FLTrackingController extends Controller
                     }
                     if (!empty($results['orders'])) {
                         $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew);
-                        $results['orders'][0]['total_fee'] =  round($fee['money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'] + ($results['sfa']['shipping_inside']*215), 0);
+                        $results['orders'][0]['total_fee'] =  round($fee['money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'] + ($results['sfa']['shipping_inside'] * 215), 0);
                         $results['orders'][0]['pay_money'] = $fee['total_money'];
                         $results['orders'][0]['total_weight'] = $fee['total_weight'];
                         $results['orders'][0]['fee_ship'] = $fee['fee_ship'];
@@ -95,9 +95,9 @@ class FLTrackingController extends Controller
                             $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
                         } else {
                             usort($results['orders'], function ($a, $b) {
-                                return $b['shipment_infor_id'] - $a['shipment_infor_id'];
+                                return $b['shipment_info_id'] - $a['shipment_info_id'];
                             }); //sort orders
-                            $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_infor']['ward_id']))->first(); //get ward
+                            $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_info']['ward_id']))->first(); //get ward
                             $province = $getWard->MaTinhThanh; //ID province
                             $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
                             if ($method_shipment == "Air") {
@@ -113,7 +113,7 @@ class FLTrackingController extends Controller
                     if (!empty($results['orders'])) {
                         $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default);
                         $results['orders'][0]['pay_money'] = $fee['total_money'];
-                        $results['orders'][0]['total_fee'] =  round($fee['money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'] + ($results['sfa']['shipping_inside']*215), 0);
+                        $results['orders'][0]['total_fee'] =  round($fee['money'] + $results['orders'][0]['insurance_result_fee'] + $results['orders'][0]['special_result_fee'] + ($results['sfa']['shipping_inside'] * 215), 0);
                         $results['orders'][0]['total_weight'] = $fee['total_weight'];
                         $results['orders'][0]['fee_ship'] = $fee['fee_ship'];
                     }
@@ -179,6 +179,9 @@ class FLTrackingController extends Controller
                     }
                 }
             } else {
+                if ($weight < 1) {
+                    $weight = 1;
+                }
                 $money = $weight * $amount;
                 $total_money = number_format($weight * $amount);
                 $fee_ship = number_format($amount);
@@ -259,12 +262,12 @@ class FLTrackingController extends Controller
         // vnpost
         // if (!empty($result_list_item['boxes']) && !empty($result_list_item['orders'])) {
         //     usort($result_list_item['orders'], function ($a, $b) {
-        //         return $b['shipment_infor_id'] - $a['shipment_infor_id'];
+        //         return $b['shipment_info_id'] - $a['shipment_info_id'];
         //     }); //sort orders
         //     //vnpost
         //     $arrCheck = ['Nhận tại VP Sóc Sơn', 'Nhận tại VP Đào Tấn', 'Nhận tại VP Tân Bình HCM', 'Nhận tại VP Lạc Long Quân', 'Nhận tại VP Hồ Chí Minh', 'VN Ha Noi', 'VN Sai Gon', 'Văn phòng Hồ Chí Minh', 'Văn phòng Sóc Sơn', 'VP Lạc Long Quân', 'Văn phòng Lạc Long Quân'];
-        //     if (!(in_array($result_list_item['orders'][0]['shipment_infor']['address'], $arrCheck))) {
-        //         $getWard = phuongxa::where('MaPhuongXa', ($result_list_item['orders'][0]['shipment_infor']['ward_id']))->first(); //get ward
+        //     if (!(in_array($result_list_item['orders'][0]['shipment_info']['address'], $arrCheck))) {
+        //         $getWard = phuongxa::where('MaPhuongXa', ($result_list_item['orders'][0]['shipment_info']['ward_id']))->first(); //get ward
         //         if (!empty($getWard)) {
         //             $provinIdRev = strval($getWard->MaTinhThanh); //province rev ID
         //             $districtIdRev = strval($getWard->MaQuanHuyen); //district rev ID

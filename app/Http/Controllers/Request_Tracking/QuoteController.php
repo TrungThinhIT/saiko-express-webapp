@@ -106,40 +106,9 @@ class QuoteController extends Controller
         if ($request->utypeadd == "Nhận tại VP Tân Bình HCM") {
             $ward_id = "76000";
         }
-        $api = Http::withHeaders([
-            'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token->access_token
-        ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
-            'consignee' => $request->Name_Rev,
-            'tel' => $request->Phone, //sdt ng nhận
-            'address' => $address,
-            'ward_id' =>  $ward_id,
-            'sender_name' => $request->Name_Send,
-            'sender_tel' => $request->Number_Send
-        ]);
-        //xác thực
-        if ($api->status() == 401) {
-            $this->getToken();
-            $token = token::find(1);
-            //create shipment_info
-            $api = Http::withHeaders([
-                'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token->access_token
-            ])->post('http://order.tomonisolution.com:82/api/shipment-infors', [
-                'consignee' => $request->Name_Rev,
-                'tel' => $request->Phone,
-                'address' => $address,
-                'ward_id' =>  $ward_id,
-                'sender_name' => $request->Name_Send,
-                'sender_tel' => $request->Number_Send
-            ]);
-        }
-        //
-        $data = json_decode($api->body(), true);
-        // return $data;
-        //create shipment
+
         $tracking = explode(" ", $request->TrackingSaiko);
-        // return $note;
+
         if ($request->ShipAir == "true") {
             $shipping = $request->checkAir;
         } else {
@@ -148,17 +117,13 @@ class QuoteController extends Controller
         $arr_created = array();
         $insurance = str_replace(',', '', $request->insurance);
         $special_price = str_replace(',', '', $request->special_price);
-        // foreach ($tracking as $item) {
-        //     if ($item == "") {
-        //         continue;
-        //     }
+
         $create_shipment = Http::withHeaders([
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token->access_token
         ]);
         $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders/shipment/create-with-trackings', [
             'shipment_method_id' => $shipping, //đường vận chuyển
-            'shipment_infor_id' => $data['id'], //lấy id của shipment_info
             'type' => 'shipment',
             'trackings' => $tracking, //danh sách tracking
             'note' =>  $request->Note,
@@ -166,6 +131,14 @@ class QuoteController extends Controller
             'merge_package' => $request->merge_box ? 1 : 0,
             'insurance_declaration' => floatval($insurance),
             'special_declaration' => floatval($special_price),
+            'shipment_info' => [
+                'consignee' => $request->Name_Rev,
+                'tel' => $request->Phone,
+                'address' => $address,
+                'ward_id' =>  $ward_id,
+                'sender_name' => $request->Name_Send,
+                'sender_tel' => $request->Number_Send
+            ]
         ]);
         if ($create_shipment->status() == 201) {
             $arr_created[] = ['code' => $create_shipment->status(), 'message' =>  ' Mã tracking đã tạo thành công'];
@@ -174,9 +147,8 @@ class QuoteController extends Controller
             $arr_created[] = ['code' => $create_shipment->status(), 'message' =>  ' Mã tracking đã tồn tại'];
         }
         if ($create_shipment->status() == 422) {
-            $arr_created[] = ['code' => $create_shipment->status(), 'message' => ' Mã tracking không được quá 15 ký tự'];
+            $arr_created[] = ['code' => $create_shipment->status(), 'message' => $create_shipment->body()];
         }
         return response()->json($arr_created);
-
     }
 }
