@@ -147,7 +147,7 @@ class QuoteController extends Controller
             $arr_created[] = ['code' => $create_shipment->status(), 'message' =>  ' Mã tracking đã tồn tại'];
         }
         if ($create_shipment->status() == 422) {
-            $arr_created[] = ['code' => $create_shipment->status(), 'message' => $create_shipment->body()];
+            $arr_created[] = ['code' => $create_shipment->status(), 'message' => 'Mã tracking không được dài hơn 15 ký tự'];
         }
         return response()->json($arr_created);
     }
