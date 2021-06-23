@@ -659,9 +659,9 @@
                                             var special_result_fee = 0;
                                             if (value.orders.length != 0) {
                                                 var sort_order = (value.orders).sort(function(x, y) {
-                                                        return new Date(x.shipment_infor_id) - new Date(y.shipment_infor_id)
+                                                        return new Date(x.shipment_info_id) - new Date(y.shipment_info_id)
                                                     })
-                                                if (!sort_order[value.orders.length - 1].shipment_infor.sender_name) {
+                                                if (!sort_order[value.orders.length - 1].shipment_info.sender_name) {
                                                     if(isValidJSONString(sort_order[value.orders.length - 1].note)){
                                                         var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
                                                         if(parse_note){
@@ -678,11 +678,11 @@
                                                         name_send=""
                                                     }
                                                 } else {
-                                                    name_send = sort_order[value.orders.length - 1].shipment_infor.sender_name;
+                                                    name_send = sort_order[value.orders.length - 1].shipment_info.sender_name;
                                                 }
-                                                tel_rev = sort_order[value.orders.length - 1].shipment_infor.tel;
-                                                name_rev = sort_order[value.orders.length - 1].shipment_infor.consignee;
-                                                add_rev = sort_order[value.orders.length - 1].shipment_infor.full_address;
+                                                tel_rev = sort_order[value.orders.length - 1].shipment_info.tel;
+                                                name_rev = sort_order[value.orders.length - 1].shipment_info.consignee;
+                                                add_rev = sort_order[value.orders.length - 1].shipment_info.full_address;
                                                 created_at = sort_order[value.orders.length - 1].created_at;
                                                 method_ship = sort_order[value.orders.length - 1].shipment_method_id;
                                                 if(sort_order[value.orders.length - 1].pay_money != undefined){
@@ -740,13 +740,22 @@
                                                 )
                                                 //log order//
                                                 if(value.logs.length){
+                                                    var total_pay = 0;
+                                                    var matchedLogIdx = value.logs.findIndex((log) => {return !!log?.content?.transaction});
                                                     $.each(value.logs,function(logs_index,logs_value){
                                                         let keyObjectLogMerge = Object.keys(logs_value.content)
-                                                        // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                                         var statusLogMerge;
-                                                        if(keyObjectLogMerge=="transaction"){
-                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                        if(matchedLogIdx === -1){
+                                                            if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                                total_pay += logs_value.content.service_fee_paid
+                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                            }
+                                                        }else{
+                                                            if(keyObjectLogMerge=="transaction"){
+                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                            }
                                                         }
+
                                                         if(statusLogMerge != undefined){
                                                             $("#time_line").append(
                                                                 '<li>' +
@@ -816,7 +825,7 @@
                                                         }
 
                                                         $("#time_line").empty()
-                                                        if (value.boxes[0].logs.length ==0) {
+                                                        if (value.boxes[0].logs.length == 0) {
                                                             $("#time_line").append(
                                                                 '<li>' +
                                                                 '<a>' +'Đang tới kho' +
@@ -827,13 +836,24 @@
                                                             )
                                                             if(value.logs.length){
                                                                 var total_pay = 0;
+                                                                var matchedLogIdx = value.logs.findIndex((log) => {
+                                                                        return !!log?.content?.transaction
+                                                                    });
                                                                 $.each(value.logs,function(logs_index,logs_value){
                                                                     let keyObjectLogMerge = Object.keys(logs_value.content)
                                                                     var statusLogMerge;
-                                                                    if(keyObjectLogMerge=="transaction"){
-                                                                        statusLogMerge= "Đã thanh toán " + formatNumber()
-                                                                        total_pay += logs_value.content.transaction.amount
+                                                                    if(matchedLogIdx === -1){
+                                                                        if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                                            total_pay += logs_value.content.service_fee_paid
+                                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                                        }
+                                                                    }else{
+                                                                        if(keyObjectLogMerge=="transaction"){
+                                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                                            total_pay += logs_value.content.transaction.amount
+                                                                        }
                                                                     }
+
                                                                     if(statusLogMerge!=undefined){
                                                                         $("#time_line").append(
                                                                             '<li>' +
@@ -956,14 +976,32 @@
                                                             })
                                                             if(value.logs.length){
                                                                 var total_pay = 0;
-                                                                var arr_log_service_fee = Array();
+                                                                var matchedLogIdx = value.logs.findIndex((log) => {
+                                                                        return !!log?.content?.transaction
+                                                                    });
                                                                 $.each(value.logs,function(logs_index,logs_value){
                                                                     let keyObjectLogMerge = Object.keys(logs_value.content)
                                                                     var statusLogMerge;
-                                                                    if(keyObjectLogMerge=="transaction"){
-                                                                        total_pay += logs_value.content.transaction.amount
+                                                                    if(matchedLogIdx === -1){
+                                                                        if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                                            total_pay += logs_value.content.service_fee_paid
+                                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                                        }
+                                                                    }else{
+                                                                        if(keyObjectLogMerge=="transaction"){
+                                                                            total_pay += logs_value.content.transaction.amount
+                                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                                        }
                                                                     }
 
+                                                                    if(statusLogMerge != undefined){
+                                                                        $("#time_line").append(
+                                                                            '<li>' +
+                                                                            '<a>' + statusLogMerge + '</a>' +
+                                                                            '<p>' + logs_value.created_at + '</p>' +
+                                                                            '</li>'
+                                                                        )
+                                                                    }
                                                                 })
                                                                 if(pay_money != undefined){
                                                                     if(total_pay  >= pay_money - 1000 ){
@@ -987,13 +1025,24 @@
                                                             $("#money").text(formatNumber(sort_order[value.orders.length - 1].total_fee)+ " VNĐ")
                                                             if(value.logs.length){
                                                                 var total_pay = 0
+                                                                var matchedLogIdx = value.logs.findIndex((log) => {
+                                                                        return !!log?.content?.transaction
+                                                                    });
                                                                 $.each(value.logs,function(logs_index,logs_value){
                                                                     let keyObjectLogMerge = Object.keys(logs_value.content)
                                                                     var statusLogMerge;
                                                                     var created_at_log;
-                                                                    if(keyObjectLogMerge=="transaction"){
-                                                                        total_pay += logs_value.content.transaction.amount
+                                                                    if(matchedLogIdx === -1){
+                                                                        if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                                            total_pay += logs_value.content.service_fee_paid
+                                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                                        }
+                                                                    }else{
+                                                                        if(keyObjectLogMerge=="transaction"){
+                                                                            total_pay += logs_value.content.transaction.amount
+                                                                        }
                                                                     }
+
                                                                 })
                                                                 if(pay_money != undefined){
                                                                     if(total_pay >= pay_money - 1000){
@@ -1153,15 +1202,25 @@
                         //adđ log payment
                         if(logs_merge.length){
                             var total_pay = 0;
-                            var arr_log_service_fee =Array();
+                            var matchedLogIdx = logs_merge.findIndex((log) => {
+                                return !!log?.content?.transaction
+                            });
                             $.each(logs_merge,function(logs_index,logs_value){
                                 let keyObjectLogMerge = Object.keys(logs_value.content)
                                 var statusLogMerge;
                                 var created_at_log;
-                                if(keyObjectLogMerge=="transaction"){
-                                    total_pay += logs_value.content.transaction.amount
-                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                if(matchedLogIdx === -1){
+                                    if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                        total_pay += logs_value.content.service_fee_paid
+                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                    }
+                                }else{
+                                    if(keyObjectLogMerge=="transaction"){
+                                        total_pay += logs_value.content.transaction.amount
+                                        statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                    }
                                 }
+
                                 if(statusLogMerge != undefined){
                                     $("#time_line").append(
                                         '<li>' +
@@ -1174,7 +1233,6 @@
                             if(pay_money != undefined){
                                 if(total_pay >= pay_money - 1000 ){
                                     $("#alert").hide()
-                                    console.log(length_order)
                                     if(length_order.orders.length){
                                         $("#paid").show()
                                     }else{

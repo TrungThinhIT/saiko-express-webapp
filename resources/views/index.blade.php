@@ -1720,13 +1720,23 @@
                                         '</li>'
                                     )
                                     if(value.logs.length){
+                                        var total_pay = 0;
+                                        var matchedLogIdx = value.logs.findIndex((log) => {return !!log?.content?.transaction});
                                         $.each(value.logs,function(logs_index,logs_value){
                                             let keyObjectLogMerge = Object.keys(logs_value.content)
                                             var statusLogMerge;
-                                            if(keyObjectLogMerge=="transaction"){
-                                                statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-
+                                            if(matchedLogIdx === -1){
+                                                if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                    total_pay += logs_value.content.service_fee_paid
+                                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                }
+                                            }else{
+                                                if(keyObjectLogMerge=="transaction"){
+                                                    total_pay += logs_value.content.transaction.amount
+                                                    statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                }
                                             }
+
                                             if(statusLogMerge != undefined){
                                                 $("#time_line_index").append(
                                                     '<li>' +
@@ -1808,14 +1818,22 @@
                                                     )
                                                 if(value.logs.length){
                                                     var total_pay = 0;
+                                                    var matchedLogIdx = value.logs.findIndex((log) => {return !!log?.content?.transaction});
                                                     $.each(value.logs,function(logs_index,logs_value){
                                                         let keyObjectLogMerge = Object.keys(logs_value.content)
                                                         var statusLogMerge;
-                                                        if(keyObjectLogMerge=="transaction"){
-                                                            total_pay += logs_value.content.transaction.amount
-                                                            statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-
+                                                        if(matchedLogIdx === -1){
+                                                            if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                                total_pay += logs_value.content.service_fee_paid
+                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                            }
+                                                        }else{
+                                                            if(keyObjectLogMerge=="transaction"){
+                                                                total_pay += logs_value.content.transaction.amount
+                                                                statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                            }
                                                         }
+
                                                         if(statusLogMerge != undefined){
                                                             $("#time_line_index").append(
                                                                 '<li>' +
@@ -1943,13 +1961,24 @@
                                                 })
                                                 if(value.logs.length){
                                                     var total_pay = 0;
+                                                    var matchedLogIdx = value.logs.findIndex((log) => {
+                                                            return !!log?.content?.transaction
+                                                        });
                                                     $.each(value.logs,function(logs_index,logs_value){
                                                         let keyObjectLogMerge = Object.keys(logs_value.content)
                                                         var statusLogMerge;
-                                                        if(keyObjectLogMerge=="transaction"){
-                                                            total_pay += logs_value.content.transaction.amount
-                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                        if(matchedLogIdx === -1) {
+                                                            if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                                total_pay += logs_value.content.service_fee_paid
+                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                            }
+                                                        }  else {
+                                                            if(keyObjectLogMerge=="transaction"){
+                                                                total_pay += logs_value.content.transaction.amount
+                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                            }
                                                         }
+
                                                         if(statusLogMerge != undefined){
                                                             $("#time_line_index").append(
                                                                 '<li>' +
@@ -1982,13 +2011,21 @@
                                                 $("#money").text(formatNumber(sort_order[value.orders.length - 1].total_fee)+ " VNĐ")
                                                 if(value.logs.length){
                                                     var total_pay = 0;
+                                                    var matchedLogIdx = value.logs.findIndex((log) => {return !!log?.content?.transaction });
                                                     $.each(value.logs,function(logs_index,logs_value){
                                                         let keyObjectLogMerge = Object.keys(logs_value.content)
                                                         // let valueObjectkeyLogMerge = Object.values(logs_value.content);
                                                         var statusLogMerge;
-                                                        if(keyObjectLogMerge=="transaction"){
-                                                            total_pay += logs_value.content.transaction.amount
-                                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                        if(matchedLogIdx === -1){
+                                                            if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                                total_pay += logs_value.content.service_fee_paid
+                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                            }
+                                                        }else{
+                                                            if(keyObjectLogMerge=="transaction"){
+                                                                total_pay += logs_value.content.transaction.amount
+                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                            }
                                                         }
                                                     })
                                                     if(pay_money != undefined){
@@ -2147,15 +2184,25 @@
                     }
                     if(logs_merge.length){
                         var total_pay = 0;
+                        var matchedLogIdx = logs_merge.findIndex((log) => {
+                                return !!log?.content?.transaction
+                            });
                         $.each(logs_merge,function(logs_index,logs_value){
                             let keyObjectLogMerge = Object.keys(logs_value.content)
                             var statusLogMerge;
                             var created_at_log;
-                            if(keyObjectLogMerge=="transaction"){
-                                total_pay += logs_value.content.transaction.amount
-                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-
+                            if(matchedLogIdx === -1) {
+                                if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                    total_pay += logs_value.content.service_fee_paid
+                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                }
+                            }else{
+                                if(keyObjectLogMerge=="transaction"){
+                                    total_pay += logs_value.content.transaction.amount
+                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                }
                             }
+
                             if(statusLogMerge != undefined){
                                 $("#time_line_index").append(
                                     '<li>' +
