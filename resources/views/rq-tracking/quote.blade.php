@@ -702,9 +702,17 @@
                     alert('Bảo hiểm đơn hàng đường bay không được lớn hơn 20,000,000'  )
                     return
                 }
+                if(check_special >999999999999){
+                    alert('Bảo hiểm đơn hàng đường bay không được lớn hơn 999,999,999,999'  )
+                    return
+                }
             }else{
                 if(check_insurance>50000000){
                     alert('Bảo hiểm đơn hàng đường biển không được lớn hơn 50,000,000'  )
+                    return
+                }
+                if(check_special >999999999999){
+                    alert('Bảo hiểm đơn hàng đường bay không được lớn hơn 999,999,999,999'  )
                     return
                 }
             }
