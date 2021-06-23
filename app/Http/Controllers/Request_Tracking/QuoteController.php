@@ -140,6 +140,32 @@ class QuoteController extends Controller
                 'sender_tel' => $request->Number_Send
             ]
         ]);
+        if ($create_shipment->status() == 401) {
+            $this->getToken();
+            $token = token::find(1);
+            $create_shipment = Http::withHeaders([
+                'Accept' => 'application/json',
+                'Authorization' => 'Bearer ' . $token->access_token
+            ]);
+            $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders/shipment/create-with-trackings', [
+                'shipment_method_id' => $shipping, //đường vận chuyển
+                'type' => 'shipment',
+                'trackings' => $tracking, //danh sách tracking
+                'note' =>  $request->Note,
+                'repackage' => $request->Reparking == "true" ? 1 : 0,
+                'merge_package' => $request->merge_box ? 1 : 0,
+                'insurance_declaration' => floatval($insurance),
+                'special_declaration' => floatval($special_price),
+                'shipment_info' => [
+                    'consignee' => $request->Name_Rev,
+                    'tel' => $request->Phone,
+                    'address' => $address,
+                    'ward_id' =>  $ward_id,
+                    'sender_name' => $request->Name_Send,
+                    'sender_tel' => $request->Number_Send
+                ]
+            ]);
+        }
         if ($create_shipment->status() == 201) {
             $arr_created[] = ['code' => $create_shipment->status(), 'message' =>  ' Mã tracking đã tạo thành công'];
         }
