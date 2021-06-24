@@ -1688,7 +1688,7 @@
                                         $("#table_body_price_shipping").append(
                                             '<tr>'+
                                                 '<td>'+sort_order[value.orders.length - 1].pivot.tracking_id+'</td>'+
-                                                '<td>'+sort_order[value.orders.length - 1].total_weight.toFixed(3)+'</td>'+
+                                                '<td>'+sort_order[value.orders.length - 1].total_weight+'</td>'+
                                                 '<td>'+sort_order[value.orders.length - 1].fee_ship+'</td>'+
                                                 '<td>'+method_ship+'</td>'+
                                                 '<td>'+formatNumber(sort_order[value.orders.length - 1].total_fee)+' VNĐ</td>'+
@@ -1778,9 +1778,9 @@
                                                 `<tr id="sku-row-${value2.id}">` +
                                                 '<td>' + value2.id +
                                                 '</td>' +
-                                                '<td>' + value2.weight.toFixed(3) +
+                                                '<td>' + value2.weight +
                                                 '</td>' +
-                                                '<td>' + value2.volume_weight_box.toFixed(3) +
+                                                '<td>' + value2.volume_weight_box +
                                                 '</td>' +
                                                 '<td class="text-center">'+value2.duplicate+
                                                 '</td>'+

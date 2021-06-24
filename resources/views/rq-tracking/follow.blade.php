@@ -371,7 +371,7 @@
                                             <label>Mã Tracking <span class="require">*</span></label>
                                             <p class="field">
                                                 <input size="40" id="utrack" placeholder="Nhập mã Tracking vào đây"
-                                                    type="text" onclick="clearAll()" class="form-control">
+                                                    type="text"  class="form-control">
                                             </p>
 
                                         </div>
@@ -707,7 +707,7 @@
                                                     $("#table_body_price_shipping").append(
                                                         '<tr>'+
                                                             '<td>'+sort_order[value.orders.length - 1].pivot.tracking_id+'</td>'+
-                                                            '<td>'+sort_order[value.orders.length - 1].total_weight.toFixed(3)+'</td>'+
+                                                            '<td>'+sort_order[value.orders.length - 1].total_weight+'</td>'+
                                                             '<td>'+sort_order[value.orders.length - 1].fee_ship+'</td>'+
                                                             '<td>'+method_ship+'</td>'+
                                                             '<td>'+formatNumber(sort_order[value.orders.length - 1].total_fee)+' VNĐ</td>'+
@@ -797,9 +797,9 @@
                                                             `<tr id="sku-row-${value2.id}">` +
                                                             '<td>' + value2.id +
                                                             '</td>' +
-                                                            '<td>' + value2.weight.toFixed(3) +
+                                                            '<td>' + value2.weight +
                                                             '</td>' +
-                                                            '<td>' + value2.volume_weight_box.toFixed(3)+
+                                                            '<td>' + value2.volume_weight_box+
                                                             '</td>' +
                                                             '<td class="text-center">'+value2.duplicate+
                                                             '</td>'+
@@ -1070,7 +1070,7 @@
                                                                 vnpost = 0;
                                                             }
                                                             size = "Dài : "+value2.length+"cm"+",Rộng: "+value2.width+"cm"+",Cao: "+value2.height+"cm"
-                                                            check(value2.id,vnpost,created_at,value2.use_weight,value2.fee_ship,method_ship,value2.total_money,value.logs,pay_money,value)
+                                                            check(value2.id,vnpost,created_at,value2.fee_ship,method_ship,value.logs,pay_money,value)
                                                         })
                                                     }
                                                 })
@@ -1088,7 +1088,7 @@
                 })
             })
             //show log by id
-            function check(id_box,vnpost,created_at,weight,fee,method,money,logs_merge,pay_money,length_order) {
+            function check(id_box,vnpost,created_at,fee,method,logs_merge,pay_money,length_order) {
                 var id_box = id_box;
                 $.ajax({
                     headers: {
@@ -1302,9 +1302,7 @@
             js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-        function clearAll(){
 
-        }
     </script>
     @include('modules.nav-mobile')
 </body>
