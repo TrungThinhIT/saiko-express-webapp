@@ -81,7 +81,7 @@ class FLTrackingController extends Controller
 
                     }
                     if (!empty($results['orders'])) {
-                        $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew);
+                        $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew, $results['orders'][0]['insurance_declaration'], $results['orders'][0]['special_declaration']);
                         $fee_special = $results['orders'][0]['special_declaration'] * $fee['special'];
                         $fee_insurance = $results['orders'][0]['insurance_declaration'] * $fee['insurance'];
                         $fee_COD_inside = $results['sfa']['shipping_inside'] * 215;
@@ -117,7 +117,7 @@ class FLTrackingController extends Controller
                         $results['boxes'][$i]['volume_weight_box'] = $volumne_weight;
                     }
                     if (!empty($results['orders'])) {
-                        $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default);
+                        $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew, $results['orders'][0]['insurance_declaration'], $results['orders'][0]['special_declaration']);
                         $fee_special = $results['orders'][0]['special_declaration'] * $fee['special'];
                         $fee_insurance = $results['orders'][0]['insurance_declaration'] * $fee['insurance'];
                         $fee_COD_inside = $results['sfa']['shipping_inside'] * 215;
@@ -134,7 +134,7 @@ class FLTrackingController extends Controller
             return $data;
         }
     }
-    public function calFeeFollowSFA($weight, $sfa, $province, $method_shipment, $date_default)
+    public function calFeeFollowSFA($weight, $sfa, $province, $method_shipment, $date_default, $insurance, $specialGoods)
     {
         $weight_real = $weight;
         //token
@@ -220,7 +220,7 @@ class FLTrackingController extends Controller
         //get price insurance
         $get_price_insurance = [
             'conditions[type]' => 'insurance-fee',
-            'range' => $weight,
+            'range' => $insurance,
             'timeline' =>  $dateSFA,
         ];
         $call_insurance = Http::withHeaders([
@@ -230,7 +230,7 @@ class FLTrackingController extends Controller
         //get price special
         $get_price_special = [
             'conditions[type]' => 'special-goods-fee',
-            'range' => $weight,
+            'range' => $specialGoods,
             'timeline' =>  $dateSFA,
         ];
         $call_special = Http::withHeaders([
