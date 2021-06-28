@@ -99,7 +99,7 @@ class QuoteController extends Controller
         }
         if ($request->utypeadd == "Nhận tại VP Đào Tấn") {
             $address = "Nhận tại VP Đào Tấn";
-            $ward_id = "13900";
+            $ward_id = "11800";
         } else {
             $address = $request->Add;
         }
