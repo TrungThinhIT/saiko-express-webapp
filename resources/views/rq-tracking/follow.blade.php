@@ -903,24 +903,24 @@
                                                                     status="Lên đơn hàng"
                                                                 }
                                                                 if (keyObject =="in_container" || keyObject == "in_container,from,to") {
-                                                                    var parts = value.created_at.split('-')
-                                                                    var year = parts[2].split(' ')
-                                                                    var getDate = new Date(year[0],parts[1]-1,parts[0])
-                                                                    var now = new Date()
-                                                                    var date_arv = getDate-now;
-                                                                    var add_date;
-                                                                    var check_method = method_ship.charAt(0).toUpperCase() + method_ship.slice(1);
-                                                                    if(check_method=="Air"){
-                                                                        add_date = 6;
-                                                                    }else{
-                                                                        add_date = 30;
-                                                                    }
-                                                                    var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+ add_date
-                                                                    if(expected_date > 0) {
-                                                                        status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
-                                                                    }else{
+                                                                    // var parts = value.created_at.split('-')
+                                                                    // var year = parts[2].split(' ')
+                                                                    // var getDate = new Date(year[0],parts[1]-1,parts[0])
+                                                                    // var now = new Date()
+                                                                    // var date_arv = getDate-now;
+                                                                    // var add_date;
+                                                                    // var check_method = method_ship.charAt(0).toUpperCase() + method_ship.slice(1);
+                                                                    // if(check_method=="Air"){
+                                                                    //     add_date = 6;
+                                                                    // }else{
+                                                                    //     add_date = 30;
+                                                                    // }
+                                                                    // var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+ add_date
+                                                                    // if(expected_date > 0) {
+                                                                    //     status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
+                                                                    // }else{
                                                                         status = "Xuất kho Nhật"
-                                                                    }
+                                                                    // }
                                                                 }
 
                                                                 if (keyObject == "shipping_code" && value.type_id == "created") {
@@ -1130,24 +1130,24 @@
                                     status = "Lên đơn hàng"
                                 }
                                 if (keyObject == "in_container"|| keyObject == "in_container,from,to") {
-                                    var parts = value.created_at.split('-')
-                                    var year = parts[2].split(' ')
-                                    var getDate = new Date(year[0],parts[1]-1,parts[0])
-                                    var now = new Date()
-                                    var date_arv = getDate-now;
-                                    var add_date;
-                                    var check_method = method.charAt(0).toUpperCase() + method.slice(1);
-                                    if(check_method =="Air"){
-                                        add_date=6;
-                                    }else{
-                                        add_date = 30;
-                                    }
-                                    var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+add_date
-                                    if(expected_date > 0) {
-                                        status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
-                                    }else{
+                                    // var parts = value.created_at.split('-')
+                                    // var year = parts[2].split(' ')
+                                    // var getDate = new Date(year[0],parts[1]-1,parts[0])
+                                    // var now = new Date()
+                                    // var date_arv = getDate-now;
+                                    // var add_date;
+                                    // var check_method = method.charAt(0).toUpperCase() + method.slice(1);
+                                    // if(check_method =="Air"){
+                                    //     add_date=6;
+                                    // }else{
+                                    //     add_date = 30;
+                                    // }
+                                    // var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+add_date
+                                    // if(expected_date > 0) {
+                                    //     status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
+                                    // }else{
                                         status = "Xuất kho Nhật"
-                                    }
+                                    // }
                                 }
                                 if (keyObject == "out_container") {
                                     status = "Nhập kho Việt Nam"
