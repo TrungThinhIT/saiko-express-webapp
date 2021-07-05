@@ -174,10 +174,6 @@
             }
         }
         /* set background color */
-        .tr-color:hover td{
-            background-color:#fca901 !important;
-            cursor: pointer;
-        }
 
     </style>
 
@@ -1249,9 +1245,6 @@
             }
             function toggleLoading() {
                 $('.tmn-custom-mask').toggleClass('d-none');
-            }
-            function formatNumber(num) {
-                return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
             }
         </script>
 

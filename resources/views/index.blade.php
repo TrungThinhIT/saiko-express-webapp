@@ -202,10 +202,6 @@
             }
         }
         /* set background color */
-        .tr-color:hover td{
-            background-color:#fca901 !important;
-            cursor: pointer;
-        }
     /* .nav_main_url {
   display: flex;
   justify-content: center;
@@ -2231,9 +2227,7 @@
     function toggleLoading() {
         $('.tmn-custom-mask').toggleClass('d-none');
     }
-    function formatNumber(num) {
-        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
-    }
+
     document.getElementsByClassName("Creative-Button")[0].addEventListener("click", eventEmit);
     document.getElementsByClassName("Creative-Button")[1].addEventListener("click", eventEmit);
     document.getElementsByClassName("Creative-Button")[2].addEventListener("click", eventEmit);

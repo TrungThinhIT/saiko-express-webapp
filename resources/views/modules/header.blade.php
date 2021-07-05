@@ -41,7 +41,10 @@
             table.table-bordered>thead>tr>th {
                 border: 1px solid #fca901;
             }
-
+            .tr-color:hover td{
+            background-color:#fca901 !important;
+            cursor: pointer;
+        }
             table.table-bordered {
                 border: 1px solid #fca901;
                 margin-top: 20px;
@@ -160,7 +163,7 @@
                                                 aria-hidden="true"></i></a></li>
                                     <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Viber"><i class="iconify" data-icon="simple-icons:viber" data-inline="true"></i></a></li>
                                     <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Zalo"><img src="../assets/images/zalo.png" alt=""></a></li>
-                                   
+
                                 </ul>
                             </div>
                         </div>
