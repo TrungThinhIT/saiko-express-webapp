@@ -1,5 +1,5 @@
 <!--Footer Top section start-->
-<div class="ed_footer_wrapper ed_toppadder60 ed_bottompadder30">
+<div class="ed_footer_wrapper ed_toppadder60 ed_bottompadder30" id="custom-footer" >
     <div class="ed_footer_top">
         <div class="container">
             <div class="row">
