@@ -13,7 +13,8 @@
     {{-- <link href="assets/css/font-awesome.css" rel="stylesheet"> --}}
     <link href="assets/css/frontend.css" rel="stylesheet">
     <link href="assets/css/flaticon.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
+        rel="stylesheet">
     {{-- <link type="text/css" rel="stylesheet" href="assets/css/font-awesome.min.css" /> --}}
     <meta http-equiv='cache-control' content='no-cache'>
     <meta http-equiv='expires' content='0'>
@@ -33,88 +34,92 @@
    width: 100% !important;
   } */
         }
-        .table-striped>tbody>tr:nth-child(odd)>td,
-            .table-striped>tbody>tr:nth-child(odd)>th {
-                background-color: #fad792; // Choose your own color here
-            }
 
-            table.table-bordered>thead>tr>th {
-                border: 1px solid #fca901;
-            }
-            .tr-color:hover td{
-            background-color:#fca901 !important;
+        .table-striped>tbody>tr:nth-child(odd)>td,
+        .table-striped>tbody>tr:nth-child(odd)>th {
+            background-color: #fad792; // Choose your own color here
+        }
+
+        table.table-bordered>thead>tr>th {
+            border: 1px solid #fca901;
+        }
+
+        .tr-color:hover td {
+            background-color: #fca901 !important;
             cursor: pointer;
         }
-            table.table-bordered {
-                border: 1px solid #fca901;
-                margin-top: 20px;
-            }
 
-            table.table-bordered>thead>tr>th {
-                border: 1px solid #fca901;
-            }
+        table.table-bordered {
+            border: 1px solid #fca901;
+            margin-top: 20px;
+        }
 
-            table.table-bordered>tbody>tr>td {
-                border: 1px solid #fca901;
-                padding: 10px;
-                line-height: 1.7;
-            }
+        table.table-bordered>thead>tr>th {
+            border: 1px solid #fca901;
+        }
 
-            table.table-bordered>thead>tr>th {
-                line-height: 18px;
-            }
+        table.table-bordered>tbody>tr>td {
+            border: 1px solid #fca901;
+            padding: 10px;
+            line-height: 1.7;
+        }
 
-            table tr {
-                border: 1px solid #fca901;
-            }
+        table.table-bordered>thead>tr>th {
+            line-height: 18px;
+        }
 
-            .lftredbrdr {
-                border-left: 2px solid #fca901;
-                padding-left: 25px;
-            }
+        table tr {
+            border: 1px solid #fca901;
+        }
 
-            ul.timeline {
-                list-style-type: none;
-                position: relative;
-            }
+        .lftredbrdr {
+            border-left: 2px solid #fca901;
+            padding-left: 25px;
+        }
 
-            ul.timeline:before {
-                content: ' ';
-                background: #fca901;
-                display: inline-block;
-                position: absolute;
-                left: 29px;
-                width: 2px;
-                height: 100%;
-                z-index: 100;
-            }
+        ul.timeline {
+            list-style-type: none;
+            position: relative;
+        }
 
-            ul.timeline>li {
-                margin: 20px 0;
-                /* padding-left: 44px; */
-                box-shadow: 6px 3px 17px 1px #aaaaaa;
-                border-radius: 2px 7px 10px 4px;
-                margin-left: 10px;
-                padding: 9px;
-            }
+        ul.timeline:before {
+            content: ' ';
+            background: #fca901;
+            display: inline-block;
+            position: absolute;
+            left: 29px;
+            width: 2px;
+            height: 100%;
+            z-index: 100;
+        }
 
-            p {
-                margin-bottom: 0 !important;
-            }
+        ul.timeline>li {
+            margin: 20px 0;
+            /* padding-left: 44px; */
+            box-shadow: 6px 3px 17px 1px #aaaaaa;
+            border-radius: 2px 7px 10px 4px;
+            margin-left: 10px;
+            padding: 9px;
+        }
 
-            ul.timeline>li:before {
-                content: ' ';
-                background: white;
-                display: inline-block;
-                position: absolute;
-                border-radius: 50%;
-                border: 3px solid #000000;
-                left: 20px;
-                width: 20px;
-                height: 20px;
-                z-index: 100;
-            }
-            .modal-confirm .icon-box {
+        p {
+            margin-bottom: 0 !important;
+        }
+
+        ul.timeline>li:before {
+            content: ' ';
+            background: white;
+            display: inline-block;
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid #000000;
+            left: 20px;
+            width: 20px;
+            height: 20px;
+            z-index: 100;
+        }
+
+        .modal-confirm .icon-box {
             color: #fff;
             position: absolute;
             margin: 0 auto;
@@ -138,6 +143,48 @@
             top: 4px;
         }
 
+        #custom-username {
+            width: auto !important;
+            border-radius: unset;
+        }
+
+        .custom-list-action {
+            color: white !important;
+            width: 100% !important;
+            border-radius: unset;
+            text-align: left !important;
+            padding-left: 15px;
+            border-radius: unset !important;
+            background-color: #fca901 !important;
+
+        }
+
+        #sub-menu-custom {
+            position: relative;
+        }
+
+        #sub-menu {
+            position: absolute;
+            width: auto;
+            z-index: 100px;
+        }
+
+        .dropdown-menu-custom {
+            background-color: #fca901;
+            color: white;
+        }
+
+        .arrow {
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            display: inline-block;
+            padding: 3px;
+        }
+
+        .down {
+            transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+        }
 
     </style>
 
@@ -152,7 +199,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="pro_call">
                                 <span>Hotline <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
-                                   <span class="phone-mobile"> 1900.2149(VN)</span></span>
+                                    <span class="phone-mobile"> 1900.2149(VN)</span></span>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -161,10 +208,30 @@
                                     <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip"
                                             data-placement="bottom" title="Facebook"><i class="fa fa-facebook"
                                                 aria-hidden="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Viber"><i class="iconify" data-icon="simple-icons:viber" data-inline="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Zalo"><img src="../assets/images/zalo.png" alt=""></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Viber"><i
+                                                class="iconify" data-icon="simple-icons:viber"
+                                                data-inline="true"></i></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Zalo"><img
+                                                src="../assets/images/zalo.png" alt=""></a></li>
+                                    <li id="sub-menu-custom">
 
+                                        <?php if (Cookie::get('token') != '') {
+                                        $data = unserialize(Cookie::get('token'));
+                                        echo '<a class="" href="#" role="button" id="custom-username"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">|' .
+                                            $data['id'] .
+                                            ' <i class="arrow down"></i></a>';
+                                        } ?>
+                                        <div class="dropdown-menu dropdown-menu-custom"
+                                            aria-labelledby="custom-username">
+                                            <a class="dropdown-item custom-list-action"
+                                                href="{{ route('auth.info') }}">Thông tin của tôi</a>
+                                            <a class="dropdown-item custom-list-action"
+                                                href="{{ route('auth.logout') }}">Thoát</a>
+                                        </div>
+                                    </li>
                                 </ul>
+
                             </div>
                         </div>
                     </div>
@@ -174,10 +241,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3" style="padding:10px">
-                            <div class="pro_logo"> <a
-                                    href="#"><img
-                                        style="width:95%"
-                                        src="assets/images/logosaiko.png"
+                            <div class="pro_logo"> <a href="#"><img style="width:95%" src="assets/images/logosaiko.png"
                                         alt="logo" /></a> </div>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9">
@@ -188,8 +252,10 @@
                                 <ul class="collapse navbar-collapse" id="ed_menu">
                                     <li>
                                         <div style="margin:6px;" class="form-track">
-                                            <input type="text" id="track_tracking"  class="form-control" style="width: 100% !important">
-                                            <button class="btn" style="background: #fca901;margin-left:8px" onclick="track()" type="button">Track</button>
+                                            <input type="text" id="track_tracking" class="form-control"
+                                                style="width: 100% !important">
+                                            <button class="btn" style="background: #fca901;margin-left:8px"
+                                                onclick="track()" type="button">Track</button>
                                         </div>
                                     </li>
                                     <li><a href="{{ route('index') }}">Trang chủ</a></li>
@@ -226,9 +292,10 @@
                                     </li>
                                     <li><a href="{{ route('contact.index') }}">Liên
                                             hệ</a></li>
-
-                                    <li><a href="{{ route('auth.index') }}">Đăng
-                                            nhập</a></li>
+                                    <?php if (Cookie::get('token') == '') {
+                                    echo '<li><a href="auth/index">Đăng
+                                            nhập</a></li>';
+                                    } ?>
 
                                 </ul>
                             </div>

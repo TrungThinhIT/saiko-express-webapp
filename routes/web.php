@@ -37,10 +37,9 @@ Route::prefix('request-tracking')->namespace('Request_Tracking')->name('rq_tk.')
     Route::post('quote', 'QuoteController@store')->name('store');
     Route::post('domestic-shipping', 'PriceController@getApiVNP')->name('getApiVNP');
     Route::post('follow-tracking', 'FLTrackingController@getStatus')->name('getStatus');
-    Route::get('createTracking','QuoteController@createTracking')->name('createTracking');
+    Route::get('createTracking', 'QuoteController@createTracking')->name('createTracking');
     Route::get('update-tracking', 'QuoteController@updateTracking')->name('updateTracking');
-    Route::post('get-infor-box','FLTrackingController@getInforBox')->name('getInforBox');
-
+    Route::post('get-infor-box', 'FLTrackingController@getInforBox')->name('getInforBox');
 });
 Route::prefix('blogs')->namespace('blogs')->name('blog.')->group(function () {
     Route::get('/', 'BlogController@index')->name('index');
@@ -50,7 +49,7 @@ Route::prefix('blogs')->namespace('blogs')->name('blog.')->group(function () {
     Route::get('ship-cosmetic', 'BlogController@cosmetic')->name('cosmetic');
     Route::get('electronic', 'BlogController@electronic')->name('electronic');
     Route::get('tracking', 'BlogController@tracking')->name('tracking');
-    ROute::get('cost-air', 'BlogController@cost_air')->name('cost-air');
+    Route::get('cost-air', 'BlogController@cost_air')->name('cost-air');
     Route::get('function-food', 'BlogController@function_food')->name('function-food');
     Route::get('price-cosmetic', 'BlogController@price_cosmetic')->name('price-cosmetic');
     Route::get('best-price-supermarket', 'BlogController@supermarket')->name('supermarket');
@@ -58,8 +57,14 @@ Route::prefix('blogs')->namespace('blogs')->name('blog.')->group(function () {
 Route::prefix('contacts')->namespace('contacts')->name('contact.')->group(function () {
     Route::get('/', 'ContactController@index')->name('index');
 });
-Route::prefix('auth')->namespace('Auth')->name('auth.')->group(function () {
+Route::prefix('auth')->namespace('auth')->name('auth.')->group(function () {
     Route::get('index', 'AuthController@index')->name('index');
+    Route::post('login', 'AuthController@login')->name('login');
+    Route::get('logout', 'AuthController@logout')->name('logout');
+    Route::post('register', 'AuthController@register')->name('register');
+    Route::post('reset-password', 'AuthController@resetPassword')->name('resetPassword');
+    Route::get('me', 'AuthController@info')->name('info');
+    Route::put('update','AuthController@updateUser')->name('updateUser');
 });
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {
     Route::get('create-tickit', 'appController@storeTickit')->name('storeTickit');
