@@ -1253,7 +1253,7 @@
     </div>
 
     </div>
-    <script type="text/javascript" src="assets/js/saiko-bootstrap.js"></script>
+    {{-- <script type="text/javascript" src="assets/js/saiko-bootstrap.js"></script> --}}
     <script type="text/javascript" src="assets/js/saiko-modernizr.js"></script>
     <script type="text/javascript" src="assets/js/saiko-owl.carousel.js"></script>
     <script type="text/javascript" src="assets/js/saiko-smooth-scroll.js"></script>

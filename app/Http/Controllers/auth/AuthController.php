@@ -79,6 +79,16 @@ class AuthController extends Controller
     {
         $data = $request->cookie('token');
         $data = unserialize($data);
+        $param_search_shipment = [
+            'search' => 'user_id:' . $data['id'],
+            'searchFields' => 'user_id:=',
+            'appends' => 'ward.district.province'
+        ];
+        $shipment_info = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => $data['token_type'] . ' ' . $data['access_token']
+        ])->get('http://auth.tomonisolution.com:82/api/shipment-infos', $param_search_shipment);
+        dd($shipment_info->body());
         return view('login.info', compact('data'));
     }
 

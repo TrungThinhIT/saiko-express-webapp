@@ -104,6 +104,30 @@
             display: none;
         }
 
+        .height-tab {
+            height: 100% !important;
+        }
+
+        .custom-background {
+            background-color: #fca901;
+        }
+
+        .unset-border-bottom {
+            border-bottom: unset !important;
+        }
+
+        .set-border-radius {
+            border-radius: 3px !important;
+        }
+
+        .set-overflow {
+            overflow: auto;
+        }
+
+        .custom-icon {
+            color: #fca901;
+        }
+
     </style>
     <!--Modal: modalConfirmDelete-->
     <div class="modal" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -151,119 +175,259 @@
     </div>
     <div class="wapper">
         <div class="container">
+
             <div class='col-md-12' id="form-custom" style="margin-top:130px">
                 <!-- login/signup box -->
-                <div class="col-md-12 ">
-                    <h3>Chi tiết người dùng</h3>
-                </div>
-                <div class="col-md-6">
-                    <div id="loginbox" style="margin-top:50px">
-                        <!-- login box-->
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <div class="panel-title">Thông tin </div>
-                            </div>
-                            <div style="padding-top:30px" class="panel-body">
-                                <!-- login form -->
-                                <form id="update-info-form" method="post" action="" class="form-horizontal" role="form">
-                                    @csrf
+                <h3>Chi tiết người dùng</h3>
 
-                                    <div style="margin-bottom: 25px" class="form-group">
-                                        <div class="col-md-3">
-                                            <label for="">ID</label>
+                <div class="row">
+                    {{-- information --}}
+                    <div class="col-md-4">
+                        <div id="loginbox" style="margin-top:50px">
+                            <div class="panel panel-info">
+                                {{-- header --}}
+                                <div class="panel-heading">
+                                    <div class="panel-title">Thông tin </div>
+                                </div>
+                                {{-- body --}}
+                                <div style="padding-top:30px" class="panel-body">
+                                    <form id="update-info-form" method="post" action="" class="form-horizontal"
+                                        role="form">
+                                        @csrf
+
+                                        <div style="margin-bottom: 25px" class="form-group">
+                                            <div class="col-md-3">
+                                                <label for="">ID</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <input id="id-info" type="text" readonly class="form-control"
+                                                    name="id-fo" value="{{ $data['id'] }}">
+                                            </div>
                                         </div>
-                                        <div class="col-md-9">
-                                            <input id="id-info" type="text" readonly class="form-control" name="id-fo"
-                                                value="{{ $data['id'] }}">
+                                        <div style="margin-bottom: 25px" class="form-group">
+                                            <div class="col-md-3">
+                                                <label for="">Email</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <input id="login-email" type="email" readonly class="form-control"
+                                                    name="email-info" value="{{ $data['email'] }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div style="margin-bottom: 25px" class="form-group">
-                                        <div class="col-md-3">
-                                            <label for="">Email</label>
+                                        <div style="margin-bottom: 25px" class="form-group">
+                                            <div class="col-md-3">
+                                                <label for="">Vai trò</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <input id="role-info" type="text" readonly class="form-control"
+                                                    name="email" value="{{ $data['role_id'] }}">
+                                            </div>
                                         </div>
-                                        <div class="col-md-9">
-                                            <input id="login-email" type="email" readonly class="form-control"
-                                                name="email-info" value="{{ $data['email'] }}">
+                                        <div style="margin-bottom: 25px" class="form-group">
+                                            <div class="col-md-3">
+                                                <label for="">Trạng thái</label>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <input id="status-info" type="text" readonly class="form-control"
+                                                    name="email" value="{{ $data['status_id'] }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div style="margin-bottom: 25px" class="form-group">
-                                        <div class="col-md-3">
-                                            <label for="">Vai trò</label>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <input id="role-info" type="text" readonly class="form-control" name="email"
-                                                value="{{ $data['role_id'] }}">
-                                        </div>
-                                    </div>
-                                    <div style="margin-bottom: 25px" class="form-group">
-                                        <div class="col-md-3">
-                                            <label for="">Trạng thái</label>
-                                        </div>
-                                        <div class="col-md-9">
-                                            <input id="status-info" type="text" readonly class="form-control"
-                                                name="email" value="{{ $data['status_id'] }}">
-                                        </div>
-                                    </div>
-                                    {{-- <div class="text-center">
+                                        {{-- <div class="text-center">
                                         <button id="btn-update-info" type="submit" class="btn btn-success">Cập
                                             nhật</button>
                                     </div> --}}
-                                </form>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- change passsword --}}
+                    <div class="col-md-4">
+                        <div id="loginbox" style="margin-top:50px">
+                            <div class="panel panel-info">
+                                {{-- header --}}
+                                <div class="panel-heading">
+                                    <div class="panel-title">Đổi mật khẩu</div>
+                                </div>
+                                {{-- body --}}
+                                <div style="padding-top:30px" class="panel-body">
+                                    <form id="update-password-form" method="post" action="" class="form-horizontal"
+                                        role="form">
+                                        @csrf
+
+                                        <div style="margin-bottom: 25px" class="form-group">
+                                            <div class="col-md-4">
+                                                <label for="">Mật khẩu hiện tại</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input id="old-password" type="password" class="form-control"
+                                                    name="old-password" value="" placeholder="Mật khẩu cũ">
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 25px" class="form-group">
+                                            <div class="col-md-4">
+                                                <label for="">Mật khẩu mới</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input id="new-password" type="password" class="form-control"
+                                                    name="new-password" value="" placeholder="Vui lòng nhập mật khẩu">
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 25px" class="form-group">
+                                            <div class="col-md-4">
+                                                <label for="">Xác nhận mật khẩu</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input id="password-confirm" type="password" class="form-control"
+                                                    name="password-confirm" value=""
+                                                    placeholder="Xác nhận lại mật khẩu">
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button id="btn-update-password" type="submit" class="btn btn-success">Cập
+                                                nhật</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- debt --}}
+                    <div class="col-md-4">
+                        <div id="loginbox" style="margin-top:50px">
+                            <div class="panel panel-info">
+                                {{-- header --}}
+                                <div class="panel-heading">
+                                    <div class="panel-title">Số dư</div>
+                                </div>
+                                {{-- body --}}
+                                <div style="padding-top:30px" class="panel-body">
+                                    <form id="update-password-form" method="post" action="" class="form-horizontal"
+                                        role="form">
+                                        @csrf
+
+                                        <div style="margin-bottom: 25px" class="form-group">
+                                            <div class="col-md-4">
+                                                <label for="">VND</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input id="old-password" readonly type="password" class="form-control"
+                                                    name="old-password" value="">
+                                            </div>
+                                        </div>
+                                        <div style="margin-bottom: 25px" class="form-group">
+                                            <div class="col-md-4">
+                                                <label for="">JPY</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input id="new-password" readonly type="password" class="form-control"
+                                                    name="new-password" value="">
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 ">
-                    <div id="loginbox" style="margin-top:50px">
-                        <!-- login box-->
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <div class="panel-title">Đổi mật khẩu</div>
-                            </div>
-                            <div style="padding-top:30px" class="panel-body">
-                                <!-- login form -->
-                                <form id="update-password-form" method="post" action="" class="form-horizontal"
-                                    role="form">
-                                    @csrf
-
-                                    <div style="margin-bottom: 25px" class="form-group">
-                                        <div class="col-md-4">
-                                            <label for="">Mật khẩu hiện tại</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input id="old-password" type="password" class="form-control"
-                                                name="old-password" value="" placeholder="Mật khẩu cũ">
-                                        </div>
-                                    </div>
-                                    <div style="margin-bottom: 25px" class="form-group">
-                                        <div class="col-md-4">
-                                            <label for="">Mật khẩu mới</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input id="new-password" type="password" class="form-control"
-                                                name="new-password" value="" placeholder="Vui lòng nhập mật khẩu">
-                                        </div>
-                                    </div>
-                                    <div style="margin-bottom: 25px" class="form-group">
-                                        <div class="col-md-4">
-                                            <label for="">Xác nhận mật khẩu</label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <input id="password-confirm" type="password" class="form-control"
-                                                name="password-confirm" value="" placeholder="Xác nhận lại mật khẩu">
-                                        </div>
-                                    </div>
-                                    <div class="text-center">
-                                        <button id="btn-update-password" type="submit" class="btn btn-success">Cập
-                                            nhật</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+            <div class="col-md-12 ">
+                <div class="card ">
+                    <div class="card-header ">
+                        <h3>Sổ địa chỉ</h3>
+                    </div>
+                    <div class="card-body custom-background set-overflow">
+                        <table class="table table-striped set-border-radius">
+                            <thead>
+                                <tr style="color:white;" class="text-center">
+                                    <td class="unset-border-bottom">STT</td>
+                                    <td class="unset-border-bottom">Tên người nhận</td>
+                                    <td class="unset-border-bottom">Số điện thoại</td>
+                                    <td class="unset-border-bottom">Tên người gửi</td>
+                                    <td class="unset-border-bottom">Số điện thoại người gửi</td>
+                                    <td class="unset-border-bottom">Địa chỉ</td>
+                                    <td class="unset-border-bottom">#</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center">
+                                    <td>1</td>
+                                    <td>Mai Văn Anh</td>
+                                    <td>1234567891</td>
+                                    <td>Anhmv</td>
+                                    <td>1234567890</td>
+                                    <td>Tân Sơn Đại Lãnh Đại Lộc Quảng Nam</td>
+                                    <td>
+                                        <div class="col-m-6">
+                                            <div class="col-md-3">
+                                                <button class="custom-icon"><i class="fa fa-pencil"></i></button>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="custom-icon"><i class="fa fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td>1</td>
+                                    <td>Mai Văn Anh</td>
+                                    <td>1234567891</td>
+                                    <td>Anhmv</td>
+                                    <td>1234567890</td>
+                                    <td>Tân Sơn Đại Lãnh Đại Lộc Quảng Nam</td>
+                                    <td>
+                                        <div class="col-m-6">
+                                            <div class="col-md-3">
+                                                <button class="custom-icon"><i class="fa fa-pencil"></i></button>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="custom-icon"><i class="fa fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td>1</td>
+                                    <td>Mai Văn Anh</td>
+                                    <td>1234567891</td>
+                                    <td>Anhmv</td>
+                                    <td>1234567890</td>
+                                    <td>Tân Sơn Đại Lãnh Đại Lộc Quảng Nam</td>
+                                    <td>
+                                        <div class="col-m-6">
+                                            <div class="col-md-3">
+                                                <button class="custom-icon"><i class="fa fa-pencil"></i></button>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="custom-icon"><i class="fa fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td>1</td>
+                                    <td>Mai Văn Anh</td>
+                                    <td>1234567891</td>
+                                    <td>Anhmv</td>
+                                    <td>1234567890</td>
+                                    <td>Tân Sơn Đại Lãnh Đại Lộc Quảng Nam</td>
+                                    <td>
+                                        <div class="col-m-6">
+                                            <div class="col-md-3">
+                                                <button class="custom-icon"><i class="fa fa-pencil"></i></button>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button class="custom-icon"><i class="fa fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="tmn-custom-mask d-none" id="loader">

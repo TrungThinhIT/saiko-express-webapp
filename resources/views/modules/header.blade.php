@@ -149,14 +149,20 @@
         }
 
         .custom-list-action {
-            color: white !important;
+            font-size: 14px !important;
+            margin-top: -20px;
+            color: black !important;
             width: 100% !important;
             border-radius: unset;
             text-align: left !important;
             padding-left: 15px;
             border-radius: unset !important;
-            background-color: #fca901 !important;
+            background-color: white !important;
 
+        }
+
+        .custom-list-action:hover {
+            color: white !important;
         }
 
         #sub-menu-custom {
@@ -170,12 +176,11 @@
         }
 
         .dropdown-menu-custom {
-            background-color: #fca901;
             color: white;
         }
 
         .arrow {
-            border: solid white;
+            border: solid black;
             border-width: 0 3px 3px 0;
             display: inline-block;
             padding: 3px;
@@ -213,23 +218,7 @@
                                                 data-inline="true"></i></a></li>
                                     <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Zalo"><img
                                                 src="../assets/images/zalo.png" alt=""></a></li>
-                                    <li id="sub-menu-custom">
 
-                                        <?php if (Cookie::get('token') != '') {
-                                        $data = unserialize(Cookie::get('token'));
-                                        echo '<a class="" href="#" role="button" id="custom-username"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">|' .
-                                            $data['id'] .
-                                            ' <i class="arrow down"></i></a>';
-                                        } ?>
-                                        <div class="dropdown-menu dropdown-menu-custom"
-                                            aria-labelledby="custom-username">
-                                            <a class="dropdown-item custom-list-action"
-                                                href="{{ route('auth.info') }}">Thông tin của tôi</a>
-                                            <a class="dropdown-item custom-list-action"
-                                                href="{{ route('auth.logout') }}">Thoát</a>
-                                        </div>
-                                    </li>
                                 </ul>
 
                             </div>
@@ -292,11 +281,30 @@
                                     </li>
                                     <li><a href="{{ route('contact.index') }}">Liên
                                             hệ</a></li>
-                                    <?php if (Cookie::get('token') == '') {
-                                    echo '<li><a href="auth/index">Đăng
-                                            nhập</a></li>';
-                                    } ?>
-
+                                    <li id="sub-menu-custom">
+                                        @if (Cookie::get('token') != '')
+                                            @php
+                                                $data = unserialize(Cookie::get('token'));
+                                            @endphp
+                                            <a class="" href="javascript:;">{{ $data['id'] }}</a>
+                                            <ul class="sub-menu">
+                                                <li>
+                                                    <a class="" href="{{ route('auth.info') }}">Thông tin
+                                                        của
+                                                        tôi</a>
+                                                </li>
+                                                <li>
+                                                    <a class="" href="{{ route('auth.logout') }}">Thoát</a>
+                                                </li>
+                                            </ul>
+                                        @endif
+                                    </li>
+                                    @if (Cookie::get('token') == '')
+                                        <li>
+                                            <a href="auth/index">Đăng
+                                                nhập</a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
