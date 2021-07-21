@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Cookie as HttpFoundationCookie;
+use Symfony\Component\Mime\Test\Constraint\EmailHtmlBodyContains;
 
 class AuthController extends Controller
 {
@@ -21,7 +22,7 @@ class AuthController extends Controller
     {
         $data = Http::withHeaders([
             'Accept' => 'application/json'
-        ])->post('http://auth.tomonisolution.com/api/register', $request->all());
+        ])->post('http://auth.tomonisolution.com:82/api/register', $request->all());
 
 
         return response()->json(['code' => $data->status(), 'data' => $data->body()]);
@@ -77,18 +78,49 @@ class AuthController extends Controller
 
     public function info(Request $request)
     {
+        $link = "http://accounting.tomonisolution.com:82/api/transactions?appends=user%3BpreparedBy&page=1&search=user_id%3Aanhmv1998";
         $data = $request->cookie('token');
         $data = unserialize($data);
+        $token = $data['token_type'] . ' ' . $data['access_token'];
+        //book_address
         $param_search_shipment = [
             'search' => 'user_id:' . $data['id'],
             'searchFields' => 'user_id:=',
-            'appends' => 'ward.district.province'
+            'page' => $request->page_shipment ?? 1,
         ];
+
         $shipment_info = Http::withHeaders([
+            'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'Authorization' => $data['token_type'] . ' ' . $data['access_token']
+            'Authorization' => $token,
         ])->get('http://auth.tomonisolution.com:82/api/shipment-infos', $param_search_shipment);
-        dd($shipment_info->body());
+
+        $shipment_info = json_decode($shipment_info, true);
+        if (!empty($shipment_info['data'])) {
+            $data = array_merge($data, ['list_address' => $shipment_info]);
+        }
+        //transactions
+        $param_search_transactions = [
+            'search' => 'user_id:' . $data['id'],
+            'searchFields' => 'user_id:=',
+            'orderBy' => 'created_at',
+            'sortedBy' => 'desc',
+            'page' => $request->page_transaction ?? 1,
+        ];
+        $transactions = Http::withHeaders([
+            'Accept-Language' => 'vi',
+            'Accept' => 'application/json',
+            'Authorization' => $token,
+        ])->get('http://accounting.tomonisolution.com:82/api/transactions', $param_search_transactions);
+
+        $transactions = json_decode($transactions, true);
+        if (!empty($transactions['data'])) {
+            $data = array_merge($data, ['transactions' => $transactions]);
+        }
+
+        if ($request->wantsJson()) {
+            return response()->json($data);
+        }
         return view('login.info', compact('data'));
     }
 

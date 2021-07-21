@@ -109,7 +109,7 @@
         }
 
         .custom-background {
-            background-color: #fca901;
+            background-color: seashell;
         }
 
         .unset-border-bottom {
@@ -118,14 +118,21 @@
 
         .set-border-radius {
             border-radius: 3px !important;
+            border-collapse: unset;
         }
 
         .set-overflow {
             overflow: auto;
+            border: 1px solid #fca901;
         }
 
         .custom-icon {
             color: #fca901;
+        }
+
+        .custom-paginate {
+            display: block;
+            float: right;
         }
 
     </style>
@@ -175,11 +182,9 @@
     </div>
     <div class="wapper">
         <div class="container">
-
             <div class='col-md-12' id="form-custom" style="margin-top:130px">
                 <!-- login/signup box -->
                 <h3>Chi tiết người dùng</h3>
-
                 <div class="row">
                     {{-- information --}}
                     <div class="col-md-4">
@@ -292,7 +297,7 @@
                         </div>
                     </div>
                     {{-- debt --}}
-                    <div class="col-md-4">
+                    <div class="col-md-4 ">
                         <div id="loginbox" style="margin-top:50px">
                             <div class="panel panel-info">
                                 {{-- header --}}
@@ -301,8 +306,7 @@
                                 </div>
                                 {{-- body --}}
                                 <div style="padding-top:30px" class="panel-body">
-                                    <form id="update-password-form" method="post" action="" class="form-horizontal"
-                                        role="form">
+                                    <form id="transactions" method="post" action="" class="form-horizontal" role="form">
                                         @csrf
 
                                         <div style="margin-bottom: 25px" class="form-group">
@@ -310,8 +314,8 @@
                                                 <label for="">VND</label>
                                             </div>
                                             <div class="col-md-8">
-                                                <input id="old-password" readonly type="password" class="form-control"
-                                                    name="old-password" value="">
+                                                <input id="money-VND" readonly type="text" class="form-control"
+                                                    name="money-VND" value="">
                                             </div>
                                         </div>
                                         <div style="margin-bottom: 25px" class="form-group">
@@ -319,8 +323,8 @@
                                                 <label for="">JPY</label>
                                             </div>
                                             <div class="col-md-8">
-                                                <input id="new-password" readonly type="password" class="form-control"
-                                                    name="new-password" value="">
+                                                <input id="money-JPY" readonly type="password" class="form-control"
+                                                    name="money-JPY" value="">
                                             </div>
                                         </div>
 
@@ -331,103 +335,128 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 ">
-                <div class="card ">
-                    <div class="card-header ">
-                        <h3>Sổ địa chỉ</h3>
-                    </div>
-                    <div class="card-body custom-background set-overflow">
-                        <table class="table table-striped set-border-radius">
-                            <thead>
-                                <tr style="color:white;" class="text-center">
-                                    <td class="unset-border-bottom">STT</td>
-                                    <td class="unset-border-bottom">Tên người nhận</td>
-                                    <td class="unset-border-bottom">Số điện thoại</td>
-                                    <td class="unset-border-bottom">Tên người gửi</td>
-                                    <td class="unset-border-bottom">Số điện thoại người gửi</td>
-                                    <td class="unset-border-bottom">Địa chỉ</td>
-                                    <td class="unset-border-bottom">#</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="text-center">
-                                    <td>1</td>
-                                    <td>Mai Văn Anh</td>
-                                    <td>1234567891</td>
-                                    <td>Anhmv</td>
-                                    <td>1234567890</td>
-                                    <td>Tân Sơn Đại Lãnh Đại Lộc Quảng Nam</td>
-                                    <td>
-                                        <div class="col-m-6">
-                                            <div class="col-md-3">
-                                                <button class="custom-icon"><i class="fa fa-pencil"></i></button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button class="custom-icon"><i class="fa fa-trash"></i></button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>1</td>
-                                    <td>Mai Văn Anh</td>
-                                    <td>1234567891</td>
-                                    <td>Anhmv</td>
-                                    <td>1234567890</td>
-                                    <td>Tân Sơn Đại Lãnh Đại Lộc Quảng Nam</td>
-                                    <td>
-                                        <div class="col-m-6">
-                                            <div class="col-md-3">
-                                                <button class="custom-icon"><i class="fa fa-pencil"></i></button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button class="custom-icon"><i class="fa fa-trash"></i></button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>1</td>
-                                    <td>Mai Văn Anh</td>
-                                    <td>1234567891</td>
-                                    <td>Anhmv</td>
-                                    <td>1234567890</td>
-                                    <td>Tân Sơn Đại Lãnh Đại Lộc Quảng Nam</td>
-                                    <td>
-                                        <div class="col-m-6">
-                                            <div class="col-md-3">
-                                                <button class="custom-icon"><i class="fa fa-pencil"></i></button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button class="custom-icon"><i class="fa fa-trash"></i></button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td>1</td>
-                                    <td>Mai Văn Anh</td>
-                                    <td>1234567891</td>
-                                    <td>Anhmv</td>
-                                    <td>1234567890</td>
-                                    <td>Tân Sơn Đại Lãnh Đại Lộc Quảng Nam</td>
-                                    <td>
-                                        <div class="col-m-6">
-                                            <div class="col-md-3">
-                                                <button class="custom-icon"><i class="fa fa-pencil"></i></button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button class="custom-icon"><i class="fa fa-trash"></i></button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+            @if (isset($data['list_address']))
+                <div class="col-md-12 ">
+                    <div class="card ">
+                        <div class="card-header ">
+                            <h3>Sổ địa chỉ</h3>
+                        </div>
+                        <div class="card-body custom-background set-overflow">
+                            <table class="table table-striped set-border-radius">
+                                <thead>
+                                    <tr style="color:black;" class="text-center">
+                                        <td class="unset-border-bottom">STT</td>
+                                        <td class="unset-border-bottom">Tên người nhận</td>
+                                        <td class="unset-border-bottom">Số điện thoại</td>
+                                        <td class="unset-border-bottom">Tên người gửi</td>
+                                        <td class="unset-border-bottom">Số điện thoại người gửi</td>
+                                        <td class="unset-border-bottom">Địa chỉ</td>
+                                        <td class="unset-border-bottom">#</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="list-address">
+                                    @foreach ($data['list_address']['data'] as $key => $value)
+                                        <tr class="text-center">
+                                            <td>{{ $data['list_address']['from']++ }}</td>
+                                            <td>{{ $value['consignee'] }}</td>
+                                            <td>{{ $value['tel'] }}</td>
+                                            <td>{{ $value['sender_name'] }}</td>
+                                            <td>{{ $value['sender_tel'] }}</td>
+                                            <td>{{ $value['full_address'] }}</td>
+                                            <td>
+                                                <div class="col-m-6">
+                                                    <div class="col-md-3">
+                                                        <button class="custom-icon" data-id="{{ $value['id'] }}"><i
+                                                                class="fa fa-pencil"></i></button>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="custom-icon"
+                                                            data-deleteId="{{ $value['id'] }}"><i
+                                                                class="fa fa-trash"></i></button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination custom-paginate">
+                                    <li class="page-item">
+                                        <a class="page-link address" href="#" aria-label="Previous" data-page="1">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    @for ($i = 1; $i <= $data['list_address']['last_page']; $i++)
+                                        <li class="page-item"><a class="page-link address" href="javascript:;"
+                                                data-page="{{ $i }}">{{ $i }}</a></li>
+                                    @endfor
+                                    <li class="page-item">
+                                        <a class="page-link address" href="#" aria-label="Next"
+                                            data-page={{ $data['list_address']['last_page'] }}>
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            @endif
+            @if (isset($data['transactions']))
+                <div class="col-md-12 ">
+                    <div class="card ">
+                        <div class="card-header ">
+                            <h3>Lịch sử giao dịch</h3>
+                        </div>
+                        <div class="card-body custom-background set-overflow">
+                            <table class="table table-striped set-border-radius">
+                                <thead>
+                                    <tr style="color:black;" class="text-center">
+                                        <td class="unset-border-bottom">STT</td>
+                                        <td class="unset-border-bottom">Số tiền</td>
+                                        <td class="unset-border-bottom">Mô tả</td>
+                                        <td class="unset-border-bottom">Người thực hiện</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyt-ransactions">
+                                    @foreach ($data['transactions']['data'] as $key => $value)
+                                        <tr class="text-center">
+                                            <td>{{ $data['transactions']['from']++ }}</td>
+                                            <td>{{ $value['amount'] }}</td>
+                                            <td>{{ $value['description'] }}</td>
+                                            <td>{{ $value['prepared_by_id'] }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination custom-paginate">
+                                    <li class="page-item">
+                                        <a class="page-link transaction" href="#" aria-label="Previous" data-page="1">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    @for ($i = 1; $i <= $data['transactions']['last_page']; $i++)
+                                        <li class="page-item"><a class="page-link transaction" href="javascript:;"
+                                                data-page="{{ $i }}">{{ $i }}</a></li>
+                                    @endfor
+                                    <li class="page-item">
+                                        <a class="page-link transaction" href="#" aria-label="Next"
+                                            data-page={{ $data['transactions']['last_page'] }}>
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
     <div class="tmn-custom-mask d-none" id="loader">
@@ -448,10 +477,11 @@
         $("#reload").click(() => location.reload());
         $.ajaxSetup({
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Accept': "application/json"
             },
         });
-
+        //update password
         $("#btn-update-password").click(function(e) {
             e.preventDefault();
             $("#alert-errors").empty();
@@ -491,6 +521,96 @@
                 }
             })
         })
+        //paginate shipment
+        $(document).on('click', '.pagination .address', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('data-page');
+            fetch_data(page);
+
+            // fetch_data(page);
+        });
+
+        function fetch_data(page) {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('auth.info') }}",
+                data: {
+                    page_shipment: page
+                },
+                success: function(data) {
+                    if (data.list_address.data.length) {
+                        $("#list-address").empty()
+                        $.each(data.list_address.data, function(index, value) {
+
+                            $("#list-address").append(
+                                    '<tr class="text-center">' +
+                                    '<td>' + data.list_address.from + '</td>' +
+                                    '<td>' + value.consignee + '</td>' +
+                                    '<td>' + value.tel + '</td>' +
+                                    '<td>' + value.sender_name + '</td>' +
+                                    '<td>' + value.sender_tel + '</td>' +
+                                    '<td>' + value.full_address + '</td>' +
+                                    '<td>' + '<div class="col-m-6">' +
+                                    '<div class="col-md-3">' +
+                                    '<button class="custom-icon" data-id="">' +
+                                    '<i class="fa fa-pencil"></i>' + '</button>' +
+                                    '</div>' +
+                                    '<div class="col-md-3">' +
+                                    '<button class="custom-icon" data-deleteId="">' +
+                                    '<i class="fa fa-trash"></i></button>' +
+                                    '</div>' +
+                                    '</div>' + '</td>' +
+                                    '</tr>'
+                                )
+                                ++data.list_address.from
+                        })
+                    }
+                },
+                error: function(response) {
+
+                }
+            })
+        }
+
+        //paginate transaction
+        $(document).on('click', '.pagination .transaction', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('data-page');
+            // fetch_data(page);
+            fetch_data_transaction(page)
+            // fetch_data(page);
+        });
+
+        function fetch_data_transaction(page) {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('auth.info') }}",
+                data: {
+                    page_transaction: page
+                },
+                success: function(data) {
+                    if (data.transactions.data.length) {
+                        $("#historyt-ransactions").empty()
+                        $.each(data.transactions.data, function(index, value) {
+
+                            $("#historyt-ransactions").append(
+                                    '<tr class="text-center">' +
+                                    '<td>' + data.transactions.from + '</td>' +
+                                    '<td>' + value.amount + '</td>' +
+                                    '<td>' + value.description + '</td>' +
+                                    '<td>' + value.prepared_by_id + '</td>' +
+                                    '</tr>'
+                                )
+                                ++data.list_address.from
+                        })
+                    }
+                },
+                error: function(response) {
+
+                }
+            })
+        }
+
     })
 
 </script>
