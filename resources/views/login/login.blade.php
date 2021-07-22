@@ -90,6 +90,26 @@
             display: none;
         }
 
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
         .display-result {
             display: none;
         }
@@ -152,6 +172,11 @@
                 <div id="loginbox" style="margin-top:50px" class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
                     <!-- login box-->
                     <div class="panel panel-info">
+                        @if (session('login'))
+                            <div class="alert alert-danger">
+                                <span>{{ session('login') }}</span>
+                            </div>
+                        @endif
                         <div class="panel-heading">
                             <div class="panel-title">Đăng nhập</div>
                         </div>
@@ -189,7 +214,7 @@
                                                 id="regis">
                                                 Đăng ký
                                             </a>
-                                            <div><a style="color:#fca901 !important;font-size:95%" href="avascript:"
+                                            <div><a style="color:#fca901 !important;font-size:95%" href="javascript:"
                                                     id='forgot-password'
                                                     onclick="$('#loginbox').hide(); $('#signupbox').hide();$('#sendEmailGetPassword').show()">Lấy
                                                     lại mật khẩu</a></div>
@@ -247,8 +272,8 @@
 
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
-                                        <button id="btn-signup" type="submit" name="reg_user" class="btn btn-success "><i
-                                                class="icon-hand-right"></i> &nbsp Đăng
+                                        <button id="btn-signup" type="submit" name="reg_user"
+                                            class="btn btn-success "><i class="icon-hand-right"></i> &nbsp Đăng
                                             ký</button>
                                     </div>
                                 </div>
@@ -260,7 +285,7 @@
                                                 onclick="$('#signupbox').hide(); $('#loginbox').show();$('#sendEmailGetPassword').hide()">Đăng
                                                 nhập</a></span>
                                         <div>
-                                            <a style="color:#fca901 !important;font-size:95%" href="avascript:"
+                                            <a style="color:#fca901 !important;font-size:95%" href="javascript:"
                                                 id='forgot-password'
                                                 onclick="$('#loginbox').hide(); $('#signupbox').hide();$('#sendEmailGetPassword').show()">Lấy
                                                 lại mật khẩu</a>
@@ -281,7 +306,7 @@
                         </div>
                         <div class="panel-body">
                             <!-- send link  form -->
-                            <form id="getPassword" method="post" action="{{ route('auth.resetPassword') }}"
+                            <form id="getPassword" method="post" action="{{ route('auth.sendLinkResetPassword') }}"
                                 class="form-horizontal" role="form">
                                 @csrf
 
@@ -340,6 +365,9 @@
             $("#loader").hide();
         });
 
+        function toggleLoading() {
+            $('.tmn-custom-mask').toggleClass('d-none');
+        }
 
         $("#exit").click(() => $("#modalConfirmDelete").hide())
         $("#reload").click(() => location.reload());
@@ -356,6 +384,7 @@
             var email = $("#email").val();
             var password = $("#password").val();
             var password_confirmation = $("#password_confirmation").val()
+            toggleLoading()
             $.ajax({
                 type: "POST",
                 url: "{{ route('auth.register') }}",
@@ -402,6 +431,7 @@
             $("#alert-success").empty()
             var email = $("#login-email").val();
             var password = $("#login-password").val();
+            toggleLoading()
             $.ajax({
 
                 type: "POST",
@@ -412,7 +442,7 @@
                 },
                 success: function(respone) {
                     if (respone.code == 200) {
-                        window.location.href = "{{route('auth.info')}}";
+                        window.location.href = "{{ route('auth.info') }}";
                     } else {
                         $("#alert-errors").append(
                             "<span class='text-danger'>" + "Email hoặc mật khẩu sai" +
@@ -439,10 +469,12 @@
                 alert('Vui lòng nhập email')
                 return false;
             }
+            toggleLoading()
             $.ajax({
                 type: "POST",
-                url: "{{ route('auth.resetPassword') }}",
+                url: "{{ route('auth.sendLinkResetPassword') }}",
                 data: {
+                    callback_domain: "http://saikoexpress.com/auth",
                     email: email,
                 },
                 success: function(response) {

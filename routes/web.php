@@ -62,9 +62,11 @@ Route::prefix('auth')->namespace('auth')->name('auth.')->group(function () {
     Route::post('login', 'AuthController@login')->name('login');
     Route::get('logout', 'AuthController@logout')->name('logout');
     Route::post('register', 'AuthController@register')->name('register');
-    Route::post('reset-password', 'AuthController@resetPassword')->name('resetPassword');
+    Route::post('sendLinkResetPassword', 'AuthController@sendLinkResetPassword')->name('sendLinkResetPassword');
     Route::get('me', 'AuthController@info')->name('info');
-    Route::put('update','AuthController@updateUser')->name('updateUser');
+    Route::put('update', 'AuthController@updateUser')->name('updateUser');
+    Route::post('reset-password', 'AuthController@resetPassword')->name('web.resetPassword');
+    Route::get('api/password/reset/{token}', 'AuthController@sendInfoResetPassword')->name('resetPassword');
 });
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {
     Route::get('create-tickit', 'appController@storeTickit')->name('storeTickit');

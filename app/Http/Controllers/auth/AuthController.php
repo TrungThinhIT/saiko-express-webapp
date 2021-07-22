@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
@@ -62,12 +63,33 @@ class AuthController extends Controller
         return response()->json(['code' => $datas->status(), 'data' => $datas->body()]);
     }
 
-    public function resetPassword(Request $request)
+    //api changen port remember
+    public function sendLinkResetPassword(Request $request)
     {
         $data = Http::withHeaders([
             'Accept' => 'application/json'
         ])->post('http://auth.tomonisolution.com:82/api/password/email', $request->all());
         return response()->json(['code' => $data->status(), 'data' => $data->body()]);
+    }
+
+    public function sendInfoResetPassword(Request $request, $token)
+    {
+        $data = ['token' => $token, 'email' => $request->email];
+        return view('login.reset_password', compact('data'));
+    }
+    //changen port remember
+    public function resetPassword(Request $request)
+    {
+        $data = $request->all();
+        $send = Http::withHeaders([
+            'Accept' => 'application/json',
+        ])->post('http://auth.tomonisolution.com:82/api/password/reset', $data);
+
+        if ($send->status() == 204) {
+            return response()->json(['code' => 204, 'message' => "Cập nhật thành công"]);
+        } else {
+            return response()->json(['code' => $send->status(), 'message' => $send->body()]);
+        }
     }
 
     public function logout(Request $request)
@@ -78,10 +100,31 @@ class AuthController extends Controller
 
     public function info(Request $request)
     {
+        if ($request->cookie('token') == "") {
+            $request->session()->flash('login', 'Vui lòng đăng nhập lại');
+            if ($request->wantsJson()) {
+                return 401;
+            }
+            return redirect()->route('auth.index');
+        }
         $link = "http://accounting.tomonisolution.com:82/api/transactions?appends=user%3BpreparedBy&page=1&search=user_id%3Aanhmv1998";
         $data = $request->cookie('token');
         $data = unserialize($data);
         $token = $data['token_type'] . ' ' . $data['access_token'];
+
+        //account
+        $param_search_account = [
+            'search' => 'user_id:' . $data['id'],
+            'searchFields' => 'user_id:=',
+        ];
+        $account = Http::withHeaders([
+            'Accept-Language' => 'vi',
+            'Accept' => 'application/json',
+            'Authorization' => $token,
+        ])->get('http://accounting.tomonisolution.com:82/api/accounts', $param_search_account);
+        $account = json_decode($account, true);
+        $data = array_merge($data, ['account' => $account]);
+
         //book_address
         $param_search_shipment = [
             'search' => 'user_id:' . $data['id'],
@@ -96,9 +139,10 @@ class AuthController extends Controller
         ])->get('http://auth.tomonisolution.com:82/api/shipment-infos', $param_search_shipment);
 
         $shipment_info = json_decode($shipment_info, true);
-        if (!empty($shipment_info['data'])) {
-            $data = array_merge($data, ['list_address' => $shipment_info]);
+        if ($request->shipment) {
+            return response()->json(['list_address' => $shipment_info]);
         }
+        $data = array_merge($data, ['list_address' => $shipment_info]);
         //transactions
         $param_search_transactions = [
             'search' => 'user_id:' . $data['id'],
@@ -114,13 +158,10 @@ class AuthController extends Controller
         ])->get('http://accounting.tomonisolution.com:82/api/transactions', $param_search_transactions);
 
         $transactions = json_decode($transactions, true);
-        if (!empty($transactions['data'])) {
-            $data = array_merge($data, ['transactions' => $transactions]);
+        if ($request->transaction) {
+            return response()->json(['transactions' => $transactions]);
         }
-
-        if ($request->wantsJson()) {
-            return response()->json($data);
-        }
+        $data = array_merge($data, ['transactions' => $transactions]);
         return view('login.info', compact('data'));
     }
 

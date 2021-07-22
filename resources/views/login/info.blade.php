@@ -100,6 +100,26 @@
             display: none;
         }
 
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
         .display-result {
             display: none;
         }
@@ -133,6 +153,10 @@
         .custom-paginate {
             display: block;
             float: right;
+        }
+
+        .fix-margin {
+            margin-right: 8px;
         }
 
     </style>
@@ -315,7 +339,8 @@
                                             </div>
                                             <div class="col-md-8">
                                                 <input id="money-VND" readonly type="text" class="form-control"
-                                                    name="money-VND" value="">
+                                                    name="money-VND"
+                                                    value="{{ number_format($data['account']['data'][1]['balance']) }}">
                                             </div>
                                         </div>
                                         <div style="margin-bottom: 25px" class="form-group">
@@ -323,8 +348,9 @@
                                                 <label for="">JPY</label>
                                             </div>
                                             <div class="col-md-8">
-                                                <input id="money-JPY" readonly type="password" class="form-control"
-                                                    name="money-JPY" value="">
+                                                <input id="money-JPY" readonly type="text" class="form-control"
+                                                    name="money-JPY"
+                                                    value="{{ number_format($data['account']['data'][0]['balance']) }}">
                                             </div>
                                         </div>
 
@@ -338,8 +364,17 @@
             @if (isset($data['list_address']))
                 <div class="col-md-12 ">
                     <div class="card ">
-                        <div class="card-header ">
-                            <h3>Sổ địa chỉ</h3>
+                        <div class="card-header d-flex">
+                            <div class="row">
+                                <div class="d-flex col-md-6">
+                                    <h3>Sổ địa chỉ</h3>
+                                </div>
+                                <div class="d-flex col-md-6">
+                                    <h3 style="float:right">
+                                        <button id="add-address" class="btn btn-success">Thêm</button>
+                                    </h3>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body custom-background set-overflow">
                             <table class="table table-striped set-border-radius">
@@ -365,13 +400,15 @@
                                             <td>{{ $value['full_address'] }}</td>
                                             <td>
                                                 <div class="col-m-6">
-                                                    <div class="col-md-3">
-                                                        <button class="custom-icon" data-id="{{ $value['id'] }}"><i
+                                                    <div class="col-md-3 fix-margin">
+                                                        <button class="custom-icon " data-id="{{ $value['id'] }}"
+                                                            onclick="updateAddress(this)"><i
                                                                 class="fa fa-pencil"></i></button>
                                                     </div>
-                                                    <div class="col-md-3">
-                                                        <button class="custom-icon"
-                                                            data-deleteId="{{ $value['id'] }}"><i
+                                                    <div class="col-md-3 fix-margin">
+                                                        <button class="custom-icon "
+                                                            data-deleteId="{{ $value['id'] }}"
+                                                            onclick="deleteAddress(this)"><i
                                                                 class="fa fa-trash"></i></button>
                                                     </div>
                                                 </div>
@@ -525,6 +562,7 @@
         $(document).on('click', '.pagination .address', function(event) {
             event.preventDefault();
             var page = $(this).attr('data-page');
+            toggleLoading()
             fetch_data(page);
 
             // fetch_data(page);
@@ -535,36 +573,43 @@
                 type: "GET",
                 url: "{{ route('auth.info') }}",
                 data: {
+                    shipment: true,
                     page_shipment: page
                 },
                 success: function(data) {
-                    if (data.list_address.data.length) {
-                        $("#list-address").empty()
-                        $.each(data.list_address.data, function(index, value) {
+                    if (data == 401) {
+                        location.reload()
+                    } else {
+                        if (data.list_address.data.length) {
+                            $("#list-address").empty()
+                            $.each(data.list_address.data, function(index, value) {
 
-                            $("#list-address").append(
+                                $("#list-address").append(
                                     '<tr class="text-center">' +
-                                    '<td>' + data.list_address.from + '</td>' +
+                                    '<td>' + data.list_address.from++ + '</td>' +
                                     '<td>' + value.consignee + '</td>' +
                                     '<td>' + value.tel + '</td>' +
                                     '<td>' + value.sender_name + '</td>' +
                                     '<td>' + value.sender_tel + '</td>' +
                                     '<td>' + value.full_address + '</td>' +
                                     '<td>' + '<div class="col-m-6">' +
-                                    '<div class="col-md-3">' +
-                                    '<button class="custom-icon" data-id="">' +
+                                    '<div class="col-md-3 fix-margin">' +
+                                    '<button class="custom-icon" onclick="updateAddress(this)" data-id="' +
+                                    value.id + '">' +
                                     '<i class="fa fa-pencil"></i>' + '</button>' +
                                     '</div>' +
-                                    '<div class="col-md-3">' +
-                                    '<button class="custom-icon" data-deleteId="">' +
+                                    '<div class="col-md-3 fix-margin">' +
+                                    '<button class="custom-icon fix-margin" onclick="deleteAddress(this)" data-deleteId="' +
+                                    value.id + '">' +
                                     '<i class="fa fa-trash"></i></button>' +
                                     '</div>' +
                                     '</div>' + '</td>' +
                                     '</tr>'
                                 )
-                                ++data.list_address.from
-                        })
+                            })
+                        }
                     }
+
                 },
                 error: function(response) {
 
@@ -577,6 +622,7 @@
             event.preventDefault();
             var page = $(this).attr('data-page');
             // fetch_data(page);
+            toggleLoading()
             fetch_data_transaction(page)
             // fetch_data(page);
         });
@@ -586,24 +632,29 @@
                 type: "GET",
                 url: "{{ route('auth.info') }}",
                 data: {
+                    transaction: true,
                     page_transaction: page
                 },
                 success: function(data) {
-                    if (data.transactions.data.length) {
-                        $("#historyt-ransactions").empty()
-                        $.each(data.transactions.data, function(index, value) {
+                    if (data == 401) {
+                        location.reload()
+                    } else {
+                        if (data.transactions.data.length) {
+                            $("#historyt-ransactions").empty()
+                            $.each(data.transactions.data, function(index, value) {
 
-                            $("#historyt-ransactions").append(
+                                $("#historyt-ransactions").append(
                                     '<tr class="text-center">' +
-                                    '<td>' + data.transactions.from + '</td>' +
+                                    '<td>' + data.transactions.from++ + '</td>' +
                                     '<td>' + value.amount + '</td>' +
                                     '<td>' + value.description + '</td>' +
                                     '<td>' + value.prepared_by_id + '</td>' +
                                     '</tr>'
                                 )
-                                ++data.list_address.from
-                        })
+                            })
+                        }
                     }
+
                 },
                 error: function(response) {
 
@@ -611,7 +662,21 @@
             })
         }
 
+
+
+        function toggleLoading() {
+            $('.tmn-custom-mask').toggleClass('d-none');
+        }
+
     })
+
+    function deleteAddress(obj) {
+        console.log($(obj).data('deleteid'))
+    }
+
+    function updateAddress(obj) {
+        console.log($(obj).data('id'))
+    }
 
 </script>
 
