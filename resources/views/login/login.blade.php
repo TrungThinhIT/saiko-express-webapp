@@ -474,7 +474,7 @@
                 type: "POST",
                 url: "{{ route('auth.sendLinkResetPassword') }}",
                 data: {
-                    callback_domain: "http://saikoexpress.com/auth",
+                    callback_domain: window.location.protocol+"//"+window.location.hostname,
                     email: email,
                 },
                 success: function(response) {

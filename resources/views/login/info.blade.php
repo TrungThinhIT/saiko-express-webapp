@@ -87,7 +87,7 @@
         }
 
         .tmn-custom-mask {
-            z-index: 99;
+            z-index: 1052 !important;
             position: fixed;
             top: 0;
             right: 0;
@@ -159,10 +159,36 @@
             margin-right: 8px;
         }
 
+        #header_address {
+            color: #202020;
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        .fix-width-label {
+            width: 100%;
+        }
+
+        .fix-z-index-modal {
+            z-index: 1051 !important;
+        }
+
+        .swal-button {
+            background-color: #fca901 !important;
+        }
+
+        .swal-icon--success__ring {
+            border-color: #fca901 !important;
+        }
+
+        .swal-icon--success__line {
+            background-color: #fca901 !important;
+        }
+
     </style>
     <!--Modal: modalConfirmDelete-->
-    <div class="modal" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fix-z-index-modal" id="modalConfirmDelete" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md modal-notify modal-danger" role="document">
             <!--Content-->
             <div class="modal-content text-center">
@@ -182,8 +208,8 @@
             <!--/.Content-->
         </div>
     </div>
-    <div class="modal" id="modalReload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fix-z-index-modal" id="modalReload" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md modal-notify modal-danger" role="document">
             <!--Content-->
             <div class="modal-content text-center">
@@ -364,20 +390,19 @@
             @if (isset($data['list_address']))
                 <div class="col-md-12 ">
                     <div class="card ">
-                        <div class="card-header d-flex">
+                        <div class="card-header">
                             <div class="row">
-                                <div class="d-flex col-md-6">
-                                    <h3>Sổ địa chỉ</h3>
-                                </div>
-                                <div class="d-flex col-md-6">
-                                    <h3 style="float:right">
-                                        <button id="add-address" class="btn btn-success">Thêm</button>
-                                    </h3>
+                                <div class="col-md-12">
+                                    <span id="header_address">Sổ địa chỉ</span>
+                                    <span style="float:right">
+                                        <button id="add-address" class="btn btn-success" data-toggle="modal"
+                                            data-target=".bd-example-modal-lg">Thêm</button>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body custom-background set-overflow">
-                            <table class="table table-striped set-border-radius">
+                            <table class="table table-striped set-border-radius" id="fix-stt">
                                 <thead>
                                     <tr style="color:black;" class="text-center">
                                         <td class="unset-border-bottom">STT</td>
@@ -391,7 +416,7 @@
                                 </thead>
                                 <tbody id="list-address">
                                     @foreach ($data['list_address']['data'] as $key => $value)
-                                        <tr class="text-center">
+                                        <tr class="text-center" id="address-{{ $value['id'] }}">
                                             <td>{{ $data['list_address']['from']++ }}</td>
                                             <td>{{ $value['consignee'] }}</td>
                                             <td>{{ $value['tel'] }}</td>
@@ -418,7 +443,7 @@
                                 </tbody>
                             </table>
                             <nav aria-label="Page navigation example">
-                                <ul class="pagination custom-paginate">
+                                <ul class="pagination custom-paginate" id="fix-paginate-address">
                                     <li class="page-item">
                                         <a class="page-link address" href="#" aria-label="Previous" data-page="1">
                                             <span aria-hidden="true">&laquo;</span>
@@ -438,6 +463,86 @@
                                     </li>
                                 </ul>
                             </nav>
+                        </div>
+                    </div>
+                </div>
+                {{-- modal add address --}}
+                <div class="modal fade bd-example-modal-lg" id="modal-create-address" tabindex="-1" role="dialog"
+                    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Thêm địa chỉ nhận</h3>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    <form>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Tên người gửi</label>
+                                                <input type="text" class="form-control" id="inputSender-name"
+                                                    placeholder="Nhập tên người nhận">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Số điện thoại</label>
+                                                <input type="number" class="form-control" id="inputSender-tel"
+                                                    placeholder="Nhập số điện thoại người gửi">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Tên người nhận</label>
+                                                <input type="text" class="form-control" id="consignee"
+                                                    placeholder="Nhập tên người nhận">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="fix-width-label">Số điện thoại người nhận</label>
+                                                <input type="number" class="form-control" id="consignee-tel"
+                                                    placeholder="Nhập số điện thoại">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Thành phố/Tỉnh</label>
+                                                <select class="form-control" name="province" id="province"
+                                                    onchange="Select_Provice(this)"></select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="inputPassword4">Quận/Huyện</label>
+                                                <select class="form-control" name="district" id="district"
+                                                    onchange="Select_District(this)"></select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Xã/Phường</label>
+                                                <select class="form-control" name="ward" id="ward"></select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Số nhà tên đường</label>
+                                                <input type="text" class="form-control" id="address-home"
+                                                    placeholder="Nhập địa chỉ nhà">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label>Ghi chú</label>
+                                                <textarea rows="6" type="text" class="form-control" id="note"
+                                                    placeholder="Nội dùng cần chú ý"></textarea>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="row">
+                                    <div style="padding: 30px">
+                                        <button class="btn btn-success">Thoát</button>
+                                        <button class="btn btn-success" onclick="CreateAddress()">Thêm</button>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -462,7 +567,7 @@
                                     @foreach ($data['transactions']['data'] as $key => $value)
                                         <tr class="text-center">
                                             <td>{{ $data['transactions']['from']++ }}</td>
-                                            <td>{{ $value['amount'] }}</td>
+                                            <td>{{ number_format($value['amount']) }}</td>
                                             <td>{{ $value['description'] }}</td>
                                             <td>{{ $value['prepared_by_id'] }}</td>
                                         </tr>
@@ -502,7 +607,9 @@
     @include('modules.footer')
 </body>
 <script>
+    //jquery
     $(document).ready(function() {
+        // $("#fix-stt").DataTable();
         $(document).ajaxStart(function() {
             $("#loader").show();
         });
@@ -562,69 +669,15 @@
         $(document).on('click', '.pagination .address', function(event) {
             event.preventDefault();
             var page = $(this).attr('data-page');
-            toggleLoading()
             fetch_data(page);
-
-            // fetch_data(page);
         });
 
-        function fetch_data(page) {
-            $.ajax({
-                type: "GET",
-                url: "{{ route('auth.info') }}",
-                data: {
-                    shipment: true,
-                    page_shipment: page
-                },
-                success: function(data) {
-                    if (data == 401) {
-                        location.reload()
-                    } else {
-                        if (data.list_address.data.length) {
-                            $("#list-address").empty()
-                            $.each(data.list_address.data, function(index, value) {
-
-                                $("#list-address").append(
-                                    '<tr class="text-center">' +
-                                    '<td>' + data.list_address.from++ + '</td>' +
-                                    '<td>' + value.consignee + '</td>' +
-                                    '<td>' + value.tel + '</td>' +
-                                    '<td>' + value.sender_name + '</td>' +
-                                    '<td>' + value.sender_tel + '</td>' +
-                                    '<td>' + value.full_address + '</td>' +
-                                    '<td>' + '<div class="col-m-6">' +
-                                    '<div class="col-md-3 fix-margin">' +
-                                    '<button class="custom-icon" onclick="updateAddress(this)" data-id="' +
-                                    value.id + '">' +
-                                    '<i class="fa fa-pencil"></i>' + '</button>' +
-                                    '</div>' +
-                                    '<div class="col-md-3 fix-margin">' +
-                                    '<button class="custom-icon fix-margin" onclick="deleteAddress(this)" data-deleteId="' +
-                                    value.id + '">' +
-                                    '<i class="fa fa-trash"></i></button>' +
-                                    '</div>' +
-                                    '</div>' + '</td>' +
-                                    '</tr>'
-                                )
-                            })
-                        }
-                    }
-
-                },
-                error: function(response) {
-
-                }
-            })
-        }
 
         //paginate transaction
         $(document).on('click', '.pagination .transaction', function(event) {
             event.preventDefault();
             var page = $(this).attr('data-page');
-            // fetch_data(page);
-            toggleLoading()
             fetch_data_transaction(page)
-            // fetch_data(page);
         });
 
         function fetch_data_transaction(page) {
@@ -646,7 +699,7 @@
                                 $("#historyt-ransactions").append(
                                     '<tr class="text-center">' +
                                     '<td>' + data.transactions.from++ + '</td>' +
-                                    '<td>' + value.amount + '</td>' +
+                                    '<td>' + formatNumber(value.amount) + '</td>' +
                                     '<td>' + value.description + '</td>' +
                                     '<td>' + value.prepared_by_id + '</td>' +
                                     '</tr>'
@@ -662,7 +715,26 @@
             })
         }
 
+        //api province
+        $("#add-address").click(function() {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('rq_tk.quote') }}",
+                success: function(response) {
+                    $("#province").empty();
+                    $("#district").empty();
+                    $("#ward").empty();
+                    $("#province").append(new Option('Vui lòng chọn', ''));
+                    $.each(response, function(index, value) {
+                        $("#province").append(new Option(value.TenTinhThanh, value
+                            .MaTinhThanh))
+                    })
+                },
+                error: function(response) {
 
+                }
+            })
+        })
 
         function toggleLoading() {
             $('.tmn-custom-mask').toggleClass('d-none');
@@ -670,12 +742,245 @@
 
     })
 
-    function deleteAddress(obj) {
-        console.log($(obj).data('deleteid'))
+    //js
+    //address
+    function fetch_data(page) {
+        $.ajax({
+            type: "GET",
+            url: "{{ route('auth.info') }}",
+            data: {
+                shipment: true,
+                page_shipment: page
+            },
+            success: function(data) {
+                console.log(data)
+                if (data == 401) {
+                    location.reload()
+                } else {
+                    if (data.list_address.data.length) {
+                        $("#list-address").empty()
+                        $.each(data.list_address.data, function(index, value) {
+
+                            $("#list-address").append(
+                                '<tr class="text-center" id=address-' + value.id +
+                                '>' +
+                                '<td>' + data.list_address.from++ + '</td>' +
+                                '<td>' + value.consignee + '</td>' +
+                                '<td>' + value.tel + '</td>' +
+                                '<td>' + value.sender_name + '</td>' +
+                                '<td>' + value.sender_tel + '</td>' +
+                                '<td>' + value.full_address + '</td>' +
+                                '<td>' + '<div class="col-m-6">' +
+                                '<div class="col-md-3 fix-margin">' +
+                                '<button class="custom-icon" onclick="updateAddress(this)" data-id="' +
+                                value.id + '">' +
+                                '<i class="fa fa-pencil"></i>' + '</button>' +
+                                '</div>' +
+                                '<div class="col-md-3 fix-margin">' +
+                                '<button class="custom-icon fix-margin" onclick="deleteAddress(this)" data-deleteId="' +
+                                value.id + '">' +
+                                '<i class="fa fa-trash"></i></button>' +
+                                '</div>' +
+                                '</div>' + '</td>' +
+                                '</tr>'
+                            )
+                        })
+
+                        $("#fix-paginate-address").empty()
+                        $("#fix-paginate-address").append(
+                            '<li class="page-item">' +
+                            '<a class="page-link address" href="#" aria-label="Previous" data-page="1">' +
+                            '<span aria-hidden="true">&laquo;</span>' +
+                            '<span class="sr-only">Previous</span>' +
+                            '</a>' +
+                            '</li>'
+                        )
+                        for (var first_page = 1; first_page <= data.list_address
+                            .last_page; first_page++) {
+                            $("#fix-paginate-address").append(
+                                '<li class="page-item"><a class="page-link address" href="javascript:;"' +
+                                'data-page="' + first_page + '">' + first_page + '</a></li>'
+                            )
+                        }
+                        $("#fix-paginate-address").append(
+                            '<li class="page-item">' +
+                            '<a class="page-link address" href="#" aria-label="Previous" data-page="' +
+                            data.list_address
+                            .last_page + '">' +
+                            '<span aria-hidden="true">&raquo;</span>' +
+                            '<span class="sr-only">Next</span>' +
+                            '</a>' +
+                            '</li>'
+                        )
+                    }
+                }
+
+            },
+            error: function(response) {
+
+            }
+        })
     }
 
+    //created Address
+    function CreateAddress() {
+        var sender_name = $("#inputSender-name").val();
+        var sender_tel = $("#inputSender-tel").val();
+        var consignee = $("#consignee").val();
+        var consignee_tel = $("#consignee-tel").val();
+        var province = $("#province").val();
+        var district = $("#district").val();
+        var ward = $("#ward").val();
+        var address = $("#address-home").val();
+        var note = $("#note").val();
+
+        if (sender_name.length < 4) {
+            alert('Nhập thiếu tên người gửi')
+            return;
+        }
+        if (sender_tel.length < 9) {
+            alert('Nhập thiếu số điện thoại người gửi')
+            return;
+        }
+        if (consignee.length < 4) {
+            alert('Nhập thiếu tên người nhận')
+            return;
+        }
+        if (consignee_tel.length < 9) {
+            alert('Nhập thiếu số điện thoại người nhận')
+            return;
+        }
+        if (!province) {
+            alert('Vui lòng chọn tỉnh thành')
+            return;
+        }
+        if (!district) {
+            alert('Vui lòng chọn quận huyện')
+            return;
+        }
+        if (!ward) {
+            alert('Vui lòng chọn phường xã')
+            return;
+        }
+        if (address.length < 7) {
+            alert('Vui lòng nhập số nhà tên đường')
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "{{ route('shipment.store') }}",
+            data: {
+                note: note,
+                sender_name: sender_name,
+                sender_tel: sender_tel,
+                consignee: consignee,
+                tel: consignee_tel,
+                ward_id: ward,
+                address: address,
+            },
+            success: function(response) {
+                $("#alert-errors").empty()
+                if (response.code == 201) {
+                    $("#modal-create-address").hide()
+                    // swal({
+                    //     title: "Đã tạo thành công",
+                    //     type: "success",
+                    //     icon: "success",
+                    //     showCancelButton: false,
+                    //     confirmButtonColor: "#fca901",
+                    //     confirmButtonText: "Exit",
+                    //     closeOnConfirm: true
+                    // })
+                    fetch_data(1);
+                } else {
+                    var errors = JSON.parse(response.message)
+                    $.each(errors.errors, function(index, value) {
+                        $("#alert-errors").append(
+                            '<span class="text-danger">' +
+                            index + ":" +
+                            value +
+                            '</span>'
+                        )
+                    })
+                    $("#modalConfirmDelete").show()
+
+                }
+            },
+            error: function(response) {
+
+            }
+        })
+
+
+
+    }
+    //deleteAddress
+    function deleteAddress(obj) {
+        var id_shipment = $(obj).data('deleteid');
+        if (confirm("Are you sure?")) {
+            $.ajax({
+                type: "DELETE",
+                url: "../shipment/" + id_shipment,
+                success: function(response) {
+                    if (response.code == 204) {
+                        $("#address-" + id_shipment).remove()
+                        fetch_data(1);
+                    }
+                },
+                error: function(response) {
+
+                }
+            })
+        }
+    }
+
+    //update ADdress
     function updateAddress(obj) {
         console.log($(obj).data('id'))
+    }
+    //province
+    function Select_Provice(obj) {
+        var province = $(obj).val();
+        $.ajax({
+            type: "POST",
+            url: "{{ route('rq_tk.quanhuyen') }}",
+            data: {
+                province: province,
+            },
+            success: function(res) {
+                $("#district").empty()
+                $("#ward").empty()
+                $("#district").append(new Option('Vui lòng chọn', ''))
+                $.each(res, function(index, value) {
+                    $("#district").append(new Option(value.TenQuanHuyen, value.MaQuanHuyen))
+                })
+            },
+            error: function(res) {
+                console.log(res)
+            }
+        });
+    }
+    //district
+    function Select_District(obj) {
+        var district = $(obj).val();
+        $.ajax({
+            type: "POST",
+            url: "{{ route('rq_tk.phuongxa') }}",
+            data: {
+                district: district,
+            },
+            success: function(res) {
+                $("#ward").empty()
+                $("#ward").append(new Option('Vui lòng chọn', ''))
+                $.each(res, function(index, value) {
+                    $("#ward").append(new Option(value.TenPhuongXa, value.MaPhuongXa))
+                })
+            },
+            error: function(res) {
+                console.log(res)
+            }
+        });
     }
 
 </script>

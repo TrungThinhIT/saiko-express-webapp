@@ -57,6 +57,8 @@ Route::prefix('blogs')->namespace('blogs')->name('blog.')->group(function () {
 Route::prefix('contacts')->namespace('contacts')->name('contact.')->group(function () {
     Route::get('/', 'ContactController@index')->name('index');
 });
+Route::get('api/password/reset/{token}', 'auth\AuthController@sendInfoResetPassword')->name('resetPassword');
+
 Route::prefix('auth')->namespace('auth')->name('auth.')->group(function () {
     Route::get('index', 'AuthController@index')->name('index');
     Route::post('login', 'AuthController@login')->name('login');
@@ -66,8 +68,14 @@ Route::prefix('auth')->namespace('auth')->name('auth.')->group(function () {
     Route::get('me', 'AuthController@info')->name('info');
     Route::put('update', 'AuthController@updateUser')->name('updateUser');
     Route::post('reset-password', 'AuthController@resetPassword')->name('web.resetPassword');
-    Route::get('api/password/reset/{token}', 'AuthController@sendInfoResetPassword')->name('resetPassword');
 });
+
+Route::prefix('shipment')->name('shipment.')->namespace('shipments')->group(function () {
+    Route::resource('', 'ShipmentsController')->parameters([
+        '' => 'shipment'
+    ]);
+});
+
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {
     Route::get('create-tickit', 'appController@storeTickit')->name('storeTickit');
     Route::get('Ref', 'appController@allFunction')->name('getPrice');

@@ -43,6 +43,7 @@ class AuthController extends Controller
 
         if ($datas->status() == 200) {
             $data = json_decode($datas->body(), true);
+
             $user = Http::withHeaders(
                 [
                     'Accept' => 'application/json',
@@ -52,7 +53,6 @@ class AuthController extends Controller
             if ($user->status() == 200) {
                 $user = json_decode($user->body(), true);
                 $user_token = array_merge($user, $data);
-
                 $value = serialize($user_token);
                 $token = cookie('token', $value, $data['expires_in']);
 
@@ -74,9 +74,13 @@ class AuthController extends Controller
 
     public function sendInfoResetPassword(Request $request, $token)
     {
+        if (!$request->has('email')) {
+            return redirect()->route('auth.index');
+        }
         $data = ['token' => $token, 'email' => $request->email];
         return view('login.reset_password', compact('data'));
     }
+
     //changen port remember
     public function resetPassword(Request $request)
     {
@@ -110,6 +114,7 @@ class AuthController extends Controller
         $link = "http://accounting.tomonisolution.com:82/api/transactions?appends=user%3BpreparedBy&page=1&search=user_id%3Aanhmv1998";
         $data = $request->cookie('token');
         $data = unserialize($data);
+
         $token = $data['token_type'] . ' ' . $data['access_token'];
 
         //account

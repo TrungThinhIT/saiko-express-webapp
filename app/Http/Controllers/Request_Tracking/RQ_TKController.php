@@ -14,11 +14,14 @@ class RQ_TKController extends Controller
     public function price()
     {
         $data = tinhthanh::all();
-        return view('rq-tracking.price',compact('data'));
+        return view('rq-tracking.price', compact('data'));
     }
-    public function quote()
+    public function quote(Request $request)
     {
         $data = tinhthanh::all();
+        if ($request->wantsJson()) {
+            return response()->json($data);
+        }
         return view('rq-tracking.quote', compact('data'));
     }
     public function shipment()
@@ -27,12 +30,12 @@ class RQ_TKController extends Controller
     }
     public function quanhuyen(Request $request)
     {
-        $data = quanhuyen::where('MaTinhThanh', $request->matinh)->get();
+        $data = quanhuyen::where('MaTinhThanh', $request->province)->get();
         return response()->json($data);
     }
     public function phuongxa(Request $request)
     {
-        $data = phuongxa::where('MaQuanHuyen', $request->mahuyen)->get();
+        $data = phuongxa::where('MaQuanHuyen', $request->district)->get();
         return response()->json($data);
     }
 }
