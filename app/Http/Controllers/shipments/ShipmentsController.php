@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\shipments;
 
 use App\Http\Controllers\Controller;
+use App\Models\phuongxa;
+use App\Models\quanhuyen;
+use App\Models\tinhthanh;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
 
 class ShipmentsController extends Controller
@@ -85,9 +87,45 @@ class ShipmentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        //
+        $token = $this->getToken($request);
+        $send = Http::withHeaders(
+            [
+                'Accept' => 'application/json',
+                'Authorization' => $token
+            ]
+        )->get('http://auth.tomonisolution.com:82/api/shipment-infos/' . $id);
+
+        if ($send->status() == 401) {
+            return response()->json(['code' => 401]);
+        }
+
+        $info = json_decode($send, true);
+        $param_get_fulladdress = [
+            'with' => 'district.province'
+        ];
+        $full_address = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => $token
+        ])->get('http://notification.tomonisolution.com:82/api/wards/' . $info['ward_id'], $param_get_fulladdress);
+        $full_address = json_decode($full_address, true);
+
+
+        $provinces = tinhthanh::all()->toArray();
+
+        $data = array_merge($info, ['provinces' => $provinces]);
+
+        $data = array_merge($data, ['full_address' => $full_address]);
+
+
+        $district_by_province = quanhuyen::where('matinhthanh', $full_address['district']['province']['id'])->get()->toArray();
+        $data = array_merge($data, ['districts' => $district_by_province]);
+
+        $ward = phuongxa::where('maquanhuyen', $full_address['district']['id'])->get()->toArray();
+        $data = array_merge($data, ['wards' => $ward]);
+
+        return response()->json(['code' => 200, 'data' => $data]);
     }
 
     /**
@@ -99,7 +137,16 @@ class ShipmentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $send_update = Http::withHeaders([
+            'Accept' => 'application/json',
+            'Authorization' => $this->getToken($request),
+        ])->PUT("http://auth.tomonisolution.com:82/api/shipment-infos/" . $id, $request->all());
+
+        if ($send_update->status() == 200) {
+            return response()->json(['code' => 200, 'message' => $send_update->body()]);
+        }
+
+        return response()->json(['code' => $send_update->status(), 'message' => $send_update->body()]);
     }
 
     /**

@@ -384,7 +384,6 @@
             var email = $("#email").val();
             var password = $("#password").val();
             var password_confirmation = $("#password_confirmation").val()
-            toggleLoading()
             $.ajax({
                 type: "POST",
                 url: "{{ route('auth.register') }}",
@@ -431,7 +430,6 @@
             $("#alert-success").empty()
             var email = $("#login-email").val();
             var password = $("#login-password").val();
-            toggleLoading()
             $.ajax({
 
                 type: "POST",
@@ -442,7 +440,7 @@
                 },
                 success: function(respone) {
                     if (respone.code == 200) {
-                        window.location.href = "{{ route('auth.info') }}";
+                        window.location.href = "{{ route('index') }}";
                     } else {
                         $("#alert-errors").append(
                             "<span class='text-danger'>" + "Email hoặc mật khẩu sai" +

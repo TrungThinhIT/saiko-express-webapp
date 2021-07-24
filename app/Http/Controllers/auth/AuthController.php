@@ -111,7 +111,6 @@ class AuthController extends Controller
             }
             return redirect()->route('auth.index');
         }
-        $link = "http://accounting.tomonisolution.com:82/api/transactions?appends=user%3BpreparedBy&page=1&search=user_id%3Aanhmv1998";
         $data = $request->cookie('token');
         $data = unserialize($data);
 
@@ -127,6 +126,7 @@ class AuthController extends Controller
             'Accept' => 'application/json',
             'Authorization' => $token,
         ])->get('http://accounting.tomonisolution.com:82/api/accounts', $param_search_account);
+
         $account = json_decode($account, true);
         $data = array_merge($data, ['account' => $account]);
 
@@ -156,6 +156,7 @@ class AuthController extends Controller
             'sortedBy' => 'desc',
             'page' => $request->page_transaction ?? 1,
         ];
+
         $transactions = Http::withHeaders([
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
@@ -167,6 +168,7 @@ class AuthController extends Controller
             return response()->json(['transactions' => $transactions]);
         }
         $data = array_merge($data, ['transactions' => $transactions]);
+
         return view('login.info', compact('data'));
     }
 
