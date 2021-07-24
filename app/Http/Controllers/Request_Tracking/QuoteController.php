@@ -50,7 +50,7 @@ class QuoteController extends Controller
         $api = Http::post('http://auth.tomonisolution.com:82/oauth/token', [
             'username' => 'sale@saikoexpress.com',
             'password' => 'password',
-            'client_secret' => '',
+            'client_secret' => 'B5nzdSkv85ilDEaOg5leHXCZfup5nZFkxDtIYSWi',
             'grant_type' => 'password',
             'client_id' => 2,
             'scope' => '*'
@@ -94,18 +94,19 @@ class QuoteController extends Controller
         if ($request->utypeadd == "blank") {
             $ward_id = $request->ward;
         }
-        if ($request->utypeadd == "Nhận tại VP Sóc Sơn") {
-            $ward_id = "13900";
-        }
-        if ($request->utypeadd == "Nhận tại VP Đào Tấn") {
-            $address = "Nhận tại VP Đào Tấn";
-            $ward_id = "11800";
-        } else {
-            $address = $request->Add;
-        }
-        if ($request->utypeadd == "Nhận tại VP Tân Bình HCM") {
-            $ward_id = "76000";
-        }
+        $address = $request->Add;
+        // if ($request->utypeadd == "Nhận tại VP Sóc Sơn") {
+        //     $ward_id = "13900";
+        // }
+        // if ($request->utypeadd == "Nhận tại VP Đào Tấn") {
+        //     $address = "Nhận tại VP Đào Tấn";
+        //     $ward_id = "11800";
+        // } else {
+        //     $address = $request->Add;
+        // }
+        // if ($request->utypeadd == "Nhận tại VP Tân Bình HCM") {
+        //     $ward_id = "76000";
+        // }
 
         $tracking = explode(" ", $request->TrackingSaiko);
 

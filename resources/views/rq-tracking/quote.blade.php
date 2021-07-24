@@ -179,7 +179,7 @@
             type: "POST",
             url: "{{ route('rq_tk.quanhuyen') }}",
             data: {
-                matinh: Tinh_ThanhPho,
+                province: Tinh_ThanhPho,
             },
             success: function (res) {
                 $("#Uhuyen").empty()
@@ -204,7 +204,7 @@
             type: "POST",
             url: "{{ route('rq_tk.phuongxa') }}",
             data: {
-                mahuyen: Huyen_Xa,
+                district: Huyen_Xa,
             },
             success: function (res) {
                 $("#UPhuongXa").empty()
@@ -297,16 +297,16 @@
                                 <div class="col-md-4">
                                     <label>Hình thức nhận hàng</label>
                                     <select id="utypeadd" name="hinhthuc" onchange="onChange()">
-                                        <option value="Nhận tại VP Sóc Sơn">Nhận tại VP Sóc Sơn, Hà Nội</option>
-                                        <option value="Nhận tại VP Đào Tấn">Nhận tại VP Đào Tấn, Hà Nội </option>
-                                        <option value="Nhận tại VP Tân Bình HCM" id="trip_sea" style="display: none">Nhận tại VP Tân Bình HCM</option>
+                                        {{-- <option value="Nhận tại VP Sóc Sơn">Nhận tại VP Sóc Sơn, Hà Nội</option> --}}
+                                        {{-- <option value="Nhận tại VP Đào Tấn">Nhận tại VP Đào Tấn, Hà Nội </option> --}}
+                                        {{-- <option value="Nhận tại VP Tân Bình HCM" id="trip_sea" style="display: none">Nhận tại VP Tân Bình HCM</option> --}}
                                         <option value="blank" id="first_option">Địa chỉ cụ thể</option>
                                         <!--<option value="Nhận tại VP Tây Hồ">Nhận tại VP Tây Hồ</option>-->
                                         <!-- <option value="FOB">Nhận trực tiếp tại VN</option> -->
 
                                     </select>
                                 </div>
-                                <div id="type-ship" class="d-none">
+                                <div id="type-ship" class="d-block">
                                     <div class="col-md-4" style="margin-top:10px">
                                         <p class="field">
                                             <label>Tỉnh/Thành Phố<span class="require">*</span></label>
@@ -629,25 +629,25 @@
         $(document).ajaxStop(function () {
             $("#loader").hide();
         });
-        $("#uair").on("click",function(){
-            $("#uair").one("change",function(){
-                if($("#uair").prop('checked')){
-                    $("#trip_sea").css('display','none')
-                    $("#first_option").attr('selected')
-                    // $("#utypeadd").val($("#utypeadd option:selected"))
-                    $("#utypeadd").val("Nhận tại VP Sóc Sơn").change();
-                }
-            })
-        })
-        $("#usea").on("click",function(){
-            $("#usea").one("change",function(){
-                if($("#usea").prop('checked')){
-                    $("#trip_sea").css('display','unset')
-                    $("#first_option").attr('selected')
-                    $("#utypeadd").val("Nhận tại VP Sóc Sơn").change();
-                }
-            })
-        })
+        // $("#uair").on("click",function(){
+        //     $("#uair").one("change",function(){
+        //         if($("#uair").prop('checked')){
+        //             $("#trip_sea").css('display','none')
+        //             $("#first_option").attr('selected')
+        //             // $("#utypeadd").val($("#utypeadd option:selected"))
+        //             $("#utypeadd").val("Nhận tại VP Sóc Sơn").change();
+        //         }
+        //     })
+        // })
+        // $("#usea").on("click",function(){
+        //     $("#usea").one("change",function(){
+        //         if($("#usea").prop('checked')){
+        //             $("#trip_sea").css('display','unset')
+        //             $("#first_option").attr('selected')
+        //             $("#utypeadd").val("Nhận tại VP Sóc Sơn").change();
+        //         }
+        //     })
+        // })
         $("#send_infor_tracking").click(function(){
 
             var OptionAdd = $('#utypeadd').val();
