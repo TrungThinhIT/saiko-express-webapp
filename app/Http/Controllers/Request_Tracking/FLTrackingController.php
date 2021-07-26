@@ -44,8 +44,11 @@ class FLTrackingController extends Controller
         } else {
             $results = json_decode($apiShow->body(), true); //results of tomoni
             if (!empty($results['orders'])) {
+                // return $results;
                 usort($results['orders'], function ($a, $b) {
-                    return $b['shipment_info_id'] - $a['shipment_info_id'];
+                    $b = strtotime($b['created_at']);
+                    $a = strtotime($a['created_at']);
+                    return $b - $a;
                 }); //sort orders
                 $results['orders'][0]['insurance_result_fee'] = round($results['orders'][0]['insurance_declaration'] * 0.03, 0); //tính phí bảo hiểm
                 $results['orders'][0]['special_result_fee'] = round($results['orders'][0]['special_declaration'] * 0.02, 0); // tính phí đặc biệt

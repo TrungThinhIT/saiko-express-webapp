@@ -654,12 +654,9 @@
                                             var insurance_result_fee = 0;
                                             var special_result_fee = 0;
                                             if (value.orders.length != 0) {
-                                                var sort_order = (value.orders).sort(function(x, y) {
-                                                        return new Date(x.shipment_info_id) - new Date(y.shipment_info_id)
-                                                    })
-                                                if (!sort_order[value.orders.length - 1].shipment_info.sender_name) {
-                                                    if(isValidJSONString(sort_order[value.orders.length - 1].note)){
-                                                        var parse_note = JSON.parse(sort_order[value.orders.length - 1].note);
+                                                if (!value.orders[0].shipment_info.sender_name) {
+                                                    if(isValidJSONString(value.orders[0].note)){
+                                                        var parse_note = JSON.parse(value.orders[0].note);
                                                         if(parse_note){
                                                             if(typeof parse_note == "object"){
                                                                 if(parse_note.send_name == undefined){
@@ -674,23 +671,24 @@
                                                         name_send=""
                                                     }
                                                 } else {
-                                                    name_send = sort_order[value.orders.length - 1].shipment_info.sender_name;
+                                                    name_send = value.orders[0].shipment_info.sender_name;
                                                 }
-                                                tel_rev = sort_order[value.orders.length - 1].shipment_info.tel;
-                                                name_rev = sort_order[value.orders.length - 1].shipment_info.consignee;
-                                                add_rev = sort_order[value.orders.length - 1].shipment_info.full_address;
-                                                created_at = sort_order[value.orders.length - 1].created_at;
-                                                method_ship = sort_order[value.orders.length - 1].shipment_method_id;
-                                                if(sort_order[value.orders.length - 1].pay_money != undefined){
-                                                    pay_money = sort_order[value.orders.length - 1].total_fee;
+                                                tel_rev = value.orders[0].shipment_info.tel;
+                                                name_rev = value.orders[0].shipment_info.consignee;
+                                                add_rev = value.orders[0].shipment_info.full_address;
+                                                created_at = value.orders[0].created_at;
+                                                method_ship = value.orders[0].shipment_method_id;
+                                                if(value.orders[0].pay_money != undefined){
+                                                    pay_money = value.orders[0].total_fee;
                                                 }
-                                                insurance_result = sort_order[value.orders.length - 1].insurance_declaration//tiền bảo hiểm
-                                                special_result = sort_order[value.orders.length - 1].special_declaration//tiền hàng đặc biệt
+                                                insurance_result = value.orders[0].insurance_declaration//tiền bảo hiểm
+                                                special_result = value.orders[0].special_declaration//tiền hàng đặc biệt
                                                 $("#declaration_price").show()
                                                 $("#insurance_result").text(formatNumber(insurance_result))
                                                 $("#special_result").text(formatNumber(special_result))
-                                                $("#insurance_result_fee").text(formatNumber(sort_order[value.orders.length - 1].insurance_result_fee))
-                                                $("#special_result_fee").text(formatNumber(sort_order[value.orders.length - 1].special_result_fee))
+                                                $("#insurance_result_fee").text(formatNumber(value.orders[0].insurance_result_fee))
+
+                                                $("#special_result_fee").text(formatNumber(value.orders[0].special_result_fee))
 
                                                 if(value.sfa !=null){
                                                     $("#fee_shipping_inside_jp").text(formatNumber(value.sfa.shipping_inside))
@@ -702,11 +700,11 @@
                                                     $("#table_body_price_shipping").empty()
                                                     $("#table_body_price_shipping").append(
                                                         '<tr>'+
-                                                            '<td>'+sort_order[value.orders.length - 1].pivot.tracking_id+'</td>'+
-                                                            '<td>'+sort_order[value.orders.length - 1].total_weight+'</td>'+
-                                                            '<td>'+sort_order[value.orders.length - 1].fee_ship+'</td>'+
+                                                            '<td>'+value.orders[0].pivot.tracking_id+'</td>'+
+                                                            '<td>'+value.orders[0].total_weight+'</td>'+
+                                                            '<td>'+value.orders[0].fee_ship+'</td>'+
                                                             '<td>'+method_ship+'</td>'+
-                                                            '<td>'+formatNumber(sort_order[value.orders.length - 1].total_fee)+' VNĐ</td>'+
+                                                            '<td>'+formatNumber(value.orders[0].total_fee)+' VNĐ</td>'+
                                                         +'</tr>'
                                                     )
                                                 }
@@ -817,7 +815,7 @@
                                                             $("#id_order").empty()
                                                             $("#money").empty()
                                                             $("#id_order").text(value.id)
-                                                            $("#money").text(formatNumber(sort_order[value.orders.length - 1].total_fee)+ " VNĐ")
+                                                            $("#money").text(formatNumber(value.orders[0].total_fee)+ " VNĐ")
                                                         }
 
                                                         $("#time_line").empty()
@@ -877,7 +875,7 @@
                                                             $("#money").empty()
                                                             if(value.orders.length!=0){
                                                                 $("#id_order").text(value.id)
-                                                                $("#money").text(formatNumber(sort_order[value.orders.length - 1].total_fee)+ " VNĐ")
+                                                                $("#money").text(formatNumber(value.orders[0].total_fee)+ " VNĐ")
                                                             }
                                                             $.each(value.boxes[0].logs,function(index,value) {
                                                                 let keyObject =Object.keys(value.content)
@@ -1018,7 +1016,7 @@
                                                             $("#id_order").empty()
                                                             $("#money").empty()
                                                             $("#id_order").text(value.id)
-                                                            $("#money").text(formatNumber(sort_order[value.orders.length - 1].total_fee)+ " VNĐ")
+                                                            $("#money").text(formatNumber(value.orders[0].total_fee)+ " VNĐ")
                                                             if(value.logs.length){
                                                                 var total_pay = 0
                                                                 var matchedLogIdx = value.logs.findIndex((log) => {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\transactions\TransactionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,6 +75,10 @@ Route::prefix('shipment')->name('shipment.')->namespace('shipments')->group(func
     Route::resource('', 'ShipmentsController')->parameters([
         '' => 'shipment'
     ]);
+});
+
+Route::prefix('transactions')->name('transaction.')->namespace('transactions')->group(function(){
+    Route::resource('', 'TransactionsController');
 });
 
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {

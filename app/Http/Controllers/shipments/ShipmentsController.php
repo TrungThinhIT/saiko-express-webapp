@@ -36,9 +36,31 @@ class ShipmentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data = $request->cookie('token');
+        $data = unserialize($data);
+
+        $token = $data['token_type'] . ' ' . $data['access_token'];
+        $param_search_shipment = [
+            'search' => 'user_id:' . $data['id'],
+            'searchFields' => 'user_id:=',
+            'page' => $request->page_shipment ?? 1,
+        ];
+
+        $shipment_info = Http::withHeaders([
+            'Accept-Language' => 'vi',
+            'Accept' => 'application/json',
+            'Authorization' => $token,
+        ])->get('http://auth.tomonisolution.com:82/api/shipment-infos', $param_search_shipment);
+
+        $shipment_info = json_decode($shipment_info, true);
+        if ($request->shipment) {
+            return response()->json(['list_address' => $shipment_info]);
+        }
+        $data = array_merge($data, ['list_address' => $shipment_info]);
+
+        return view('manager.address', compact('data'));
     }
 
     /**

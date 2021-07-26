@@ -143,33 +143,33 @@ class AuthController extends Controller
             'Authorization' => $token,
         ])->get('http://auth.tomonisolution.com:82/api/shipment-infos', $param_search_shipment);
 
-        $shipment_info = json_decode($shipment_info, true);
-        if ($request->shipment) {
-            return response()->json(['list_address' => $shipment_info]);
-        }
-        $data = array_merge($data, ['list_address' => $shipment_info]);
-        //transactions
-        $param_search_transactions = [
-            'search' => 'user_id:' . $data['id'],
-            'searchFields' => 'user_id:=',
-            'orderBy' => 'created_at',
-            'sortedBy' => 'desc',
-            'page' => $request->page_transaction ?? 1,
-        ];
+        // $shipment_info = json_decode($shipment_info, true);
+        // if ($request->shipment) {
+        //     return response()->json(['list_address' => $shipment_info]);
+        // }
+        // $data = array_merge($data, ['list_address' => $shipment_info]);
+        // //transactions
+        // $param_search_transactions = [
+        //     'search' => 'user_id:' . $data['id'],
+        //     'searchFields' => 'user_id:=',
+        //     'orderBy' => 'created_at',
+        //     'sortedBy' => 'desc',
+        //     'page' => $request->page_transaction ?? 1,
+        // ];
 
-        $transactions = Http::withHeaders([
-            'Accept-Language' => 'vi',
-            'Accept' => 'application/json',
-            'Authorization' => $token,
-        ])->get('http://accounting.tomonisolution.com:82/api/transactions', $param_search_transactions);
+        // $transactions = Http::withHeaders([
+        //     'Accept-Language' => 'vi',
+        //     'Accept' => 'application/json',
+        //     'Authorization' => $token,
+        // ])->get('http://accounting.tomonisolution.com:82/api/transactions', $param_search_transactions);
 
-        $transactions = json_decode($transactions, true);
-        if ($request->transaction) {
-            return response()->json(['transactions' => $transactions]);
-        }
-        $data = array_merge($data, ['transactions' => $transactions]);
+        // $transactions = json_decode($transactions, true);
+        // if ($request->transaction) {
+        //     return response()->json(['transactions' => $transactions]);
+        // }
+        // $data = array_merge($data, ['transactions' => $transactions]);
 
-        return view('login.info', compact('data'));
+        return view('manager.information', compact('data'));
     }
 
     public function updateUser(Request $request)
