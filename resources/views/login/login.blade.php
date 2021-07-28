@@ -440,7 +440,7 @@
                 },
                 success: function(respone) {
                     if (respone.code == 200) {
-                        window.location.href = "{{ route('index') }}";
+                        window.location.href = "{{ route('auth.info') }}";
                     } else {
                         $("#alert-errors").append(
                             "<span class='text-danger'>" + "Email hoặc mật khẩu sai" +

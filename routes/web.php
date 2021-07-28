@@ -77,8 +77,12 @@ Route::prefix('shipment')->name('shipment.')->namespace('shipments')->group(func
     ]);
 });
 
-Route::prefix('transactions')->name('transaction.')->namespace('transactions')->group(function(){
+Route::prefix('transactions')->name('transaction.')->namespace('transactions')->group(function () {
     Route::resource('', 'TransactionsController');
+});
+
+Route::prefix('orders')->namespace('orders')->name('orders.')->group(function () {
+    Route::resource('', 'OrdersController');
 });
 
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {

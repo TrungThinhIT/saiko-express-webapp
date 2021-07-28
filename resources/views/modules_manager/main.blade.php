@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title') </title>
+    <link rel="shortcut icon" href="assets/images/logofacebook.png" />
+
     <base href="{{ asset('') }}">
     <!-- plugins:css -->
     <link rel="stylesheet" href="assets_mn/vendors/feather/feather.css">
@@ -15,17 +17,17 @@
     <link rel="stylesheet" href="assets_mn/vendors/typicons/typicons.css">
     <link rel="stylesheet" href="assets_mn/vendors/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="assets_mn/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="assets_mn/css/vertical-layout-light/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="assets_mn/images/favicon.png" />
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="assets_mn/js/jquery.masknumber.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <style>
         body {
             font-family: 'Roboto', sans-serif !important;
@@ -33,8 +35,16 @@
             font-weight: 500
         }
 
+        .fix-select {
+            appearance: auto !important;
+        }
+
+        .card {
+            border-radius: unset !important;
+        }
+
         #sidebar {
-            background-color: #fca901;
+            background-color: #ffaf00;
         }
 
         .set-bg-saiko {
@@ -43,6 +53,14 @@
 
         .content-wrapper {
             background-color: white;
+        }
+
+        .set-overflow {
+            overflow: auto;
+        }
+
+        .require {
+            color: red
         }
 
         .loader {
@@ -62,8 +80,12 @@
             animation: spin 2s linear infinite;
         }
 
+        .modal {
+            overflow: auto !important;
+        }
+
         .tmn-custom-mask {
-            z-index: 1061 !important;
+            z-index: 1062 !important;
             position: fixed;
             top: 0;
             right: 0;
@@ -100,6 +122,66 @@
             color: green !important;
         }
 
+        #menu-custom {
+            color: #ffaf00 !important;
+            font-size: 30px;
+        }
+
+        .fa-user-circle-o {
+            color: #ffaf00;
+        }
+
+        .fix-overflow {
+            overflow: auto;
+        }
+
+        .navbar {
+            z-index: 1062;
+            border-bottom: #ffaf00 solid !important;
+        }
+
+        .navbar .navbar-brand-wrapper .navbar-toggler {
+            color: #ffaf00;
+        }
+
+        @media (max-width:991px) {
+            .navbar {
+                height: 60px !important;
+            }
+
+            .navbar .navbar-menu-wrapper {
+                border-bottom: #ffaf00 solid !important;
+                height: 60px !important;
+                width: auto !important;
+            }
+
+            .navbar .navbar-brand-wrapper {
+                border-bottom: #ffaf00 solid !important;
+                height: 60px !important;
+                width: auto !important;
+            }
+
+            .navbar .navbar-brand-wrapper .navbar-brand.brand-logo {
+                display: block;
+            }
+
+            #sidebar {
+                z-index: 1062;
+            }
+
+            .sidebar-offcanvas {
+                top: 60px !important;
+            }
+
+            .page-body-wrapper {
+                padding-top: 80px;
+            }
+
+            .main-panel {
+                min-height: calc(100vh - 80px);
+            }
+        }
+
     </style>
     @yield('css')
 
@@ -109,7 +191,7 @@
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start set-bg-saiko">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start ">
                 <div class="me-3">
                     <button class="navbar-toggler navbar-toggler align-self-center" type="button"
                         data-bs-toggle="minimize">
@@ -118,87 +200,47 @@
                 </div>
                 <div>
                     <a class="navbar-brand brand-logo" href="">
-                        SaikoExpress
-                    </a>
-                    <a class="navbar-brand brand-logo-mini" href="index.html">
-                        <img src="assets_mn/images/logo-mini.svg" alt="logo" />
+                        <img src="assets/images/logosaiko.png" alt="" width="auto">
                     </a>
                 </div>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-top">
 
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
-                            aria-labelledby="countDropdown">
-                            <a class="dropdown-item py-3">
-                                <p class="mb-0 font-weight-medium float-left">You have 7 unread mails </p>
-                                <span class="badge badge-pill badge-primary float-right">View all</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="images/faces/face10.jpg" alt="image" class="img-sm profile-pic">
-                                </div>
-                                <div class="preview-item-content flex-grow py-2">
-                                    <p class="preview-subject ellipsis font-weight-medium text-dark">Marian Garner </p>
-                                    <p class="fw-light small-text mb-0"> The meeting is cancelled </p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="images/faces/face12.jpg" alt="image" class="img-sm profile-pic">
-                                </div>
-                                <div class="preview-item-content flex-grow py-2">
-                                    <p class="preview-subject ellipsis font-weight-medium text-dark">David Grey </p>
-                                    <p class="fw-light small-text mb-0"> The meeting is cancelled </p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item preview-item">
-                                <div class="preview-thumbnail">
-                                    <img src="images/faces/face1.jpg" alt="image" class="img-sm profile-pic">
-                                </div>
-                                <div class="preview-item-content flex-grow py-2">
-                                    <p class="preview-subject ellipsis font-weight-medium text-dark">Travis Jenkins </p>
-                                    <p class="fw-light small-text mb-0"> The meeting is cancelled </p>
-                                </div>
-                            </a>
-                        </div>
-                    </li>
                     <li class="nav-item dropdown d-none d-lg-block user-dropdown">
-                        <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" style="font-size:15px;"
+                            aria-expanded="false">
                             @if (Cookie::get('token') != '')
                                 @php
                                     $data = unserialize(Cookie::get('token'));
                                 @endphp
                                 {{ $data['id'] }}
-                                <i class="fa fa-user" aria-hidden="true"></i>
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                             @endif
 
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" style="top:unset !important"
                             aria-labelledby="UserDropdown">
-                            <a class="dropdown-item"><i
+                            <a class="dropdown-item" href="{{ route('auth.info') }}"><i
                                     class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> Thông tin
                                 cá nhân
                             </a>
-                            <a class="dropdown-item"><i
-                                    class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i>
+                            <a class="dropdown-item" href="{{ route('transaction.index') }}"><i
+                                    class="dropdown-item-icon fa fa-history text-primary me-2"></i>
                                 Lịch sử giao dịch</a>
-                            <a class="dropdown-item"><i
-                                    class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i>
+                            <a class="dropdown-item" href="{{ route('shipment.index') }}"><i
+                                    class="dropdown-item-icon fa fa-address-book-o text-primary me-2"></i>
                                 Sổ địa chỉ</a>
                             <a class="dropdown-item"><i
-                                    class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
+                                    class="dropdown-item-icon fa fa-shopping-basket text-primary me-2"></i>
                                 Quản lí đơn hàng</a>
-                            <a class="dropdown-item"><i
+                            <a class="dropdown-item" href="{{ route('auth.logout') }}"><i
                                     class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Thoát</a>
                         </div>
                     </li>
                 </ul>
                 <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                    data-bs-toggle="offcanvas">
+                    data-bs-toggle="offcanvas" id="menu-custom">
                     <span class="mdi mdi-menu"></span>
                 </button>
             </div>
@@ -403,7 +445,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('auth.info') }}">
-                            <i class="menu-icon mdi mdi-floor-plan"></i>
+                            <i class="menu-icon mdi mdi-account-outline"></i>
                             <span class="menu-title">Thông tin cá nhân</span>
                             {{-- <i class="menu-arrow"></i> --}}
                         </a>
@@ -419,32 +461,43 @@
                             </ul>
                         </div> --}}
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('shipment.index') }}">
-                            <i class="menu-icon mdi mdi-card-text-outline"></i>
+                    <li class="nav-item" id="fix-bg-load-page">
+                        <a class="nav-link" href="javascript:" id="load-page">
+                            <i class="menu-icon fa fa-address-book-o" id="fix-color-icon"></i>
                             <span class="menu-title">Sổ địa chỉ</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"  href="{{ route('transaction.index') }}">
-                            <i class="menu-icon mdi mdi-card-text-outline"></i>
+                        <a class="nav-link" href="{{ route('transaction.index') }}">
+                            <i class="menu-icon fa fa-history"></i>
                             <span class="menu-title">Lịch sử giao dịch</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"  href="javascript:;" aria-expanded="false"
+                        <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                             aria-controls="charts">
-                            <i class="menu-icon mdi mdi-chart-line"></i>
+                            <i class="menu-icon fa fa-shopping-basket" aria-hidden="true"></i>
                             <span class="menu-title">Quản lí đơn hàng</span>
+                            <i class="menu-arrow"></i>
                         </a>
-
+                        <div class="collapse" id="ui-basic">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link" href="javascript:;">Danh
+                                        sách đơn hàng</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('orders.index') }}">Tạo đơn
+                                        hàng</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ route('orders.create') }}">Theo
+                                        dõi đơn hàng</a></li>
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"  href="#tables" aria-expanded="false"
+                        <a class="nav-link" href="{{ route('auth.logout') }}" aria-expanded="false"
                             aria-controls="tables">
                             <i class="menu-icon mdi mdi-table"></i>
                             <span class="menu-title">Thoát</span>
                         </a>
+
                     </li>
                 </ul>
             </nav>
@@ -579,6 +632,12 @@
     <script src="assets_mn/js/dashboard.js"></script>
     <script src="assets_mn/js/Chart.roundedBarCharts.js"></script>
     <script>
+        $(document).ready(function() {
+            $("#load-page").click(function() {
+                window.location.href = "{{ route('shipment.index') }}"
+            })
+        })
+
         function formatNumber(num) {
             return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
         }

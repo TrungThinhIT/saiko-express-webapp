@@ -69,6 +69,7 @@ class AuthController extends Controller
         $data = Http::withHeaders([
             'Accept' => 'application/json'
         ])->post('http://auth.tomonisolution.com:82/api/password/email', $request->all());
+
         return response()->json(['code' => $data->status(), 'data' => $data->body()]);
     }
 
@@ -129,45 +130,6 @@ class AuthController extends Controller
 
         $account = json_decode($account, true);
         $data = array_merge($data, ['account' => $account]);
-
-        //book_address
-        $param_search_shipment = [
-            'search' => 'user_id:' . $data['id'],
-            'searchFields' => 'user_id:=',
-            'page' => $request->page_shipment ?? 1,
-        ];
-
-        $shipment_info = Http::withHeaders([
-            'Accept-Language' => 'vi',
-            'Accept' => 'application/json',
-            'Authorization' => $token,
-        ])->get('http://auth.tomonisolution.com:82/api/shipment-infos', $param_search_shipment);
-
-        // $shipment_info = json_decode($shipment_info, true);
-        // if ($request->shipment) {
-        //     return response()->json(['list_address' => $shipment_info]);
-        // }
-        // $data = array_merge($data, ['list_address' => $shipment_info]);
-        // //transactions
-        // $param_search_transactions = [
-        //     'search' => 'user_id:' . $data['id'],
-        //     'searchFields' => 'user_id:=',
-        //     'orderBy' => 'created_at',
-        //     'sortedBy' => 'desc',
-        //     'page' => $request->page_transaction ?? 1,
-        // ];
-
-        // $transactions = Http::withHeaders([
-        //     'Accept-Language' => 'vi',
-        //     'Accept' => 'application/json',
-        //     'Authorization' => $token,
-        // ])->get('http://accounting.tomonisolution.com:82/api/transactions', $param_search_transactions);
-
-        // $transactions = json_decode($transactions, true);
-        // if ($request->transaction) {
-        //     return response()->json(['transactions' => $transactions]);
-        // }
-        // $data = array_merge($data, ['transactions' => $transactions]);
 
         return view('manager.information', compact('data'));
     }

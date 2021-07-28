@@ -6,8 +6,16 @@
             color: orange;
         }
 
+        .fix-float {
+            float: right;
+        }
+
         .set-overflow {
             overflow: auto !important;
+        }
+
+        .fix-height-ip {
+            height: 3rem !important;
         }
 
         #province,
@@ -15,6 +23,14 @@
         #ward {
             background-color: white !important;
             color: black !important;
+        }
+
+        #note-update {
+            height: unset;
+        }
+
+        #note {
+            height: unset;
         }
 
         #province-update,
@@ -33,10 +49,38 @@
             background-color: silver !important;
         }
 
+        #fix-bg-load-page {
+            background: #fff;
+
+            border-radius: 0px 20px 20px 0px;
+        }
+
+        #load-page {
+            position: relative;
+            font-weight: bold;
+            font-size: 13px;
+            color: #1F3BB3;
+            font-weight: bold;
+        }
+
+        #fix-color-icon {
+            color: #1F3BB3;
+        }
+
+
+
+        @media (max-width:1000px) {
+
+            .modal-lg,
+            .modal-xl {
+                width: 90%;
+            }
+        }
+
     </style>
 @section('content')
     @if (isset($data['list_address']))
-        <div class="col-md-12 ">
+        <div class="col-md-12 p-2 fix-overflow">
             <div class="card ">
                 <div class="card-header">
                     <div class="row">
@@ -51,7 +95,7 @@
                 <div class="card-body custom-background set-overflow">
                     <table class="table table-striped set-border-radius" id="fix-stt">
                         <thead>
-                            <tr style="color:black;" class="text-center">
+                            <tr style="color:black; font-weight:900" class="text-center">
                                 <td class="unset-border-bottom">STT</td>
                                 <td class="unset-border-bottom">Tên người nhận</td>
                                 <td class="unset-border-bottom">Số điện thoại</td>
@@ -88,7 +132,7 @@
                         </tbody>
                     </table>
                     <div class="mt-4 ">
-                        <nav aria-label="Page navigation example">
+                        <nav aria-label="Page navigation example" class="fix-float">
                             <ul class="pagination custom-paginate" id="fix-paginate-address">
                                 <li class="page-item">
                                     <a class="page-link address" href="#" aria-label="Previous" data-page="1">
@@ -124,47 +168,48 @@
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Tên người gửi</label>
-                                        <input type="text" class="form-control" id="inputSender-name"
+                                        <input type="text" class="form-control fix-height-ip" id="inputSender-name"
                                             placeholder="Nhập tên người nhận">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Số điện thoại</label>
-                                        <input type="number" class="form-control" id="inputSender-tel"
+                                        <input type="number" class="form-control fix-height-ip" id="inputSender-tel"
                                             placeholder="Nhập số điện thoại người gửi">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Tên người nhận</label>
-                                        <input type="text" class="form-control" id="consignee"
+                                        <input type="text" class="form-control fix-height-ip" id="consignee"
                                             placeholder="Nhập tên người nhận">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="fix-width-label">Số điện thoại người nhận</label>
-                                        <input type="number" class="form-control" id="consignee-tel"
+                                        <input type="number" class="form-control fix-height-ip" id="consignee-tel"
                                             placeholder="Nhập số điện thoại">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Thành phố/Tỉnh</label>
-                                        <select class="form-control" name="province" id="province"
+                                        <select class="form-control fix-select fix-height-ip" name="province" id="province"
                                             onchange="Select_Provice(this)"></select>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputPassword4">Quận/Huyện</label>
-                                        <select class="form-control" name="district" id="district"
+                                        <select class="form-control fix-select fix-height-ip" name="district" id="district"
                                             onchange="Select_District(this)"></select>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Xã/Phường</label>
-                                        <select class="form-control" name="ward" id="ward"></select>
+                                        <select class="form-control fix-select fix-height-ip" name="ward"
+                                            id="ward"></select>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Số nhà tên đường</label>
-                                        <input type="text" class="form-control" id="address-home"
+                                        <input type="text" class="form-control fix-height-ip" id="address-home"
                                             placeholder="Nhập địa chỉ nhà">
                                     </div>
                                 </div>
@@ -203,50 +248,52 @@
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Tên người gửi</label>
-                                        <input type="text" class="form-control empty-input" id="inputSender-name-update"
-                                            placeholder="Nhập tên người nhận">
+                                        <input type="text" class="form-control empty-input fix-height-ip"
+                                            id="inputSender-name-update" placeholder="Nhập tên người nhận">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Số điện thoại</label>
-                                        <input type="number" class="form-control empty-input" id="inputSender-tel-update"
-                                            placeholder="Nhập số điện thoại người gửi">
+                                        <input type="number" class="form-control empty-input fix-height-ip"
+                                            id="inputSender-tel-update" placeholder="Nhập số điện thoại người gửi">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Tên người nhận</label>
-                                        <input type="text" class="form-control empty-input" id="consignee-update"
-                                            placeholder="Nhập tên người nhận">
+                                        <input type="text" class="form-control empty-input fix-height-ip"
+                                            id="consignee-update" placeholder="Nhập tên người nhận">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="fix-width-label">Số điện thoại người
                                             nhận</label>
-                                        <input type="number" class="form-control empty-input" id="consignee-tel-update"
-                                            placeholder="Nhập số điện thoại">
+                                        <input type="number" class="form-control empty-input fix-height-ip"
+                                            id="consignee-tel-update" placeholder="Nhập số điện thoại">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Thành phố/Tỉnh</label>
-                                        <select class="form-control empty-input-select" name="province" id="province-update"
+                                        <select class="form-control empty-input-select fix-select fix-height-ip"
+                                            name="province" id="province-update"
                                             onchange="Select_Provice_Update(this)"></select>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputPassword4">Quận/Huyện</label>
-                                        <select class="form-control empty-input-select" name="district" id="district-update"
+                                        <select class="form-control empty-input-select fix-select fix-height-ip"
+                                            name="district" id="district-update"
                                             onchange="Select_District_Update(this)"></select>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Xã/Phường</label>
-                                        <select class="form-control empty-input-select" name="ward"
+                                        <select class="form-control empty-input-select fix-select fix-height-ip" name="ward"
                                             id="ward-update"></select>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Số nhà tên đường</label>
-                                        <input type="text" class="form-control empty-input" id="address-home-update"
-                                            placeholder="Nhập địa chỉ nhà">
+                                        <input type="text" class="form-control empty-input fix-height-ip"
+                                            id="address-home-update" placeholder="Nhập địa chỉ nhà">
                                     </div>
                                 </div>
                                 <div class="row">

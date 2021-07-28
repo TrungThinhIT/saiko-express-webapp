@@ -27,16 +27,6 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <style>
-        @media (max-width: 576px) {
-            .phone-mobile {
-                margin-left: 88px;
-            }
-
-            /* .form-top{
-   width: 100% !important;
-  } */
-        }
-
         .table-striped>tbody>tr:nth-child(odd)>td,
         .table-striped>tbody>tr:nth-child(odd)>th {
             background-color: #fad792; // Choose your own color here
@@ -193,6 +183,20 @@
             -webkit-transform: rotate(45deg);
         }
 
+        @media (max-width:479px) {
+            .pro_call {
+                text-align: left !important;
+            }
+        }
+
+        .col-xs-12 {
+            width: auto;
+        }
+
+        #fix-float {
+            float: right;
+        }
+
     </style>
 
 <body>
@@ -204,12 +208,12 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <div class="pro_call">
+                            <div class="pro_call text-left">
                                 <span>Hotline <i class="fa fa-volume-control-phone" aria-hidden="true"></i>
                                     <span class="phone-mobile"> 1900.2149(VN)</span></span>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="fix-float">
                             <div class="ed_info_wrapper">
                                 <ul>
                                     <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip"

@@ -18,10 +18,25 @@
             text-align: center;
         }
 
+        @media (max-width:1024px) {
+            .col-md-4 {
+                width: 100% !important;
+            }
+
+            .row {
+                --bs-gutter-x: unset !important;
+                display: unset !important;
+            }
+
+            .stretch-card {
+                display: unset !important;
+            }
+        }
+
     </style>
 @section('content')
     <div class="col-md-4 p-3 h-100">
-        <div id="info" class="border border-warning ">
+        <div id="info" class="border border-warning h-100">
             <div class="panel panel-info">
                 {{-- header --}}
                 <div class="panel-heading bg-warning">
@@ -88,7 +103,7 @@
     </div>
     {{-- change passsword --}}
     <div class="col-md-4 p-3 h-100">
-        <div id="changepass" class="border border-warning">
+        <div id="changepass" class="border border-warning h-100">
             <div class="panel panel-info">
                 {{-- header --}}
                 <div class="panel-heading bg-warning">
@@ -148,7 +163,7 @@
     </div>
     {{-- debt --}}
     <div class="col-md-4  p-3 h-100">
-        <div id="debt" class="border border-warning ">
+        <div id="debt" class="border border-warning h-100">
             <div class="panel panel-info">
                 {{-- header --}}
                 <div class="panel-heading bg-warning">
