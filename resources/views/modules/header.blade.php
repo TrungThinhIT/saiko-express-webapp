@@ -189,9 +189,6 @@
             }
         }
 
-        .col-xs-12 {
-            width: auto;
-        }
 
         #fix-float {
             float: right;
