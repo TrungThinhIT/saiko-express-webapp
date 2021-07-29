@@ -25,7 +25,6 @@
     <link rel="stylesheet" href="assets_mn/css/vertical-layout-light/style.css">
     <!-- endinject -->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="assets_mn/js/jquery.masknumber.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <style>
@@ -93,7 +92,9 @@
             left: 0;
             background: rgba(0, 0, 0, .5);
         }
-
+        .swal-button {
+            background-color: #fca901 !important;
+        }
         .set-display {
             display: none;
         }
@@ -271,7 +272,7 @@
                     </div>
                 </div>
             </div>
-            <div id="right-sidebar" class="settings-panel">
+            {{-- <div id="right-sidebar" class="settings-panel">
                 <i class="settings-close ti-close"></i>
                 <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
                     <li class="nav-item">
@@ -432,7 +433,7 @@
                     </div>
                     <!-- chat tab ends -->
                 </div>
-            </div>
+            </div> --}}
             <!-- partial -->
             <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -631,6 +632,7 @@
     <!-- Custom js for this page-->
     <script src="assets_mn/js/dashboard.js"></script>
     <script src="assets_mn/js/Chart.roundedBarCharts.js"></script>
+    <script src="assets_mn/js/jquery.masknumber.js"></script>
     <script>
         $(document).ready(function() {
             $("#load-page").click(function() {

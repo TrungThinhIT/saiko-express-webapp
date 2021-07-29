@@ -2,7 +2,10 @@
 @section('title', 'Tạo đơn hàng')
 @section('style')
     <style>
-
+        #modal-addressbook {
+            background-color: rgba(0, 0, 0, .5);
+            display: none;
+        }
 
         #fix-flex {
             flex: unset !important;
@@ -19,6 +22,7 @@
         }
 
         .fix-select {
+            color: black !important;
             background-color: white !important;
         }
 
@@ -32,8 +36,11 @@
         <div class="bg-white rounded p-4">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="mb-2">
-                        <h2>Nhập thông tin kiện hàng</h2>
+                    <div class="row">
+                        <div class="col-md-10 ">
+                            <h2>Nhập thông tin kiện hàng</h2>
+                        </div>
+
                     </div>
                     <div class="mt-4">
                         <h6>Gọi hotline hoặc nhắn tin trực tiếp trên Fanpage Saiko Express (từ 8h đến 19h hàng ngày) để được
@@ -44,16 +51,54 @@
                 </div>
             </div>
             <br>
+            <div class="modal" id="modal-addressbook" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Sổ địa chỉ</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <h5>Chọn địa chỉ</h5>
+                            </div>
+                            <div class="" id="list-address">
+
+                            </div>
+
+                        </div>
+                        <div class="row col-md-12 mt-2">
+                            <div class="p-3">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination custom-paginate" id="paginate-address-book">
+                                    </ul>
+                                </nav>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="close-modal-address">Thoát</button>
+                            <button type="button" class="btn fh-btn" id="sendInfoTracking">Nhập thông tin kiện hàng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row mt-3">
                 <div class="col-md-12">
                     <form action="{{ route('rq_tk.store') }}" method="POST">
                         @csrf
                         <div class="row">
-                            <div class="form-group col-md-4 mb-4">
+                            <div class="form-group col-md-9 mb-4">
                                 <label>Nhập mã Tracking<span class="require">*</span></label>
                                 <input class="form-control" placeholder="Nhập số tracking" name="tracking" id="utracking"
                                     value="{{ old('tracking') }}" type="text" required>
                             </div>
+                            <div class="col-md-3 mt-4">
+                                <button type="button" style="margin-top:6px" class="btn fh-btn form-control"
+                                    id="showModal-address">Sổ địa chỉ</button>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="form-group col-md-4 mb-4">
                                 <label>Tên người gửi<span class="require">*</span></label>
                                 <input class="form-control" placeholder="Tên Facebook hoặc người làm việc với SAIKO"
@@ -62,29 +107,31 @@
                             <div class="form-group col-md-4 mb-4">
                                 <label>Số điện thoại người gửi<span class="require">*</span></label>
                                 <input class="form-control" placeholder="SĐT để nhận thông báo từ Saiko" id="number_send"
-                                    name="phone" value="{{ old('phone') }}" type="text" required>
+                                    name="phone" value="{{ old('phone') }}" type="number" required>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="form-group col-md-4">
                                 <label>Tên người nhận<span class="require">*</span></label>
                                 <input placeholder="Nhập tên người nhận" class="form-control" id="uname_rev"
                                     value="{{ old('name_arr') }}" name="name_arr" type="text" required>
                             </div>
+                        </div>
+                        <div class="row">
+
                             <div class="form-group col-md-4">
                                 <label>Số điện thoại người nhận<span class="require">*</span></label>
                                 <input class="form-control" placeholder="Nhập số điện thoại" id="uphone"
-                                    value="{{ old('phone_arr') }}" name="phone_arr" type="text" required>
+                                    value="{{ old('phone_arr') }}" name="phone_arr" type="number" required>
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Hình thức nhận hàng</label>
                                 <select class="form-control fix-select" id="utypeadd" name="hinhthuc" onchange="onChange()">
                                     <option value="blank" id="first_option">Địa chỉ cụ thể</option>
 
+                                    {{-- <option value="Nhận tại VP Sóc Sơn">Nhận tại VP Sóc Sơn, Hà Nội</option> --}}
+                                    {{-- <option value="Nhận tại VP Đào Tấn">Nhận tại VP Đào Tấn, Hà Nội </option> --}}
+                                    {{-- <option value="Nhận tại VP Tân Bình HCM" id="trip_sea" style="display: none">Nhận tại VP Tân Bình HCM</option> --}}
                                 </select>
                             </div>
-                        </div>
-                        <div id="type-ship" class="row">
                             <div class="form-group col-md-4">
                                 <label>Tỉnh/Thành Phố<span class="require">*</span></label>
                                 <select class="form-control fix-select" id="Utinh" name="tinh" onchange="Select_Tinh(this)">
@@ -94,32 +141,63 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('tinh')
-                                    <div class="alert alert-danger">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </div>
+                        </div>
+                        <div id="type-ship" class="row">
                             <div class="form-group col-md-4">
                                 <label>Quận Huyện<span class="require">*</span></label>
                                 <select class="form-control fix-select" id="Uhuyen" name="huyen"
                                     onchange="Select_Huyen(this)">
                                 </select>
-                                @error('huyen')
-                                    <div class="alert alert-danger">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Phường Xã<span class="require">*</span></label>
                                 <select class="form-control fix-select" id="UPhuongXa" name="xa">
                                 </select>
-                                @error('xa')
-                                    <div class="alert alert-danger">
-                                        {{ $message }}
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="">Hình thức vận chuyển <span class="require">*</span></label>
+                                        <div class="row">
+                                            <div class="col-md-4 ">
+                                                <div class="form-check">
+                                                    <input class="form-check-input ml-0" name="fh_radio" value="Air"
+                                                        id="uair" type="radio" checked>
+                                                    <label class="form-check-label">Đường bay</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 ">
+                                                <div class="form-check">
+                                                    <input class="form-check-input ml-0" name="fh_radio" value="Sea"
+                                                        id="usea" type="radio">
+                                                    <label class="form-check-label">Đường biển</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                @enderror
+
+                                    <span class="checkbox_item " style="display:none"><label><input id="ureparking"
+                                                name="donggoi" value="Repark" type="checkbox">Đóng gói lại kiện hàng
+                                        </label></span>
+                                    <span class="checkbox_item" style="display:none"><label><input id="merge_box"
+                                                name="merge_box" value="1" type="checkbox">Gộp thùng
+                                        </label></span>
+                                    <p>
+                                        @if (session('success'))
+                                            <div class="alert alert-success">
+                                                {{ session('success') }}
+                                            </div>
+                                        @endif
+                                        @if (session('fail'))
+                                            <div class="alert alert-success">
+                                                {{ session('fail') }}
+                                            </div>
+                                        @endif
+                                    </p>
+
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -134,47 +212,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label class="col-form-label">Hình thức vận chuyển <span class="require">*</span></label>
-                            </div>
-                            <div class="col-md-2 mt-2">
-                                <div class="form-check ">
-                                    <input class="form-check-input ml-0" name="fh_radio" value="Air" id="uair" type="radio"
-                                        checked>
-                                    <label class="form-check-label">Đường bay</label>
-                                </div>
-
-                            </div>
-                            <div class="col-md-4 mt-2">
-                                <div class="form-check ">
-                                    <input class="form-check-input ml-0" name="fh_radio" value="Sea" id="usea" type="radio">
-                                    <label class="form-check-label">Đường biển</label>
-                                </div>
-                            </div>
-
-                            <span class="checkbox_item " style="display:none"><label><input id="ureparking" name="donggoi"
-                                        value="Repark" type="checkbox">Đóng gói lại kiện hàng
-                                </label></span>
-                            <span class="checkbox_item" style="display:none"><label><input id="merge_box" name="merge_box"
-                                        value="1" type="checkbox">Gộp thùng
-                                </label></span>
-                            <p>
-                                @if (session('success'))
-                                    <div class="alert alert-success">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
-                                @if (session('fail'))
-                                    <div class="alert alert-success">
-                                        {{ session('fail') }}
-                                    </div>
-                                @endif
-                            </p>
-
-                        </div>
-                        <div class="row text-center">
-
+                        <div class="row text-center mt-2">
                             <p class="field submit">
                                 <button class="btn fh-btn" name="push-tracking" onclick="push_tracking()" type="submit">Nhập
                                     thông tin kiện hàng</button>
@@ -186,7 +224,7 @@
             </div>
             <div>
                 <!-- Modal -->
-                <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog modal-md  modal-confirm" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -196,10 +234,10 @@
                             <div class="modal-footer">
                                 <table class="table" style="border: none !important" id="table_showCreatedTrackings">
                                 </table>
-                                <button class="btn btn-err btn-danger btn-block"  data-dismiss="#myModal"
-                                    aria-label="Close" id="exitForm">Thoát</button>
-                                <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
-                                    id="exitSuccess" style="display:none">Thoát</button>
+                                {{-- <button class="btn btn-err btn-danger btn-block" data-dismiss="#myModal" aria-label="Close"
+                                    id="exitForm">Thoát</button> --}}
+                                <button class="btn btn-danger btn-block" onclick="exitSuccess()" id="exitSuccess"
+                                    style="display:none">Thoát</button>
                             </div>
                         </div>
                     </div>
@@ -268,9 +306,9 @@
                                     <p class="text">Lưu ý: Chúng tối không nhận bảo hiểm đối với hàng dễ vỡ, hư hỏng như là
                                         thuỷ
                                         tinh, máy móc chính xác,...</p>
-                                    <label for="">Nhập số tiền:</label>
-                                    <input class="inpute-insuaran" type="text" pattern="[0-9]" id="insurance_enter" value=""
-                                        min="0">
+                                    <label class="fix-font-size" for="">Nhập số tiền:</label>
+                                    <input class="inpute-insuaran form-control" type="text" pattern="[0-9]"
+                                        id="insurance_enter" value="" min="0">
                                 </div>
                             </div>
                             <div class="row" id="alert_insurance" style="display:none">
@@ -297,13 +335,13 @@
                                 </div>
                             </div>
                             <div class="row" id="enter_special" style="display:none">
-                                <div style="margin-left:15px">
+                                <div>
                                     <p class="text-danger">
                                         Phụ phí thông quan khi nhập cảng Việt Nam là 2% giá trị hàng đặc biệt
                                     </p>
-                                    <label for="">Nhập số tiền:</label>
-                                    <input class="inpute-insuaran" type="text" pattern="[0-9]" id="special_enter" value=""
-                                        min="0">
+                                    <label class="fix-font-size" for="">Nhập số tiền:</label>
+                                    <input class="inpute-insuaran form-control" type="text" pattern="[0-9]"
+                                        id="special_enter" value="" min="0">
                                 </div>
                             </div>
                             <div class="row" id="alert_special" style="display:none">
@@ -324,6 +362,8 @@
                             </p>
                         </div>
                         <div class="modal-footer">
+                            <button type="button" class="btn fh-btn" style="display:none"
+                                id="send_infor_tracking-address-book">Gửi hàng2</button>
                             <button type="button" class="btn fh-btn" id="send_infor_tracking">Gửi hàng</button>
                             <button type="button" class="btn fh-btn" style="background-color: silver !important"
                                 data-dismiss="modal" id="close_modal">Close</button>
@@ -361,13 +401,214 @@
             $("#alert_special").show()
             $('#special_enter').val('0')
         });
+        $(document).on('click', '.pagination .address', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('data-page');
+            fetch_data(page);
+        });
         $(document).ready(function() {
-            // $('#insurance_enter').maskNumber({
-            //     integer: true,
-            // });
-            // $('#special_enter').maskNumber({
-            //     integer: true,
-            // });
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Accept': "application/json"
+                },
+            });
+            $('#close-modal-address').click(function() {
+                $('#modal-addressbook').hide()
+            })
+            $('#send_infor_tracking-address-book').click(function() {
+                var tracking = $('#tracking-address').val();
+                var trip = $('input[name="trip-radio"]:checked', '#trip').val()
+                var shipment_id = $('input[name="addbook"]:checked', '#list-address').val();
+                var full_address = $('#lb-address' + shipment_id).text()
+                var mapObj = {
+                    "_": "",
+                    " ": " ",
+                    "-": "",
+                    ",": " ",
+                };
+                tracking = tracking.replace(/-| |_|,/gi, function(matched) {
+                    return mapObj[matched];
+                });
+                var ShipAir = document.getElementById('uair-address').checked;
+                var ShipSea = document.getElementById('usea-address').checked;
+                var special_price = $("#special_enter").val();
+                var insurance_price = $("#insurance_enter").val();
+                var check_insurance = parseFloat(insurance_price.replaceAll(",", ""))
+                var check_special = parseFloat(special_price.replaceAll(",", ""))
+                if (parseFloat(insurance_price) < 0) {
+                    swal_action("Số tiền không được nhỏ hơn 0")
+                    return
+                }
+                if ($('#check_specialty').prop('checked') == false && $('#check_BH').prop('checked') ==
+                    false) {
+                    swal_action("Vui lòng chọn khai báo bảo hiểm")
+                    return
+                }
+                if (ShipAir) {
+                    if (check_insurance > 20000000) {
+                        swal_action("Bảo hiểm đơn hàng đường bay không được lớn hơn 20,000,000")
+                        return
+                    }
+                    if (check_special > 999999999999) {
+                        swal_action("Bảo hiểm đơn hàng đường bay không được lớn hơn 999,999,999,999")
+                        return
+                    }
+                } else {
+                    if (check_insurance > 50000000) {
+                        swal_action("Bảo hiểm đơn hàng đường biển không được lớn hơn 50,000,000")
+                        return
+                    }
+                    if (check_special > 999999999999) {
+                        swal_action("Bảo hiểm đơn hàng đường bay không được lớn hơn 999,999,999,999")
+                        return
+                    }
+                }
+                if ($('#check_type_special').prop('checked') == false && $('#check_type_special_no').prop(
+                        'checked') == false) {
+                    swal_action("Vui lòng chọn khai báo hàng đặc biệt")
+                    return
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ route('orders.store') }}",
+                    data: {
+                        order: true,
+                        tracking: tracking,
+                        insurance: check_insurance,
+                        special: check_special,
+                        method: trip,
+                        shipment_id: shipment_id,
+                    },
+                    success: function(response) {
+                        alert(response)
+                        return
+                        $("#table_showResultCreatedTrackings").empty()
+                        $.each(response, function(index, value) {
+                            if (value.code == 201) {
+                                $("#table_showResultCreatedTrackings").append(
+                                    "<tr style='border:none'>" +
+                                    "<td style='color:green;border:none !important;text-align:center'>" +
+                                    value
+                                    .message + " " +
+                                    "<i class='fa fa-check' style='color:green'></i>" +
+                                    "</td>" +
+                                    "</tr>"
+                                )
+                            }
+                            if (value.code == 405) {
+                                $("#table_showResultCreatedTrackings").append(
+                                    "<tr style='border:none'>" +
+                                    "<td style='color:#fca901;border:none !important;text-align:center'>" +
+                                    value
+                                    .message + " " +
+                                    "<span><i class='fa fa-warning'></i></span>" +
+                                    "</td>" + "</tr>"
+                                )
+                            }
+                            if (value.code == 422) {
+                                $("#table_showResultCreatedTrackings").append(
+                                    "<tr style='border:none'>" +
+                                    "<td style='color:red;border:none !important;text-align:center'>" +
+                                    value
+                                    .message + " " +
+                                    "<span><i class='fa fa-times'></i></span>" +
+                                    "</td>" +
+                                    "</tr>"
+                                )
+                            }
+                        })
+                        $('#message').html('');
+                        $('#exitForm').hide();
+                        $('#exitSuccess').show();
+                        $('#show_result').show();
+                    }
+                });
+            })
+            $('#sendInfoTracking').click(function() {
+                $('#modal-addressbook').hide()
+            })
+
+            $('#showModal-address').click(function() {
+                var check = $('input[name="addbook"]', '#list-address')
+                if (!check.length) {
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ route('shipment.index') }}",
+                        data: {
+                            shipment: true,
+                        },
+                        success: function(data) {
+                            if (data == 401) {
+                                location.reload()
+                            } else {
+                                if (data.list_address.data.length) {
+                                    $("#list-address").empty()
+                                    $.each(data.list_address.data, function(index, value) {
+
+                                        $("#list-address").append(
+                                            '<div class="form-check">' +
+                                            '<input class="form-check-input" type="radio" name="addbook" id="address' +
+                                            value.id + '" value="' + value.id +
+                                            '">' +
+                                            '<label class="form-check-label" id="lb-address' +
+                                            value
+                                            .id +
+                                            '"for="address"' + value.id +
+                                            '">' +
+                                            value.full_address +
+                                            '</label>' +
+                                            '</div>'
+                                        )
+                                    })
+
+                                    $("#paginate-address-book").empty()
+                                    $("#paginate-address-book").append(
+                                        '<li class="page-item">' +
+                                        '<a class="page-link address" href="#" aria-label="Previous" data-page="1">' +
+                                        '<span aria-hidden="true">&laquo;</span>' +
+                                        '</a>' +
+                                        '</li>'
+                                    )
+                                    for (var first_page = 1; first_page <= data.list_address
+                                        .last_page; first_page++) {
+                                        $("#paginate-address-book").append(
+                                            '<li class="page-item"><a class="page-link address" href="javascript:;"' +
+                                            'data-page="' + first_page + '">' + first_page +
+                                            '</a></li>'
+                                        )
+                                    }
+                                    $("#paginate-address-book").append(
+                                        '<li class="page-item">' +
+                                        '<a class="page-link address" href="#" aria-label="Previous" data-page="' +
+                                        data.list_address
+                                        .last_page + '">' +
+                                        '<span aria-hidden="true">&raquo;</span>' +
+                                        '</a>' +
+                                        '</li>'
+                                    )
+                                }
+                            }
+                        },
+                        error: function(response) {
+
+                        }
+
+                    })
+                }
+                $('#modal-addressbook').css('display', 'block')
+            })
+            // $('#exitForm').click(function(){
+            //     $('#myModal').fadeOut(500)
+            //     // $('.modal-open').hide()
+            //     // $('.modal-backdrop').remove()
+            // })
+            $('#insurance_enter').maskNumber({
+                integer: true,
+            });
+            $('#special_enter').maskNumber({
+                integer: true,
+            });
             $("#close_modal").click(function() {
                 $("#modal_qoute").hide()
             })
@@ -457,159 +698,179 @@
             //     })
             // })
             $("#send_infor_tracking").click(function() {
+                var check_address = $('input[name="addbook"]:checked', '#list-address').val();
 
-                var OptionAdd = $('#utypeadd').val();
-                var AddRev = $("#UaddNumber").val();
-                if (OptionAdd.length > 5) {
-                    AddRev = OptionAdd;
-                }
-                var str = $("#utracking").val();
-                var mapObj = {
-                    "_": "",
-                    " ": " ",
-                    "-": "",
-                    ",": " ",
-                };
-                var Tracking = str.replace(/-| |_|,/gi, function(matched) {
-                    return mapObj[matched];
-                });
-                var checkAir = document.getElementById('uair').value;
-                var checkSea = document.getElementById('usea').value;
-                var province = $("#Utinh").val();
-                var district = $("#Uhuyen").val();
-                var ward = $("#UPhuongXa").val();
-                var Phone = $("#uphone").val();
-                var Name_Send = $("#uname_send").val();
-                var Number_Send = $("#number_send").val();
-                var Name_Rev = $("#uname_rev").val();
-                var Type = $("#utype").val();
-                var Reparking = document.getElementById('ureparking').checked;
-                var ShipAir = document.getElementById('uair').checked;
-                var ShipSea = document.getElementById('usea').checked;
-                var merge_box = $("#merge_box:checked").val()
-                // return
-                var Upx = $('#UPhuongXa').val();
-                var Code_Add = $("#Uhuyen option:selected").val() + "," + $("#Utinh option:selected").val();
-                var UaddNumber = $("#UaddNumber").val();
-                var uphone = $("#uphone").val();
-                var utypeadd = $("#utypeadd").val();
-                var special_price = $("#special_enter").val();
-                var insurance_price = $("#insurance_enter").val();
-                var Note = $("#unote").val();
-                var check_insurance = parseFloat(insurance_price.replaceAll(",", ""))
-                var check_special = parseFloat(special_price.replaceAll(",", ""))
-                if (parseFloat(insurance_price) < 0) {
-                    alert('Số tiền không được nhỏ hơn 0')
-                    return
-                }
-                if ($('#check_specialty').prop('checked') == false && $('#check_BH').prop('checked') ==
-                    false) {
-                    alert('Vui lòng chọn khai báo bảo hiểm')
-                    return
-                }
-                if (ShipAir) {
-                    if (check_insurance > 20000000) {
-                        alert('Bảo hiểm đơn hàng đường bay không được lớn hơn 20,000,000')
+                if (check_address != undefined || check_address == "") {
+
+                    var OptionAdd = $('#utypeadd').val();
+                    var AddRev = $("#UaddNumber").val();
+                    if (OptionAdd.length > 5) {
+                        AddRev = OptionAdd;
+                    }
+                    var str = $("#utracking").val();
+                    var mapObj = {
+                        "_": "",
+                        " ": " ",
+                        "-": "",
+                        ",": " ",
+                    };
+                    var Tracking = str.replace(/-| |_|,/gi, function(matched) {
+                        return mapObj[matched];
+                    });
+                    var checkAir = document.getElementById('uair').value;
+                    var checkSea = document.getElementById('usea').value;
+                    var province = $("#Utinh").val();
+                    var district = $("#Uhuyen").val();
+                    var ward = $("#UPhuongXa").val();
+                    var Phone = $("#uphone").val();
+                    var Name_Send = $("#uname_send").val();
+                    var Number_Send = $("#number_send").val();
+                    var Name_Rev = $("#uname_rev").val();
+                    var Type = $("#utype").val();
+                    var Reparking = document.getElementById('ureparking').checked;
+                    var ShipAir = document.getElementById('uair').checked;
+                    var ShipSea = document.getElementById('usea').checked;
+                    var merge_box = $("#merge_box:checked").val()
+                    // return
+                    var Upx = $('#UPhuongXa').val();
+                    var Code_Add = $("#Uhuyen option:selected").val() + "," + $("#Utinh option:selected")
+                        .val();
+                    var UaddNumber = $("#UaddNumber").val();
+                    var uphone = $("#uphone").val();
+                    var utypeadd = $("#utypeadd").val();
+                    var Note = $("#unote").val();
+                    var special_price = $("#special_enter").val();
+                    var insurance_price = $("#insurance_enter").val();
+                    var check_insurance = parseFloat(insurance_price.replaceAll(",", ""))
+                    var check_special = parseFloat(special_price.replaceAll(",", ""))
+                    if (parseFloat(insurance_price) < 0) {
+                        swal_action("Số tiền không được nhỏ hơn 0")
                         return
                     }
-                    if (check_special > 999999999999) {
-                        alert('Bảo hiểm đơn hàng đường bay không được lớn hơn 999,999,999,999')
+                    if ($('#check_specialty').prop('checked') == false && $('#check_BH').prop('checked') ==
+                        false) {
+                        swal_action("Vui lòng chọn khai báo bảo hiểm")
                         return
                     }
+                    if (ShipAir) {
+                        if (check_insurance > 20000000) {
+                            swal_action("Bảo hiểm đơn hàng đường bay không được lớn hơn 20,000,000")
+                            return
+                        }
+                        if (check_special > 999999999999) {
+                            swal_action("Bảo hiểm đơn hàng đường bay không được lớn hơn 999,999,999,999")
+                            return
+                        }
+                    } else {
+                        if (check_insurance > 50000000) {
+                            swal_action("Bảo hiểm đơn hàng đường biển không được lớn hơn 50,000,000")
+                            return
+                        }
+                        if (check_special > 999999999999) {
+                            swal_action("Bảo hiểm đơn hàng đường bay không được lớn hơn 999,999,999,999")
+                            return
+                        }
+                    }
+                    if ($('#check_type_special').prop('checked') == false && $('#check_type_special_no')
+                        .prop(
+                            'checked') == false) {
+                        swal_action("Vui lòng chọn khai báo hàng đặc biệt")
+                        return
+                    }
+                    $("#first_choose").attr("selected", true)
+                    $("#modal_qoute").hide()
+                    $("#table_showCreatedTrackings").empty()
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        type: 'POST',
+                        url: "{{ route('rq_tk.store') }}",
+                        data: {
+                            special_price: special_price,
+                            insurance: insurance_price,
+                            utypeadd: utypeadd,
+                            TrackingSaiko: Tracking,
+                            Phone: Phone,
+                            Name_Send: Name_Send,
+                            Number_Send: Number_Send,
+                            Name_Rev: Name_Rev,
+                            Add: AddRev,
+                            Type: Type,
+                            Note: Note,
+                            Reparking: Reparking,
+                            ShipAir: ShipAir,
+                            ShipSea: ShipSea,
+                            // Location: '203.205.41.135',
+                            Code_Add: Code_Add,
+                            province: province,
+                            district: district,
+                            ward: ward,
+                            checkAir: checkAir,
+                            checkSea: checkSea,
+                            merge_box: merge_box,
+                        },
+                        success: function(response) {
+                            $("#table_showResultCreatedTrackings").empty()
+                            $.each(response, function(index, value) {
+                                if (value.code == 201) {
+                                    $("#table_showResultCreatedTrackings").append(
+                                        "<tr style='border:none'>" +
+                                        "<td style='color:green;border:none !important;text-align:center'>" +
+                                        value
+                                        .message + " " +
+                                        "<i class='fa fa-check' style='color:green'></i>" +
+                                        "</td>" +
+                                        "</tr>"
+                                    )
+                                }
+                                if (value.code == 405) {
+                                    $("#table_showResultCreatedTrackings").append(
+                                        "<tr style='border:none'>" +
+                                        "<td style='color:#fca901;border:none !important;text-align:center'>" +
+                                        value
+                                        .message + " " +
+                                        "<span><i class='fa fa-warning'></i></span>" +
+                                        "</td>" + "</tr>"
+                                    )
+                                }
+                                if (value.code == 422) {
+                                    $("#table_showResultCreatedTrackings").append(
+                                        "<tr style='border:none'>" +
+                                        "<td style='color:red;border:none !important;text-align:center'>" +
+                                        value
+                                        .message + " " +
+                                        "<span><i class='fa fa-times'></i></span>" +
+                                        "</td>" +
+                                        "</tr>"
+                                    )
+                                }
+                            })
+                            $('#message').html('');
+                            $('#exitForm').hide();
+                            $('#exitSuccess').show();
+                            $('#show_result').show();
+                        }
+                    });
                 } else {
-                    if (check_insurance > 50000000) {
-                        alert('Bảo hiểm đơn hàng đường biển không được lớn hơn 50,000,000')
-                        return
-                    }
-                    if (check_special > 999999999999) {
-                        alert('Bảo hiểm đơn hàng đường bay không được lớn hơn 999,999,999,999')
-                        return
-                    }
+                    alert('a')
                 }
-                if ($('#check_type_special').prop('checked') == false && $('#check_type_special_no').prop(
-                        'checked') == false) {
-                    alert('Vui lòng chọn khai báo hàng đặc biệt')
-                    return
-                }
-                $("#first_choose").attr("selected", true)
-                $("#modal_qoute").hide()
-                $("#table_showCreatedTrackings").empty()
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: 'POST',
-                    url: "{{ route('rq_tk.store') }}",
-                    data: {
-                        special_price: special_price,
-                        insurance: insurance_price,
-                        utypeadd: utypeadd,
-                        TrackingSaiko: Tracking,
-                        Phone: Phone,
-                        Name_Send: Name_Send,
-                        Number_Send: Number_Send,
-                        Name_Rev: Name_Rev,
-                        Add: AddRev,
-                        Type: Type,
-                        Note: Note,
-                        Reparking: Reparking,
-                        ShipAir: ShipAir,
-                        ShipSea: ShipSea,
-                        Location: '203.205.41.135',
-                        Code_Add: Code_Add,
-                        province: province,
-                        district: district,
-                        ward: ward,
-                        checkAir: checkAir,
-                        checkSea: checkSea,
-                        merge_box: merge_box,
-                    },
-                    success: function(response) {
-                        $("#table_showResultCreatedTrackings").empty()
-                        $.each(response, function(index, value) {
-                            if (value.code == 201) {
-                                $("#table_showResultCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:green;border:none !important;text-align:center'>" +
-                                    value
-                                    .message + " " +
-                                    "<i class='fa fa-check' style='color:green'></i>" +
-                                    "</td>" +
-                                    "</tr>"
-                                )
-                            }
-                            if (value.code == 405) {
-                                $("#table_showResultCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:#fca901;border:none !important;text-align:center'>" +
-                                    value
-                                    .message + " " +
-                                    "<span><i class='fa fa-warning'></i></span>" +
-                                    "</td>" + "</tr>"
-                                )
-                            }
-                            if (value.code == 422) {
-                                $("#table_showResultCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:red;border:none !important;text-align:center'>" +
-                                    value
-                                    .message + " " +
-                                    "<span><i class='fa fa-times'></i></span>" +
-                                    "</td>" +
-                                    "</tr>"
-                                )
-                            }
-                        })
-                        $('#message').html('');
-                        $('#exitForm').hide();
-                        $('#exitSuccess').show();
-                        $('#show_result').show();
-                    }
-                });
             })
 
 
         });
+
+        function swal_action(string) {
+            swal({
+                title: string,
+                type: "warning",
+                icon: "warning",
+                showCancelButton: false,
+                confirmButtonColor: "#fca901",
+                confirmButtonText: "Exit",
+                closeOnConfirm: true
+            })
+        }
 
         function exitSuccess() {
             location.reload();
@@ -675,120 +936,180 @@
 
         function push_tracking() {
             event.preventDefault();
-            var OptionAdd = $('#utypeadd').val();
-            var AddRev = $("#UaddNumber").val();
-            if (OptionAdd.length > 5) {
-                AddRev = OptionAdd;
-            }
-            var str = $("#utracking").val();
-            var mapObj = {
-                "_": "",
-                " ": " ",
-                "-": "",
-                ",": " ",
-            };
-            var Tracking = str.replace(/-| |_|,/gi, function(matched) {
-                return mapObj[matched];
-            });
-            var checkAir = document.getElementById('uair').value;
-            var checkSea = document.getElementById('usea').value;
-            var province = $("#Utinh").val();
-            var district = $("#Uhuyen").val();
-            var ward = $("#UPhuongXa").val();
-            var Phone = $("#uphone").val();
-            var Name_Send = $("#uname_send").val();
-            var Number_Send = $("#number_send").val();
-            var Name_Rev = $("#uname_rev").val();
-            var Type = $("#utype").val();
-            var Reparking = document.getElementById('ureparking').checked;
-            var ShipAir = document.getElementById('uair').checked;
-            var ShipSea = document.getElementById('usea').checked;
-            var merge_box = $("#merge_box:checked").val()
-            // return
-            var Upx = $('#UPhuongXa').val();
-            var Code_Add = $("#Uhuyen option:selected").val() + "," + $("#Utinh option:selected").val();
-            var UaddNumber = $("#UaddNumber").val();
-            var uphone = $("#uphone").val();
-            var utypeadd = $("#utypeadd").val();
-            if (OptionAdd.length <= 5) {
-                if (Upx == null || Upx == "") {
-                    $('#message').html('Xin vui lòng chọn Thành Phố Quận/Huyện ');
-                    $('#myModal').modal('show');
-                    return
+            var check_address = $('input[name="addbook"]:checked', '#list-address').val();
+            alert(check_address)
+            if (check_address != undefined || check_address == "") {
+                var OptionAdd = $('#utypeadd').val();
+                var AddRev = $("#UaddNumber").val();
+                if (OptionAdd.length > 5) {
+                    AddRev = OptionAdd;
                 }
-                if (UaddNumber.length <= 4) {
-                    $('#message').html('Nhập thiếu số nhà tên đường');
-                    $('#myModal').modal('show');
+                var str = $("#utracking").val();
+                var mapObj = {
+                    "_": "",
+                    " ": " ",
+                    "-": "",
+                    ",": " ",
+                };
+                var Tracking = str.replace(/-| |_|,/gi, function(matched) {
+                    return mapObj[matched];
+                });
+                var checkAir = document.getElementById('uair').value;
+                var checkSea = document.getElementById('usea').value;
+                var province = $("#Utinh").val();
+                var district = $("#Uhuyen").val();
+                var ward = $("#UPhuongXa").val();
+                var Phone = $("#uphone").val();
+                var Name_Send = $("#uname_send").val();
+                var Number_Send = $("#number_send").val();
+                var Name_Rev = $("#uname_rev").val();
+                var Type = $("#utype").val();
+                var Reparking = document.getElementById('ureparking').checked;
+                var ShipAir = document.getElementById('uair').checked;
+                var ShipSea = document.getElementById('usea').checked;
+                var merge_box = $("#merge_box:checked").val()
+                // return
+                var Upx = $('#UPhuongXa').val();
+                var Code_Add = $("#Uhuyen option:selected").val() + "," + $("#Utinh option:selected").val();
+                var UaddNumber = $("#UaddNumber").val();
+                var uphone = $("#uphone").val();
+                var utypeadd = $("#utypeadd").val();
+                if (OptionAdd.length <= 5) {
+                    if (Upx == null || Upx == "") {
+                        swal_action("Xin vui lòng chọn Thành Phố Quận/Huyện")
+                        return
+                    }
+                    if (UaddNumber.length <= 4) {
+                        swal_action("Nhập thiếu số nhà tên đường")
+                        return
+                    }
                 }
-            }
-            if (Tracking.length <= 7) {
-                document.getElementById("color-success").style.background = '#DF3A01'
-                $('#message').html('Nhập thiếu tracking');
-                $('#myModal').modal('show');
-            } else if (Name_Send.length < 3) {
-                document.getElementById("color-success").style.background = '#DF3A01'
-                $('#message').html('Nhập thiếu tên người gửi!');
-                $('#myModal').modal('show');
-            } else if (Number_Send == '') {
-                document.getElementById("color-success").style.background = '#DF3A01'
-                $('#message').html('Nhập chưa đúng số điện thoại người gửi!');
-                $('#myModal').modal('show');
-            } else if (Number_Send <= 8) {
-                document.getElementById("color-success").style.background = '#DF3A01'
-                $('#message').html('Nhập thiếu số điện thoại người gửi!');
-                $('#myModal').modal('show');
-            } else if (Name_Rev == '') {
-                document.getElementById("color-success").style.background = '#DF3A01'
-                $('#message').html('Nhập thiếu tên người nhận!');
-                $('#myModal').modal('show');
-            } else if (Name_Rev.length < 3) {
-                document.getElementById("color-success").style.background = '#DF3A01'
-                $('#message').html('Tên người nhận quá ngắn!');
-                $('#myModal').modal('show');
-            } else if (AddRev.length < 4) {
-                document.getElementById("color-success").style.background = '#DF3A01'
-                $('#message').html('Nhập thiếu địa chỉ!');
-                $('#myModal').modal('show');
-            } else if (Phone == '') {
-                document.getElementById("color-success").style.background = '#DF3A01'
-                $('#message').html('Chưa nhập số điện thoại người nhận!');
-                $('#myModal').modal('show');
-            } else if (Phone.length <= 8) {
-                document.getElementById("color-success").style.background = '#DF3A01'
-                $('#message').html('Nhập thiếu số điện thoại người nhận');
-                $('#myModal').modal('show');
-            } else if (uphone == '') {
-                document.getElementById("color-success").style.background = '#DF3A01'
-                $('#message').html('Nhập số điện thoại người nhận');
-                $('#myModal').modal('show');
-            } else if (Number_Send.length <= 8) {
-                document.getElementById("color-success").style.background = '#DF3A01'
-                $('#message').html('Nhập thiếu số điện thoại người gửi');
-                $('#myModal').modal('show');
+                if (Tracking.length <= 7) {
+                    swal_action("Nhập thiếu tracking")
+                } else if (Name_Send.length < 3) {
+                    swal_action("Nhập thiếu tên người gửi!")
+                } else if (Number_Send == '') {
+                    swal_action("Nhập chưa đúng số điện thoại người gửi!")
+                } else if (Number_Send <= 8) {
+                    swal_action("Nhập thiếu số điện thoại người gửi!")
+                } else if (Name_Rev == '') {
+                    swal_action("Nhập thiếu tên người nhận!")
+                } else if (Name_Rev.length < 3) {
+                    swal_action("Tên người nhận quá ngắn!")
+                } else if (AddRev.length < 4) {
+                    swal_action("Nhập thiếu địa chỉ!")
+                } else if (Phone == '') {
+                    swal_action("Chưa nhập số điện thoại người nhận!")
+                } else if (Phone.length <= 8) {
+                    swal_action("Nhập thiếu số điện thoại người nhận")
+                } else if (uphone == '') {
+                    swal_action("Nhập số điện thoại người nhận")
+                } else if (Number_Send.length <= 8) {
+                    swal_action("Nhập thiếu số điện thoại người gửi")
+                } else {
+                    if (Tracking.length > 7 && Phone.length > 8 && Name_Send.length > 2 && Name_Rev.length > 2 &&
+                        Number_Send
+                        .length > 8 && (ShipAir == true | ShipSea == true) && (Upx != null || OptionAdd.length > 5) && (
+                            UaddNumber.length >= 4 || OptionAdd.length > 5)) {
+                        $("#address_modal").empty()
+                        $("#method_modal").empty()
+                        var address_modal = '';
+                        var method_modal = '';
+                        if (OptionAdd.length > 5) {
+                            address_modal = $("#utypeadd option:selected").text()
+                        } else {
+                            address_modal = $("#UaddNumber").val() + ',' + $("#UPhuongXa option:selected").text() + ',' + $(
+                                "#Uhuyen option:selected").text() + ',' + $("#Utinh option:selected").text()
+                        }
+                        if (ShipAir) {
+                            method_modal = 'Vận chuyển đường bay'
+                        } else {
+                            method_modal = 'Vận chuyển đường biển'
+                        }
+                        $("#address_modal").text(address_modal)
+                        $("#method_modal").text(method_modal)
+                        $('#send_infor_tracking-address-book').hide()
+                        $('#send_infor_tracking').show()
+                        $("#modal_qoute").show()
+                    }
+                }
             } else {
-                if (Tracking.length > 7 && Phone.length > 8 && Name_Send.length > 2 && Name_Rev.length > 2 && Number_Send
-                    .length > 8 && (ShipAir == true | ShipSea == true) && (Upx != null || OptionAdd.length > 5) && (
-                        UaddNumber.length >= 4 || OptionAdd.length > 5)) {
-                    $("#address_modal").empty()
-                    $("#method_modal").empty()
-                    var address_modal = '';
-                    var method_modal = '';
-                    if (OptionAdd.length > 5) {
-                        address_modal = $("#utypeadd option:selected").text()
-                    } else {
-                        address_modal = $("#UaddNumber").val() + ',' + $("#UPhuongXa option:selected").text() + ',' + $(
-                            "#Uhuyen option:selected").text() + ',' + $("#Utinh option:selected").text()
-                    }
-                    if (ShipAir) {
-                        method_modal = 'Vận chuyển đường bay'
-                    } else {
-                        method_modal = 'Vận chuyển đường biển'
-                    }
-                    $("#address_modal").text(address_modal)
-                    $("#method_modal").text(method_modal)
-                    $("#modal_qoute").show()
-                }
+                var tracking = $("#utracking").val();
+                var mapObj = {
+                    "_": "",
+                    " ": " ",
+                    "-": "",
+                    ",": " ",
+                };
+                var tracking = str.replace(/-| |_|,/gi, function(matched) {
+                    return mapObj[matched];
+                });
             }
+        }
+
+        function fetch_data(page) {
+            $.ajax({
+                type: "GET",
+                url: "{{ route('shipment.index') }}",
+                data: {
+                    shipment: true,
+                    page_shipment: page
+                },
+                success: function(data) {
+                    if (data == 401) {
+                        location.reload()
+                    } else {
+                        if (data.list_address.data.length) {
+                            $("#list-address").empty()
+                            $.each(data.list_address.data, function(index, value) {
+
+                                $("#list-address").append(
+                                    '<div class="form-check">' +
+                                    '<input class="form-check-input" type="radio" name="addbook" id="address' +
+                                    value.id + '" value="' + value.id + '">' +
+                                    '<label class="form-check-label" id="lb-address' +
+                                    value
+                                    .id +
+                                    '"for="address"' + value.id +
+                                    '">' +
+                                    value.full_address +
+                                    '</label>' +
+                                    '</div>'
+                                )
+                            })
+
+                            $("#paginate-address-book").empty()
+                            $("#paginate-address-book").append(
+                                '<li class="page-item">' +
+                                '<a class="page-link address" href="#" aria-label="Previous" data-page="1">' +
+                                '<span aria-hidden="true">&laquo;</span>' +
+                                '</a>' +
+                                '</li>'
+                            )
+                            for (var first_page = 1; first_page <= data.list_address
+                                .last_page; first_page++) {
+                                $("#paginate-address-book").append(
+                                    '<li class="page-item"><a class="page-link address" href="javascript:;"' +
+                                    'data-page="' + first_page + '">' + first_page + '</a></li>'
+                                )
+                            }
+                            $("#paginate-address-book").append(
+                                '<li class="page-item">' +
+                                '<a class="page-link address" href="#" aria-label="Previous" data-page="' +
+                                data.list_address
+                                .last_page + '">' +
+                                '<span aria-hidden="true">&raquo;</span>' +
+                                '</a>' +
+                                '</li>'
+                            )
+                        }
+                    }
+
+                },
+                error: function(response) {
+
+                }
+            })
         }
 
     </script>

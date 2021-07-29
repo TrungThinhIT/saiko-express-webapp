@@ -124,6 +124,10 @@ class ShipmentsController extends Controller
         }
 
         $info = json_decode($send, true);
+
+        if ($request->order) {
+            return $info;
+        }
         $param_get_fulladdress = [
             'with' => 'district.province'
         ];

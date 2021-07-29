@@ -75,6 +75,7 @@ Route::prefix('shipment')->name('shipment.')->namespace('shipments')->group(func
     Route::resource('', 'ShipmentsController')->parameters([
         '' => 'shipment'
     ]);
+    Route::get('list-address-book', 'ShipmentsController@listAddressBook')->name('machine.listAddress');
 });
 
 Route::prefix('transactions')->name('transaction.')->namespace('transactions')->group(function () {
@@ -83,6 +84,8 @@ Route::prefix('transactions')->name('transaction.')->namespace('transactions')->
 
 Route::prefix('orders')->namespace('orders')->name('orders.')->group(function () {
     Route::resource('', 'OrdersController');
+    Route::post('regis-order-shipment','orders\OrdersController@store');
+
 });
 
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {

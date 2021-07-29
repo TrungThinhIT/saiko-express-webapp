@@ -5,9 +5,15 @@ namespace App\Http\Controllers\orders;
 use App\Http\Controllers\Controller;
 use App\Models\tinhthanh;
 use Illuminate\Http\Request;
+use App\Http\Controllers\shipments\ShipmentsController as ShipmentsController;
 
 class OrdersController extends Controller
 {
+
+    public function __construct(ShipmentsController $ShipmentsController)
+    {
+        $this->shipmentsController = $ShipmentsController;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +43,12 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $shipment_id = $request->shipment_id;
+        $data = $this->shipmentsController->edit($shipment_id, $request);
+
+        $tracking = explode(" ", $request->tracking);
+        $insurance = str_replace(',', '', $request->insurance);
+        $special_price = str_replace(',', '', $request->special);
     }
 
     /**
@@ -48,7 +59,6 @@ class OrdersController extends Controller
      */
     public function show($id)
     {
-
     }
 
     /**

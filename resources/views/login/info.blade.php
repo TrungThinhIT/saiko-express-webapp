@@ -173,9 +173,7 @@
             z-index: 1051 !important;
         }
 
-        .swal-button {
-            background-color: #fca901 !important;
-        }
+
 
         .swal-icon--success__ring {
             border-color: #fca901 !important;
