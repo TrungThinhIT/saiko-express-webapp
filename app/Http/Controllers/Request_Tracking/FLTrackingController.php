@@ -145,7 +145,7 @@ class FLTrackingController extends Controller
         $data = [
             'conditions[type]' => 'shipping-fee',
             'conditions[shipment-method]' => $method_shipment,
-            'conditions[from]' => 'jp',
+            'conditions[from]' => 'tochigi-jp',
             'conditions[to]' => $province <= 53 ? 'vn-hn' : 'vn-sg',
             'range' => $weight,
             'timeline' =>  $dateSFA,
