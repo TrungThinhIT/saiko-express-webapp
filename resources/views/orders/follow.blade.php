@@ -86,15 +86,40 @@
         p {
             margin-bottom: 0 !important;
         }
-        .stretch-card{
+
+        .stretch-card {
             display: unset !important;
+        }
+
+        .fix-font-size {
+            font-size: 20px;
+        }
+
+        .bg-saiko {
+            background-color: #fad792;
+        }
+
+        .fix-padding-div {
+            padding-right: 23px !important;
+            padding-left: 7px !important;
+        }
+
+        .fix-font-size-li {
+            font-size: 16px !important;
+        }
+        .fh-btn {
+            background-color: #fca901 !important;
+            color: white !important;
+        }
+        .fix-height{
+            height: unset !important;
         }
     </style>
 @section('content')
 
-    <div class="row p-5 fix-overflow" >
-        <div class="col-md-12">
-            <div class="">
+    <div class="row p-5  fix-overflow">
+        <div class="col-md-12  bg-white">
+            <div class="mt-3">
                 <h2>Theo dõi kiện hàng của bạn</h2>
             </div>
             <p>Để theo dõi lộ trình kiện hàng của bạn, vui lòng nhập mã tracking dưới đây:</p>
@@ -104,18 +129,16 @@
                         @csrf
                         <label>Mã Tracking <span class="require">*</span></label>
 
-                        <div class="col-md-8">
-                            <input id="utrack" placeholder="Nhập mã Tracking vào đây" type="text" class="form-control">
+                        <div class="col-md-9">
+                            <input id="utrack" placeholder="Nhập mã Tracking vào đây" type="text" class="form-control fix-height">
                         </div>
 
-                        <div class="col-md-2">
-                            <input value="Theo dõi ngay" class="form-control rounded" type="submit">
+                        <div class="col-md-2 text-center">
+                            <button value="" class="form-control rounded fh-btn fix-height"  type="submit">Theo dõi ngay</button>
                         </div>
                     </div>
                 </div>
             </form>
-        </div>
-        <div class="col-md-12">
             <div class="alert alert-danger" id="statusData" style="display: none;margin-top:20px;">
             </div>
             <div class="row">
@@ -162,56 +185,64 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 m-2" id="declaration_price" style="display:none">
-                            <div class="row" style="background-color: #fad792">
-                                <div class="col-md-6 " >
-                                    <label for="">Giá trị gói bảo hiểm</label>: <span id="insurance_result"></span>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="">Phí bảo hiểm (3%)</label>: <span id="insurance_result_fee"></span>
-                                </div>
+                    <div class="row text-black mt-3 fix-padding-div">
+                        <div class="col-md-12 m-2 bg-saiko" id="declaration_price" style="display:none;font-size:18px">
+                            <div class="row ">
+                                <tr>
+                                    <div class="col-md-6 ">
+                                        <label for="">Giá trị gói bảo hiểm</label>: <span id="insurance_result"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Phí bảo hiểm (3%)</label>: <span id="insurance_result_fee"></span>
+                                    </div>
+                                </tr>
+
                             </div>
-                            <div class="row" style="background-color: #fad792">
-                                <div class="col-md-6" >
-                                <label for="" id="special">Giá trị hàng hoá đặc biệt</label>: <span
-                                            id="special_result"></span>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="" id="special">Giá trị hàng hoá đặc biệt</label>: <span
+                                        id="special_result"></span>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="" id="special">Phí hàng hoá đặc biệt (2%)</label>: <span
-                                            id="special_result_fee"></span>
+                                        id="special_result_fee"></span>
                                 </div>
                             </div>
-                            <div class="row" style="background-color: #fad792">
-                                <div class="col-md-6" >
+                            <div class="row">
+                                <div class="col-md-6">
                                     <label for="" id="shipping_inside_jp">Phí vận chuyển nội địa
-                                            Nhật(Yên)</label>: <span id="fee_shipping_inside_jp"></span>
+                                        Nhật(Yên)</label>: <span id="fee_shipping_inside_jp"></span>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="" id="shipping_inside_vn">Phí vận chuyển nội địa
-                                            Nhật(VNĐ)</label>: <span id="fee_shipping_inside_vn"></span>
+                                        Nhật(VNĐ)</label>: <span id="fee_shipping_inside_vn"></span>
                                 </div>
 
                             </div>
                         </div>
                     </div>
-                    <div class="row p-2 mt-2" id="alert" style="display:none">
-                        <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
-                            <h2 class="text-center text-danger mt-2 font-weight-bold"> <b> PHIẾU YÊU CẦU THANH TOÁN </b></h2>
-                            <p class="text-danger">Xin quý khách vui lòng thanh toán đến STK : <b>19035902493017</b>.
+                    <div class="row p-3 mt-2 " id="alert" style="display:none">
+                        <div class="col-md-12 col-sm-12 bg-saiko ">
+                            <h2 class="text-center text-danger mt-2 font-weight-bold"> <b> PHIẾU YÊU CẦU THANH TOÁN </b>
+                            </h2>
+                            <p class="text-danger fix-font-size">Xin quý khách vui lòng thanh toán đến STK :
+                                <b>19035902493017</b>.
                                 Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png"
-                                    alt="" width="100px"></p>
-                            <p class="text-danger font-weight-bold" style="font-weight: bold"> Nội dung thanh toán :
+                                    alt="" width="100px">
+                            </p>
+                            <p class="text-danger fix-font-size font-weight-bold" style="font-weight: bold"> Nội dung thanh
+                                toán :
                                 <span class="text-danger" style="font-size: 25px" id="id_order"></span>
                             <p>
-                            <p class="text-danger text-uppercase font-weight-bold" style="font-weight: bold">Số tiền
+                            <p class="text-danger fix-font-size text-uppercase font-weight-bold" style="font-weight: bold">
+                                Số tiền
                                 thanh toán: <span id="money" style="font-size: 25px"></span> <span
                                     style="font-weight: normal !important;">( Đã bao gồm phí bảo hiểm, hàng hoá đặc
                                     biệt)</span></p>
                         </div>
                     </div>
-                    <div class="row p-2 mt-2" id="paid" style="display:none">
-                        <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
+                    <div class="row p-2 mt-2 fix-padding-div" id="paid" style="display:none">
+                        <div class="col-md-12 col-sm-12 bg-saiko">
                             <h2 class="text-center text-danger font-weight-bold"> <b> Đã Thanh Toán </b></h2>
                             <h2 class="text-center text-danger">Cảm Ơn Quý Khách</h2>
                         </div>
@@ -219,7 +250,7 @@
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-custome">
                             <div class="lftredbrdr">
-                                <ul class="timeline" id="time_line">
+                                <ul class="timeline fix-font-size-li" id="time_line">
 
                                 </ul>
                             </div>
@@ -289,6 +320,8 @@
             return true;
         }
         $(document).ready(function() {
+            $('#ui-basic').addClass('show');
+            $('#follow-order').addClass('active')
             $(document).ajaxStart(function() {
                 $("#loader").show();
             });
@@ -596,12 +629,19 @@
                                                     '</tr>'
                                                 )
                                                 if (value.boxes.length == 1) {
-                                                    if (value.orders.length !=0) {
+                                                    if (value.orders.length !=
+                                                        0) {
                                                         $("#alert").show()
                                                         $("#id_order").empty()
                                                         $("#money").empty()
-                                                        $("#id_order").text(value.id)
-                                                        $("#money").text(formatNumber(value.orders[0].total_fee) + " VNĐ")
+                                                        $("#id_order").text(
+                                                            value.id)
+                                                        $("#money").text(
+                                                            formatNumber(
+                                                                value
+                                                                .orders[0]
+                                                                .total_fee
+                                                            ) + " VNĐ")
                                                     }
 
                                                     $("#time_line").empty()
@@ -619,56 +659,131 @@
                                                         )
                                                         if (value.logs.length) {
                                                             var total_pay = 0;
-                                                            var matchedLogIdx =value.logs.findIndex((log) => {
-                                                                    return !!log?.content?.transaction
+                                                            var matchedLogIdx =
+                                                                value.logs
+                                                                .findIndex((
+                                                                    log
+                                                                ) => {
+                                                                    return !
+                                                                        !log
+                                                                        ?.content
+                                                                        ?.transaction
                                                                 });
-                                                            $.each(value.logs,function(logs_index,logs_value) {
-                                                                    let keyObjectLogMerge =Object.keys(logs_value.content)
-                                                                    var statusLogMerge;
-                                                                    if (matchedLogIdx === -1) {
-                                                                        if (keyObjectLogMerge =="updated_at,service_fee_paid") {
-                                                                            total_pay+=logs_value.content.service_fee_paid
-                                                                            statusLogMerge="Đã thanh toán " +formatNumber(logs_value.content.service_fee_paid)
+                                                            $.each(value.logs,
+                                                                function(
+                                                                    logs_index,
+                                                                    logs_value
+                                                                ) {
+                                                                    let keyObjectLogMerge =
+                                                                        Object
+                                                                        .keys(
+                                                                            logs_value
+                                                                            .content
+                                                                        )
+                                                                    var
+                                                                        statusLogMerge;
+                                                                    if (matchedLogIdx ===
+                                                                        -1
+                                                                    ) {
+                                                                        if (keyObjectLogMerge ==
+                                                                            "updated_at,service_fee_paid"
+                                                                        ) {
+                                                                            total_pay
+                                                                                +=
+                                                                                logs_value
+                                                                                .content
+                                                                                .service_fee_paid
+                                                                            statusLogMerge
+                                                                                =
+                                                                                "Đã thanh toán " +
+                                                                                formatNumber(
+                                                                                    logs_value
+                                                                                    .content
+                                                                                    .service_fee_paid
+                                                                                )
                                                                         }
                                                                     } else {
-                                                                        if (keyObjectLogMerge =="transaction") {
-                                                                            statusLogMerge = "Đã thanh toán " +formatNumber(logs_value.content.transaction.amount)
-                                                                            total_pay+=logs_value.content.transaction.amount
+                                                                        if (keyObjectLogMerge ==
+                                                                            "transaction"
+                                                                        ) {
+                                                                            statusLogMerge
+                                                                                =
+                                                                                "Đã thanh toán " +
+                                                                                formatNumber(
+                                                                                    logs_value
+                                                                                    .content
+                                                                                    .transaction
+                                                                                    .amount
+                                                                                )
+                                                                            total_pay
+                                                                                +=
+                                                                                logs_value
+                                                                                .content
+                                                                                .transaction
+                                                                                .amount
                                                                         }
                                                                     }
 
-                                                                    if (statusLogMerge !=undefined) {
-                                                                        $("#time_line").append(
-                                                                            '<li>' +
-                                                                            '<a>' +
-                                                                            statusLogMerge +
-                                                                            '</a>' +
-                                                                            '<p>' +
-                                                                            logs_value
-                                                                            .created_at +
-                                                                            '</p>' +
-                                                                            '</li>'
-                                                                        )
+                                                                    if (statusLogMerge !=
+                                                                        undefined
+                                                                    ) {
+                                                                        $("#time_line")
+                                                                            .append(
+                                                                                '<li>' +
+                                                                                '<a>' +
+                                                                                statusLogMerge +
+                                                                                '</a>' +
+                                                                                '<p>' +
+                                                                                logs_value
+                                                                                .created_at +
+                                                                                '</p>' +
+                                                                                '</li>'
+                                                                            )
                                                                     }
                                                                 })
-                                                            if (pay_money !=undefined) {
-                                                                if (total_pay >=pay_money - 1000) {
-                                                                    $("#alert").show()
-                                                                    if (value.orders.length) {
-                                                                        $("#paid").show()
+                                                            if (pay_money !=
+                                                                undefined) {
+                                                                if (total_pay >=
+                                                                    pay_money -
+                                                                    1000) {
+                                                                    $("#alert")
+                                                                        .show()
+                                                                    if (value
+                                                                        .orders
+                                                                        .length
+                                                                    ) {
+                                                                        $("#paid")
+                                                                            .show()
                                                                     } else {
-                                                                        $("#paid").hide()
+                                                                        $("#paid")
+                                                                            .hide()
                                                                     }
                                                                 }
                                                             }
                                                         }
                                                     } else {
-                                                        var size = "( Dài : " +value.boxes[0].length + "cm" +",Rộng: " + value.boxes[0].width +"cm" + ",Cao: " + value.boxes[0].height + "cm )"
+                                                        var size = "( Dài : " +
+                                                            value.boxes[0]
+                                                            .length + "cm" +
+                                                            ",Rộng: " + value
+                                                            .boxes[0].width +
+                                                            "cm" + ",Cao: " +
+                                                            value.boxes[0]
+                                                            .height + "cm )"
                                                         $("#id_order").empty()
                                                         $("#money").empty()
-                                                        if (value.orders.length != 0) {
-                                                            $("#id_order").text(value.id)
-                                                            $("#money").text(formatNumber(value.orders[0].total_fee) +" VNĐ")
+                                                        if (value.orders
+                                                            .length != 0) {
+                                                            $("#id_order").text(
+                                                                value.id)
+                                                            $("#money").text(
+                                                                formatNumber(
+                                                                    value
+                                                                    .orders[
+                                                                        0]
+                                                                    .total_fee
+                                                                ) +
+                                                                " VNĐ")
                                                         }
                                                         $.each(value.boxes[0]
                                                             .logs,
@@ -755,44 +870,102 @@
                                                                         .content
                                                                         .shipping_code
                                                                 }
-                                                                if (keyObject =="shipping_code" && value.type_id == "updated") {
-                                                                    status = "Cập nhật mã giao hàng: " +value.content.shipping_code
+                                                                if (keyObject ==
+                                                                    "shipping_code" &&
+                                                                    value
+                                                                    .type_id ==
+                                                                    "updated"
+                                                                ) {
+                                                                    status =
+                                                                        "Cập nhật mã giao hàng: " +
+                                                                        value
+                                                                        .content
+                                                                        .shipping_code
                                                                 }
-                                                                if (keyObject == "shipping_code" &&value.type_id == "deleted") {
-                                                                    status ="Huỷ mã giao hàng: " +value.content.shipping_code
+                                                                if (keyObject ==
+                                                                    "shipping_code" &&
+                                                                    value
+                                                                    .type_id ==
+                                                                    "deleted"
+                                                                ) {
+                                                                    status =
+                                                                        "Huỷ mã giao hàng: " +
+                                                                        value
+                                                                        .content
+                                                                        .shipping_code
                                                                 }
-                                                                if (keyObject =="out_container" ||keyObject =="out_container,from,to") {
-                                                                    status ="Nhập kho Việt Nam"
+                                                                if (keyObject ==
+                                                                    "out_container" ||
+                                                                    keyObject ==
+                                                                    "out_container,from,to"
+                                                                ) {
+                                                                    status =
+                                                                        "Nhập kho Việt Nam"
                                                                 }
-                                                                if (keyObject =="outbound_warehouse") {
-                                                                    status = "Xuất kho Việt Nam"
+                                                                if (keyObject ==
+                                                                    "outbound_warehouse"
+                                                                ) {
+                                                                    status =
+                                                                        "Xuất kho Việt Nam"
                                                                 }
-                                                                if (keyObject =="delivery_status") {
-                                                                    if (valueObject =="shipping") {
-                                                                        status="Đang giao hàng"
+                                                                if (keyObject ==
+                                                                    "delivery_status"
+                                                                ) {
+                                                                    if (valueObject ==
+                                                                        "shipping"
+                                                                    ) {
+                                                                        status
+                                                                            =
+                                                                            "Đang giao hàng"
                                                                     }
                                                                 }
-                                                                if (keyObject =="delivery_status") {
-                                                                    if (valueObject =="cancelled") {
-                                                                        status="Hủy box"
+                                                                if (keyObject ==
+                                                                    "delivery_status"
+                                                                ) {
+                                                                    if (valueObject ==
+                                                                        "cancelled"
+                                                                    ) {
+                                                                        status
+                                                                            =
+                                                                            "Hủy box"
                                                                     }
                                                                 }
-                                                                if (keyObject =="delivery_status") {
-                                                                    if (valueObject == "received") {
-                                                                        status="Đã nhận hàng"
+                                                                if (keyObject ==
+                                                                    "delivery_status"
+                                                                ) {
+                                                                    if (valueObject ==
+                                                                        "received"
+                                                                    ) {
+                                                                        status
+                                                                            =
+                                                                            "Đã nhận hàng"
                                                                     }
                                                                 }
-                                                                if (keyObject =="delivery_status") {
-                                                                    if (valueObject =="refunded") {
-                                                                        status="Trả lại hàng"
+                                                                if (keyObject ==
+                                                                    "delivery_status"
+                                                                ) {
+                                                                    if (valueObject ==
+                                                                        "refunded"
+                                                                    ) {
+                                                                        status
+                                                                            =
+                                                                            "Trả lại hàng"
                                                                     }
                                                                 }
-                                                                if (keyObject =="delivery_status") {
-                                                                    if (valueObject =="waiting_shipment") {
-                                                                        status= "Đợi giao hàng"
+                                                                if (keyObject ==
+                                                                    "delivery_status"
+                                                                ) {
+                                                                    if (valueObject ==
+                                                                        "waiting_shipment"
+                                                                    ) {
+                                                                        status
+                                                                            =
+                                                                            "Đợi giao hàng"
                                                                     }
                                                                 }
-                                                                if (status !=undefined) {
+                                                                if (status !=
+                                                                    undefined
+                                                                ) {
                                                                     $("#time_line")
                                                                         .append(
                                                                             '<li>' +
@@ -810,8 +983,14 @@
                                                         if (value.logs.length) {
                                                             var total_pay = 0;
                                                             var matchedLogIdx =
-                                                                value.logs.findIndex((log) => {
-                                                                    return !!log?.content?.transaction
+                                                                value.logs
+                                                                .findIndex((
+                                                                    log
+                                                                ) => {
+                                                                    return !
+                                                                        !log
+                                                                        ?.content
+                                                                        ?.transaction
                                                                 });
                                                             $.each(value.logs,
                                                                 function(
@@ -826,19 +1005,51 @@
                                                                         )
                                                                     var
                                                                         statusLogMerge;
-                                                                    if (matchedLogIdx ===-1) {
-                                                                        if (keyObjectLogMerge =="updated_at,service_fee_paid") {
-                                                                            total_pay+=logs_value.content.service_fee_paid
-                                                                            statusLogMerge = "Đã thanh toán " +formatNumber(logs_value.content.service_fee_paid)
+                                                                    if (matchedLogIdx ===
+                                                                        -1
+                                                                    ) {
+                                                                        if (keyObjectLogMerge ==
+                                                                            "updated_at,service_fee_paid"
+                                                                        ) {
+                                                                            total_pay
+                                                                                +=
+                                                                                logs_value
+                                                                                .content
+                                                                                .service_fee_paid
+                                                                            statusLogMerge
+                                                                                =
+                                                                                "Đã thanh toán " +
+                                                                                formatNumber(
+                                                                                    logs_value
+                                                                                    .content
+                                                                                    .service_fee_paid
+                                                                                )
                                                                         }
                                                                     } else {
-                                                                        if (keyObjectLogMerge =="transaction") {
-                                                                            total_pay+=logs_value.content.transaction.amount
-                                                                            statusLogMerge="Đã thanh toán " +formatNumber(logs_value.content.transaction.amount)
+                                                                        if (keyObjectLogMerge ==
+                                                                            "transaction"
+                                                                        ) {
+                                                                            total_pay
+                                                                                +=
+                                                                                logs_value
+                                                                                .content
+                                                                                .transaction
+                                                                                .amount
+                                                                            statusLogMerge
+                                                                                =
+                                                                                "Đã thanh toán " +
+                                                                                formatNumber(
+                                                                                    logs_value
+                                                                                    .content
+                                                                                    .transaction
+                                                                                    .amount
+                                                                                )
                                                                         }
                                                                     }
 
-                                                                    if (statusLogMerge !=undefined) {
+                                                                    if (statusLogMerge !=
+                                                                        undefined
+                                                                    ) {
                                                                         $("#time_line")
                                                                             .append(
                                                                                 '<li>' +
@@ -853,13 +1064,22 @@
                                                                             )
                                                                     }
                                                                 })
-                                                            if (pay_money !=undefined) {
-                                                                if (total_pay >=pay_money -1000) {
-                                                                    $("#alert").hide()
-                                                                    if (value.orders.length) {
-                                                                        $("#paid").show()
+                                                            if (pay_money !=
+                                                                undefined) {
+                                                                if (total_pay >=
+                                                                    pay_money -
+                                                                    1000) {
+                                                                    $("#alert")
+                                                                        .hide()
+                                                                    if (value
+                                                                        .orders
+                                                                        .length
+                                                                    ) {
+                                                                        $("#paid")
+                                                                            .show()
                                                                     } else {
-                                                                        $("#paid").hide()
+                                                                        $("#paid")
+                                                                            .hide()
                                                                     }
                                                                 }
                                                             }
@@ -867,40 +1087,96 @@
                                                     }
 
                                                 } else {
-                                                    if (value.orders.length !=0) {
+                                                    if (value.orders.length !=
+                                                        0) {
                                                         $("#alert").show()
                                                         $("#id_order").empty()
                                                         $("#money").empty()
-                                                        $("#id_order").text(value.id)
-                                                        $("#money").text(formatNumber(value.orders[0].total_fee) + " VNĐ")
+                                                        $("#id_order").text(
+                                                            value.id)
+                                                        $("#money").text(
+                                                            formatNumber(
+                                                                value
+                                                                .orders[0]
+                                                                .total_fee
+                                                            ) + " VNĐ")
                                                         if (value.logs.length) {
                                                             var total_pay = 0
-                                                            var matchedLogIdx =value.logs.findIndex((log) => {
-                                                                    return !!log?.content?.transaction
+                                                            var matchedLogIdx =
+                                                                value.logs
+                                                                .findIndex((
+                                                                    log
+                                                                ) => {
+                                                                    return !
+                                                                        !log
+                                                                        ?.content
+                                                                        ?.transaction
                                                                 });
-                                                            $.each(value.logs,function(logs_index,logs_value) {
-                                                                    let keyObjectLogMerge =Object.keys(logs_value.content)
-                                                                    var statusLogMerge;
-                                                                    var created_at_log;
-                                                                    if (matchedLogIdx ===-1) {
-                                                                        if (keyObjectLogMerge == "updated_at,service_fee_paid") {
-                                                                            total_pay += logs_value.content.service_fee_paid
-                                                                            statusLogMerge = "Đã thanh toán " +formatNumber(logs_value.content.service_fee_paid)
+                                                            $.each(value.logs,
+                                                                function(
+                                                                    logs_index,
+                                                                    logs_value
+                                                                ) {
+                                                                    let keyObjectLogMerge =
+                                                                        Object
+                                                                        .keys(
+                                                                            logs_value
+                                                                            .content
+                                                                        )
+                                                                    var
+                                                                        statusLogMerge;
+                                                                    var
+                                                                        created_at_log;
+                                                                    if (matchedLogIdx ===
+                                                                        -1
+                                                                    ) {
+                                                                        if (keyObjectLogMerge ==
+                                                                            "updated_at,service_fee_paid"
+                                                                        ) {
+                                                                            total_pay
+                                                                                +=
+                                                                                logs_value
+                                                                                .content
+                                                                                .service_fee_paid
+                                                                            statusLogMerge
+                                                                                =
+                                                                                "Đã thanh toán " +
+                                                                                formatNumber(
+                                                                                    logs_value
+                                                                                    .content
+                                                                                    .service_fee_paid
+                                                                                )
                                                                         }
                                                                     } else {
-                                                                        if (keyObjectLogMerge =="transaction") {
-                                                                            total_pay+=logs_value.content.transaction.amount
+                                                                        if (keyObjectLogMerge ==
+                                                                            "transaction"
+                                                                        ) {
+                                                                            total_pay
+                                                                                +=
+                                                                                logs_value
+                                                                                .content
+                                                                                .transaction
+                                                                                .amount
                                                                         }
                                                                     }
 
                                                                 })
-                                                            if (pay_money !=undefined) {
-                                                                if (total_pay >=pay_money -1000) {
-                                                                    $("#alert").hide()
-                                                                    if (value.orders.length) {
-                                                                        $("#paid").show()
+                                                            if (pay_money !=
+                                                                undefined) {
+                                                                if (total_pay >=
+                                                                    pay_money -
+                                                                    1000) {
+                                                                    $("#alert")
+                                                                        .hide()
+                                                                    if (value
+                                                                        .orders
+                                                                        .length
+                                                                    ) {
+                                                                        $("#paid")
+                                                                            .show()
                                                                     } else {
-                                                                        $("#paid").hide()
+                                                                        $("#paid")
+                                                                            .hide()
                                                                     }
                                                                 }
                                                             }
@@ -918,17 +1194,44 @@
                                                                     "tr-color addHover"
                                                                 );
                                                         });
-                                                    $(`#sku-row-${value2.id}`).on('click',function() {
-                                                        var vnpost = 0;
-                                                        var size = '';
-                                                        if (value2.vnpost !=undefined) {
-                                                            vnpost = value2.vnpost;
-                                                        } else {
-                                                            vnpost = 0;
-                                                        }
-                                                        size ="Dài : " +value2.length + "cm" + ",Rộng: " +value2.width +"cm" +",Cao: " + value2.height +"cm"
-                                                        check(value2.id,vnpost,created_at,value2.fee_ship,method_ship,value.logs,pay_money,value)
-                                                    })
+                                                    $(`#sku-row-${value2.id}`)
+                                                        .on('click',
+                                                            function() {
+                                                                var vnpost = 0;
+                                                                var size = '';
+                                                                if (value2
+                                                                    .vnpost !=
+                                                                    undefined) {
+                                                                    vnpost =
+                                                                        value2
+                                                                        .vnpost;
+                                                                } else {
+                                                                    vnpost = 0;
+                                                                }
+                                                                size =
+                                                                    "Dài : " +
+                                                                    value2
+                                                                    .length +
+                                                                    "cm" +
+                                                                    ",Rộng: " +
+                                                                    value2
+                                                                    .width +
+                                                                    "cm" +
+                                                                    ",Cao: " +
+                                                                    value2
+                                                                    .height +
+                                                                    "cm"
+                                                                check(value2.id,
+                                                                    vnpost,
+                                                                    created_at,
+                                                                    value2
+                                                                    .fee_ship,
+                                                                    method_ship,
+                                                                    value
+                                                                    .logs,
+                                                                    pay_money,
+                                                                    value)
+                                                            })
                                                 }
                                             })
                                         }

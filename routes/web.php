@@ -84,8 +84,8 @@ Route::prefix('transactions')->name('transaction.')->namespace('transactions')->
 
 Route::prefix('orders')->namespace('orders')->name('orders.')->group(function () {
     Route::resource('', 'OrdersController');
-    Route::post('regis-order-shipment','orders\OrdersController@store');
-
+    // Route::post('regis-order-shipment', 'OrdersController@store');
+    Route::get('tracking', 'OrdersController@follow')->name('follow');
 });
 
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {

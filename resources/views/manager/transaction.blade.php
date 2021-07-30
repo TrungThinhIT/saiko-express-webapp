@@ -22,7 +22,7 @@
                                 <td class="unset-border-bottom">Người thực hiện</td>
                             </tr>
                         </thead>
-                        <tbody id="historyt-ransactions">
+                        <tbody id="history-transactions">
                             @foreach ($data['transactions']['data'] as $key => $value)
                                 <tr class="text-center">
                                     <td>{{ $data['transactions']['from']++ }}</td>
@@ -97,10 +97,10 @@
                         location.reload()
                     } else {
                         if (data.transactions.data.length) {
-                            $("#historyt-ransactions").empty()
+                            $("#history-rransactions").empty()
                             $.each(data.transactions.data, function(index, value) {
 
-                                $("#historyt-ransactions").append(
+                                $("#history-transactions").append(
                                     '<tr class="text-center">' +
                                     '<td>' + data.transactions.from++ + '</td>' +
                                     '<td>' + formatNumber(value.amount) + '</td>' +

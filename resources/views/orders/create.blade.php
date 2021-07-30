@@ -30,6 +30,11 @@
             font-size: 14px !important;
         }
 
+        .fix-bg-btn {
+            color: white;
+            background-color: #fca901
+        }
+
     </style>
 @section('content')
     <div class="col-lg-12 m-4 bg-warning" id="fix-flex">
@@ -53,7 +58,7 @@
             <br>
             <div class="modal" id="modal-addressbook" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-lg" style="width:fit-content" id="fix-width-modal" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Sổ địa chỉ</h5>
@@ -62,8 +67,11 @@
                             <div class="row">
                                 <h5>Chọn địa chỉ</h5>
                             </div>
-                            <div class="" id="list-address">
+                            <div class="">
 
+                                <div id="list-address">
+
+                                </div>
                             </div>
 
                         </div>
@@ -77,8 +85,8 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" id="close-modal-address">Thoát</button>
-                            <button type="button" class="btn fh-btn" id="sendInfoTracking">Nhập thông tin kiện hàng</button>
+                            {{-- <button type="button" class="btn btn-secondary" id="close-modal-address">Thoát</button> --}}
+                            <button type="button" class="btn fh-btn" id="sendInfoTracking">Ok</button>
                         </div>
                     </div>
                 </div>
@@ -98,7 +106,24 @@
                                     id="showModal-address">Sổ địa chỉ</button>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="ele-add-choose" style="display:none">
+                            <div class="row col-md-12">
+                                <div class="form-group col-md-10">
+                                    <label for="">Địa chỉ đã chọn</label>
+                                    <input type="text" class="form-control" value="" name="add-choose" id="add-choose"
+                                        readonly>
+
+                                </div>
+
+                                <div class="col-md-2 mt-4 float-left">
+                                    <button id="btn-show-input" type="button"
+                                        style="margin-top:7px;font-family:none !important;border-radius:unset !important"
+                                        class="fix-bg-btn close">&times;</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row hidden-input">
                             <div class="form-group col-md-4 mb-4">
                                 <label>Tên người gửi<span class="require">*</span></label>
                                 <input class="form-control" placeholder="Tên Facebook hoặc người làm việc với SAIKO"
@@ -115,7 +140,7 @@
                                     value="{{ old('name_arr') }}" name="name_arr" type="text" required>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row hidden-input">
 
                             <div class="form-group col-md-4">
                                 <label>Số điện thoại người nhận<span class="require">*</span></label>
@@ -132,7 +157,7 @@
                                     {{-- <option value="Nhận tại VP Tân Bình HCM" id="trip_sea" style="display: none">Nhận tại VP Tân Bình HCM</option> --}}
                                 </select>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 ">
                                 <label>Tỉnh/Thành Phố<span class="require">*</span></label>
                                 <select class="form-control fix-select" id="Utinh" name="tinh" onchange="Select_Tinh(this)">
                                     <option value="">Vui lòng chọn</option>
@@ -144,20 +169,20 @@
                             </div>
                         </div>
                         <div id="type-ship" class="row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 hidden-input">
                                 <label>Quận Huyện<span class="require">*</span></label>
                                 <select class="form-control fix-select" id="Uhuyen" name="huyen"
                                     onchange="Select_Huyen(this)">
                                 </select>
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 hidden-input">
                                 <label>Phường Xã<span class="require">*</span></label>
                                 <select class="form-control fix-select" id="UPhuongXa" name="xa">
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 <div class="row">
-                                    <div class="form-group">
+                                    <div class="form-group" id="trip">
                                         <label class="">Hình thức vận chuyển <span class="require">*</span></label>
                                         <div class="row">
                                             <div class="col-md-4 ">
@@ -200,7 +225,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row hidden-input">
                             <div class="form-group col-md-12">
                                 <label>Thông tin số nhà tên đường<span class="require">*</span></label>
                                 <input class="form-control" placeholder="Nhập số nhà của bạn" value="{{ old('duong') }}"
@@ -413,14 +438,19 @@
                     'Accept': "application/json"
                 },
             });
+            $('#btn-show-input').click(function() {
+                $('input[name="addbook"]:checked', '#list-address').prop('checked', false)
+                $('#ele-add-choose').hide()
+                $('.hidden-input').show()
+            })
             $('#close-modal-address').click(function() {
                 $('#modal-addressbook').hide()
             })
             $('#send_infor_tracking-address-book').click(function() {
-                var tracking = $('#tracking-address').val();
-                var trip = $('input[name="trip-radio"]:checked', '#trip').val()
+                var tracking = $('#utracking').val();
+                var trip = $('input[name="fh_radio"]:checked', '#trip').val();
                 var shipment_id = $('input[name="addbook"]:checked', '#list-address').val();
-                var full_address = $('#lb-address' + shipment_id).text()
+                // var full_address = $('#lb-address' + shipment_id).text()
                 var mapObj = {
                     "_": "",
                     " ": " ",
@@ -430,8 +460,8 @@
                 tracking = tracking.replace(/-| |_|,/gi, function(matched) {
                     return mapObj[matched];
                 });
-                var ShipAir = document.getElementById('uair-address').checked;
-                var ShipSea = document.getElementById('usea-address').checked;
+                var ShipAir = document.getElementById('uair').checked;
+                var ShipSea = document.getElementById('usea').checked;
                 var special_price = $("#special_enter").val();
                 var insurance_price = $("#insurance_enter").val();
                 var check_insurance = parseFloat(insurance_price.replaceAll(",", ""))
@@ -469,6 +499,7 @@
                     swal_action("Vui lòng chọn khai báo hàng đặc biệt")
                     return
                 }
+                $('#modal_qoute').hide()
                 $.ajax({
                     type: 'POST',
                     url: "{{ route('orders.store') }}",
@@ -481,8 +512,6 @@
                         shipment_id: shipment_id,
                     },
                     success: function(response) {
-                        alert(response)
-                        return
                         $("#table_showResultCreatedTrackings").empty()
                         $.each(response, function(index, value) {
                             if (value.code == 201) {
@@ -526,7 +555,15 @@
                 });
             })
             $('#sendInfoTracking').click(function() {
+                var check_address = $('input[name="addbook"]:checked', '#list-address').val();
+                if (check_address != undefined && check_address != "") {
+                    var full_address = $('#lb-address' + check_address).text();
+                    $('#add-choose').val(full_address);
+                    $('#ele-add-choose').show()
+                    $('.hidden-input').hide()
+                }
                 $('#modal-addressbook').hide()
+
             })
 
             $('#showModal-address').click(function() {
@@ -555,7 +592,11 @@
                                             value
                                             .id +
                                             '"for="address"' + value.id +
-                                            '">' +
+                                            '">Người nhận:' + value.consignee +
+                                            ", SĐT người nhận:" + value.tel +
+                                            ", Người gửi:" + value.sender_name +
+                                            ", SĐT người gửi:" + value.sender_tel +
+                                            ", Địa chỉ:" +
                                             value.full_address +
                                             '</label>' +
                                             '</div>'
@@ -587,16 +628,20 @@
                                         '</a>' +
                                         '</li>'
                                     )
+                                    $('#modal-addressbook').css('display', 'block')
+
+                                } else {
+                                    swal_action('Chưa có địa chỉ')
                                 }
                             }
                         },
-                        error: function(response) {
-
-                        }
-
+                        error: function(response) {}
                     })
+                }else{
+                    $('#modal-addressbook').css('display', 'block')
                 }
-                $('#modal-addressbook').css('display', 'block')
+
+
             })
             // $('#exitForm').click(function(){
             //     $('#myModal').fadeOut(500)
@@ -699,8 +744,7 @@
             // })
             $("#send_infor_tracking").click(function() {
                 var check_address = $('input[name="addbook"]:checked', '#list-address').val();
-
-                if (check_address != undefined || check_address == "") {
+                if (check_address == undefined || check_address == "") {
 
                     var OptionAdd = $('#utypeadd').val();
                     var AddRev = $("#UaddNumber").val();
@@ -852,9 +896,7 @@
                             $('#show_result').show();
                         }
                     });
-                } else {
-                    alert('a')
-                }
+                } else {}
             })
 
 
@@ -937,8 +979,13 @@
         function push_tracking() {
             event.preventDefault();
             var check_address = $('input[name="addbook"]:checked', '#list-address').val();
-            alert(check_address)
-            if (check_address != undefined || check_address == "") {
+            var trip = $('input[name="fh_radio"]:checked', '#trip').val();
+            var tracking = $("#utracking").val();
+            if (tracking.length <= 7) {
+                swal_action("Nhập thiếu tracking")
+                return
+            }
+            if (check_address == undefined || check_address == "") {
                 var OptionAdd = $('#utypeadd').val();
                 var AddRev = $("#UaddNumber").val();
                 if (OptionAdd.length > 5) {
@@ -984,9 +1031,7 @@
                         return
                     }
                 }
-                if (Tracking.length <= 7) {
-                    swal_action("Nhập thiếu tracking")
-                } else if (Name_Send.length < 3) {
+                if (Name_Send.length < 3) {
                     swal_action("Nhập thiếu tên người gửi!")
                 } else if (Number_Send == '') {
                     swal_action("Nhập chưa đúng số điện thoại người gửi!")
@@ -1034,16 +1079,25 @@
                     }
                 }
             } else {
-                var tracking = $("#utracking").val();
                 var mapObj = {
                     "_": "",
                     " ": " ",
                     "-": "",
                     ",": " ",
                 };
-                var tracking = str.replace(/-| |_|,/gi, function(matched) {
+                tracking = tracking.replace(/-| |_|,/gi, function(matched) {
                     return mapObj[matched];
                 });
+                var trip = $('input[name="fh_radio"]:checked', '#trip').val();
+                var full_address = $('#lb-address' + check_address).text();
+                $("#address_modal").empty()
+                $("#method_modal").empty();
+                $("#address_modal").text(full_address)
+                $("#method_modal").text(trip)
+                $('#send_infor_tracking-address-book').show()
+                $('#send_infor_tracking').hide()
+                $("#modal_qoute").show()
+
             }
         }
 
@@ -1066,12 +1120,17 @@
                                 $("#list-address").append(
                                     '<div class="form-check">' +
                                     '<input class="form-check-input" type="radio" name="addbook" id="address' +
-                                    value.id + '" value="' + value.id + '">' +
+                                    value.id + '" value="' + value.id +
+                                    '">' +
                                     '<label class="form-check-label" id="lb-address' +
                                     value
                                     .id +
                                     '"for="address"' + value.id +
-                                    '">' +
+                                    '">Người nhận:' + value.consignee +
+                                    ", SĐT người nhận:" + value.tel +
+                                    ", Người gửi:" + value.sender_name +
+                                    ", SĐT người gửi:" + value.sender_tel +
+                                    ", Địa chỉ:" +
                                     value.full_address +
                                     '</label>' +
                                     '</div>'

@@ -399,26 +399,26 @@
                             $.each(data.list_address.data, function(index, value) {
 
                                 $("#list-address").append(
-                                    '<tr class="text-center" id=address-' + value.id +
-                                    '>' +
+                                    '<tr class="text-center" id=address-' + value.id +'>' +
                                     '<td>' + data.list_address.from++ + '</td>' +
                                     '<td>' + value.consignee + '</td>' +
                                     '<td>' + value.tel + '</td>' +
                                     '<td>' + value.sender_name + '</td>' +
                                     '<td>' + value.sender_tel + '</td>' +
                                     '<td>' + value.full_address + '</td>' +
-                                    '<td>' + '<div class="col-m-6">' +
-                                    '<div class="col-md-3 fix-margin">' +
-                                    '<button class="custom-icon" onclick="updateAddress(this)" data-id="' +
+                                    '<td>' + '<div class="row">' +
+                                    '<div class="col-m-6" style="width:auto !important;">' +
+                                    '<button class="custom-icon p-1"  onclick="updateAddress(this)" data-id="' +
                                     value.id + '">' +
                                     '<i class="fa fa-pencil"></i>' + '</button>' +
                                     '</div>' +
-                                    '<div class="col-md-3 fix-margin">' +
-                                    '<button class="custom-icon fix-margin" onclick="deleteAddress(this)" data-deleteId="' +
+                                    '<div class="col-md-4">' +
+                                    '<button class="custom-icon p-1" onclick="deleteAddress(this)" data-deleteId="' +
                                     value.id + '">' +
                                     '<i class="fa fa-trash"></i></button>' +
                                     '</div>' +
-                                    '</div>' + '</td>' +
+                                    '</div>' + '</div>' +
+                                    '</td>' +
                                     '</tr>'
                                 )
                             })

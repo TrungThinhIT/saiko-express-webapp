@@ -92,9 +92,11 @@
             left: 0;
             background: rgba(0, 0, 0, .5);
         }
+
         .swal-button {
             background-color: #fca901 !important;
         }
+
         .set-display {
             display: none;
         }
@@ -483,12 +485,18 @@
                         </a>
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="javascript:;">Danh
-                                        sách đơn hàng</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{ route('orders.index') }}">Tạo đơn
-                                        hàng</a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{ route('orders.create') }}">Theo
-                                        dõi đơn hàng</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:;" id="index-order">Danh
+                                        sách đơn hàng</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('orders.create') }}" id="create-order">Tạo đơn
+                                        hàng</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:;" id="follow-order">Theo
+                                        dõi đơn hàng</a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -637,6 +645,12 @@
         $(document).ready(function() {
             $("#load-page").click(function() {
                 window.location.href = "{{ route('shipment.index') }}"
+            })
+            $("#follow-order").click(function() {
+                window.location.href = "{{ route('orders.follow') }}"
+            })
+            $("#index-order").click(function() {
+                window.location.href = "{{ route('orders.index') }}"
             })
         })
 
