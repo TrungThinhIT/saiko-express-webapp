@@ -1225,7 +1225,7 @@
                         <div class="ed_pricing_heading">
                             <h2>HẠNG Eco</h2>
                             <div class="ed_table_price">
-                                <p><sup></sup>190.000đ<sub> /kg</sub></p>
+                                <p><sup></sup>205.000đ<sub> /kg</sub></p>
                             </div>
                         </div>
                         <ul>
