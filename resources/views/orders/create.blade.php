@@ -512,6 +512,9 @@
                         shipment_id: shipment_id,
                     },
                     success: function(response) {
+                        if (response.code == 401) {
+                            window.location.href = "{{ route('auth.index') }}";
+                        }
                         $("#table_showResultCreatedTrackings").empty()
                         $.each(response, function(index, value) {
                             if (value.code == 201) {
@@ -576,7 +579,7 @@
                             shipment: true,
                         },
                         success: function(data) {
-                            if (data == 401) {
+                            if (data.code == 401) {
                                 location.reload()
                             } else {
                                 if (data.list_address.data.length) {
@@ -637,7 +640,7 @@
                         },
                         error: function(response) {}
                     })
-                }else{
+                } else {
                     $('#modal-addressbook').css('display', 'block')
                 }
 
@@ -1110,7 +1113,7 @@
                     page_shipment: page
                 },
                 success: function(data) {
-                    if (data == 401) {
+                    if (data.code == 401) {
                         location.reload()
                     } else {
                         if (data.list_address.data.length) {

@@ -1,5 +1,12 @@
 @extends('modules_manager.main')
 @section('title', 'Lịch sử giao dịch')
+@section('css')
+    <style>
+        .addHover {
+            cursor: default !important;
+        }
+
+    </style>
 @section('content')
     @if (isset($data['transactions']))
         <div class="col-md-12 p-2 fix-overflow">
@@ -17,6 +24,7 @@
                             <tr style="color:black;font-weight:900" class="text-center">
                                 <td class="unset-border-bottom">STT</td>
                                 <td class="unset-border-bottom">Số tiền</td>
+                                <td class="unset-border-bottom">Tiền tệ</td>
                                 <td class="unset-border-bottom">Loại</td>
                                 <td class="unset-border-bottom">Mô tả</td>
                                 <td class="unset-border-bottom">Người thực hiện</td>
@@ -24,9 +32,10 @@
                         </thead>
                         <tbody id="history-transactions">
                             @foreach ($data['transactions']['data'] as $key => $value)
-                                <tr class="text-center">
+                                <tr class="text-center addHover">
                                     <td>{{ $data['transactions']['from']++ }}</td>
                                     <td>{{ number_format($value['amount']) }}</td>
+                                    <td>{{ $value['currency_id'] }}</td>
                                     <td>{{ $value['type_id'] }}</td>
                                     <td>{{ $value['description'] }}</td>
                                     <td>{{ $value['prepared_by_id'] }}</td>
@@ -93,11 +102,11 @@
                     page_transaction: page
                 },
                 success: function(data) {
-                    if (data == 401) {
+                    if (data.code == 401) {
                         location.reload()
                     } else {
                         if (data.transactions.data.length) {
-                            $("#history-rransactions").empty()
+                            $("#history-transactions").empty()
                             $.each(data.transactions.data, function(index, value) {
 
                                 $("#history-transactions").append(

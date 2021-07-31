@@ -105,22 +105,21 @@ class AuthController extends Controller
 
     public function info(Request $request)
     {
-        if ($request->cookie('token') == "") {
-            $request->session()->flash('login', 'Vui lòng đăng nhập lại');
-            if ($request->wantsJson()) {
-                return 401;
-            }
-            return redirect()->route('auth.index');
-        }
+        // if ($request->cookie('token') == "") {
+        //     $request->session()->flash('login', 'Vui lòng đăng nhập lại');
+        //     if ($request->wantsJson()) {
+        //         return response()->json(['code' => 401]);
+        //     }
+        //     return redirect()->route('auth.index');
+        // }
         $data = $request->cookie('token');
         $data = unserialize($data);
 
         $token = $data['token_type'] . ' ' . $data['access_token'];
-
         //account
         $param_search_account = [
             'search' => 'user_id:' . $data['id'],
-            'searchFields' => 'user_id:=',
+            // 'searchFields' => 'user_id:=',
         ];
         $account = Http::withHeaders([
             'Accept-Language' => 'vi',

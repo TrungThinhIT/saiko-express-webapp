@@ -63,15 +63,15 @@ Route::get('api/password/reset/{token}', 'auth\AuthController@sendInfoResetPassw
 Route::prefix('auth')->namespace('auth')->name('auth.')->group(function () {
     Route::get('index', 'AuthController@index')->name('index');
     Route::post('login', 'AuthController@login')->name('login');
-    Route::get('logout', 'AuthController@logout')->name('logout');
+    Route::get('logout', 'AuthController@logout')->middleware('cookie')->name('logout');
     Route::post('register', 'AuthController@register')->name('register');
     Route::post('sendLinkResetPassword', 'AuthController@sendLinkResetPassword')->name('sendLinkResetPassword');
-    Route::get('me', 'AuthController@info')->name('info');
-    Route::put('update', 'AuthController@updateUser')->name('updateUser');
+    Route::get('me', 'AuthController@info')->middleware('cookie')->name('info');
+    Route::put('update', 'AuthController@updateUser')->middleware('cookie')->name('updateUser');
     Route::post('reset-password', 'AuthController@resetPassword')->name('web.resetPassword');
 });
 
-Route::prefix('shipment')->name('shipment.')->namespace('shipments')->group(function () {
+Route::prefix('shipment')->middleware('cookie')->name('shipment.')->namespace('shipments')->group(function () {
     Route::resource('', 'ShipmentsController')->parameters([
         '' => 'shipment'
     ]);
@@ -79,11 +79,11 @@ Route::prefix('shipment')->name('shipment.')->namespace('shipments')->group(func
 });
 
 Route::prefix('transactions')->name('transaction.')->namespace('transactions')->group(function () {
-    Route::resource('', 'TransactionsController');
+    Route::resource('', 'TransactionsController')->parameters(['' => 'transaction']);
 });
 
-Route::prefix('orders')->namespace('orders')->name('orders.')->group(function () {
-    Route::resource('', 'OrdersController');
+Route::prefix('orders')->middleware('cookie')->namespace('orders')->name('orders.')->group(function () {
+    Route::resource('', 'OrdersController')->parameters(['' => 'order']);
     // Route::post('regis-order-shipment', 'OrdersController@store');
     Route::get('tracking', 'OrdersController@follow')->name('follow');
 });

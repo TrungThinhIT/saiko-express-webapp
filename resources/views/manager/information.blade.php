@@ -259,11 +259,15 @@
                     },
                     success: function(response) {
                         if (response.code == 200) {
-                            $("#alert-success").append(
-                                "<span class='text-success'>" +
-                                "Đã cập nhật thành công" + "</span>" + "<br>"
-                            )
-                            $("#modalReload").show()
+                            swal({
+                                title: "Cập nhật thành công",
+                                type: "success",
+                                icon: "success",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            })
                         } else {
                             var data = JSON.parse(response.data)
                             $.each(data.errors, function(index, value) {

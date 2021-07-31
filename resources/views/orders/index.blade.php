@@ -20,22 +20,23 @@
             <div class="card-body custom-background set-overflow">
                 <table class="table table-striped set-border-radius">
                     <thead>
-                        <tr style="color:black;font-weight:900" class="text-center">
-                            <td class="unset-border-bottom">STT</td>
-                            <td class="unset-border-bottom">Mã đơn</td>
-                            <td class="unset-border-bottom">Trạng thái</td>
-                            <td class="unset-border-bottom">Tracking</td>
-                            <td class="unset-border-bottom">PTVC</td>
-                            <td class="unset-border-bottom">Ghi chú</td>
-                            <td class="unset-border-bottom">Ngày tạo</td>
-                            <td class="unset-border-bottom">Ngày cập nhật</td>
-
-                        </tr>
+                        <a href="">
+                            <tr class="text-center" style="color:black;font-weight:900" class="text-center">
+                                <td class="unset-border-bottom">STT</td>
+                                <td class="unset-border-bottom">Mã đơn</td>
+                                <td class="unset-border-bottom">Trạng thái</td>
+                                <td class="unset-border-bottom">Tracking</td>
+                                <td class="unset-border-bottom">PTVC</td>
+                                <td class="unset-border-bottom">Ghi chú</td>
+                                <td class="unset-border-bottom">Ngày tạo</td>
+                                <td class="unset-border-bottom">Ngày cập nhật</td>
+                            </tr>
+                        </a>
                     </thead>
                     <tbody id="list-orders">
                         @if (isset($data['list_orders']))
                             @foreach ($data['list_orders']['data'] as $key => $value)
-                                <tr class="text-center" data-id=$val>
+                                <tr class="text-center addHover detail-order" data-id={{ $value['id'] }}>
                                     <td>{{ $data['list_orders']['from']++ }}</td>
                                     <td>{{ $value['id'] }}</td>
                                     <td>{{ $value['status']['name'] }}</td>
@@ -94,6 +95,12 @@
                 var page = $(this).attr('data-page');
                 fetch_data_order(page);
             });
+            $(document).on('click', '.detail-order', function(event) {
+                event.preventDefault();
+                let order_id = $(this).data('id');
+                window.location.href = "../orders/" + order_id;
+                // fetch_data_order(page);
+            });
         })
         //function
 
@@ -106,7 +113,7 @@
                     page_order: page
                 },
                 success: function(data) {
-                    if (data == 401) {
+                    if (data.code == 401) {
                         location.reload()
                     } else {
                         if (data.list_orders.data.length) {

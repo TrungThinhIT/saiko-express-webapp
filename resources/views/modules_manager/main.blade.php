@@ -28,6 +28,12 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <style>
+        #custom-menu-main {
+            border-top-right-radius: 25px;
+            border-bottom-right-radius: 25px;
+            border-right-color: #ffaf00 !important;
+        }
+
         body {
             font-family: 'Roboto', sans-serif !important;
             font-size: 20px;
@@ -147,7 +153,24 @@
             color: #ffaf00;
         }
 
+        .sidebar .nav:not(.sub-menu)>.nav-item>.nav-link[aria-expanded="true"] {
+            border-radius: unset;
+        }
+
         @media (max-width:991px) {
+            .sidebar .nav .nav-item .nav-link {
+                border-top-left-radius: 25px;
+                border-bottom-left-radius: 25px;
+            }
+
+            #custom-menu-main {
+                border-top-right-radius: unset;
+                border-bottom-right-radius: unset;
+                border-top-left-radius: 25px;
+                border-bottom-left-radius: 25px;
+                border-right-color: #ffaf00 !important;
+            }
+
             .navbar {
                 height: 60px !important;
             }
@@ -183,6 +206,14 @@
             .main-panel {
                 min-height: calc(100vh - 80px);
             }
+        }
+
+        .addHover {
+            cursor: pointer;
+        }
+
+        .addHover:hover {
+            background-color: wheat;
         }
 
     </style>
@@ -484,7 +515,7 @@
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="ui-basic">
-                            <ul class="nav flex-column sub-menu">
+                            <ul class="nav flex-column sub-menu" id="custom-menu-main">
                                 <li class="nav-item">
                                     <a class="nav-link" href="javascript:;" id="index-order">Danh
                                         sách đơn hàng</a>
@@ -503,7 +534,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('auth.logout') }}" aria-expanded="false"
                             aria-controls="tables">
-                            <i class="menu-icon mdi mdi-table"></i>
+                            <i class="menu-icon mdi mdi-power"></i>
                             <span class="menu-title">Thoát</span>
                         </a>
 
@@ -564,14 +595,9 @@
                                         <div class="tab-pane fade show active" id="overview" role="tabpanel"
                                             aria-labelledby="overview">
                                             <div class="row">
-                                                <div class="col-sm-12">
-
-                                                </div>
-                                            </div>
-                                            <div class="row">
                                                 <div class="col-lg-12 d-flex flex-column">
                                                     <div class="row flex-grow">
-                                                        <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+                                                        <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card" id="remove-stretch-card">
                                                             @yield('content')
                                                             {{-- <div class="card card-rounded">
                                                             <div class="card-body">

@@ -29,6 +29,7 @@ class OrdersController extends Controller
         $header = [
             'Accept' => 'application/json',
             'Authorization' => $token,
+            'Accept-Language' => 'vi',
         ];
 
         $params = [
@@ -40,7 +41,6 @@ class OrdersController extends Controller
         $send = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders/shipment', $params);
 
         $data = json_decode($send->body(), true);
-
         if ($request->wantsJson()) {
             return response()->json(['list_orders' => $data]);
         }
@@ -123,8 +123,29 @@ class OrdersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
+        $token = $this->shipmentsController->getToken($request);
+
+        $header = [
+            'Accept-Language' => 'vi',
+            'Accept' => 'application/json',
+            'Authorization' => $token,
+        ];
+
+        $params = [
+            'appends' => 'customer;transactions.receipts;owningBoxes.pivotLadingBills',
+            'search' => 'id:' . $id,
+            'searchField' => '=',
+            'with' => 'shipmentInfo;trackings',
+        ];
+
+        $order = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders', $params);
+
+        $data = json_decode($order->body(), true);
+        $data = ['order' => $data];
+
+        return view('orders.detail', compact('data'));
     }
 
     /**

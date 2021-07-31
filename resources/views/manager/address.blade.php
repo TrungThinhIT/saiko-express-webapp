@@ -77,6 +77,10 @@
             }
         }
 
+        .addHover {
+            cursor: default !important;
+        }
+
     </style>
 @section('content')
     @if (isset($data['list_address']))
@@ -107,7 +111,7 @@
                         </thead>
                         <tbody id="list-address">
                             @foreach ($data['list_address']['data'] as $key => $value)
-                                <tr class="text-center" id="address-{{ $value['id'] }}">
+                                <tr class="text-center addHover" id="address-{{ $value['id'] }}">
                                     <td>{{ $data['list_address']['from']++ }}</td>
                                     <td>{{ $value['consignee'] }}</td>
                                     <td>{{ $value['tel'] }}</td>
@@ -391,7 +395,7 @@
                     page_shipment: page
                 },
                 success: function(data) {
-                    if (data == 401) {
+                    if (data.code == 401) {
                         location.reload()
                     } else {
                         if (data.list_address.data.length) {
@@ -399,7 +403,7 @@
                             $.each(data.list_address.data, function(index, value) {
 
                                 $("#list-address").append(
-                                    '<tr class="text-center" id=address-' + value.id +'>' +
+                                    '<tr class="text-center" id=address-' + value.id + '>' +
                                     '<td>' + data.list_address.from++ + '</td>' +
                                     '<td>' + value.consignee + '</td>' +
                                     '<td>' + value.tel + '</td>' +

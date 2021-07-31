@@ -18,7 +18,7 @@ class TransactionsController extends Controller
         if ($request->cookie('token') == "") {
             $request->session()->flash('login', 'Vui lòng đăng nhập lại');
             if ($request->wantsJson()) {
-                return 401;
+                return response()->json(['code' => 401]);
             }
             return redirect()->route('auth.index');
         }

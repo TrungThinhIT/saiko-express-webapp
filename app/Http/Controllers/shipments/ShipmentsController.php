@@ -54,7 +54,7 @@ class ShipmentsController extends Controller
             'Authorization' => $token,
         ])->get('http://auth.tomonisolution.com:82/api/shipment-infos', $param_search_shipment);
 
-        $shipment_info = json_decode($shipment_info, true);
+        $shipment_info = json_decode($shipment_info->body(), true);
         if ($request->shipment) {
             return response()->json(['list_address' => $shipment_info]);
         }
