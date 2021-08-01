@@ -210,7 +210,6 @@
 
                     </div>
                 </div>
-                {{-- {{dd($data)}} --}}
                 <div class="row mt-4 d-lfex form-group">
                     <div class="col-md-6">
                         <div class="card h-100">
@@ -263,7 +262,43 @@
                                 Danh sách vận đơn
                             </div>
                             <div class="card-body">
-
+                                @if (count($value['owning_boxes']))
+                                    @foreach ($value['owning_boxes'] as $key_owning => $value_owning)
+                                        <div class="card">
+                                            <div class="card-header">
+                                                Mã vận đơn:
+                                                {{ $value_owning['pivot_lading_bills'][0]['lading_bill_id'] }}
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    Mã SKU:{{ $value_owning['box_id'] }}
+                                                </div>
+                                                <div class="row">
+                                                    Số lượng được phân vào vận
+                                                    đơn:{{ $value_owning['quantity_in_lading_bills'] }}
+                                                </div>
+                                                <div class="row">
+                                                    Số lượng được phân cho
+                                                    đơn:
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        Chi phí lưu
+                                                        trữ:{{ $value_owning['pivot_lading_bills'][0]['storage_cost'] }}
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        Phụ
+                                                        phí:{{ $value_owning['pivot_lading_bills'][0]['additional_cost'] }}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    Tiền cước vận chuyển phải
+                                                    thu:{{ $value_owning['pivot_lading_bills'][0]['service_fee'] }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -285,6 +320,37 @@
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @if (count($value['transactions']))
+                                                @foreach ($value['transactions'] as $key_transaction => $value_transaction)
+                                                    <tr>
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-sm-2">
+                                                                    Người thực hiện:
+                                                                </div>
+                                                                <div class="col-sm-10">
+                                                                    {{ $value_transaction['prepared_by_id'] }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-2">
+                                                                    Ngày thực hiện:
+                                                                </div>
+                                                                <div class="col-sm-10">
+                                                                    {{ $value_transaction['created_at'] }}
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            {{ $value_transaction['amount'] . ' ' . $value_transaction['currency_id'] }}
+                                                        </td>
+                                                        <td>
+                                                            {{ $value_transaction['description'] }}
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+
                                         </tbody>
                                     </table>
                                 </div>

@@ -113,6 +113,7 @@
                                     '<tr class="text-center">' +
                                     '<td>' + data.transactions.from++ + '</td>' +
                                     '<td>' + formatNumber(value.amount) + '</td>' +
+                                    '<td>' + value.currency_id +
                                     '<td>' + value.type_id + '</td>' +
                                     '<td>' + value.description + '</td>' +
                                     '<td>' + value.prepared_by_id + '</td>' +

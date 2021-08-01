@@ -388,7 +388,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn fh-btn" style="display:none"
-                                id="send_infor_tracking-address-book">Gửi hàng2</button>
+                                id="send_infor_tracking-address-book">Gửi hàng</button>
                             <button type="button" class="btn fh-btn" id="send_infor_tracking">Gửi hàng</button>
                             <button type="button" class="btn fh-btn" style="background-color: silver !important"
                                 data-dismiss="modal" id="close_modal">Close</button>

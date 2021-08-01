@@ -116,7 +116,6 @@
         }
     </style>
 @section('content')
-
     <div class="row p-5  fix-overflow">
         <div class="col-md-12  bg-white">
             <div class="mt-3">
