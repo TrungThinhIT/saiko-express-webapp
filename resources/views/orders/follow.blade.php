@@ -107,13 +107,16 @@
         .fix-font-size-li {
             font-size: 16px !important;
         }
+
         .fh-btn {
             background-color: #fca901 !important;
             color: white !important;
         }
-        .fix-height{
+
+        .fix-height {
             height: unset !important;
         }
+
     </style>
 @section('content')
     <div class="row p-5  fix-overflow">
@@ -129,11 +132,13 @@
                         <label>Mã Tracking <span class="require">*</span></label>
 
                         <div class="col-md-9">
-                            <input id="utrack" placeholder="Nhập mã Tracking vào đây" type="text" class="form-control fix-height">
+                            <input id="utrack" placeholder="Nhập mã Tracking vào đây" type="text"
+                                class="form-control fix-height">
                         </div>
 
                         <div class="col-md-2 text-center">
-                            <button value="" class="form-control rounded fh-btn fix-height"  type="submit">Theo dõi ngay</button>
+                            <button value="" class="form-control rounded fh-btn fix-height" type="submit">Theo dõi
+                                ngay</button>
                         </div>
                     </div>
                 </div>
@@ -495,12 +500,21 @@
 
                                         if (tel_rev == '' | name_rev == '' | add_rev ==
                                             '') {
-                                            $('#message').html(
-                                                'Khách chưa đăng kí đầy đủ thông tin tracking'
-                                            );
-                                            $('#exitForm').hide();
-                                            $('#exitSuccess').show();
-                                            $('#myModal').modal('show');
+                                            swal({
+                                                title: "Khách chưa đăng kí đầy đủ thông tin tracking",
+                                                type: "warning",
+                                                icon: "warning",
+                                                showCancelButton: false,
+                                                confirmButtonColor: "#fca901",
+                                                confirmButtonText: "Exit",
+                                                closeOnConfirm: true
+                                            })
+                                            // $('#message').html(
+                                            //     'Khách chưa đăng kí đầy đủ thông tin tracking'
+                                            // );
+                                            // $('#exitForm').hide();
+                                            // $('#exitSuccess').show();
+                                            // $('#myModal').modal('show');
                                         }
                                         if (value.boxes.length == 0) {
                                             $("#body-table-firt-vnpost").empty()

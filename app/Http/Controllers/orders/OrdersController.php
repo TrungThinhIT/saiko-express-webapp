@@ -36,6 +36,8 @@ class OrdersController extends Controller
             'with' => 'trackings',
             'page' => $request->paginate_order ?? 1,
             'search' => 'customer_id:' . $customer_id,
+            'orderBy' => 'created_at',
+            'sortedBy' => 'desc',
         ];
 
         $send = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders/shipment', $params);
@@ -156,7 +158,6 @@ class OrdersController extends Controller
      */
     public function edit($id)
     {
-
     }
 
     /**

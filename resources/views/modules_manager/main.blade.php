@@ -102,7 +102,6 @@
         .swal-button {
             background-color: #fca901 !important;
         }
-
         .set-display {
             display: none;
         }
