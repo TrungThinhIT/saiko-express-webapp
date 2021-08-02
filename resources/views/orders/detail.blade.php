@@ -129,15 +129,6 @@
                             </div>
                             <div class="col-md-6">
                                 <form>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="goods-money-paid" class="col-sm-4 col-form-label">Tiền hàng đã thanh
-                                            toán</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="goods-money-paid"
-                                                value="{{ number_format($value['cost_of_goods_paid']) . '  JPY' }}">
-                                        </div>
-                                    </div>
                                     <div class="form-group row align-items-center">
                                         <label for="goods-money-outstanding" class="col-sm-4 col-form-label">Tiền hàng cần
                                             thanh

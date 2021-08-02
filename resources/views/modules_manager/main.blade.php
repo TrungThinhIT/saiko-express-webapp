@@ -26,9 +26,10 @@
     <!-- endinject -->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    {{-- <script type="text/javascript" src="assets_mn/js/jquery.simplePagination.js"></script> --}}
 
     <style>
-        #custom-menu-main {
+        .custom-menu-main {
             border-top-right-radius: 25px;
             border-bottom-right-radius: 25px;
             border-right-color: #ffaf00 !important;
@@ -102,6 +103,7 @@
         .swal-button {
             background-color: #fca901 !important;
         }
+
         .set-display {
             display: none;
         }
@@ -162,7 +164,7 @@
                 border-bottom-left-radius: 25px;
             }
 
-            #custom-menu-main {
+            .custom-menu-main {
                 border-top-right-radius: unset;
                 border-bottom-right-radius: unset;
                 border-top-left-radius: 25px;
@@ -501,10 +503,28 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('transaction.index') }}">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#ui-transaction">
                             <i class="menu-icon fa fa-history"></i>
-                            <span class="menu-title">Lịch sử giao dịch</span>
+                            <span class="menu-title">Tài khoản tiền</span>
+                            <i class="menu-arrow"></i>
                         </a>
+                        <div class="collapse" id="ui-transaction">
+                            <ul class="nav flex-column sub-menu custom-menu-main">
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                        href="{{ route('transaction.show', ['transaction' => $data['id']]) }}"
+                                        id="show-account">Thông tin tài khoản</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('transaction.index') }}"
+                                        id="history-transaction">Lịch sử giao dịch</a>
+                                    {{-- </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:;" id="follow-order">Theo
+                                        dõi đơn hàng</a>
+                                </li> --}}
+                            </ul>
+                        </div>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
@@ -514,7 +534,7 @@
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="ui-basic">
-                            <ul class="nav flex-column sub-menu" id="custom-menu-main">
+                            <ul class="nav flex-column sub-menu custom-menu-main" id="">
                                 <li class="nav-item">
                                     <a class="nav-link" href="javascript:;" id="index-order">Danh
                                         sách đơn hàng</a>
@@ -596,7 +616,8 @@
                                             <div class="row">
                                                 <div class="col-lg-12 d-flex flex-column">
                                                     <div class="row flex-grow">
-                                                        <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card" id="remove-stretch-card">
+                                                        <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card"
+                                                            id="remove-stretch-card">
                                                             @yield('content')
                                                             {{-- <div class="card card-rounded">
                                                             <div class="card-body">

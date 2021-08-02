@@ -42,7 +42,7 @@
     </style>
 @section('content')
     <div class="col-lg-12 m-4 bg-warning" id="fix-flex">
-        <div class="bg-white rounded p-4">
+        <div class="bg-white p-4">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">

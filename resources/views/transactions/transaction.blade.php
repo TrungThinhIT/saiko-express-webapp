@@ -5,7 +5,9 @@
         .addHover {
             cursor: default !important;
         }
-
+        #show-account{
+            color: #484848;
+        }
     </style>
 @section('content')
     @if (isset($data['transactions']))
@@ -70,7 +72,6 @@
     @endif
     <script>
         $(document).ready(function() {
-            // $("#fix-stt").DataTable();
             $(document).ajaxStart(function() {
                 $("#loader").show();
             });

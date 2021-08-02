@@ -21,15 +21,15 @@
                 <table class="table table-striped set-border-radius">
                     <thead>
                         <a href="">
-                            <tr class="text-center" style="color:black;font-weight:900" class="text-center">
+                            <tr class="text-center" style="color:black;font-weight:900">
                                 <td class="unset-border-bottom">STT</td>
                                 <td class="unset-border-bottom">Mã đơn</td>
-                                <td class="unset-border-bottom">Trạng thái</td>
                                 <td class="unset-border-bottom">Tracking</td>
                                 <td class="unset-border-bottom">PTVC</td>
                                 <td class="unset-border-bottom">Ghi chú</td>
                                 <td class="unset-border-bottom">Ngày tạo</td>
-                                <td class="unset-border-bottom">Ngày cập nhật</td>
+                                <td class="unset-border-bottom">Trạng thái</td>
+
                             </tr>
                         </a>
                     </thead>
@@ -39,12 +39,15 @@
                                 <tr class="text-center addHover detail-order" data-id={{ $value['id'] }}>
                                     <td>{{ $data['list_orders']['from']++ }}</td>
                                     <td>{{ $value['id'] }}</td>
-                                    <td>{{ $value['status']['name'] }}</td>
-                                    <td>{{ $value['trackings'][0]['id'] }}</td>
+                                    <td>
+                                        @if (isset($value['trackings'][0]))
+                                            {{ $value['trackings'][0]['id'] }}
+                                        @endif
+                                    </td>
                                     <td>{{ $value['shipment_method_id'] }}</td>
                                     <td>{{ $value['note'] }}</td>
                                     <td>{{ $value['created_at'] }}</td>
-                                    <td>{{ $value['updated_at'] }}</td>
+                                    <td>{{ $value['status']['name'] }}</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -52,6 +55,7 @@
                 </table>
                 <div class="mt-4">
                     <nav aria-label="Page navigation example">
+                        {{-- {{ $data->links() }} --}}
                         <ul class="pagination custom-paginate" style="float:right">
                             <li class="page-item">
                                 <a class="page-link orders" href="#" aria-label="Previous" data-page="1">
@@ -124,16 +128,22 @@
                                 } else {
                                     note = value.note
                                 }
+                                if (value.trackings.length) {
+                                    var tracking_id = value.trackings[0].id;
+                                } else {
+                                    var tracking_id = "";
+                                }
+
                                 $("#list-orders").append(
-                                    '<tr class="text-center" id=order-' + value.id + '>' +
+                                    '<tr class="text-center addHover detail-order" data-id="' +
+                                    value.id + '" id=order-' + value.id + '>' +
                                     '<td>' + data.list_orders.from++ + '</td>' +
                                     '<td>' + value.id + '</td>' +
-                                    '<td>' + value.status.id + '</td>' +
-                                    '<td>' + value.trackings[0].id + '</td>' +
+                                    '<td>' + tracking_id + '</td>' +
                                     '<td>' + value.shipment_method_id + '</td>' +
                                     '<td>' + note + '</td>' +
                                     '<td>' + value.created_at + '</td>' +
-                                    '<td>' + value.updated_at + '</td>' +
+                                    '<td>' + value.status.id + '</td>' +
                                     '</tr>'
                                 )
                             })

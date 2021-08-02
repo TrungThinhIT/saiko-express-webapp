@@ -5,9 +5,15 @@ namespace App\Http\Controllers\transactions;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\shipments\ShipmentsController as ShipmenstController;
 
 class TransactionsController extends Controller
 {
+
+    public function __construct(ShipmenstController $shipmentsController)
+    {
+        $this->shipmentsController = $shipmentsController;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,20 +21,21 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->cookie('token') == "") {
-            $request->session()->flash('login', 'Vui lòng đăng nhập lại');
-            if ($request->wantsJson()) {
-                return response()->json(['code' => 401]);
-            }
-            return redirect()->route('auth.index');
-        }
-        $data = $request->cookie('token');
-        $data = unserialize($data);
+        // if ($request->cookie('token') == "") {
+        //     $request->session()->flash('login', 'Vui lòng đăng nhập lại');
+        //     if ($request->wantsJson()) {
+        //         return response()->json(['code' => 401]);
+        //     }
+        //     return redirect()->route('auth.index');
+        // }
+        // $data = $request->cookie('token');
+        // $data = unserialize($data);
 
-        $token = $data['token_type'] . ' ' . $data['access_token'];
-
+        // $token = $data['token_type'] . ' ' . $data['access_token'];
+        $token = $this->shipmentsController->getToken($request);
+        $user_id = $this->shipmentsController->getUserId($request);
         $param_search_transactions = [
-            'search' => 'user_id:' . $data['id'],
+            'search' => 'user_id:' . $user_id,
             'searchFields' => 'user_id:=',
             'orderBy' => 'created_at',
             'sortedBy' => 'desc',
@@ -45,8 +52,8 @@ class TransactionsController extends Controller
         if ($request->transaction) {
             return response()->json(['transactions' => $transactions]);
         }
-        $data = array_merge($data, ['transactions' => $transactions]);
-        return view('manager.transaction', compact('data'));
+        $data = ['transactions' => $transactions];
+        return view('transactions.transaction', compact('data'));
     }
 
     /**
@@ -76,9 +83,28 @@ class TransactionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        //
+        $token  = $this->shipmentsController->getToken($request);
+        $user_id = $this->shipmentsController->getUserId($request);
+
+        $header = [
+            'Accept-Language' => 'vi',
+            'Accept' => 'application/json',
+            'Authorization' => $token,
+        ];
+        $param = [
+            'search' => 'user_id:' . $user_id,
+            'searchFields' => 'user_id:=',
+            'with' => 'currency',
+        ];
+
+        $getAccount = Http::withHeaders($header)->get('http://accounting.tomonisolution.com:82/api/accounts', $param);
+
+        $data = json_decode($getAccount->body(), true);
+        $data = collect(['transactions' => $data]);
+
+        return view('transactions.index', compact('data'));
     }
 
     /**
