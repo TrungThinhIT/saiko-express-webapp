@@ -34,7 +34,7 @@ class OrdersController extends Controller
 
         $params = [
             'with' => 'trackings',
-            'page' => $request->paginate_order ?? 1,
+            'page' => $request->page_order ?? 1,
             'search' => 'customer_id:' . $customer_id,
             'orderBy' => 'created_at',
             'sortedBy' => 'desc',
@@ -46,7 +46,6 @@ class OrdersController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['list_orders' => $data]);
         }
-
         $data = ['list_orders' => $data];
 
         return view('orders.index', compact('data'));
