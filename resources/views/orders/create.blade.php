@@ -6,7 +6,9 @@
             background-color: rgba(0, 0, 0, .5);
             display: none;
         }
-
+        #paginate-address-book{
+            float: right;
+        }
         #fix-flex {
             flex: unset !important;
         }
@@ -34,7 +36,9 @@
             color: white;
             background-color: #fca901
         }
-
+        .set-max-width-modal{
+            max-width: 800px !important;
+        }
     </style>
 @section('content')
     <div class="col-lg-12 m-4 bg-warning" id="fix-flex">
@@ -281,7 +285,7 @@
                 </div>
             </div>
             <div class="modal" tabindex="-1" role="dialog" id="modal_qoute">
-                <div class="modal-dialog modal-md" role="document">
+                <div class="modal-dialog modal-lg set-max-width-modal" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h3 class="modal-title">Khai báo đơn hàng</h3>
@@ -518,42 +522,82 @@
                         $("#table_showResultCreatedTrackings").empty()
                         $.each(response, function(index, value) {
                             if (value.code == 201) {
-                                $("#table_showResultCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:green;border:none !important;text-align:center'>" +
-                                    value
-                                    .message + " " +
-                                    "<i class='fa fa-check' style='color:green'></i>" +
-                                    "</td>" +
-                                    "</tr>"
-                                )
+                                swal({
+                                        title: "Đã tạo thành công",
+                                        type: "success",
+                                        icon: "success",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#fca901",
+                                        confirmButtonText: "Exit",
+                                        closeOnConfirm: true
+                                    })
+                                    .then((willDelete) => {
+                                        if (willDelete) {
+                                            window.location.reload();
+                                        }
+                                    });
+                                // $("#table_showResultCreatedTrackings").append(
+                                //     "<tr style='border:none'>" +
+                                //     "<td style='color:green;border:none !important;text-align:center'>" +
+                                //     value
+                                //     .message + " " +
+                                //     "<i class='fa fa-check' style='color:green'></i>" +
+                                //     "</td>" +
+                                //     "</tr>"
+                                // )
                             }
                             if (value.code == 405) {
-                                $("#table_showResultCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:#fca901;border:none !important;text-align:center'>" +
-                                    value
-                                    .message + " " +
-                                    "<span><i class='fa fa-warning'></i></span>" +
-                                    "</td>" + "</tr>"
-                                )
+                                swal({
+                                    title: value.message,
+                                    type: "warning",
+                                    icon: "warning",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#fca901",
+                                    confirmButtonText: "Exit",
+                                    closeOnConfirm: true
+                                })
+                                // $("#table_showResultCreatedTrackings").append(
+                                //     "<tr style='border:none'>" +
+                                //     "<td style='color:#fca901;border:none !important;text-align:center'>" +
+                                //     value
+                                //     .message + " " +
+                                //     "<span><i class='fa fa-warning'></i></span>" +
+                                //     "</td>" + "</tr>"
+                                // )
+                                // $('#message').html('');
+                                // $('#exitForm').hide();
+                                // $('#exitSuccess').show();
+                                // $('#show_result').show();
                             }
                             if (value.code == 422) {
-                                $("#table_showResultCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:red;border:none !important;text-align:center'>" +
-                                    value
-                                    .message + " " +
-                                    "<span><i class='fa fa-times'></i></span>" +
-                                    "</td>" +
-                                    "</tr>"
-                                )
+                                swal({
+                                    title: value.message,
+                                    type: "warning",
+                                    icon: "warning",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#fca901",
+                                    confirmButtonText: "Exit",
+                                    closeOnConfirm: true
+                                })
+                                // $("#table_showResultCreatedTrackings").append(
+                                //     "<tr style='border:none'>" +
+                                //     "<td style='color:red;border:none !important;text-align:center'>" +
+                                //     value
+                                //     .message + " " +
+                                //     "<span><i class='fa fa-times'></i></span>" +
+                                //     "</td>" +
+                                //     "</tr>"
+                                // )
+                                // $('#message').html('');
+                                // $('#exitForm').hide();
+                                // $('#exitSuccess').show();
+                                // $('#show_result').show();
                             }
                         })
-                        $('#message').html('');
-                        $('#exitForm').hide();
-                        $('#exitSuccess').show();
-                        $('#show_result').show();
+                        // $('#message').html('');
+                        // $('#exitForm').hide();
+                        // $('#exitSuccess').show();
+                        // $('#show_result').show();
                     }
                 });
             })
@@ -861,42 +905,74 @@
                             $("#table_showResultCreatedTrackings").empty()
                             $.each(response, function(index, value) {
                                 if (value.code == 201) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:green;border:none !important;text-align:center'>" +
-                                        value
-                                        .message + " " +
-                                        "<i class='fa fa-check' style='color:green'></i>" +
-                                        "</td>" +
-                                        "</tr>"
-                                    )
+                                    swal({
+                                            title: "Đã tạo thành công",
+                                            type: "success",
+                                            icon: "success",
+                                            showCancelButton: false,
+                                            confirmButtonColor: "#fca901",
+                                            confirmButtonText: "Exit",
+                                            closeOnConfirm: true
+                                        })
+                                        .then((willDelete) => {
+                                            if (willDelete) {
+                                                window.location.reload();
+                                            }
+                                        });
+                                    // $("#table_showResultCreatedTrackings").append(
+                                    //     "<tr style='border:none'>" +
+                                    //     "<td style='color:green;border:none !important;text-align:center'>" +
+                                    //     value
+                                    //     .message + " " +
+                                    //     "<i class='fa fa-check' style='color:green'></i>" +
+                                    //     "</td>" +
+                                    //     "</tr>"
+                                    // )
                                 }
                                 if (value.code == 405) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:#fca901;border:none !important;text-align:center'>" +
-                                        value
-                                        .message + " " +
-                                        "<span><i class='fa fa-warning'></i></span>" +
-                                        "</td>" + "</tr>"
-                                    )
+                                    swal({
+                                        title: value.message,
+                                        type: "warning",
+                                        icon: "warning",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#fca901",
+                                        confirmButtonText: "Exit",
+                                        closeOnConfirm: true
+                                    })
+                                    // $("#table_showResultCreatedTrackings").append(
+                                    //     "<tr style='border:none'>" +
+                                    //     "<td style='color:#fca901;border:none !important;text-align:center'>" +
+                                    //     value
+                                    //     .message + " " +
+                                    //     "<span><i class='fa fa-warning'></i></span>" +
+                                    //     "</td>" + "</tr>"
+                                    // )
                                 }
                                 if (value.code == 422) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:red;border:none !important;text-align:center'>" +
-                                        value
-                                        .message + " " +
-                                        "<span><i class='fa fa-times'></i></span>" +
-                                        "</td>" +
-                                        "</tr>"
-                                    )
+                                    swal({
+                                        title: value.message,
+                                        type: "warning",
+                                        icon: "warning",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#fca901",
+                                        confirmButtonText: "Exit",
+                                        closeOnConfirm: true
+                                    })
+                                    // $("#table_showResultCreatedTrackings").append(
+                                    //     "<tr style='border:none'>" +
+                                    //     "<td style='color:red;border:none !important;text-align:center'>" +
+                                    //     value
+                                    //     .message + " " +
+                                    //     "<span><i class='fa fa-times'></i></span>" +
+                                    //     "</td>" +
+                                    //     "</tr>"
+                                    // )
                                 }
                             })
-                            $('#message').html('');
-                            $('#exitForm').hide();
-                            $('#exitSuccess').show();
-                            $('#show_result').show();
+                            // $('#message').html('');
+                            // $('#exitForm').hide();
+                            // $('#exitSuccess').show();
+                            // $('#show_result').show();
                         }
                     });
                 } else {}

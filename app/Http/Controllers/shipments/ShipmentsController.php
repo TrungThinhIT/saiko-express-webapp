@@ -27,6 +27,9 @@ class ShipmentsController extends Controller
     public function getToken($request)
     {
         $data = $this->getData($request);
+        if (!$data) {
+            return false;
+        }
         $token = $data['token_type'] . ' ' . $data['access_token'];
         return $token;
     }

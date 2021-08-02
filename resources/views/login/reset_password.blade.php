@@ -25,6 +25,10 @@
             border-color: #fca901 !important;
         }
 
+        .swal-button {
+            background-color: #fca901 !important;
+        }
+
         #forgot-password {
             color: #ffffff !important;
         }
@@ -113,11 +117,13 @@
         .display-result {
             display: none;
         }
-        #redirect{
+
+        #redirect {
             background-color: #fca901;
             border-color: #fca901;
             color: white;
         }
+
     </style>
 
     <!--Modal: modalConfirmDelete-->
@@ -292,12 +298,26 @@
                 },
                 success: function(data) {
                     if (data.code == 204) {
-                        $("#alert-success-redirect").append(
-                            "<span class='text-success'>" + "Cập nhật thành công" +
-                            "</span>" + "<br>"
-                        )
+                        swal({
+                                title: "Cập nhật thành công",
+                                type: "success",
+                                icon: "success",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    window.location.href="{{route('auth.index')}}";
+                                }
+                            });
+                        // $("#alert-success-redirect").append(
+                        //     "<span class='text-success'>" + "Cập nhật thành công" +
+                        //     "</span>" + "<br>"
+                        // )
 
-                        $("#modalRedirectPage").show()
+                        // $("#modalRedirectPage").show()
 
                     } else {
                         if (data.code == 502) {

@@ -8,7 +8,9 @@
             display: inline-block;
             width: 150px;
         }
-
+        .swal-button {
+            background-color: #fca901 !important;
+        }
         #custom-footer {
             margin-top: 200px;
         }
@@ -409,11 +411,25 @@
 
                     }
                     if (respone.code == 201) {
-                        $("#alert-success").append(
-                            "<span class='text-success'>" +
-                            "Đã đăng ký tài khoản thành công" + "</span>" + "<br>"
-                        )
-                        $("#modalReload").show()
+                        swal({
+                                title: "Đã tạo thành công",
+                                type: "success",
+                                icon: "success",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    window.location.reload();
+                                }
+                            });
+                        // $("#alert-success").append(
+                        //     "<span class='text-success'>" +
+                        //     "Đã đăng ký tài khoản thành công" + "</span>" + "<br>"
+                        // )
+                        // $("#modalReload").show()
 
                     }
                 },
@@ -472,7 +488,7 @@
                 type: "POST",
                 url: "{{ route('auth.sendLinkResetPassword') }}",
                 data: {
-                    callback_domain: window.location.protocol+"//"+window.location.hostname,
+                    callback_domain: window.location.protocol + "//" + window.location.hostname,
                     email: email,
                 },
                 success: function(response) {

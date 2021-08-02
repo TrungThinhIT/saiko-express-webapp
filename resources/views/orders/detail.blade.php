@@ -10,6 +10,25 @@
             justify-content: unset;
         }
 
+        .font-size-card {
+            font-size: 14px;
+        }
+
+        .set-height-card {
+            max-height: 380px;
+            overflow: auto;
+        }
+
+        .unset-padding-left-row {
+           padding-left: unset !important;
+        }
+
+        @media (max-width:1376px) {
+            .fix-reponsive {
+                width: 100% !important;
+            }
+        }
+
     </style>
 @section('content')
     @if (count($data['order']['data']))
@@ -50,7 +69,7 @@
                                             hiểm</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="insuarance-price"
-                                                value="{{ number_format($value['insurance_declaration']) }}">
+                                                value="{{ number_format($value['insurance_declaration']) . '  VND' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -59,7 +78,7 @@
                                             biệt</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="special-goods-price"
-                                                value="{{ number_format($value['special_declaration']) }}">
+                                                value="{{ number_format($value['special_declaration']) . '  VND' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -94,7 +113,7 @@
                                         <label for="goods-money" class="col-sm-4 col-form-label">Tiền hàng</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="goods-money"
-                                                value="{{ number_format($value['cost_of_goods']) }}">
+                                                value="{{ number_format($value['cost_of_goods']) . '  JPY' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -102,7 +121,7 @@
                                             toán</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="goods-money-paid"
-                                                value="{{ number_format($value['cost_of_goods_paid']) }}">
+                                                value="{{ number_format($value['cost_of_goods_paid']) . '  JPY' }}">
                                         </div>
                                     </div>
 
@@ -116,7 +135,7 @@
                                             toán</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="goods-money-paid"
-                                                value="{{ number_format($value['cost_of_goods_paid']) }}">
+                                                value="{{ number_format($value['cost_of_goods_paid']) . '  JPY' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -125,7 +144,7 @@
                                             toán</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="goods-money-outstanding"
-                                                value="{{ number_format($value['cost_of_goods_outstanding']) }}">
+                                                value="{{ number_format($value['cost_of_goods_outstanding']) . '  JPY' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -133,7 +152,7 @@
                                             hóa</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="compensation"
-                                                value="{{ number_format($value['compensation']) }}">
+                                                value="{{ number_format($value['compensation']) . '  JPY' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -141,7 +160,7 @@
                                             toán</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="compensation-paid"
-                                                value="{{ number_format($value['compensation_paid']) }}">
+                                                value="{{ number_format($value['compensation_paid']) . '  JPY' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -150,14 +169,14 @@
                                             trả</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="compensation-outstanding"
-                                                value="{{ number_format($value['compensation_outstanding']) }}">
+                                                value="{{ number_format($value['compensation_outstanding']) . '  JPY' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
                                         <label for="insurance_fee" class="col-sm-4 col-form-label">Phí bảo hiểm</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="insurance_fee"
-                                                value="{{ number_format($value['insurance_fee']) }}">
+                                                value="{{ number_format($value['insurance_fee']) . '  VND' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -165,7 +184,7 @@
                                             biệt</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="special_fee"
-                                                value="{{ number_format($value['special_goods_fee']) }}">
+                                                value="{{ number_format($value['special_goods_fee']) . '  VND' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -173,14 +192,14 @@
                                             hóa</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="service_fee_boxes"
-                                                value="{{ number_format($value['service_fee_boxes']) }}">
+                                                value="{{ number_format($value['service_fee_boxes']) . '  VND' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
                                         <label for="service_fee" class="col-sm-4 col-form-label">Phí dịch vụ</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="service_fee"
-                                                value="{{ number_format($value['service_fee']) }}">
+                                                value="{{ number_format($value['service_fee']) . '  VND' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -189,7 +208,7 @@
                                             toán</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="service_fee_paid"
-                                                value="{{ number_format($value['service_fee_paid']) }}">
+                                                value="{{ number_format($value['service_fee_paid']) . '  VND' }}">
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -201,7 +220,7 @@
                                         </label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="service_fee_outstanding"
-                                                value="{{ number_format($value['service_fee_outstanding']) }}">
+                                                value="{{ number_format($value['service_fee_outstanding']) . '  VND' }}">
                                         </div>
                                     </div>
                                 </form>
@@ -256,47 +275,52 @@
                             </div>
                         </div>
                     </div>
+                    {{-- {{ dd($data) }} --}}
                     <div class="col-md-6 ">
                         <div class="card h-100">
                             <div class="card-header">
                                 Danh sách vận đơn
                             </div>
-                            <div class="card-body">
+                            <div class="card-body font-size-card set-height-card">
                                 @if (count($value['owning_boxes']))
                                     @foreach ($value['owning_boxes'] as $key_owning => $value_owning)
-                                        <div class="card">
-                                            <div class="card-header">
-                                                Mã vận đơn:
-                                                {{ $value_owning['pivot_lading_bills'][0]['lading_bill_id'] }}
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    Mã SKU:{{ $value_owning['box_id'] }}
+                                        @if (isset($value_owning['pivot_lading_bills'][0]))
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    Mã vận đơn:
+                                                    {{ $value_owning['pivot_lading_bills'][0]['lading_bill_id'] }}
                                                 </div>
-                                                <div class="row">
-                                                    Số lượng được phân vào vận
-                                                    đơn:{{ $value_owning['quantity_in_lading_bills'] }}
-                                                </div>
-                                                <div class="row">
-                                                    Số lượng được phân cho
-                                                    đơn:
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        Chi phí lưu
-                                                        trữ:{{ $value_owning['pivot_lading_bills'][0]['storage_cost'] }}
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        Mã SKU:{{ $value_owning['box_id'] }}
                                                     </div>
-                                                    <div class="col-sm-6">
-                                                        Phụ
-                                                        phí:{{ $value_owning['pivot_lading_bills'][0]['additional_cost'] }}
+                                                    <div class="row">
+                                                        Số lượng được phân vào vận
+                                                        đơn:{{ $value_owning['quantity_in_lading_bills'] }}
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    Tiền cước vận chuyển phải
-                                                    thu:{{ $value_owning['pivot_lading_bills'][0]['service_fee'] }}
+                                                    <div class="row">
+                                                        Số lượng được phân cho
+                                                        đơn:
+                                                    </div>
+                                                    <div class="row ">
+                                                        <div class="col-sm-6 unset-padding-left-row">
+                                                            Chi phí lưu
+                                                            trữ:{{ $value_owning['pivot_lading_bills'][0]['storage_cost'] }}
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            Phụ phí:
+                                                            {{ $value_owning['pivot_lading_bills'][0]['additional_cost'] }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        Tiền cước vận chuyển phải
+                                                        thu:{{ $value_owning['pivot_lading_bills'][0]['service_fee'] }}
+                                                    </div>
+
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endif
+
                                     @endforeach
                                 @endif
                             </div>
@@ -325,24 +349,24 @@
                                                     <tr>
                                                         <td>
                                                             <div class="row">
-                                                                <div class="col-sm-2">
+                                                                <div class="col-md-3 fix-reponsive">
                                                                     Người thực hiện:
                                                                 </div>
-                                                                <div class="col-sm-10">
-                                                                    {{ $value_transaction['prepared_by_id'] }}
+                                                                <div class="col-md-9 fix-reponsive">
+                                                                    <b>{{ $value_transaction['prepared_by_id'] }}</b>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
-                                                                <div class="col-sm-2">
+                                                                <div class="col-sm-3 fix-reponsive">
                                                                     Ngày thực hiện:
                                                                 </div>
-                                                                <div class="col-sm-10">
-                                                                    {{ $value_transaction['created_at'] }}
+                                                                <div class="col-sm-9 fix-reponsive">
+                                                                    <b>{{ $value_transaction['created_at'] }}</b>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                         <td>
-                                                            {{ $value_transaction['amount'] . ' ' . $value_transaction['currency_id'] }}
+                                                            {{ number_format($value_transaction['amount']) . ' ' . $value_transaction['currency_id'] }}
                                                         </td>
                                                         <td>
                                                             {{ $value_transaction['description'] }}
