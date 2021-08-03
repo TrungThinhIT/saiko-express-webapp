@@ -24,7 +24,7 @@
   font-size: 18px;
 }
 
-</style> 
+</style>
 <!-- <div class="ed_pagetitle">
 <div class="ed_img_overlay"></div>
 	<div class="container">
@@ -34,7 +34,7 @@
 					<h2>Đường bay</h2>
 				</div>
 			</div>
-		
+
 		</div>
 	</div>
 </div> -->
@@ -77,8 +77,8 @@
                                         <h5>Văn phòng SaikoExpress</h5>
                                         <p>5101-1 Kaminokawa-machi Kawachi-gun, Tochigi-ken, Japan</p>
                                         <!-- <p>Kanji:</p> -->
-                                        
-                                  
+
+
                                     </div>
 
                                     <div class="detail phone">
@@ -118,11 +118,11 @@
                             </div>
                         </div>
                         <hr class="margtb40">
-                        
+
                         <div class="fh-section-title f25 clearfix  text-left version-dark paddbtm40" style="font-size:35px !important">
-                            <h2>bảng giá dịch vụ</h2> 
+                            <h2>bảng giá dịch vụ</h2>
                         </div>
-                        <img src="assets/images/price_air.png">
+                        <img src="assets/price_trip/price_fly.jpg">
                         <hr class="margtb40">
                         <div class="fh-section-title f25 clearfix  text-left version-dark paddbtm40">
                             <h2>NỘI DUNG LƯU Ý</h2>
@@ -143,7 +143,7 @@
                             <p>(3)</p>
                             <p> Lưu ý về bảo hiểm :</p>
                             <p>* Bảo hiểm chỉ có giá trị trong phạm vi từ kho của SAIKO tại Nhật đến kho của SAIKO tại Việt Nam.</p>
-                            <p>* Giá trị và số lượng hàng hóa được khách hàng tự khai báo và đăng ký vào mục *GHI CHÚ* khi đăng khí thông tin kiện hàng trên website 
+                            <p>* Giá trị và số lượng hàng hóa được khách hàng tự khai báo và đăng ký vào mục *GHI CHÚ* khi đăng khí thông tin kiện hàng trên website
                                 https://www.saikoexpress.com</p>
                             <p>* Hàng hóa được đóng bảo hiểm sẽ được đền bù 100% giá trị hàng hóa. Bảo hiểm chỉ có giá trị tối đa 20 triệu/lô hàng. </p>
                             <br>
@@ -224,9 +224,9 @@
                                             </header>
                                         </div>
                                     </div>
-                                            
-                                </div>     
-                            </div>        
+
+                                </div>
+                            </div>
                         </section>
                         -->
                     </div>
@@ -235,7 +235,7 @@
         </div>
         <!-- Welcome sec   end-->
 
-     
+
 @include('modules.footer')
 @include('modules.nav-mobile')
 </body>

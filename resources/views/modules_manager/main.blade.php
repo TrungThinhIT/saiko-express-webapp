@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="assets_mn/vendors/typicons/typicons.css">
     <link rel="stylesheet" href="assets_mn/vendors/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="assets_mn/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="assets_mn/css/paginate/pagination.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
@@ -26,7 +27,7 @@
     <!-- endinject -->
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    {{-- <script type="text/javascript" src="assets_mn/js/jquery.simplePagination.js"></script> --}}
+    {{-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> --}}
 
     <style>
         .custom-menu-main {
@@ -472,12 +473,12 @@
             <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="javascipt:;">
                             <i class="mdi mdi-grid-large menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('auth.info') }}">
                             <i class="menu-icon mdi mdi-account-outline"></i>
@@ -502,7 +503,7 @@
                             <span class="menu-title">Sổ địa chỉ</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#ui-transaction">
                             <i class="menu-icon fa fa-history"></i>
                             <span class="menu-title">Tài khoản tiền</span>
@@ -518,34 +519,31 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('transaction.index') }}"
                                         id="history-transaction">Lịch sử giao dịch</a>
-                                    {{-- </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript:;" id="follow-order">Theo
-                                        dõi đơn hàng</a>
-                                </li> --}}
                             </ul>
                         </div>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                             aria-controls="charts">
                             <i class="menu-icon fa fa-shopping-basket" aria-hidden="true"></i>
-                            <span class="menu-title">Quản lí đơn hàng</span>
+                            <span class="menu-title">Quản lí hàng hóa</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="ui-basic">
                             <ul class="nav flex-column sub-menu custom-menu-main" id="">
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('orders.create') }}" id="create-order">Gởi
+                                        hàng</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="javascript:;" id="follow-order">Theo
+                                        dõi hiện hàng</a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="javascript:;" id="index-order">Danh
                                         sách đơn hàng</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('orders.create') }}" id="create-order">Tạo đơn
-                                        hàng</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="javascript:;" id="follow-order">Theo
-                                        dõi đơn hàng</a>
                                 </li>
                             </ul>
                         </div>
@@ -647,9 +645,9 @@
                 </div>
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium <a
-                                href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a> from
-                            BootstrapDash.</span>
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block"> <a
+                                href="https://www.bootstrapdash.com/" target="_blank"> </a>
+                        </span>
                         <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2021. All
                             rights reserved.</span>
                     </div>
@@ -668,6 +666,7 @@
     <!-- container-scroller -->
 
     <!-- plugins:js -->
+    <script src="//code.jquery.com/jquery.min.js"></script>
     <script src="assets_mn/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
@@ -687,6 +686,9 @@
     <script src="assets_mn/js/dashboard.js"></script>
     <script src="assets_mn/js/Chart.roundedBarCharts.js"></script>
     <script src="assets_mn/js/jquery.masknumber.js"></script>
+    <script src="assets_mn/js/pagination.js"></script>
+    <script src="assets_mn/js/pagination.min.js"></script>
+    <script src="assets_mn/js/jquery.datetimepicker.full.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#load-page").click(function() {

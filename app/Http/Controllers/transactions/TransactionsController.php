@@ -21,27 +21,57 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-        // if ($request->cookie('token') == "") {
-        //     $request->session()->flash('login', 'Vui lòng đăng nhập lại');
-        //     if ($request->wantsJson()) {
-        //         return response()->json(['code' => 401]);
-        //     }
-        //     return redirect()->route('auth.index');
-        // }
-        // $data = $request->cookie('token');
-        // $data = unserialize($data);
-
-        // $token = $data['token_type'] . ' ' . $data['access_token'];
         $token = $this->shipmentsController->getToken($request);
         $user_id = $this->shipmentsController->getUserId($request);
+
         $param_search_transactions = [
             'search' => 'user_id:' . $user_id,
             'searchFields' => 'user_id:=',
             'orderBy' => 'created_at',
             'sortedBy' => 'desc',
             'page' => $request->page_transaction ?? 1,
+            'with' => 'type',
         ];
 
+        //ajax
+        if ($request->wantsJson()) {
+            if ($request->type_transaction != "all" && $request->type_money != "all") {
+                $param_search_transactions = [
+                    'search' => 'user_id:' . $user_id . ';currency_id:' . $request->type_money . ';type_id:' . $request->type_transaction,
+                    'searchFields' => 'user_id:=;currency_id:=;type_id:=',
+                    'searchJoin' => 'and',
+                    'orderBy' => 'created_at',
+                    'sortedBy' => 'desc',
+                    'page' => $request->page_transaction ?? 1,
+                    'with' => 'type',
+                ];
+            }
+
+            if ($request->type_money != "all" && $request->type_transaction == "all") {
+                $param_search_transactions = [
+                    'search' => 'user_id:' . $user_id . ';currency_id:' . $request->type_money,
+                    'searchFields' => 'user_id:=;currency_id:=',
+                    'searchJoin' => 'and',
+                    'orderBy' => 'created_at',
+                    'sortedBy' => 'desc',
+                    'page' => $request->page_transaction ?? 1,
+                    'with' => 'type',
+                ];
+            }
+
+            if ($request->type_transaction != "all" && $request->type_money == "all") {
+                $param_search_transactions = [
+                    'search' => 'user_id:' . $user_id . ';type_id:' . $request->type_transaction,
+                    'searchFields' => 'user_id:=;type_id:=',
+                    'searchJoin' => 'and',
+                    'orderBy' => 'created_at',
+                    'sortedBy' => 'desc',
+                    'page' => $request->page_transaction ?? 1,
+                    'with' => 'type',
+                ];
+            }
+        }
+        // dd($param_search_transactions);
         $transactions = Http::withHeaders([
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
@@ -53,6 +83,7 @@ class TransactionsController extends Controller
             return response()->json(['transactions' => $transactions]);
         }
         $data = ['transactions' => $transactions];
+
         return view('transactions.transaction', compact('data'));
     }
 
@@ -94,7 +125,7 @@ class TransactionsController extends Controller
             'Authorization' => $token,
         ];
         $param = [
-            'search' => 'user_id:' . $user_id,
+            'search' => 'user_id:' . $id,
             'searchFields' => 'user_id:=',
             'with' => 'currency',
         ];
@@ -103,7 +134,6 @@ class TransactionsController extends Controller
 
         $data = json_decode($getAccount->body(), true);
         $data = collect(['transactions' => $data]);
-
         return view('transactions.index', compact('data'));
     }
 

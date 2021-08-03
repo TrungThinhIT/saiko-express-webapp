@@ -85,7 +85,9 @@ Route::prefix('transactions')->name('transaction.')->namespace('transactions')->
 Route::prefix('orders')->middleware('cookie')->namespace('orders')->name('orders.')->group(function () {
     Route::resource('', 'OrdersController')->parameters(['' => 'order']);
     Route::get('follow/trackings', 'OrdersController@follow')->name('follow');
+    Route::get('status/index', 'OrdersController@listStatus')->name('listStatus');
 });
+
 
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {
     Route::get('create-tickit', 'appController@storeTickit')->name('storeTickit');

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\tinhthanh;
 use Illuminate\Http\Request;
 use App\Http\Controllers\shipments\ShipmentsController as ShipmentsController;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 
 class OrdersController extends Controller
@@ -25,7 +26,7 @@ class OrdersController extends Controller
     {
         $token  = $this->shipmentsController->getToken($request);
         $customer_id = $this->shipmentsController->getUserId($request);
-
+        // return $request->all();
         $header = [
             'Accept' => 'application/json',
             'Authorization' => $token,
@@ -33,21 +34,37 @@ class OrdersController extends Controller
         ];
 
         $params = [
-            'with' => 'trackings',
+            'with' => 'trackings;shipmentInfo',
             'page' => $request->page_order ?? 1,
             'search' => 'customer_id:' . $customer_id,
             'orderBy' => 'created_at',
             'sortedBy' => 'desc',
         ];
 
+        if ($request->field_search != "all") {
+
+            $params['search'] = 'customer_id:' . $customer_id . ';' . $request->field_search . ':' . $request->value_search;
+            //created
+            if ($request->field_search == "created_at") {
+                $date_search = Carbon::createFromDate($request->value_search)->format("Y-m-d");
+                $params['search'] = 'customer_id:' . $customer_id . ';' . $request->field_search . ':' . $date_search;
+            }
+            //status
+            if ($request->field_search == "director.status.id") {
+                $params['search'] = 'customer_id:' . $customer_id . ';' . $request->field_search . ':' . $request->status;
+            }
+
+            $params['searchJoin'] = 'and';
+        };
+
         $send = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders/shipment', $params);
 
         $data = json_decode($send->body(), true);
+        // dd($data);
         if ($request->wantsJson()) {
             return response()->json(['list_orders' => $data]);
         }
         $data = ['list_orders' => $data];
-
         return view('orders.index', compact('data'));
     }
 
@@ -185,5 +202,27 @@ class OrdersController extends Controller
     public function follow()
     {
         return view('orders.follow');
+    }
+
+    public function listStatus(Request $request)
+    {
+        $token = $this->shipmentsController->getToken($request);
+
+        $header = [
+            'Accept-Language' => 'vi',
+            'Authorization' => $token,
+            'Accept' => 'application/json',
+        ];
+        $params = [
+            'search' => 'directors.type_id:Shipment',
+        ];
+
+        $listStatus = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders/statuses', $params);
+
+        $listStatus = json_decode($listStatus->body(), true);
+
+        $data = ['listStatus' => $listStatus];
+
+        return response()->json($data);
     }
 }

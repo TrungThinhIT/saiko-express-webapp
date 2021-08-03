@@ -35,7 +35,7 @@
 
     </style>
 @section('content')
-    <div class="col-md-4 p-3 h-100">
+    <div class="col-md-6 p-3 h-100">
         <div id="info" class="border border-warning h-100">
             <div class="panel panel-info">
                 {{-- header --}}
@@ -102,7 +102,7 @@
         </div>
     </div>
     {{-- change passsword --}}
-    <div class="col-md-4 p-3 h-100">
+    <div class="col-md-6 p-3 h-100">
         <div id="changepass" class="border border-warning h-100">
             <div class="panel panel-info">
                 {{-- header --}}
@@ -162,7 +162,7 @@
         </div>
     </div>
     {{-- debt --}}
-    <div class="col-md-4  p-3 h-100">
+    <div class="col-md-4  p-3 h-100 d-none">
         <div id="debt" class="border border-warning h-100">
             <div class="panel panel-info">
                 {{-- header --}}
