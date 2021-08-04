@@ -285,9 +285,9 @@
                                     <li><a href="{{ route('contact.index') }}">Liên
                                             hệ</a></li>
                                     <li id="sub-menu-custom">
-                                        @if (Cookie::get('token') != '')
+                                        @if (Session::get('token') != '')
                                             @php
-                                                $data = unserialize(Cookie::get('token'));
+                                                $data = unserialize(Session::get('token'));
                                             @endphp
                                             <a class="" href="javascript:;">{{ $data['id'] }}</a>
                                             <ul class="sub-menu">
@@ -302,7 +302,7 @@
                                             </ul>
                                         @endif
                                     </li>
-                                    @if (Cookie::get('token') == '')
+                                    @if (Session::get('token') == '')
                                         <li>
                                             <a href="auth/index">Đăng
                                                 nhập</a>

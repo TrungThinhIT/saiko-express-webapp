@@ -3,13 +3,8 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpFoundation\Cookie as HttpFoundationCookie;
-use Symfony\Component\Mime\Test\Constraint\EmailHtmlBodyContains;
 
 class AuthController extends Controller
 {
@@ -50,13 +45,15 @@ class AuthController extends Controller
                     'Authorization' => $data['token_type'] . ' ' . $data['access_token']
                 ]
             )->get('http://auth.tomonisolution.com:82/api/me');
+
             if ($user->status() == 200) {
                 $user = json_decode($user->body(), true);
                 $user_token = array_merge($user, $data);
                 $value = serialize($user_token);
-                $token = cookie('token', $value, $data['expires_in']);
 
-                return response()->json(['code' => 200, 'data' => $user_token])->withCookie($token);
+                session()->put("token", $value);
+
+                return response()->json(['code' => 200, 'data' => $user_token]);
             }
         }
 
@@ -99,23 +96,19 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Cookie::queue(Cookie::forget('token'));
+        $request->session()->forget('token');
         return redirect()->route('auth.index');
     }
 
     public function info(Request $request)
     {
-        // if ($request->cookie('token') == "") {
-        //     $request->session()->flash('login', 'Vui lòng đăng nhập lại');
-        //     if ($request->wantsJson()) {
-        //         return response()->json(['code' => 401]);
-        //     }
-        //     return redirect()->route('auth.index');
-        // }
-        $data = $request->cookie('token');
+        $data = $request->session()->get('token');
         $data = unserialize($data);
-
-        $token = $data['token_type'] . ' ' . $data['access_token'];
+        if ($data) {
+            $token = $data['token_type'] . ' ' . $data['access_token'];
+        } else {
+            $token = $request->token;
+        }
         //account
         $param_search_account = [
             'search' => 'user_id:' . $data['id'],
@@ -126,7 +119,6 @@ class AuthController extends Controller
             'Accept' => 'application/json',
             'Authorization' => $token,
         ])->get('http://accounting.tomonisolution.com:82/api/accounts', $param_search_account);
-
         $account = json_decode($account, true);
         $data = array_merge($data, ['account' => $account]);
 
@@ -135,7 +127,7 @@ class AuthController extends Controller
 
     public function updateUser(Request $request)
     {
-        $data = $request->cookie('token');
+        $data = $request->session()->get('token');
         $data = unserialize($data);
         $token = $data['token_type'] . ' ' . $data['access_token'];
         $resultUpdate = Http::withHeaders([

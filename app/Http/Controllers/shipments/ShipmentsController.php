@@ -13,7 +13,7 @@ class ShipmentsController extends Controller
 {
     public function getData($request)
     {
-        $data = $request->cookie('token');
+        $data = $request->session()->get('token');
         $data = unserialize($data);
         return $data;
     }
@@ -41,7 +41,7 @@ class ShipmentsController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $request->cookie('token');
+        $data = $request->session()->get('token');
         $data = unserialize($data);
 
         $token = $data['token_type'] . ' ' . $data['access_token'];

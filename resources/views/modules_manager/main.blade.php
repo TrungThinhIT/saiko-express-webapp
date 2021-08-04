@@ -246,9 +246,9 @@
                     <li class="nav-item dropdown d-none d-lg-block user-dropdown">
                         <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" style="font-size:15px;"
                             aria-expanded="false">
-                            @if (Cookie::get('token') != '')
+                            @if (Session::get('token') != '')
                                 @php
-                                    $data = unserialize(Cookie::get('token'));
+                                    $data = unserialize(Session::get('token'));
                                 @endphp
                                 {{ $data['id'] }}
                                 <i class="fa fa-user-circle-o" aria-hidden="true"></i>

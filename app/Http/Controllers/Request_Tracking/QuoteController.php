@@ -15,9 +15,19 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Http\Controllers\shipments\ShipmentsController as ShipmentsController;
 
 class QuoteController extends Controller
 {
+    public function __construct(ShipmentsController $shipmentsController)
+    {
+        $this->shipmentsController = $shipmentsController;
+    }
+    public function cookie_token(Request $request)
+    {
+        return $this->shipmentsController->getToken($request);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -121,7 +131,7 @@ class QuoteController extends Controller
 
         $create_shipment = Http::withHeaders([
             'Accept' => 'application/json',
-            'Authorization' => 'Bearer ' . $token->access_token
+            'Authorization' => $this->cookie_token($request) ? $this->cookie_token($request) : 'Bearer ' . $token->access_token
         ]);
         $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders/shipment/create-with-trackings', [
             'shipment_method_id' => $shipping, //đường vận chuyển
@@ -142,11 +152,11 @@ class QuoteController extends Controller
             ]
         ]);
         if ($create_shipment->status() == 401) {
-            $this->getToken();
+
             $token = token::find(1);
             $create_shipment = Http::withHeaders([
                 'Accept' => 'application/json',
-                'Authorization' => 'Bearer ' . $token->access_token
+                'Authorization' =>  $this->cookie_token($request) ? $this->cookie_token($request) : 'Bearer ' . $token->access_token
             ]);
             $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders/shipment/create-with-trackings', [
                 'shipment_method_id' => $shipping, //đường vận chuyển

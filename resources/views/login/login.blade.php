@@ -8,9 +8,11 @@
             display: inline-block;
             width: 150px;
         }
+
         .swal-button {
             background-color: #fca901 !important;
         }
+
         #custom-footer {
             margin-top: 200px;
         }
