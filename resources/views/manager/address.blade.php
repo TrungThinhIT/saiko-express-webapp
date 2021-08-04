@@ -6,6 +6,14 @@
             color: orange;
         }
 
+        #fix-paginate-address li.active a {
+            background-color: #fca901;
+            border-color: silver;
+            color: #484848
+        }
+        #fix-paginate-address {
+            font-size: 13px;
+        }
         .fix-float {
             float: right;
         }
@@ -138,7 +146,7 @@
                     <div class="mt-4 ">
                         <nav aria-label="Page navigation example" class="fix-float">
                             <ul class="pagination custom-paginate" id="fix-paginate-address">
-                                <li class="page-item">
+                                {{-- <li class="page-item">
                                     <a class="page-link address" href="#" aria-label="Previous" data-page="1">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
@@ -152,7 +160,7 @@
                                         data-page={{ $data['list_address']['last_page'] }}>
                                         <span aria-hidden="true">&raquo;</span>
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </nav>
                     </div>
@@ -343,11 +351,20 @@
                     'Accept': "application/json"
                 },
             });
-            $(document).on('click', '.pagination .address', function(event) {
-                event.preventDefault();
-                var page = $(this).attr('data-page');
-                fetch_data(page);
-            });
+
+            $("#fix-paginate-address").pagination({
+                current: 1,
+                total: "{{ $data['list_address']['total'] }}",
+                size: 2,
+                length: "{{ $data['list_address']['per_page'] }}",
+                prev: "&lt;",
+                next: "&gt;",
+                click: function(e) {
+                    var page = $(this)[0].current;
+                    fetch_data(page);
+                }
+            })
+
             $("#add-address").click(function() {
                 if (!$("#province").val()) {
                     $.ajax({
@@ -426,37 +443,12 @@
                                     '</tr>'
                                 )
                             })
-
-                            $("#fix-paginate-address").empty()
-                            $("#fix-paginate-address").append(
-                                '<li class="page-item">' +
-                                '<a class="page-link address" href="#" aria-label="Previous" data-page="1">' +
-                                '<span aria-hidden="true">&laquo;</span>' +
-                                '</a>' +
-                                '</li>'
-                            )
-                            for (var first_page = 1; first_page <= data.list_address
-                                .last_page; first_page++) {
-                                $("#fix-paginate-address").append(
-                                    '<li class="page-item"><a class="page-link address" href="javascript:;"' +
-                                    'data-page="' + first_page + '">' + first_page + '</a></li>'
-                                )
-                            }
-                            $("#fix-paginate-address").append(
-                                '<li class="page-item">' +
-                                '<a class="page-link address" href="#" aria-label="Previous" data-page="' +
-                                data.list_address
-                                .last_page + '">' +
-                                '<span aria-hidden="true">&raquo;</span>' +
-                                '</a>' +
-                                '</li>'
-                            )
                         }
                     }
 
                 },
                 error: function(response) {
-
+                    console.log(response)
                 }
             })
         }

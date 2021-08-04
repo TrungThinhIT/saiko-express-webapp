@@ -56,14 +56,18 @@
                         </div>
 
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <div class="form-group">
                             <input type="text" class="form-control" id="type_input">
                             <select name="" id="list-status" class="form-control fix-select" style="display:none"></select>
                         </div>
                     </div>
                     <div class="col-md-1">
-                        <button type="button" class="form-control text-center fh-btn" id="filter_order">Lọc</button>
+                        <button type="button" class="btn btn-secondary form-control text-center "
+                            id="reset_order">reset</button>
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn form-control text-center fh-btn" id="filter_order">Lọc</button>
                     </div>
                 </div>
                 <table class="table table-striped set-border-radius">
@@ -77,7 +81,7 @@
                                 <td class="unset-border-bottom">SĐT người nhận</td>
                                 <td class="unset-border-bottom">Địa chỉ</td>
                                 <td class="unset-border-bottom">PTVC</td>
-                                {{-- <td class="unset-border-bottom">Ghi chú</td> --}}
+                                <td class="unset-border-bottom">Ghi chú</td>
                                 <td class="unset-border-bottom">Ngày tạo</td>
                                 <td class="unset-border-bottom">Trạng thái</td>
 
@@ -100,7 +104,7 @@
                                     <td>{{ $value['shipment_info']['full_address'] }}</td>
 
                                     <td>{{ $value['shipment_method_id'] }}</td>
-                                    {{-- <td>{{ $value['note'] }}</td> --}}
+                                    <td>{{ $value['note'] }}</td>
                                     <td>{{ $value['created_at'] }}</td>
                                     <td>{{ $value['status']['name'] }}</td>
                                 </tr>
@@ -138,7 +142,6 @@
                 $("#loader").hide();
             });
 
-
             $('#fix-paginate-order').pagination({
                 total: "{{ $data['list_orders']['total'] }}",
                 current: 1,
@@ -148,145 +151,9 @@
                 next: "&gt;",
                 click: function(e) {
                     var page = $(this)[0].current;
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('orders.index') }}",
-                        data: {
-                            orders: true,
-                            page_order: page
-                        },
-                        success: function(data) {
-                            if (data.code == 401) {
-                                location.reload()
-                            } else {
-                                $("#list-orders").empty()
-                                // $("#fix-paginate-order").empty()
-                                if (data.list_orders.data.length) {
-                                    $.each(data.list_orders.data, function(index,
-                                        value) {
-                                        if (value.note == null) {
-                                            var note = "";
-                                        } else {
-                                            note = value.note
-                                        }
-                                        if (value.trackings.length) {
-                                            var tracking_id = value
-                                                .trackings[0].id;
-                                        } else {
-                                            var tracking_id = "";
-                                        }
+                    fetch_data_order(page)
 
-                                        $("#list-orders").append(
-                                            '<tr class="text-center addHover detail-order" data-id="' +
-                                            value.id + '" id=order-' +
-                                            value
-                                            .id + '>' +
-                                            '<td>' + data.list_orders
-                                            .from++ +
-                                            '</td>' +
-                                            '<td>' + tracking_id +
-                                            '</td>' +
-                                            '<td>' + value.shipment_info
-                                            .sender_name + '</td>' +
-                                            '<td>' + value.shipment_info
-                                            .consignee + '</td>' +
-                                            '<td>' + value.shipment_info
-                                            .tel +
-                                            '</td>' +
-                                            '<td>' + value.shipment_info
-                                            .full_address + '</td>' +
-                                            '<td>' + value
-                                            .shipment_method_id +
-                                            '</td>' +
-
-                                            '<td>' + value.created_at +
-                                            '</td>' +
-                                            '<td>' + value.status.name +
-                                            '</td>' +
-                                            '</tr>'
-                                        )
-                                    })
-                                }
-                            }
-
-                        },
-                        error: function(response) {}
-                    })
                 }
-
-                // ajax: function(options, refresh, $target) {
-                //     var page = $(this)[0].current;
-                //     $.ajax({
-                //         type: "GET",
-                //         url: "{{ route('orders.index') }}",
-                //         data: {
-                //             orders: true,
-                //             page_order: page
-                //         },
-                //         success: function(data) {
-                //             if (data.code == 401) {
-                //                 location.reload()
-                //             } else {
-                //                 $("#list-orders").empty()
-                //                 // $("#fix-paginate-order").empty()
-                //                 if (data.list_orders.data.length) {
-                //                     $.each(data.list_orders.data, function(index,
-                //                         value) {
-                //                         if (value.note == null) {
-                //                             var note = "";
-                //                         } else {
-                //                             note = value.note
-                //                         }
-                //                         if (value.trackings.length) {
-                //                             var tracking_id = value
-                //                                 .trackings[0].id;
-                //                         } else {
-                //                             var tracking_id = "";
-                //                         }
-
-                //                         $("#list-orders").append(
-                //                             '<tr class="text-center addHover detail-order" data-id="' +
-                //                             value.id + '" id=order-' +
-                //                             value
-                //                             .id + '>' +
-                //                             '<td>' + data.list_orders
-                //                             .from++ +
-                //                             '</td>' +
-                //                             '<td>' + tracking_id +
-                //                             '</td>' +
-                //                             '<td>' + value.shipment_info
-                //                             .sender_name + '</td>' +
-                //                             '<td>' + value.shipment_info
-                //                             .consignee + '</td>' +
-                //                             '<td>' + value.shipment_info
-                //                             .tel +
-                //                             '</td>' +
-                //                             '<td>' + value.shipment_info
-                //                             .full_address + '</td>' +
-                //                             '<td>' + value
-                //                             .shipment_method_id +
-                //                             '</td>' +
-
-                //                             '<td>' + value.created_at +
-                //                             '</td>' +
-                //                             '<td>' + value.status.name +
-                //                             '</td>' +
-                //                             '</tr>'
-                //                         )
-                //                     })
-                //                 }
-                //                 refresh({
-                //                     total: data.list_orders.total,
-                //                     length: data.list_orders.per_page
-                //                 });
-                //             }
-
-                //         },
-                //         error: function(response) {
-
-                //         }
-                //     })
-                // }
             })
 
             $("#filter_order").click(function() {
@@ -330,12 +197,10 @@
                                             $("#list-orders").append(
                                                 '<tr class="text-center addHover detail-order" data-id="' +
                                                 value.id +
-                                                '" id=order-' +
-                                                value
+                                                '" id=order-' + value
                                                 .id + '>' +
                                                 '<td>' + data
-                                                .list_orders
-                                                .from++ +
+                                                .list_orders.from++ +
                                                 '</td>' +
                                                 '<td>' + tracking_id +
                                                 '</td>' +
@@ -346,23 +211,20 @@
                                                 .shipment_info
                                                 .consignee + '</td>' +
                                                 '<td>' + value
-                                                .shipment_info
-                                                .tel +
-                                                '</td>' +
-                                                '<td>' + value
+                                                .shipment_info.tel +
+                                                '</td>' + '<td>' + value
                                                 .shipment_info
                                                 .full_address +
                                                 '</td>' +
                                                 '<td>' + value
                                                 .shipment_method_id +
                                                 '</td>' +
-
+                                                '<td>' + note +
+                                                '</td>' +
                                                 '<td>' + value
-                                                .created_at +
-                                                '</td>' +
+                                                .created_at + '</td>' +
                                                 '<td>' + value.status
-                                                .name +
-                                                '</td>' +
+                                                .name + '</td>' +
                                                 '</tr>'
                                             )
                                         })
@@ -375,7 +237,7 @@
 
                             },
                             error: function(response) {
-
+                                console.log(response)
                             }
                         })
                     }
@@ -425,6 +287,10 @@
                     $("#list-status").show()
                 }
             })
+
+            $("#reset_order").click(function() {
+                $("#select_search").val('all').change()
+            })
         })
 
         function fetch_data_order(page) {
@@ -464,41 +330,18 @@
                                     '<td>' + value.shipment_info.tel + '</td>' +
                                     '<td>' + value.shipment_info.full_address + '</td>' +
                                     '<td>' + value.shipment_method_id + '</td>' +
-
+                                    '<td>' + note + '</td>' +
                                     '<td>' + value.created_at + '</td>' +
                                     '<td>' + value.status.name + '</td>' +
                                     '</tr>'
                                 )
                             })
-                            // $("#fix-paginate-order").append(
-                            //     '<li class="page-item">' +
-                            //     '<a class="page-link order" href="#" aria-label="Previous" data-page="1">' +
-                            //     '<span aria-hidden="true">&laquo;</span>' +
-                            //     '</a>' +
-                            //     '</li>'
-                            // )
-                            // for (var first_page = 1; first_page <= data.list_orders
-                            //     .last_page; first_page++) {
-                            //     $("#fix-paginate-order").append(
-                            //         '<li class="page-item"><a class="page-link order" href="javascript:;"' +
-                            //         'data-page="' + first_page + '">' + first_page + '</a></li>'
-                            //     )
-                            // }
-                            // $("#fix-paginate-order").append(
-                            //     '<li class="page-item">' +
-                            //     '<a class="page-link order" href="#" aria-label="Previous" data-page="' +
-                            //     data.list_orders
-                            //     .last_page + '">' +
-                            //     '<span aria-hidden="true">&raquo;</span>' +
-                            //     '</a>' +
-                            //     '</li>'
-                            // )
                         }
                     }
 
                 },
                 error: function(response) {
-
+                    console.log(response)
                 }
             })
         }

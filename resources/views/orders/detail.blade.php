@@ -20,7 +20,7 @@
         }
 
         .unset-padding-left-row {
-           padding-left: unset !important;
+            padding-left: unset !important;
         }
 
         @media (max-width:1376px) {
@@ -28,7 +28,9 @@
                 width: 100% !important;
             }
         }
-
+        .fix-float-right{
+            float:right;
+        }
     </style>
 @section('content')
     @if (count($data['order']['data']))
@@ -36,8 +38,16 @@
             {{-- {{ dd($value) }} --}}
             <div class="col-md-12 p-3">
                 <div class="card fix-overflow">
+
                     <div class="card-header ">
-                        Thông tin đơn hàng
+                        <div class="row">
+                            <div class="col-md-10">
+                                Thông tin đơn hàng
+                            </div>
+                            <div class="col-md-2 ">
+                                <button class="btn fix-float-right" onclick="window.history.back()">back</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body custom-background set-overflow">
                         <div class="row">

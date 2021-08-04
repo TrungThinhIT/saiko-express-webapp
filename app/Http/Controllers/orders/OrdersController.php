@@ -60,7 +60,17 @@ class OrdersController extends Controller
         $send = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders/shipment', $params);
 
         $data = json_decode($send->body(), true);
-        // dd($data);
+
+        foreach ($data['data'] as $key => $value) {
+            if (!$value['note']) {
+                continue;
+            }
+            $parse_note = json_decode($value['note']);
+            if ($parse_note) {
+                $data['data'][$key]['shipment_info']['sender_name'] = $parse_note->send_name ?? "";
+                $data['data'][$key]['note'] = $parse_note->note ?? "";
+            }
+        }
         if ($request->wantsJson()) {
             return response()->json(['list_orders' => $data]);
         }
@@ -161,6 +171,17 @@ class OrdersController extends Controller
         $order = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders', $params);
 
         $data = json_decode($order->body(), true);
+        foreach ($data['data'] as $key => $value) {
+            if (!$value['note']) {
+                continue;
+            }
+            $parse_note = json_decode($value['note']);
+            if ($parse_note) {
+                $data['data'][$key]['shipment_info']['sender_tel'] = $parse_note->send_phone ?? "";
+                $data['data'][$key]['shipment_info']['sender_name'] = $parse_note->send_name ?? "";
+                $data['data'][$key]['note'] = $parse_note->note ?? "";
+            }
+        }
         $data = ['order' => $data];
 
         return view('orders.detail', compact('data'));
