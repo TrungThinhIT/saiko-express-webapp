@@ -16,7 +16,7 @@ class checkCookieAuth
      */
     public function handle($request, Closure $next)
     {
-        if ($request->session('token') == "") {
+        if ($request->session()->get('token') == "") {
             session()->flash('login', 'Vui lòng đăng nhập lại');
             if ($request->wantsJson()) {
                 return response()->json(['code' => 401]);
