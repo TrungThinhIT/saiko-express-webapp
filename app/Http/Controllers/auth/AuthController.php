@@ -96,7 +96,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $request->session()->forget('token');
+        session()->forget('token');
         return redirect()->route('auth.index');
     }
 
