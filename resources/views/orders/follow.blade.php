@@ -1,5 +1,6 @@
 @extends('modules_manager.main')
-@section('title', 'Theo dõi đơn hàng')
+@section('title', 'Theo dõi kiện hàng hàng')
+@section('title-header-content','Theo dõi kiện hàng')
 @section('css')
     <style>
         .table-striped>tbody>tr:nth-child(odd)>td,

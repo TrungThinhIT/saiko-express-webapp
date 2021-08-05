@@ -1,14 +1,21 @@
 @extends('modules_manager.main')
 @section('title', 'Tạo đơn hàng')
+@section('title-header-content', 'Gởi hàng')
 @section('style')
     <style>
         #modal-addressbook {
             background-color: rgba(0, 0, 0, .5);
             display: none;
         }
-        #paginate-address-book{
+
+        .unset-bs-gutter-x {
+            --bs-gutter-x: 0px !important;
+        }
+
+        #paginate-address-book {
             float: right;
         }
+
         #fix-flex {
             flex: unset !important;
         }
@@ -36,9 +43,32 @@
             color: white;
             background-color: #fca901
         }
-        .set-max-width-modal{
+
+        .set-max-width-modal {
             max-width: 800px !important;
         }
+
+        #list-address {
+            font-size: 14px;
+        }
+
+        #paginate-address-book li.active a {
+            border-radius: 50%;
+            background-color: #fca901;
+            border: unset;
+            color: #484848
+        }
+
+        #paginate-address-book li a {
+            background-color: white;
+            color: #484848;
+            border: unset;
+        }
+
+        #paginate-address-book {
+            font-size: 15px;
+        }
+
     </style>
 @section('content')
     <div class="col-lg-12 m-4 bg-warning" id="fix-flex">
@@ -71,10 +101,11 @@
                             <div class="row">
                                 <h5>Chọn địa chỉ</h5>
                             </div>
-                            <div class="">
 
-                                <div id="list-address">
-
+                            <div>
+                                <div class="card">
+                                    <div class="row col-md-12" id="list-address">
+                                    </div>
                                 </div>
                             </div>
 
@@ -106,16 +137,16 @@
                                     value="{{ old('tracking') }}" type="text" required>
                             </div>
                             <div class="col-md-3 mt-4">
-                                <button type="button" style="margin-top:6px" class="btn fh-btn form-control"
-                                    id="showModal-address">Sổ địa chỉ</button>
+                                <button type="button" style="margin-top:6px" class="btn fh-btn " id="showModal-address">Sổ
+                                    địa chỉ</button>
                             </div>
                         </div>
                         <div class="row" id="ele-add-choose" style="display:none">
                             <div class="row col-md-12">
-                                <div class="form-group col-md-10">
+                                <div class="row col-md-12 ">
                                     <label for="">Địa chỉ đã chọn</label>
-                                    <input type="text" class="form-control" value="" name="add-choose" id="add-choose"
-                                        readonly>
+                                </div>
+                                <div class="form-group col-md-9 fix-font-size" id="choosed-address">
 
                                 </div>
 
@@ -443,8 +474,9 @@
                 },
             });
             $('#btn-show-input').click(function() {
-                $('input[name="addbook"]:checked', '#list-address').prop('checked', false)
+                $("#list-address .bg-white .bg-warning").removeClass('bg-warning')
                 $('#ele-add-choose').hide()
+                $("#choosed-address").empty()
                 $('.hidden-input').show()
             })
             $('#close-modal-address').click(function() {
@@ -453,7 +485,7 @@
             $('#send_infor_tracking-address-book').click(function() {
                 var tracking = $('#utracking').val();
                 var trip = $('input[name="fh_radio"]:checked', '#trip').val();
-                var shipment_id = $('input[name="addbook"]:checked', '#list-address').val();
+                var shipment_id = $("#choosed-address .remove-bg").data('id');
                 // var full_address = $('#lb-address' + shipment_id).text()
                 var mapObj = {
                     "_": "",
@@ -536,15 +568,6 @@
                                             window.location.reload();
                                         }
                                     });
-                                // $("#table_showResultCreatedTrackings").append(
-                                //     "<tr style='border:none'>" +
-                                //     "<td style='color:green;border:none !important;text-align:center'>" +
-                                //     value
-                                //     .message + " " +
-                                //     "<i class='fa fa-check' style='color:green'></i>" +
-                                //     "</td>" +
-                                //     "</tr>"
-                                // )
                             }
                             if (value.code == 405) {
                                 swal({
@@ -556,18 +579,6 @@
                                     confirmButtonText: "Exit",
                                     closeOnConfirm: true
                                 })
-                                // $("#table_showResultCreatedTrackings").append(
-                                //     "<tr style='border:none'>" +
-                                //     "<td style='color:#fca901;border:none !important;text-align:center'>" +
-                                //     value
-                                //     .message + " " +
-                                //     "<span><i class='fa fa-warning'></i></span>" +
-                                //     "</td>" + "</tr>"
-                                // )
-                                // $('#message').html('');
-                                // $('#exitForm').hide();
-                                // $('#exitSuccess').show();
-                                // $('#show_result').show();
                             }
                             if (value.code == 422) {
                                 swal({
@@ -579,122 +590,122 @@
                                     confirmButtonText: "Exit",
                                     closeOnConfirm: true
                                 })
-                                // $("#table_showResultCreatedTrackings").append(
-                                //     "<tr style='border:none'>" +
-                                //     "<td style='color:red;border:none !important;text-align:center'>" +
-                                //     value
-                                //     .message + " " +
-                                //     "<span><i class='fa fa-times'></i></span>" +
-                                //     "</td>" +
-                                //     "</tr>"
-                                // )
-                                // $('#message').html('');
-                                // $('#exitForm').hide();
-                                // $('#exitSuccess').show();
-                                // $('#show_result').show();
+
                             }
                         })
-                        // $('#message').html('');
-                        // $('#exitForm').hide();
-                        // $('#exitSuccess').show();
-                        // $('#show_result').show();
                     }
                 });
             })
             $('#sendInfoTracking').click(function() {
-                var check_address = $('input[name="addbook"]:checked', '#list-address').val();
-                if (check_address != undefined && check_address != "") {
-                    var full_address = $('#lb-address' + check_address).text();
-                    $('#add-choose').val(full_address);
+                var check_address = $("#list-address .bg-white .bg-warning").data('id');
+                if (check_address != undefined) {
+
+                    var html = $("#list-address .bg-white .bg-warning").clone().removeClass([
+                        'mt-2', 'h-100', 'p-3'
+                    ]);
+                    $("#choosed-address").html(html)
                     $('#ele-add-choose').show()
                     $('.hidden-input').hide()
                 }
                 $('#modal-addressbook').hide()
 
+
             })
 
             $('#showModal-address').click(function() {
-                var check = $('input[name="addbook"]', '#list-address')
+                var check = $('#list-address .bg-white')
                 if (!check.length) {
-                    $.ajax({
-                        type: "GET",
-                        url: "{{ route('shipment.index') }}",
-                        data: {
-                            shipment: true,
-                        },
-                        success: function(data) {
-                            if (data.code == 401) {
-                                location.reload()
-                            } else {
-                                if (data.list_address.data.length) {
-                                    $("#list-address").empty()
-                                    $.each(data.list_address.data, function(index, value) {
+                    $("#paginate-address-book").pagination({
+                        ajax: function(options, refresh, $target) {
+                            var page = $(this)[0].current;
+                            $.ajax({
+                                type: "GET",
+                                url: "{{ route('shipment.index') }}",
+                                data: {
+                                    shipment: true,
+                                    page_shipment: page,
+                                },
+                                success: function(data) {
+                                    if (data.code == 401) {
+                                        location.reload()
+                                    } else {
+                                        if (data.list_address.data.length) {
+                                            $("#list-address").empty()
+                                            $.each(data.list_address.data, function(
+                                                index,
+                                                value) {
+                                                $("#list-address").append(
+                                                    '<div class="col-md-4 bg-white" >' +
+                                                    '<div class="bg-secondary mt-2 h-100 p-3 remove-bg" onclick="choose_address(this)" data-id=' +
+                                                    value.id + ' >' +
+                                                    '<div class="row  unset-bs-gutter-x">' +
+                                                    '<div class="col-md-4">' +
+                                                    "Ngưởi gửi:" +
+                                                    '</div>' +
+                                                    '<div class="col-md-8">' +
+                                                    value.sender_name +
+                                                    '</div>' +
+                                                    '</div>' +
+                                                    '<div class="row  unset-bs-gutter-x">' +
+                                                    '<div class="col-md-4">' +
+                                                    "SĐT người gửi:" +
+                                                    '</div>' +
+                                                    '<div class="col-md-8">' +
+                                                    value.sender_tel +
+                                                    '</div>' +
+                                                    '</div>' +
+                                                    '<div class="row  unset-bs-gutter-x">' +
+                                                    '<div class="col-md-4">' +
+                                                    "Người nhận:" +
+                                                    '</div>' +
+                                                    '<div class="col-md-8">' +
+                                                    value.consignee +
+                                                    '</div>' +
+                                                    '</div>' +
+                                                    '<div class="row  unset-bs-gutter-x">' +
+                                                    '<div class="col-md-4">' +
+                                                    "SĐT người nhận:" +
+                                                    '</div>' +
+                                                    '<div class="col-md-8">' +
+                                                    value.tel +
+                                                    '</div>' +
+                                                    '<div class="row  unset-bs-gutter-x">' +
+                                                    '<div class="col-md-4">' +
+                                                    "Địa chỉ:" +
+                                                    '</div>' +
+                                                    '<div class="col-md-8 full_address">' +
+                                                    value.full_address +
+                                                    '</div>' +
+                                                    '</div>' +
+                                                    '</div>' +
+                                                    '</div>')
+                                            })
+                                            $('#modal-addressbook').css('display',
+                                                'block')
 
-                                        $("#list-address").append(
-                                            '<div class="form-check">' +
-                                            '<input class="form-check-input" type="radio" name="addbook" id="address' +
-                                            value.id + '" value="' + value.id +
-                                            '">' +
-                                            '<label class="form-check-label" id="lb-address' +
-                                            value
-                                            .id +
-                                            '"for="address"' + value.id +
-                                            '">Người nhận:' + value.consignee +
-                                            ", SĐT người nhận:" + value.tel +
-                                            ", Người gửi:" + value.sender_name +
-                                            ", SĐT người gửi:" + value.sender_tel +
-                                            ", Địa chỉ:" +
-                                            value.full_address +
-                                            '</label>' +
-                                            '</div>'
-                                        )
-                                    })
+                                        } else {
+                                            swal_action('Chưa có địa chỉ')
+                                        }
+                                        refresh({
+                                            total: data.list_address.total,
+                                            length: data.list_address
+                                                .per_page
+                                        });
 
-                                    $("#paginate-address-book").empty()
-                                    $("#paginate-address-book").append(
-                                        '<li class="page-item">' +
-                                        '<a class="page-link address" href="#" aria-label="Previous" data-page="1">' +
-                                        '<span aria-hidden="true">&laquo;</span>' +
-                                        '</a>' +
-                                        '</li>'
-                                    )
-                                    for (var first_page = 1; first_page <= data.list_address
-                                        .last_page; first_page++) {
-                                        $("#paginate-address-book").append(
-                                            '<li class="page-item"><a class="page-link address" href="javascript:;"' +
-                                            'data-page="' + first_page + '">' + first_page +
-                                            '</a></li>'
-                                        )
                                     }
-                                    $("#paginate-address-book").append(
-                                        '<li class="page-item">' +
-                                        '<a class="page-link address" href="#" aria-label="Previous" data-page="' +
-                                        data.list_address
-                                        .last_page + '">' +
-                                        '<span aria-hidden="true">&raquo;</span>' +
-                                        '</a>' +
-                                        '</li>'
-                                    )
-                                    $('#modal-addressbook').css('display', 'block')
-
-                                } else {
-                                    swal_action('Chưa có địa chỉ')
-                                }
-                            }
-                        },
-                        error: function(response) {}
+                                },
+                                error: function(response) {}
+                            })
+                        }
                     })
+
                 } else {
                     $('#modal-addressbook').css('display', 'block')
                 }
 
 
             })
-            // $('#exitForm').click(function(){
-            //     $('#myModal').fadeOut(500)
-            //     // $('.modal-open').hide()
-            //     // $('.modal-backdrop').remove()
-            // })
+
             $('#insurance_enter').maskNumber({
                 integer: true,
             });
@@ -770,28 +781,10 @@
             $(document).ajaxStop(function() {
                 $("#loader").hide();
             });
-            // $("#uair").on("click",function(){
-            //     $("#uair").one("change",function(){
-            //         if($("#uair").prop('checked')){
-            //             $("#trip_sea").css('display','none')
-            //             $("#first_option").attr('selected')
-            //             // $("#utypeadd").val($("#utypeadd option:selected"))
-            //             $("#utypeadd").val("Nhận tại VP Sóc Sơn").change();
-            //         }
-            //     })
-            // })
-            // $("#usea").on("click",function(){
-            //     $("#usea").one("change",function(){
-            //         if($("#usea").prop('checked')){
-            //             $("#trip_sea").css('display','unset')
-            //             $("#first_option").attr('selected')
-            //             $("#utypeadd").val("Nhận tại VP Sóc Sơn").change();
-            //         }
-            //     })
-            // })
             $("#send_infor_tracking").click(function() {
-                var check_address = $('input[name="addbook"]:checked', '#list-address').val();
-                if (check_address == undefined || check_address == "") {
+                var check_address = $("#choosed-address .remove-bg").data('id');
+
+                if (check_address == undefined) {
 
                     var OptionAdd = $('#utypeadd').val();
                     var AddRev = $("#UaddNumber").val();
@@ -919,15 +912,6 @@
                                                 window.location.reload();
                                             }
                                         });
-                                    // $("#table_showResultCreatedTrackings").append(
-                                    //     "<tr style='border:none'>" +
-                                    //     "<td style='color:green;border:none !important;text-align:center'>" +
-                                    //     value
-                                    //     .message + " " +
-                                    //     "<i class='fa fa-check' style='color:green'></i>" +
-                                    //     "</td>" +
-                                    //     "</tr>"
-                                    // )
                                 }
                                 if (value.code == 405) {
                                     swal({
@@ -939,14 +923,6 @@
                                         confirmButtonText: "Exit",
                                         closeOnConfirm: true
                                     })
-                                    // $("#table_showResultCreatedTrackings").append(
-                                    //     "<tr style='border:none'>" +
-                                    //     "<td style='color:#fca901;border:none !important;text-align:center'>" +
-                                    //     value
-                                    //     .message + " " +
-                                    //     "<span><i class='fa fa-warning'></i></span>" +
-                                    //     "</td>" + "</tr>"
-                                    // )
                                 }
                                 if (value.code == 422) {
                                     swal({
@@ -958,21 +934,8 @@
                                         confirmButtonText: "Exit",
                                         closeOnConfirm: true
                                     })
-                                    // $("#table_showResultCreatedTrackings").append(
-                                    //     "<tr style='border:none'>" +
-                                    //     "<td style='color:red;border:none !important;text-align:center'>" +
-                                    //     value
-                                    //     .message + " " +
-                                    //     "<span><i class='fa fa-times'></i></span>" +
-                                    //     "</td>" +
-                                    //     "</tr>"
-                                    // )
                                 }
                             })
-                            // $('#message').html('');
-                            // $('#exitForm').hide();
-                            // $('#exitSuccess').show();
-                            // $('#show_result').show();
                         }
                     });
                 } else {}
@@ -980,6 +943,13 @@
 
 
         });
+
+        function choose_address(obj) {
+            $(".remove-bg").addClass('bg-secondary')
+            $(".remove-bg").removeClass('bg-warning')
+            $(obj).addClass('bg-warning')
+
+        }
 
         function swal_action(string) {
             swal({
@@ -1057,7 +1027,8 @@
 
         function push_tracking() {
             event.preventDefault();
-            var check_address = $('input[name="addbook"]:checked', '#list-address').val();
+            var check_address = $("#choosed-address .remove-bg").data('id');
+            alert(check_address)
             var trip = $('input[name="fh_radio"]:checked', '#trip').val();
             var tracking = $("#utracking").val();
             if (tracking.length <= 7) {
@@ -1168,7 +1139,7 @@
                     return mapObj[matched];
                 });
                 var trip = $('input[name="fh_radio"]:checked', '#trip').val();
-                var full_address = $('#lb-address' + check_address).text();
+                var full_address = $("#choosed-address .remove-bg .full_address").text();
                 $("#address_modal").empty()
                 $("#method_modal").empty();
                 $("#address_modal").text(full_address)

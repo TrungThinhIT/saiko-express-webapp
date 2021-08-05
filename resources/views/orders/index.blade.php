@@ -1,5 +1,6 @@
 @extends('modules_manager.main')
 @section('title', 'Danh sách đơn hàng')
+@section('title-header-content','Danh sách đơn hàng')
 @section('css')
     <style>
         #create-order {
@@ -7,19 +8,20 @@
         }
 
         #fix-paginate-order li.active a {
+            border-radius: 50%;
             background-color: #fca901;
-            border-color: silver;
+            border: unset;
             color: #484848
         }
 
         #fix-paginate-order li a {
             background-color: white;
-            border-color: silver;
-            color: #484848
+            color: #484848;
+            border: unset;
         }
 
         #fix-paginate-order {
-            font-size: 13px;
+            font-size: 15px;
         }
 
         .fh-btn {

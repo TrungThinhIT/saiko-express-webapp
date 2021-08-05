@@ -1,5 +1,6 @@
 @extends('modules_manager.main')
 @section('title', 'Thông tin cá nhân')
+@section('title-header-content','Thông tin cá nhân')
 @section('style')
     <style>
         #update-info-form {

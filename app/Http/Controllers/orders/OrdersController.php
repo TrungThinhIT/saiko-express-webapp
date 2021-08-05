@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Http;
 class OrdersController extends Controller
 {
 
-    public function __construct(ShipmentsController $ShipmentsController, Request $request)
+    public function __construct(ShipmentsController $ShipmentsController)
     {
 
         $this->shipmentsController = $ShipmentsController;

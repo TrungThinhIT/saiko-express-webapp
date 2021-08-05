@@ -1,5 +1,6 @@
 @extends('modules_manager.main')
 @section('title', 'Sổ địa chỉ')
+@section('title-header-content', 'Sổ địa chỉ')
 @section('css')
     <style>
         .custom-icon {
@@ -8,12 +9,25 @@
 
         #fix-paginate-address li.active a {
             background-color: #fca901;
-            border-color: silver;
+            border-radius: 50%;
+            border: unset;
             color: #484848
         }
+
+        #fix-paginate-address li a {
+            color: #484848;
+            background-color: white;
+            border: unset;
+        }
+
         #fix-paginate-address {
             font-size: 13px;
         }
+
+        #fix-paginate-address-header {
+            font-size: 13px;
+        }
+
         .fix-float {
             float: right;
         }
@@ -146,21 +160,6 @@
                     <div class="mt-4 ">
                         <nav aria-label="Page navigation example" class="fix-float">
                             <ul class="pagination custom-paginate" id="fix-paginate-address">
-                                {{-- <li class="page-item">
-                                    <a class="page-link address" href="#" aria-label="Previous" data-page="1">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                @for ($i = 1; $i <= $data['list_address']['last_page']; $i++)
-                                    <li class="page-item"><a class="page-link address" href="javascript:;"
-                                            data-page="{{ $i }}">{{ $i }}</a></li>
-                                @endfor
-                                <li class="page-item">
-                                    <a class="page-link address" href="#" aria-label="Next"
-                                        data-page={{ $data['list_address']['last_page'] }}>
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li> --}}
                             </ul>
                         </nav>
                     </div>
@@ -443,6 +442,19 @@
                                     '</tr>'
                                 )
                             })
+                            console.log(data.list_address.current_page)
+                            $("#fix-paginate-address").pagination({
+                                current: data.list_address.current_page,
+                                total: data.list_address.total,
+                                size: 2,
+                                length: data.list_address.per_page,
+                                prev: "&lt;",
+                                next: "&gt;",
+                                click: function(e) {
+                                    var page = $(this)[0].current;
+                                    fetch_data(page);
+                                }
+                            })
                         }
                     }
 
@@ -496,7 +508,6 @@
                 alert('Vui lòng nhập số nhà tên đường')
                 return;
             }
-
             $.ajax({
                 type: "POST",
                 url: "{{ route('shipment.store') }}",
@@ -513,7 +524,8 @@
                     $("#alert-errors").empty()
                     $("#modal-create-address").hide()
                     if (response.code == 201) {
-                        fetch_data(1);
+                        var page = $("#fix-paginate-address .active a").data('page');
+                        fetch_data(page);
                         swal({
                             title: "Đã tạo thành công",
                             type: "success",
@@ -529,6 +541,7 @@
                         $("#consignee-tel").val('');
                         $("#address-home").val('');
                         $("#note").val('');
+
 
                     } else {
                         var errors = JSON.parse(response.message)
@@ -567,8 +580,9 @@
                         url: "../shipment/" + id_shipment,
                         success: function(response) {
                             if (response.code == 200) {
+                                var page = $("#fix-paginate-address .active a").data('page');
                                 $("#address-" + id_shipment).remove()
-                                fetch_data(1);
+                                fetch_data(page);
                             }
                         },
                         error: function(response) {
@@ -616,7 +630,8 @@
                                 $("#ward-update").append(new Option(value.TenPhuongXa, value
                                     .MaPhuongXa, value.MaPhuongXa == response.data.ward_id ?
                                     true :
-                                    false, value.MaPhuongXa == response.data.ward_id ? true :
+                                    false, value.MaPhuongXa == response.data.ward_id ?
+                                    true :
                                     false))
                             })
 
@@ -691,7 +706,8 @@
                     $("#alert-errors").empty()
                     $("#modal-update-address").hide()
                     if (response.code == 200) {
-                        fetch_data(1);
+                        var page = $("#fix-paginate-address .active a").data('page');
+                        fetch_data(page);
                         swal({
                             title: "Đã cập nhật",
                             type: "success",
@@ -777,7 +793,8 @@
                     $("#ward-update").empty()
                     $("#district-update").append(new Option('Vui lòng chọn', ''))
                     $.each(res, function(index, value) {
-                        $("#district-update").append(new Option(value.TenQuanHuyen, value.MaQuanHuyen))
+                        $("#district-update").append(new Option(value.TenQuanHuyen, value
+                            .MaQuanHuyen))
                     })
                 },
                 error: function(res) {

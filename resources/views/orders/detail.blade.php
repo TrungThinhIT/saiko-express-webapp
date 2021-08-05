@@ -1,5 +1,6 @@
 @extends('modules_manager.main')
 @section('title', 'Chi tiết đơn hàng')
+@section('title-header-content','Chi tiết đơn hàng')
 @section('css')
     <style>
         .form-group {
