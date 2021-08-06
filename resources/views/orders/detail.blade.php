@@ -1,4 +1,4 @@
-@extends('modules_manager.main')
+@extends('modules_manager.main_new')
 @section('title', 'Chi tiết đơn hàng')
 @section('title-header-content','Chi tiết đơn hàng')
 @section('css')
@@ -37,7 +37,7 @@
     @if (count($data['order']['data']))
         @foreach ($data['order']['data'] as $key => $value)
             {{-- {{ dd($value) }} --}}
-            <div class="col-md-12 p-3">
+            <div class="col-md-12">
                 <div class="card fix-overflow">
 
                     <div class="card-header ">

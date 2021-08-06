@@ -210,7 +210,7 @@
                         <label class="mobile-track d-flex">Hàng đặc biệt: </label>
                         {{-- <label class="radio-inline mobile-block mobile-block-f"><input type="radio" name="check" checked
                                 id="sbuy">(5% giá trị khai báo) </label> --}}
-                        <label class="radio-inline mobile-block">Loa/ Ampli/ Điện thoại di động/ Ipad/ Laptop/ Rượu/ Đồng hồ đeo tay/ Đồ cổ (tính thêm 2% giá trị khai báo)</label>                     
+                        <label class="radio-inline mobile-block">Loa/ Ampli/ Điện thoại di động/ Ipad/ Laptop/ Rượu/ Đồng hồ đeo tay/ Đồ cổ (tính thêm 2% giá trị khai báo)</label>
                     </div>
                 </div>
                 <div class="fee-pro-title">
@@ -255,7 +255,7 @@
                                     <label class="set-width-lb">cm</label>
                                 </div>
                             </div>
-                          
+
                         </div>
                         {{-- column2 --}}
                         <div class="col-lg-6">
@@ -294,7 +294,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="fee-pro-title">
                     <span class="fee-pro-number">3</span>
                     <span class="fee-pro-name">Phí vận chuyển Nhật - Việt: </span>
@@ -306,7 +306,7 @@
                 </div>
                 <h5 style="color: #fca901;
                 font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline của Saiko để nhận được báo giá tốt nhất</h5>
-                
+
                 <div class="fee-pro-title">
                     <span class="fee-pro-number">4</span>
                     <span class="fee-pro-name">Giao hàng nội địa Việt Nam</span>
@@ -432,7 +432,7 @@
                         <label for="" class="form-control unset-border width-custom" id="money"></label><span>VNĐ</span>
                     </div> --}}
                 </div>
-              
+
                 <div class="form-group text-center">
                     <input value="Gửi hàng ngay" class="fh-btn" type="submit" placeholder="" onclick="send()">
                 </div>
@@ -536,7 +536,7 @@
             type: "POST",
             url: "{{ route('rq_tk.quanhuyen') }}",
             data: {
-                matinh: Tinh_ThanhPho,
+                province: Tinh_ThanhPho,
             },
             success: function(res) {
                 $("#Uhuyen").empty()

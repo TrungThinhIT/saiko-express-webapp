@@ -1,4 +1,4 @@
-@extends('modules_manager.main')
+@extends('modules_manager.main_new')
 @section('title', 'Tạo đơn hàng')
 @section('title-header-content', 'Gởi hàng')
 @section('style')
@@ -6,6 +6,10 @@
         #modal-addressbook {
             background-color: rgba(0, 0, 0, .5);
             display: none;
+        }
+
+        .fit-content {
+            width: fit-content !important;
         }
 
         .unset-bs-gutter-x {
@@ -45,7 +49,7 @@
         }
 
         .set-max-width-modal {
-            max-width: 800px !important;
+            width: fit-content !important;
         }
 
         #list-address {
@@ -59,6 +63,10 @@
             color: #484848
         }
 
+        #list-address {
+            padding: 0px
+        }
+
         #paginate-address-book li a {
             background-color: white;
             color: #484848;
@@ -69,9 +77,24 @@
             font-size: 15px;
         }
 
+        @media (min-width:576px) {
+            .modal-dialog {
+                max-width: 100% !important;
+            }
+        }
+
+        @media (min-width:992px) {
+            .modal-lg {
+                max-width: 100% !important;
+            }
+        }
+        .add-box-shadow{
+            box-shadow: 5px 5px 5px 5px silver;
+        }
+
     </style>
 @section('content')
-    <div class="col-lg-12 m-4 bg-warning" id="fix-flex">
+    <div class="col-lg-12" id="fix-flex">
         <div class="bg-white p-4">
             <div class="row">
                 <div class="col-lg-12">
@@ -92,7 +115,7 @@
             <br>
             <div class="modal" id="modal-addressbook" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog modal-lg" style="width:fit-content" id="fix-width-modal" role="document">
+                <div class="modal-dialog modal-lg" id="fix-width-modal" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Sổ địa chỉ</h5>
@@ -137,7 +160,7 @@
                                     value="{{ old('tracking') }}" type="text" required>
                             </div>
                             <div class="col-md-3 mt-4">
-                                <button type="button" style="margin-top:6px" class="btn fh-btn " id="showModal-address">Sổ
+                                <button type="button" style="margin-top:14px" class="btn fh-btn " id="showModal-address">Sổ
                                     địa chỉ</button>
                             </div>
                         </div>
@@ -146,15 +169,15 @@
                                 <div class="row col-md-12 ">
                                     <label for="">Địa chỉ đã chọn</label>
                                 </div>
+
+                                <div class="col-md-9 align-items-center">
+                                    <button id="btn-show-input" type="button" style="width:40px"
+                                        class="fh-btn btn-warning fix-bg-btn">&times;</button>
+                                </div>
                                 <div class="form-group col-md-9 fix-font-size" id="choosed-address">
 
                                 </div>
 
-                                <div class="col-md-2 mt-4 float-left">
-                                    <button id="btn-show-input" type="button"
-                                        style="margin-top:7px;font-family:none !important;border-radius:unset !important"
-                                        class="fix-bg-btn close">&times;</button>
-                                </div>
                             </div>
 
                         </div>
@@ -184,7 +207,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Hình thức nhận hàng</label>
-                                <select class="form-control fix-select" id="utypeadd" name="hinhthuc" onchange="onChange()">
+                                <select class="form-select " id="utypeadd" name="hinhthuc" onchange="onChange()">
                                     <option value="blank" id="first_option">Địa chỉ cụ thể</option>
 
                                     {{-- <option value="Nhận tại VP Sóc Sơn">Nhận tại VP Sóc Sơn, Hà Nội</option> --}}
@@ -194,7 +217,7 @@
                             </div>
                             <div class="form-group col-md-4 ">
                                 <label>Tỉnh/Thành Phố<span class="require">*</span></label>
-                                <select class="form-control fix-select" id="Utinh" name="tinh" onchange="Select_Tinh(this)">
+                                <select class="form-select" id="Utinh" name="tinh" onchange="Select_Tinh(this)">
                                     <option value="">Vui lòng chọn</option>
                                     @foreach ($data as $item)
                                         <option value={{ $item->MaTinhThanh }}>{{ $item->TenTinhThanh }}
@@ -206,13 +229,12 @@
                         <div id="type-ship" class="row">
                             <div class="form-group col-md-4 hidden-input">
                                 <label>Quận Huyện<span class="require">*</span></label>
-                                <select class="form-control fix-select" id="Uhuyen" name="huyen"
-                                    onchange="Select_Huyen(this)">
+                                <select class="form-select" id="Uhuyen" name="huyen" onchange="Select_Huyen(this)">
                                 </select>
                             </div>
                             <div class="form-group col-md-4 hidden-input">
                                 <label>Phường Xã<span class="require">*</span></label>
-                                <select class="form-control fix-select" id="UPhuongXa" name="xa">
+                                <select class="form-select" id="UPhuongXa" name="xa">
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -600,9 +622,9 @@
                 var check_address = $("#list-address .bg-white .bg-warning").data('id');
                 if (check_address != undefined) {
 
-                    var html = $("#list-address .bg-white .bg-warning").clone().removeClass([
-                        'mt-2', 'h-100', 'p-3'
-                    ]);
+                    var html = $("#list-address .bg-white .bg-warning").clone().removeClass("h-100")
+                        .removeClass("mt-2").removeClass("p-3").removeClass('bg-warning').addClass('add-box-shadow').addClass('set-max-width-modal');
+                    console.log(html)
                     $("#choosed-address").html(html)
                     $('#ele-add-choose').show()
                     $('.hidden-input').hide()
@@ -636,44 +658,45 @@
                                                 value) {
                                                 $("#list-address").append(
                                                     '<div class="col-md-4 bg-white" >' +
-                                                    '<div class="bg-secondary mt-2 h-100 p-3 remove-bg" onclick="choose_address(this)" data-id=' +
+                                                    '<div class="mt-2 h-100 p-3 bg-secondary-fix remove-bg" onclick="choose_address(this)" data-id=' +
                                                     value.id + ' >' +
                                                     '<div class="row  unset-bs-gutter-x">' +
-                                                    '<div class="col-md-4">' +
+                                                    '<div class="col-md-4 fit-content">' +
                                                     "Ngưởi gửi:" +
                                                     '</div>' +
-                                                    '<div class="col-md-8">' +
+                                                    '<div class="col-md-8 fit-content">' +
                                                     value.sender_name +
                                                     '</div>' +
                                                     '</div>' +
                                                     '<div class="row  unset-bs-gutter-x">' +
-                                                    '<div class="col-md-4">' +
+                                                    '<div class="col-md-4 fit-content">' +
                                                     "SĐT người gửi:" +
                                                     '</div>' +
-                                                    '<div class="col-md-8">' +
+                                                    '<div class="col-md-8 fit-content">' +
                                                     value.sender_tel +
                                                     '</div>' +
                                                     '</div>' +
                                                     '<div class="row  unset-bs-gutter-x">' +
-                                                    '<div class="col-md-4">' +
+                                                    '<div class="col-md-4 fit-content">' +
                                                     "Người nhận:" +
                                                     '</div>' +
-                                                    '<div class="col-md-8">' +
+                                                    '<div class="col-md-8 fit-content">' +
                                                     value.consignee +
                                                     '</div>' +
                                                     '</div>' +
                                                     '<div class="row  unset-bs-gutter-x">' +
-                                                    '<div class="col-md-4">' +
+                                                    '<div class="col-md-4 fit-content">' +
                                                     "SĐT người nhận:" +
                                                     '</div>' +
-                                                    '<div class="col-md-8">' +
+                                                    '<div class="col-md-8 fit-content">' +
                                                     value.tel +
                                                     '</div>' +
+                                                    '</div>' +
                                                     '<div class="row  unset-bs-gutter-x">' +
-                                                    '<div class="col-md-4">' +
+                                                    '<div class="col-md-4 fit-content">' +
                                                     "Địa chỉ:" +
                                                     '</div>' +
-                                                    '<div class="col-md-8 full_address">' +
+                                                    '<div class="col-md-8 full_address fit-content">' +
                                                     value.full_address +
                                                     '</div>' +
                                                     '</div>' +
@@ -705,7 +728,6 @@
 
 
             })
-
             $('#insurance_enter').maskNumber({
                 integer: true,
             });
@@ -945,7 +967,7 @@
         });
 
         function choose_address(obj) {
-            $(".remove-bg").addClass('bg-secondary')
+            $(".remove-bg").addClass('bg-secondary-fix')
             $(".remove-bg").removeClass('bg-warning')
             $(obj).addClass('bg-warning')
 
@@ -1028,7 +1050,6 @@
         function push_tracking() {
             event.preventDefault();
             var check_address = $("#choosed-address .remove-bg").data('id');
-            alert(check_address)
             var trip = $('input[name="fh_radio"]:checked', '#trip').val();
             var tracking = $("#utracking").val();
             if (tracking.length <= 7) {

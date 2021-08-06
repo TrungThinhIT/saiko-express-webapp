@@ -1,8 +1,11 @@
-@extends('modules_manager.main')
+@extends('modules_manager.main_new')
 @section('title', 'Theo dõi kiện hàng hàng')
 @section('title-header-content','Theo dõi kiện hàng')
 @section('css')
     <style>
+        .timeline > li{
+            position: unset ;
+        }
         .table-striped>tbody>tr:nth-child(odd)>td,
         .table-striped>tbody>tr:nth-child(odd)>th {
             background-color: #fad792; // Choose your own color here
@@ -120,15 +123,15 @@
 
     </style>
 @section('content')
-    <div class="row p-5  fix-overflow">
-        <div class="col-md-12  bg-white">
+    <div class="row fix-overflow">
+        <div class="col-md-12 bg-white">
             <div class="mt-3">
                 <h2>Theo dõi kiện hàng của bạn</h2>
             </div>
             <p>Để theo dõi lộ trình kiện hàng của bạn, vui lòng nhập mã tracking dưới đây:</p>
             <form id="tracking_form" method='post'>
                 <div class="col-md-12 p-3">
-                    <div class="row">
+                    <div class="row align-items-center">
                         @csrf
                         <label>Mã Tracking <span class="require">*</span></label>
 
@@ -176,8 +179,8 @@
                                     style="display:none">
                                     <thead>
                                         <tr>
-                                            <th style="text-align: center">Mã Tracking</th>
-                                            <th style='width:100px;text-align:center'>Tổng khối lượng tính phí</th>
+                                            <th>Mã Tracking</th>
+                                            <th >Tổng khối lượng tính phí</th>
                                             <th>Đơn giá</th>
                                             <th>Đường vận chuyển</th>
                                             <th>Phí vận chuyển (Nhật - Kho Việt)</th>

@@ -1,10 +1,19 @@
-@extends('modules_manager.main')
+@extends('modules_manager.main_new')
 @section('title', 'Sổ địa chỉ')
 @section('title-header-content', 'Sổ địa chỉ')
 @section('css')
     <style>
         .custom-icon {
             color: orange;
+        }
+
+
+        .fix-select {
+            border: #484848 1px solid !important;
+        }
+
+        #select_search {
+            border: #484848 1px solid !important;
         }
 
         #fix-paginate-address li.active a {
@@ -106,14 +115,14 @@
     </style>
 @section('content')
     @if (isset($data['list_address']))
-        <div class="col-md-12 p-2 fix-overflow">
+        <div class="col-md-12 fix-overflow">
             <div class="card ">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-12">
                             <span id="header_address">Sổ địa chỉ</span>
                             <span style="float:right">
-                                <button id="add-address" class="btn btn-success set-bg-btn">Thêm</button>
+                                <button id="add-address" class="btn set-bg-btn">Thêm</button>
                             </span>
                         </div>
                     </div>
@@ -143,9 +152,8 @@
                                     <td>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <button class="custom-icon p-1" style="float:right"
-                                                    data-id="{{ $value['id'] }}" onclick="updateAddress(this)"><i
-                                                        class="fa fa-pencil"></i></button>
+                                                <button class="custom-icon p-1" data-id="{{ $value['id'] }}"
+                                                    onclick="updateAddress(this)"><i class="fa fa-pencil"></i></button>
                                             </div>
                                             <div class="col-md-4">
                                                 <button class="custom-icon p-1 " data-deleteId="{{ $value['id'] }}"
@@ -179,48 +187,47 @@
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Tên người gửi</label>
-                                        <input type="text" class="form-control fix-height-ip" id="inputSender-name"
+                                        <input type="text" class="form-control" id="inputSender-name"
                                             placeholder="Nhập tên người nhận">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Số điện thoại</label>
-                                        <input type="number" class="form-control fix-height-ip" id="inputSender-tel"
+                                        <input type="number" class="form-control " id="inputSender-tel"
                                             placeholder="Nhập số điện thoại người gửi">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Tên người nhận</label>
-                                        <input type="text" class="form-control fix-height-ip" id="consignee"
+                                        <input type="text" class="form-control " id="consignee"
                                             placeholder="Nhập tên người nhận">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="fix-width-label">Số điện thoại người nhận</label>
-                                        <input type="number" class="form-control fix-height-ip" id="consignee-tel"
+                                        <input type="number" class="form-control " id="consignee-tel"
                                             placeholder="Nhập số điện thoại">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Thành phố/Tỉnh</label>
-                                        <select class="form-control fix-select fix-height-ip" name="province" id="province"
+                                        <select class="form-select " name="province" id="province"
                                             onchange="Select_Provice(this)"></select>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputPassword4">Quận/Huyện</label>
-                                        <select class="form-control fix-select fix-height-ip" name="district" id="district"
+                                        <select class="form-select " name="district" id="district"
                                             onchange="Select_District(this)"></select>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Xã/Phường</label>
-                                        <select class="form-control fix-select fix-height-ip" name="ward"
-                                            id="ward"></select>
+                                        <select class="form-select " name="ward" id="ward"></select>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Số nhà tên đường</label>
-                                        <input type="text" class="form-control fix-height-ip" id="address-home"
+                                        <input type="text" class="form-control " id="address-home"
                                             placeholder="Nhập địa chỉ nhà">
                                     </div>
                                 </div>
@@ -237,8 +244,8 @@
                     <div class="modal-footer">
                         <div class="row">
                             <div style="padding: 30px">
-                                <button class="btn btn-success set-bg-btn-cancel" id="close-modal-create">Thoát</button>
-                                <button class="btn btn-success set-bg-btn" onclick="CreateAddress()">Thêm</button>
+                                <button class="btn set-bg-btn-cancel" id="close-modal-create">Thoát</button>
+                                <button class="btn set-bg-btn" onclick="CreateAddress()">Thêm</button>
                             </div>
 
                         </div>
@@ -284,21 +291,19 @@
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Thành phố/Tỉnh</label>
-                                        <select class="form-control empty-input-select fix-select fix-height-ip"
-                                            name="province" id="province-update"
-                                            onchange="Select_Provice_Update(this)"></select>
+                                        <select class="form-select empty-input-select fix-height-ip" name="province"
+                                            id="province-update" onchange="Select_Provice_Update(this)"></select>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="inputPassword4">Quận/Huyện</label>
-                                        <select class="form-control empty-input-select fix-select fix-height-ip"
-                                            name="district" id="district-update"
-                                            onchange="Select_District_Update(this)"></select>
+                                        <select class="form-select empty-input-select fix-height-ip" name="district"
+                                            id="district-update" onchange="Select_District_Update(this)"></select>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Xã/Phường</label>
-                                        <select class="form-control empty-input-select fix-select fix-height-ip" name="ward"
+                                        <select class="form-select empty-input-select fix-height-ip" name="ward"
                                             id="ward-update"></select>
                                     </div>
                                     <div class="form-group col-md-6">

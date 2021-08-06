@@ -1,6 +1,6 @@
-@extends('modules_manager.main')
+@extends('modules_manager.main_new')
 @section('title', 'Danh sách đơn hàng')
-@section('title-header-content','Danh sách đơn hàng')
+@section('title-header-content', 'Danh sách đơn hàng')
 @section('css')
     <style>
         #create-order {
@@ -36,7 +36,7 @@
 
     </style>
 @section('content')
-    <div class="col-md-12 p-2 fix-overflow">
+    <div class="col-md-12 fix-overflow">
         <div class="card fix-overflow">
             <div class="card-header ">
                 <div class="row">
@@ -46,10 +46,10 @@
                 </div>
             </div>
             <div class="card-body custom-background set-overflow">
-                <div class="row \">
+                <div class="row align-items-center">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <select name="" class="form-control fix-select" id="select_search">
+                            <select name="" class="form-select " id="select_search">
                                 <option value="all">Tất cả</option>
                                 <option value="trackings.id">Tracking</option>
                                 <option value="created_at">Ngày tạo</option>
@@ -61,7 +61,7 @@
                     <div class="col-md-7">
                         <div class="form-group">
                             <input type="text" class="form-control" id="type_input">
-                            <select name="" id="list-status" class="form-control fix-select" style="display:none"></select>
+                            <select name="" id="list-status" class="form-select " style="display:none"></select>
                         </div>
                     </div>
                     <div class="col-md-1">
