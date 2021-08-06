@@ -4,7 +4,7 @@
 @section('css')
     <style>
         .timeline > li{
-            position: unset ;
+            position: unset !important ;
         }
         .table-striped>tbody>tr:nth-child(odd)>td,
         .table-striped>tbody>tr:nth-child(odd)>th {
