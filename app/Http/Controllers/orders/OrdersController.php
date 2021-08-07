@@ -60,7 +60,6 @@ class OrdersController extends Controller
         $send = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders/shipment', $params);
 
         $data = json_decode($send->body(), true);
-
         foreach ($data['data'] as $key => $value) {
             if (!$value['note']) {
                 continue;
@@ -162,16 +161,19 @@ class OrdersController extends Controller
         ];
 
         $params = [
-            'appends' => 'customer;transactions.receipts;owningBoxes.pivotLadingBills',
+            'appends' => 'customer;transactions.receipts;owningBoxes.pivotLadingBills;logs',
             'search' => 'id:' . $id,
             'searchField' => '=',
             'with' => 'shipmentInfo;trackings',
         ];
 
         $order = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders', $params);
+        // dd($order->body());
 
         $data = json_decode($order->body(), true);
+
         foreach ($data['data'] as $key => $value) {
+            $data['data'][$key]['log_transaction'] = $this->log_order($value['logs']);
             if (!$value['note']) {
                 continue;
             }
@@ -181,12 +183,28 @@ class OrdersController extends Controller
                 $data['data'][$key]['shipment_info']['sender_name'] = $parse_note->send_name ?? "";
                 $data['data'][$key]['note'] = $parse_note->note ?? "";
             }
+
         }
         $data = ['order' => $data];
 
         return view('orders.detail', compact('data'));
     }
-
+    public function log_order($logs)
+    {
+        // dd($logs);
+        if (!empty($logs)) {
+            $log_transaction = [];
+            foreach ($logs as $key => $value) {
+                if (!empty($value['content'])) {
+                    $keys = implode(",", array_keys($value['content']));
+                    if ($keys == "updated_at,service_fee_paid" || $keys == "transaction") {
+                        array_push($log_transaction, $value);
+                    }
+                }
+            }
+            return $log_transaction;
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *

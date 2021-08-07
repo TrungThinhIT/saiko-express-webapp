@@ -8,6 +8,10 @@
             display: none;
         }
 
+        .fa-map-marker {
+            color: #fca901 !important;
+        }
+
         .fit-content {
             width: fit-content !important;
         }
@@ -41,6 +45,10 @@
 
         .fix-font-size {
             font-size: 14px !important;
+        }
+
+        .fix-font-size-icon {
+            font-size: 19x !important;
         }
 
         .fix-bg-btn {
@@ -88,7 +96,8 @@
                 max-width: 100% !important;
             }
         }
-        .add-box-shadow{
+
+        .add-box-shadow {
             box-shadow: 5px 5px 5px 5px silver;
         }
 
@@ -128,6 +137,7 @@
                             <div>
                                 <div class="card">
                                     <div class="row col-md-12" id="list-address">
+
                                     </div>
                                 </div>
                             </div>
@@ -623,7 +633,8 @@
                 if (check_address != undefined) {
 
                     var html = $("#list-address .bg-white .bg-warning").clone().removeClass("h-100")
-                        .removeClass("mt-2").removeClass("p-3").removeClass('bg-warning').addClass('add-box-shadow').addClass('set-max-width-modal');
+                        .removeClass("mt-2").removeClass("p-3").removeClass('bg-warning').addClass(
+                            'add-box-shadow').addClass('set-max-width-modal').prop("onclick",null);
                     console.log(html)
                     $("#choosed-address").html(html)
                     $('#ele-add-choose').show()
@@ -658,46 +669,50 @@
                                                 value) {
                                                 $("#list-address").append(
                                                     '<div class="col-md-4 bg-white" >' +
-                                                    '<div class="mt-2 h-100 p-3 bg-secondary-fix remove-bg" onclick="choose_address(this)" data-id=' +
-                                                    value.id + ' >' +
-                                                    '<div class="row  unset-bs-gutter-x">' +
-                                                    '<div class="col-md-4 fit-content">' +
-                                                    "Ngưởi gửi:" +
+                                                    '<div class="mt-2 h-100 p-3">' +
+                                                    '<div class="p-3 h-100 bg-secondary-fix remove-bg" onclick="choose_address(this)" data-id="' +
+                                                    value.id + '">' +
+                                                    '<div class="row"><h5 class="text-secondary font-weight-bold"">Người nhận</h5></div>' +
+                                                    '<div class="row pl-3 unset-bs-gutter-x">' +
+                                                    '<div class="col-md-1 fit-content">' +
+                                                    '<i class="fa fa-user-circle-o fix-font-size-icon text-info" aria-hidden="true"></i>' +
                                                     '</div>' +
-                                                    '<div class="col-md-8 fit-content">' +
-                                                    value.sender_name +
-                                                    '</div>' +
-                                                    '</div>' +
-                                                    '<div class="row  unset-bs-gutter-x">' +
-                                                    '<div class="col-md-4 fit-content">' +
-                                                    "SĐT người gửi:" +
-                                                    '</div>' +
-                                                    '<div class="col-md-8 fit-content">' +
-                                                    value.sender_tel +
-                                                    '</div>' +
-                                                    '</div>' +
-                                                    '<div class="row  unset-bs-gutter-x">' +
-                                                    '<div class="col-md-4 fit-content">' +
-                                                    "Người nhận:" +
-                                                    '</div>' +
-                                                    '<div class="col-md-8 fit-content">' +
+                                                    '<div class="col-md-10 fit-content">' +
                                                     value.consignee +
                                                     '</div>' +
                                                     '</div>' +
-                                                    '<div class="row  unset-bs-gutter-x">' +
-                                                    '<div class="col-md-4 fit-content">' +
-                                                    "SĐT người nhận:" +
+                                                    '<div class="row pl-3 unset-bs-gutter-x">' +
+                                                    '<div class="col-md-1 fit-content">' +
+                                                    '<i class="fa fa-volume-control-phone fix-font-size-icon text-success" aria-hidden="true"></i>' +
                                                     '</div>' +
-                                                    '<div class="col-md-8 fit-content">' +
+                                                    '<div class="col-md-10 fit-content">' +
                                                     value.tel +
                                                     '</div>' +
                                                     '</div>' +
-                                                    '<div class="row  unset-bs-gutter-x">' +
-                                                    '<div class="col-md-4 fit-content">' +
-                                                    "Địa chỉ:" +
+                                                    '<div class="row pl-3 unset-bs-gutter-x">' +
+                                                    '<div class="col-md-1 fit-content">' +
+                                                    '<i class="fa fa-map-marker fix-font-size-icon text-danger" aria-hidden="true"></i>' +
                                                     '</div>' +
-                                                    '<div class="col-md-8 full_address fit-content">' +
+                                                    '<div class="col-md-10 full_address fit-content">' +
                                                     value.full_address +
+                                                    '</div>' +
+                                                    '</div>' +
+                                                    '<div class="row"><h5 class="text-secondary font-weight-bold"">Người gửi</h5></div>' +
+                                                    '<div class="row pl-3 unset-bs-gutter-x">' +
+                                                    '<div class="col-md-1 fit-content">' +
+                                                    '<i class="fa fa-user-circle-o fix-font-size-icon text-info" aria-hidden="true"></i>' +
+                                                    '</div>' +
+                                                    '<div class="col-md-10 fit-content">' +
+                                                    value.sender_name +
+                                                    '</div>' +
+                                                    '</div>' +
+                                                    '<div class="row pl-3 unset-bs-gutter-x">' +
+                                                    '<div class="col-md-1 fit-content">' +
+                                                    '<i class="fa fa-volume-control-phone fix-font-size-icon text-success" aria-hidden="true"></i>' +
+                                                    '</div>' +
+                                                    '<div class="col-md-10  fit-content">' +
+                                                    value.sender_tel +
+                                                    '</div>' +
                                                     '</div>' +
                                                     '</div>' +
                                                     '</div>' +

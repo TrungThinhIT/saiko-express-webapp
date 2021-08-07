@@ -39,7 +39,7 @@
 @section('content')
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div id="info" class="border border-warning">
                     <div class="panel panel-info">
                         {{-- header --}}
@@ -106,8 +106,8 @@
                 </div>
             </div>
             {{-- change passsword --}}
-            <div class="col-md-6">
-                <div id="changepass" class="border border-warning ">
+            <div class="col-md-4">
+                <div id="changepass" class="border border-warning h-100">
                     <div class="panel panel-info">
                         {{-- header --}}
                         <div class="panel-heading bg-white">
@@ -166,61 +166,63 @@
                 </div>
             </div>
             {{-- debt --}}
-            <div class="col-md-4 d-none">
+            <div class="col-md-4">
                 <div id="debt" class="border border-warning h-100">
                     <div class="panel panel-info">
                         {{-- header --}}
-                        <div class="panel-heading bg-warning">
+                        <div class="panel-heading bg-white">
                             <div class="panel-title">Số dư</div>
                         </div>
                         {{-- body --}}
                         <div class="panel-body p-2 pt-4">
                             <form id="transactions" method="post" action="" class="form-horizontal" role="form">
                                 @csrf
-                                @if (count($data['account']['data']))
-                                    @foreach ($data['account']['data'] as $key => $value)
-                                        <div class="row d-inline">
+                                @if (isset($data['account']))
+                                    @if (count($data['account']['data']))
+                                        @foreach ($data['account']['data'] as $key => $value)
+                                            <div class="row d-inline">
+                                                <div style="margin-bottom: 25px" class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label for="">{{ $value['currency_id'] }}</label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input readonly type="text" class="form-control"
+                                                                value="{{ number_format($value['balance']) }}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div class="row">
                                             <div style="margin-bottom: 25px" class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-3">
-                                                        <label for="">{{ $value['currency_id'] }}</label>
+                                                        <label for="">VND</label>
                                                     </div>
                                                     <div class="col-md-9">
-                                                        <input readonly type="text" class="form-control"
-                                                            value="{{ number_format($value['balance']) }}">
+                                                        <input id="money-VND" readonly type="text" class="form-control"
+                                                            name="money-VND" value="0">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
-                                @else
-                                    <div class="row">
-                                        <div style="margin-bottom: 25px" class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <label for="">VND</label>
-                                                </div>
-                                                <div class="col-md-9">
-                                                    <input id="money-VND" readonly type="text" class="form-control"
-                                                        name="money-VND" value="0">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div style="margin-bottom: 25px" class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <label for="">JPY</label>
-                                                </div>
-                                                <div class="col-md-9">
-                                                    <input id="money-JPY" readonly type="text" class="form-control"
-                                                        name="money-JPY" value="0">
+                                        <div class="row">
+                                            <div style="margin-bottom: 25px" class="form-group">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <label for="">JPY</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <input id="money-JPY" readonly type="text" class="form-control"
+                                                            name="money-JPY" value="0">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
+                                    @endif
                                 @endif
                             </form>
                         </div>

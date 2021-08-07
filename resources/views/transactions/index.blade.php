@@ -1,9 +1,17 @@
-@extends('modules_manager.main')
+@extends('modules_manager.main_new')
 @section('title', 'Tài khoản tiền')
+@section('title-header-content','Chi tiết tài khoản')
 @section('css')
+    <style>
+        .row .col-sm-8 input {
+            font-weight: 600;
+        }
+
+    </style>
 @section('content')
+    {{-- {{ dd($data) }} --}}
     @if (isset($data['transactions']))
-        <div class="col-md-12 p-3">
+        <div class="col-md-12">
             <div class="row">
                 @if (count($data['transactions']['data']))
                     @foreach ($data['transactions']['data'] as $key => $value)
@@ -19,14 +27,14 @@
                                             <label for="order-id" class="col-sm-4 col-form-label">Số dư</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['balance']) . '   ' . $value['currency']['symbol'] }}">
+                                                    value="{{ number_format($value['balance']) ? number_format($value['balance']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
                                             <label for="tracking-id" class="col-sm-4 col-form-label">Tổng tiền nộp</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['deposit']) . '   ' . $value['currency']['symbol'] }}">
+                                                    value="{{ number_format($value['total_deposit']) ? number_format($value['total_deposit']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -34,7 +42,7 @@
                                                 hàng</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['payment_sales_order']) . '   ' . $value['currency']['symbol'] }}">
+                                                    value="{{ number_format($value['total_payment_sale']) ? number_format($value['total_payment_sale']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -44,7 +52,7 @@
                                                 hàng</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['payment_purchase_order']) . '   ' . $value['currency']['symbol'] }}">
+                                                    value="{{ number_format($value['total_payment_purchase']) ? number_format($value['total_payment_purchase']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -53,7 +61,7 @@
                                                 vụ</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['payment_service']) . '   ' . $value['currency']['symbol'] }}">
+                                                    value="{{ number_format($value['total_payment_service']) ? number_format($value['total_payment_service']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -61,7 +69,7 @@
                                                 toán</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['total_payment']) . '   ' . $value['currency']['symbol'] }}">
+                                                    value="{{ number_format($value['total_payment']) ? number_format($value['total_payment']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -69,7 +77,7 @@
                                                 trả</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['compensation_refund'] + $value['deposit_refund'] + $value['payment_purchase_refund'] + $value['payment_sale_refund'] + $value['payment_service_refund']) . '   ' . $value['currency']['symbol'] }}">
+                                                    value="{{ number_format($value['total_compensation']) ? number_format($value['total_compensation']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
 

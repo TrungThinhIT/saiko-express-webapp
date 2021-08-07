@@ -38,7 +38,6 @@
     <link rel="stylesheet" href="../assets_customer/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets_customer/css/atlantis.min.css">
     <style>
-
         .bg-secondary-fix {
             background-color: wheat;
         }
@@ -277,7 +276,7 @@
                         <i class="icon-menu"></i>
                     </span>
                 </button>
-                <button class="topbar-toggler more"><i class="icon-options-vertical"></i></button>
+                <button class="topbar-toggler more" id="show-search"><i class="fa fa-search search-icon"></i></button>
                 <div class="nav-toggle mt-3">
                     <button class="btn btn-toggle toggle-sidebar">
                         <i class="icon-menu"></i>
@@ -292,25 +291,26 @@
 
                 <div class="container-fluid fix-margin">
                     <div class="collapse" id="search-nav">
-                        <form class="navbar-left navbar-form nav-search mr-md-3">
+                        <form class="navbar-left navbar-form nav-search mr-md-3" id="form-search-header">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <button type="submit" class="btn btn-search pr-1">
                                         <i class="fa fa-search search-icon"></i>
                                     </button>
                                 </div>
-                                <input type="text" placeholder="Search ..." class="form-control">
+                                <input type="text" placeholder="Tìm theo tracking . . ." id="value-tracking"
+                                    class="form-control">
                             </div>
                         </form>
                     </div>
-                    <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+                    {{-- <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
                         <li class="nav-item toggle-nav-search hidden-caret">
                             <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button"
                                 aria-expanded="false" aria-controls="search-nav">
                                 <i class="fa fa-search"></i>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </div>
             </nav>
             <!-- End Navbar -->
@@ -346,26 +346,6 @@
                                 </span>
                             </a>
                             <div class="clearfix"></div>
-
-                            {{-- <div class="collapse in" id="collapseExample">
-                                <ul class="nav">
-                                     <li>
-                                        <a href="{{ route('auth.info') }}">
-                                            <span class="link-collapse">Thông tin cá nhân</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('auth.logout') }}">
-                                            <span class="link-collapse">Thoát</span>
-                                        </a>
-                                    </li>
-                                     <li>
-                                        <a href="#settings">
-                                            <span class="link-collapse">Settings</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div> --}}
                         </div>
                     </div>
                     <ul class="nav nav-primary">
@@ -396,6 +376,28 @@
                                 <p>Sổ địa chỉ</p>
                                 {{-- <span class="caret"></span> --}}
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#sidebarLayouts-transactions">
+                                <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                <p>Tài khoản tiền</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="sidebarLayouts-transactions">
+                                <ul class="nav nav-collapse">
+                                    <li class="child-menu" id="fix-bg-menu-order-create">
+                                        <a href="{{ route('transaction.show', ['transaction' => $data['id']]) }}">
+                                            <span class="sub-item">Chi tiết tài khoản</span>
+                                        </a>
+
+                                    </li>
+                                    <li class="child-menu" id="fix-bg-menu-order-follow">
+                                        <a href=" {{ route('transaction.index') }}">
+                                            <span class="sub-item">Lịch sử giao dịch</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#sidebarLayouts">
@@ -479,6 +481,7 @@
                 <!--/.Content-->
             </div>
         </div>
+
         <div class="main-panel">
             <div class="content" style="overflow: auto !important">
                 <div class="panel-header bg-primary-gradient">
@@ -496,25 +499,6 @@
             </div>
             <footer class="footer" style="position:unset !important">
                 <div class="container-fluid">
-                    {{-- <nav class="pull-left">
-                        <ul class="nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="https://www.themekita.com">
-                                    ThemeKita
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Help
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    Licenses
-                                </a>
-                            </li>
-                        </ul>
-                    </nav> --}}
                     <div class="copyright ml-auto">
                         2021, made with <i class="fa fa-heart heart text-danger"></i> by <a
                             href="saikoexpress.com">SaikoExpress</a>
@@ -645,6 +629,11 @@
 
     <script src="assets_customer/js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script>
+        $(document).ready(function() {
+            $("#show-search").click(function() {
+                $("#search-nav").show();
+            })
+        })
         Circles.create({
             id: 'circles-1',
             radius: 45,
