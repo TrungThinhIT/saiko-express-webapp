@@ -103,9 +103,14 @@ class FLTrackingController extends Controller
                         if (empty($results['orders'])) {
                             $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
                         } else {
+
                             usort($results['orders'], function ($a, $b) {
-                                return $b['shipment_info_id'] - $a['shipment_info_id'];
-                            }); //sort orders
+                                $b = strtotime($b['created_at']);
+                                $a = strtotime($a['created_at']);
+                                return $b - $a;
+                            });
+                            //     return $b['shipment_info_id'] - $a['shipment_info_id'];
+                            // }); //sort orders
                             $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_info']['ward_id']))->first(); //get ward
                             $province = $getWard->MaTinhThanh; //ID province
                             $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
@@ -153,7 +158,7 @@ class FLTrackingController extends Controller
         $call = Http::withHeaders([
             'Accept' => 'application/json',
             // 'Authorization' => 'Bearer ' . $token->access_token
-        ])->get('http://warehouse.tomonisolution.com/api/amount-with-conditions', $data);
+        ])->get('http://warehouse.tomonisolution.com:82/api/amount-with-conditions', $data);
         $amount = (intval($call->body()));
         $parse_int = strtotime($sfa['created_at']);
         if ($weight < 1) {
@@ -228,7 +233,7 @@ class FLTrackingController extends Controller
         ];
         $call_insurance = Http::withHeaders([
             'Accept' => 'application/json',
-        ])->get('http://warehouse.tomonisolution.com/api/amount-with-conditions', $get_price_insurance);
+        ])->get('http://warehouse.tomonisolution.com:82/api/amount-with-conditions', $get_price_insurance);
         $call_insurance = floatval($call_insurance->body());
         //get price special
         $get_price_special = [
@@ -238,7 +243,7 @@ class FLTrackingController extends Controller
         ];
         $call_special = Http::withHeaders([
             'Accept' => 'application/json',
-        ])->get('http://warehouse.tomonisolution.com/api/amount-with-conditions', $get_price_special);
+        ])->get('http://warehouse.tomonisolution.com:82/api/amount-with-conditions', $get_price_special);
         $call_special = floatval($call_special->body());
 
         return ['total_money' => $total_money, 'money' => $money, 'fee_ship' => $fee_ship, 'total_weight' => $weight_real, 'special' => $call_special, 'insurance' => $call_insurance];

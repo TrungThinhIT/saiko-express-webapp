@@ -168,9 +168,9 @@
     <div class="wapper">
         <div class="container">
             <div class='col-md-12' id="form-custom" style="margin-top:130px">
-                <div class="alert alert-danger">
+                {{-- <div class="alert alert-danger">
                     <span>Hệ thống chưa đăng nhập được</span>
-                </div>
+                </div> --}}
                 <!-- login/signup box -->
 
                 <div id="loginbox" style="margin-top:50px" class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">

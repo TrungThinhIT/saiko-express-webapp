@@ -81,8 +81,7 @@
                                     <div class="form-group row align-items-center">
                                         <label for="tracking-id" class="col-sm-4 col-form-label">Mã tracking</label>
                                         <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="tracking-id"
-                                                value="{{ $value['trackings'][0]['id'] }}">
+                                            <input type="text" readonly class="form-control" id="tracking-id" @if (isset($value['trackings'][0]['id'])) value="{{ $value['trackings'][0]['id'] }}" @endif>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -251,14 +250,17 @@
                                     <label for="consignee" class="col-sm-4 col-form-label">Tên người nhận</label>
                                     <div class="col-sm-8">
                                         <input type="text" readonly class="form-control" id="consignee"
-                                            value="{{ $value['shipment_info']['consignee'] ? '***********' : '' }}">
+                                            @isset($value['shipment_info']['consignee'])
+                                                value="{{ $value['shipment_info']['consignee'] ? '***********' : '' }}"
+                                            @endisset>
                                     </div>
                                 </div>
                                 <div class="form-group row align-items-center">
                                     <label for="address" class="col-sm-4 col-form-label">Địa chỉ</label>
                                     <div class="col-sm-8">
                                         <input type="text" readonly class="form-control" id="address"
-                                            value="{{ $value['shipment_info']['full_address'] }}">
+                                            @isset($value['shipment_info']['full_address'])
+                                            value="{{ $value['shipment_info']['full_address'] }}" @endisset>
                                     </div>
                                 </div>
                                 <div class="form-group row align-items-center">
@@ -266,21 +268,25 @@
                                         nhận</label>
                                     <div class="col-sm-8">
                                         <input type="text" readonly class="form-control" id="tel-consignee"
-                                            value="{{ $value['shipment_info']['tel'] }}">
+                                            @isset($value['shipment_info']['tel'])
+                                            value="{{ $value['shipment_info']['tel'] }}" @endisset>
                                     </div>
                                 </div>
                                 <div class="form-group row align-items-center">
                                     <label for="sender_name" class="col-sm-4 col-form-label">Tên người gửi</label>
                                     <div class="col-sm-8">
                                         <input type="text" readonly class="form-control" id="sender_name"
-                                            value="{{ $value['shipment_info']['sender_name'] ? '***********' : '' }}">
+                                            @isset($value['shipment_info']['sender_name'])
+                                                value="{{ $value['shipment_info']['sender_name'] ? '***********' : '' }}"
+                                            @endisset>
                                     </div>
                                 </div>
                                 <div class="form-group row align-items-center">
                                     <label for="sender_tel" class="col-sm-4 col-form-label">Số điện thoại người gửi</label>
                                     <div class="col-sm-8">
                                         <input type="text" readonly class="form-control" id="sender_tel"
-                                            value="{{ $value['shipment_info']['sender_tel'] }}">
+                                            @isset($value['shipment_info']['sender_tel'])
+                                            value="{{ $value['shipment_info']['sender_tel'] }}" @endisset>
                                     </div>
                                 </div>
                             </div>

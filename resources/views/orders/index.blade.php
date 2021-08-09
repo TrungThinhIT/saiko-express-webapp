@@ -91,6 +91,7 @@
                         </a>
                     </thead>
                     <tbody id="list-orders">
+
                         @if (isset($data['list_orders']))
                             @foreach ($data['list_orders']['data'] as $key => $value)
                                 <tr class="text-center addHover detail-order" data-id={{ $value['id'] }}>
@@ -100,11 +101,26 @@
                                             {{ $value['trackings'][0]['id'] }}
                                         @endif
                                     </td>
-                                    <td>{{ $value['shipment_info']['sender_name']? '****************':'' }}</td>
-                                    <td>{{ $value['shipment_info']['consignee'] ? '****************':''}}</td>
-                                    <td>{{ $value['shipment_info']['tel'] }}</td>
-                                    <td>{{ $value['shipment_info']['full_address'] }}</td>
-
+                                    <td>
+                                        @if (isset($value['shipment_info']['sender_name']))
+                                            {{ $value['shipment_info']['sender_name'] ? '****************' : '' }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (isset($value['shipment_info']['consignee']))
+                                            {{ $value['shipment_info']['consignee'] ? '****************' : '' }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (isset($value['shipment_info']['tel']))
+                                            {{ $value['shipment_info']['tel'] }}
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if (isset($value['shipment_info']['tel']))
+                                            {{ $value['shipment_info']['full_address'] }}
+                                        @endif
+                                    </td>
                                     <td>{{ $value['shipment_method_id'] }}</td>
                                     <td>{{ $value['note'] }}</td>
                                     <td>{{ $value['created_at'] }}</td>
@@ -113,6 +129,7 @@
                             @endforeach
                         @endif
                     </tbody>
+
                 </table>
                 <div class="mt-4">
                     <nav aria-label="Page navigation example">
@@ -182,8 +199,17 @@
                                     $("#list-orders").empty();
                                     // $("#fix-paginate-order").empty()
                                     if (data.list_orders.data.length) {
-                                        $.each(data.list_orders.data, function(
-                                            index, value) {
+                                        $.each(data.list_orders.data, function(index, value) {
+                                            var sender_name ='';
+                                            var consignee = '';
+                                            var tel = '';
+                                            var full_address ='';
+                                            if(value.shipment_info!=null){
+                                                sender_name = value.shipment_info.sender_name.length ?'****************':'';
+                                                consignee = value.shipment_info.consignee.length?'****************':'';
+                                                tel = value.shipment_info.tel;
+                                                full_address=value.shipment_info.full_address;
+                                            }
                                             if (value.note == null) {
                                                 var note = "";
                                             } else {
@@ -197,13 +223,15 @@
                                             }
 
                                             $("#list-orders").append(
-                                                '<tr class="text-center addHover detail-order" data-id="' +value.id +'" id="order-' + value.id + '">' +
+                                                '<tr class="text-center addHover detail-order" data-id="' +
+                                                value.id +'" id="order-' + value.id + '">' +
                                                 '<td>' + data.list_orders.from++ +'</td>' +
                                                 '<td>' + tracking_id +'</td>' +
-                                                '<td>' + check_senderName(value.shipment_info.sender_name) +'</td>' +
-                                                '<td>' + check_consignee(value.shipment_info.consignee) +'</td>' +
-                                                '<td>' + value.shipment_info.tel +'</td>' + '<td>' + value.shipment_info.full_address +'</td>' +
-                                                '<td>' + value.shipment_method_id +'</td>' +
+                                                '<td>' + sender_name +'</td>' +
+                                                '<td>' + consignee +'</td>' +
+                                                '<td>' + tel +'</td>' +
+                                                '<td>' + full_address +'</td>' +
+                                                '<td>' + value.shipment_method_id + '</td>' +
                                                 '<td>' + note +'</td>' +
                                                 '<td>' + value.created_at + '</td>' +
                                                 '<td>' + value.status.name + '</td>' +
@@ -275,22 +303,6 @@
             })
         })
 
-        function check_senderName(name_sender) {
-            var name = '';
-            if (name_sender.length > 0) {
-                name = '****************';
-            }
-            console.log(name);
-            return name;
-        }
-
-        function check_consignee(name_consignee) {
-            var name = '';
-            if (name_consignee.length > 0) {
-                name = '****************';
-            }
-            return name;
-        }
 
         function fetch_data_order(page) {
             $.ajax({
@@ -307,7 +319,19 @@
                         $("#list-orders").empty()
                         // $("#fix-paginate-order").empty()
                         if (data.list_orders.data.length) {
+
                             $.each(data.list_orders.data, function(index, value) {
+                                var sender_name ='';
+                                var consignee = '';
+                                var tel = '';
+                                var full_address ='';
+                                if(value.shipment_info!=null){
+                                    sender_name = value.shipment_info.sender_name.length ?'****************':'';
+                                    consignee = value.shipment_info.consignee.length?'****************':'';
+                                    tel = value.shipment_info.tel;
+                                    full_address=value.shipment_info.full_address;
+                                }
+
                                 if (value.note == null) {
                                     var note = "";
                                 } else {
@@ -321,18 +345,16 @@
                                 $("#list-orders").append(
                                     '<tr class="text-center addHover detail-order" data-id="' +
                                     value.id + '" id="order-' + value.id + '"">' +
-                                    '<td>' + data.list_orders.from++ + '</td>' +
-                                    '<td>' + tracking_id + '</td>' +
-                                    '<td>' + check_senderName(value.shipment_info.sender_name) +
-                                    '</td>' +
-                                    '<td>' + check_consignee(value.shipment_info.consignee) +
-                                    '</td>' +
-                                    '<td>' + value.shipment_info.tel + '</td>' +
-                                    '<td>' + value.shipment_info.full_address + '</td>' +
-                                    '<td>' + value.shipment_method_id + '</td>' +
-                                    '<td>' + note + '</td>' +
-                                    '<td>' + value.created_at + '</td>' +
-                                    '<td>' + value.status.name + '</td>' +
+                                        '<td>' + data.list_orders.from++ + '</td>' +
+                                        '<td>' + tracking_id + '</td>' +
+                                        '<td>' + sender_name +'</td>' +
+                                        '<td>' + consignee +'</td>' +
+                                        '<td>' + tel+ '</td>' +
+                                        '<td>' + full_address+'</td>' +
+                                        '<td>' + value.shipment_method_id + '</td>' +
+                                        '<td>' + note + '</td>' +
+                                        '<td>' + value.created_at + '</td>' +
+                                        '<td>' + value.status.name + '</td>' +
                                     '</tr>'
                                 )
                             })

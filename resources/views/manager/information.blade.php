@@ -7,7 +7,9 @@
             border-color: 1px #ffffff !important;
         }
 
-
+        .form-check label, .form-group label {
+            white-space: unset !important;
+        }
         .panel-heading {
             height: 40px;
             line-height: 40px;
@@ -39,8 +41,8 @@
 @section('content')
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-4">
-                <div id="info" class="border border-warning">
+            <div class="col-md-4 ">
+                <div id="info" class="border border-warning h-100">
                     <div class="panel panel-info">
                         {{-- header --}}
                         <div class="panel-heading bg-white">
