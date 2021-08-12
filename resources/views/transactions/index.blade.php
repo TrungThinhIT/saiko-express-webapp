@@ -6,7 +6,9 @@
         .row .col-sm-8 input {
             font-weight: 600;
         }
-
+        .form-group label{
+            white-space: unset !important;
+        }
     </style>
 @section('content')
     {{-- {{ dd($data) }} --}}
