@@ -7,6 +7,9 @@
             color: orange;
         }
 
+        .swal-button-container > .swal-button--cancel {
+            background-color: silver !important;
+        }
 
         .fix-select {
             border: #484848 1px solid !important;
@@ -325,8 +328,8 @@
                     <div class="modal-footer">
                         <div class="row">
                             <div style="padding: 30px">
-                                <button class="btn btn-success set-bg-btn-cancel" id="close-modal-update">Thoát</button>
-                                <button class="btn btn-success set-bg-btn" onclick="sendUpdate(this)"
+                                <button class="btn set-bg-btn-cancel" id="close-modal-update">Thoát</button>
+                                <button class="btn btn-warning set-bg-btn" onclick="sendUpdate(this)"
                                     id="btn-send-update-add">Cập
                                     nhật</button>
                             </div>
@@ -447,7 +450,6 @@
                                     '</tr>'
                                 )
                             })
-                            console.log(data.list_address.current_page)
                             $("#fix-paginate-address").pagination({
                                 current: data.list_address.current_page,
                                 total: data.list_address.total,
