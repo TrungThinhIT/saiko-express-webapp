@@ -24,12 +24,12 @@ class OrdersController extends Controller
      */
     public function index(Request $request)
     {
-        $token  = $this->shipmentsController->getToken($request);
-        $customer_id = $this->shipmentsController->getUserId($request);
+        $token  = $this->getToken($request);
+        $customer_id = $this->getUserId($request);
         // return $request->all();
         $header = [
             'Accept' => 'application/json',
-            'Authorization' => $token,
+            'X-Firebase-IdToken' => $token,
             'Accept-Language' => 'vi',
         ];
 
@@ -57,7 +57,7 @@ class OrdersController extends Controller
             $params['searchJoin'] = 'and';
         };
 
-        $send = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders/shipment', $params);
+        $send = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders/shipment', $params);
 
         $data = json_decode($send->body(), true);
         foreach ($data['data'] as $key => $value) {
@@ -82,7 +82,7 @@ class OrdersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $data = tinhthanh::all();
         return view('orders.create', compact('data'));
@@ -98,19 +98,22 @@ class OrdersController extends Controller
     {
         $shipment_id = $request->shipment_id;
         $data = $this->shipmentsController->edit($shipment_id, $request);
+        if (!isset($data['info']['consignee'])) {
+            session()->flash('login',"Vui lòng đăng nhập lại");
+            return  response()->json(['code' => 401]);
+        }
 
         $tracking = explode(" ", $request->tracking);
         $insurance = str_replace(',', '', $request->insurance);
         $special_price = str_replace(',', '', $request->special);
 
         $arr_created = array();
-
         $create_shipment = Http::withHeaders([
             'Accept' => 'application/json',
-            'Authorization' => $data['token'],
+            'X-Firebase-IDToken' => '1',
         ]);
 
-        $create_shipment = $create_shipment->post('http://order.tomonisolution.com:82/api/orders/shipment/create-with-trackings', [
+        $create_shipment = $create_shipment->post('https://dev-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
             'shipment_method_id' => $request->method, //đường vận chuyển
             'type' => 'shipment',
             'trackings' => $tracking, //danh sách tracking
@@ -130,6 +133,7 @@ class OrdersController extends Controller
         ]);
 
         if ($create_shipment->status() == 401) {
+            $this->deleteSession();
             return response()->json(['code' => 401]);
         }
         if ($create_shipment->status() == 201) {
@@ -152,12 +156,12 @@ class OrdersController extends Controller
      */
     public function show($id, Request $request)
     {
-        $token = $this->shipmentsController->getToken($request);
+        $token = $this->getToken($request);
 
         $header = [
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'Authorization' => $token,
+            'X-Firebase-IdToken' => $token,
         ];
 
         $params = [
@@ -167,9 +171,12 @@ class OrdersController extends Controller
             'with' => 'shipmentInfo;trackings',
         ];
 
-        $order = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders', $params);
+        $order = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders', $params);
         // dd($order->body());
-
+        if($order->status()==401){
+            $this->deleteSession();
+            return redirect()->route('auth.logout');
+        }
         $data = json_decode($order->body(), true);
 
         foreach ($data['data'] as $key => $value) {
@@ -183,7 +190,6 @@ class OrdersController extends Controller
                 $data['data'][$key]['shipment_info']['sender_name'] = $parse_note->send_name ?? "";
                 $data['data'][$key]['note'] = $parse_note->note ?? "";
             }
-
         }
         $data = ['order' => $data];
 
@@ -245,18 +251,18 @@ class OrdersController extends Controller
 
     public function listStatus(Request $request)
     {
-        $token = $this->shipmentsController->getToken($request);
+        $token = $this->getToken($request);
 
         $header = [
             'Accept-Language' => 'vi',
-            'Authorization' => $token,
+            'X-Firebase-IdToken' => $token,
             'Accept' => 'application/json',
         ];
         $params = [
             'search' => 'directors.type_id:Shipment',
         ];
 
-        $listStatus = Http::withHeaders($header)->get('http://order.tomonisolution.com:82/api/orders/statuses', $params);
+        $listStatus = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders/statuses', $params);
 
         $listStatus = json_decode($listStatus->body(), true);
 

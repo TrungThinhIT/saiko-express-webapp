@@ -187,7 +187,7 @@
                         <div style="padding-top:30px" class="panel-body">
                             <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
                             <!-- login form -->
-                            <form id="loginform" method="post" action="" class="form-horizontal" role="form">
+                            <form id="loginform" method="get" action="" class="form-horizontal" role="form">
                                 @csrf
 
                                 <div style="margin-bottom: 25px" class="input-group">
@@ -204,7 +204,12 @@
 
                                 <div style="margin-top:10px" class="form-group">
                                     <div class="col-md-12 text-center">
-                                        <input type="submit" id="btn-login" class="btn btn-success" value="Đăng nhập" />
+                                        <input id="btn-login" type="submit" class="btn btn-success" value="Đăng nhập" />
+                                        <button class="btn btn-danger" onclick="googleSignInPopup()" type="button">
+                                            <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                            <span>| Đăng nhập bằng Google</span>
+                                        </button>
+
                                     </div>
                                 </div>
 
@@ -241,15 +246,6 @@
                             <form id="signupform" method="post" action="{{ route('auth.register') }}"
                                 class="form-horizontal" role="form">
                                 @csrf
-
-                                <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">id</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" id="id" name="id"
-                                            placeholder="nhỏ hơn hoặc bằng 15 ký tự" value=''>
-                                    </div>
-                                </div>
-
                                 <div class="form-group">
                                     <label for="email" class="col-md-3 control-label">Email</label>
                                     <div class="col-md-9">
@@ -267,18 +263,11 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="password" class="col-md-3 control-label">Password Confirm</label>
-                                    <div class="col-md-9">
-                                        <input type="password" class="form-control" id="password_confirmation"
-                                            name="password_confirmation" placeholder="Nhập lại mật khẩu" value=''>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
                                     <div class="col-md-12 text-center">
                                         <button id="btn-signup" type="submit" name="reg_user"
                                             class="btn btn-success "><i class="icon-hand-right"></i> &nbsp Đăng
                                             ký</button>
+
                                     </div>
                                 </div>
                                 <hr>
@@ -361,6 +350,256 @@
     @include('modules.footer')
 </body>
 <script>
+    //login
+    function signInWithEmailPassword() {
+        firebase.auth().signOut().then(() => {
+            // Sign-out successful.
+
+        }).catch((error) => {
+            // An error happened.
+        });
+        var email = $("#login-email").val();;
+        var password = $("#login-password").val();
+        // [START auth_signin_password]
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Signed in
+                // firebase.auth().currentUser.sendEmailVerification()
+                //     .then(() => {
+                //         // Email verification sent!
+                //         swal('success', 'checkmail');
+                //         // ...
+                //     }).catch(function(error) {
+                //         swal('warning', error.code)
+                //     });
+                //get IDtoken
+                firebase.auth().currentUser.getIdToken( /* forceRefresh */ false).then(function(token_gg) {
+                    // Send token to your backend via HTTPS
+                    setToken(token_gg)
+                    let idToken = getToken();
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('auth.login') }}",
+                        data: {
+                            token: idToken,
+                        },
+                        success: function(respone) {
+                            if (respone.code == 200) {
+                                window.location.href = "{{ route('orders.create') }}";
+                            } else {
+                                $("#alert-errors").append(
+                                    "<span class='text-danger'>" +
+                                    "Email hoặc mật khẩu sai" +
+                                    "</span>" + "<br>"
+                                )
+                                $("#modalConfirmDelete").show()
+                            }
+                        },
+                        error: function(respone) {
+                            console.log(respone.responseJSON.errors.id)
+                        }
+
+                    })
+                }).catch(function(error) {
+                    swal({
+                        title: error.message,
+                        type: "warning",
+                        icon: "warning",
+                        showCancelButton: false,
+                        confirmButtonColor: "#fca901",
+                        confirmButtonText: "Exit",
+                        closeOnConfirm: true
+                    })
+                });
+                // ...
+
+            })
+            .catch((error) => {
+                var errorMessage = error.message;
+                swal({
+                    title: errorMessage,
+                    type: "warning",
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonColor: "#fca901",
+                    confirmButtonText: "Exit",
+                    closeOnConfirm: true
+                })
+            });
+        // [END auth_signin_password]
+    }
+
+    //sign up
+    function signUpWithEmailPassword() {
+        var email = $("#email").val();
+        var password = $("#password").val();
+        // [START auth_signup_password]
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Signed in
+                firebase.auth().currentUser.sendEmailVerification()
+                    .then(() => {
+                        // Email verification sent!
+                        swal({
+                            title: "Kiểm tra mail để xác thực",
+                            type: "success",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                            // ...
+                        })
+
+                    }).catch((error) => {
+                        swal({
+                            title: error.message,
+                            type: "success",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        })
+                    });
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                swal({
+                    title: errorMessage,
+                    type: "warning",
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonColor: "#fca901",
+                    confirmButtonText: "Exit",
+                    closeOnConfirm: true
+                })
+            });
+        // [END auth_signup_password]
+    }
+    //reset password
+    function sendPasswordReset() {
+        const email = $("#id-send-link-password").val();
+        // [START auth_send_password_reset]
+        firebase.auth().sendPasswordResetEmail(email)
+            .then(() => {
+                swal({
+                    title: "Đã gửi mail reset mật khẩu",
+                    type: "success",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#fca901",
+                    confirmButtonText: "Exit",
+                    closeOnConfirm: true
+                })
+            })
+            .catch((error) => {
+                var errorMessage = error.message;
+                swal({
+                    title: errorMessage,
+                    type: "warning",
+                    icon: "warning",
+                    showCancelButton: false,
+                    confirmButtonColor: "#fca901",
+                    confirmButtonText: "Exit",
+                    closeOnConfirm: true
+                })
+            });
+        // [END auth_send_password_reset]
+    }
+
+    //provider google
+    function googleSignInPopup(provider) {
+        // [START auth_google_signin_popup]
+        var provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({
+            'display': 'popup'
+        })
+        // [END auth_google_provider_create]
+
+        // [START auth_google_provider_scopes]
+
+        // [END auth_google_provider_scopes]
+
+        // [START auth_google_provider_params]
+
+        firebase.auth()
+            .signInWithPopup(provider)
+            .then((result) => {
+                /** @type {firebase.auth.OAuthCredential} */
+                var credential = result.credential;
+
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                var token = credential.accessToken;
+                // The signed-in user info.
+                var user = result.user;
+                if (!user.emailVerified) {
+                    firebase.auth().currentUser.sendEmailVerification()
+                    .then(() => {
+                        swal("warning", error.message)
+                    }).catch((error) => {
+                        swal("warning", error.message)
+                    });
+                }
+                firebase.auth().currentUser.getIdToken( /* forceRefresh */ false).then(function(token_gg) {
+
+                    // Send token to your backend via HTTPS
+                    setToken(token_gg)
+                    let idToken = getToken();
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('auth.login') }}",
+                        data: {
+                            token: idToken,
+                        },
+                        success: function(respone) {
+                            if (respone.code == 200) {
+                                window.location.href = "{{ route('orders.create') }}";
+                            } else {
+                                $("#alert-errors").empty()
+                                $("#alert-errors").append(
+                                    "<span class='text-danger'>" +
+                                    "Email hoặc mật khẩu sai" +
+                                    "</span>" + "<br>"
+                                )
+                                $("#modalConfirmDelete").show()
+                            }
+                        },
+                        error: function(respone) {
+                            console.log(respone.responseJSON.errors.id)
+                        }
+                    })
+                }).catch(function(error) {
+                    swal({
+                        title: error.message,
+                        type: "warning",
+                        icon: "warning",
+                        showCancelButton: false,
+                        confirmButtonColor: "#fca901",
+                        confirmButtonText: "Exit",
+                        closeOnConfirm: true
+                    })
+                });
+
+                // swal(token, credential)
+
+            }).catch((error) => {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // The email of the user's account used.
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+                // ...
+
+                console.log(errorMessage)
+            });
+        // [END auth_google_signin_popup]
+    }
+
+
     $(document).ready(function() {
         $(document).ajaxStart(function() {
             $("#loader").show();
@@ -384,94 +623,19 @@
         $("#btn-signup").click(function(event) {
             event.preventDefault();
             $("#alert-errors").empty()
-            var id = $("#id").val()
-            var email = $("#email").val();
-            var password = $("#password").val();
-            var password_confirmation = $("#password_confirmation").val()
-            $.ajax({
-                type: "POST",
-                url: "{{ route('auth.register') }}",
-                data: {
-                    id: id,
-                    email: email,
-                    password: password,
-                    password_confirmation: password_confirmation,
-                },
-                success: function(respone) {
-                    if (respone.code == 422) {
-                        var data = JSON.parse(respone.data)
+            signUpWithEmailPassword()
 
-                        $.each(data.errors, function(index, value) {
-                            $("#alert-errors").append(
-                                "<span class='text-danger'>" + index + ":" +
-                                value + "</span>" + "<br>"
-                            )
-                        })
-
-                        $("#modalConfirmDelete").show()
-
-
-                    }
-                    if (respone.code == 201) {
-                        swal({
-                                title: "Đã tạo thành công",
-                                type: "success",
-                                icon: "success",
-                                showCancelButton: false,
-                                confirmButtonColor: "#fca901",
-                                confirmButtonText: "Exit",
-                                closeOnConfirm: true
-                            })
-                            .then((willDelete) => {
-                                if (willDelete) {
-                                    window.location.reload();
-                                }
-                            });
-                        // $("#alert-success").append(
-                        //     "<span class='text-success'>" +
-                        //     "Đã đăng ký tài khoản thành công" + "</span>" + "<br>"
-                        // )
-                        // $("#modalReload").show()
-
-                    }
-                },
-                error: function(respone) {
-                    // console.log(respone.responseJSON.errors.id)
-                }
-
-            })
         })
 
         $("#btn-login").click(function(e) {
             e.preventDefault();
             $("#alert-errors").empty()
             $("#alert-success").empty()
-            var email = $("#login-email").val();
-            var password = $("#login-password").val();
-            $.ajax({
+            // var email = $("#login-email").val();
+            // var password = $("#login-password").val();
+            signInWithEmailPassword();
 
-                type: "POST",
-                url: "{{ route('auth.login') }}",
-                data: {
-                    username: email,
-                    password: password,
-                },
-                success: function(respone) {
-                    if (respone.code == 200) {
-                        window.location.href = "{{ route('orders.create') }}";
-                    } else {
-                        $("#alert-errors").append(
-                            "<span class='text-danger'>" + "Email hoặc mật khẩu sai" +
-                            "</span>" + "<br>"
-                        )
-                        $("#modalConfirmDelete").show()
-                    }
-                },
-                error: function(respone) {
-                    // console.log(respone.responseJSON.errors.id)
-                }
 
-            })
         })
 
         $("#btn-link-password").click(function(e) {
@@ -485,31 +649,32 @@
                 alert('Vui lòng nhập email')
                 return false;
             }
-            toggleLoading()
-            $.ajax({
-                type: "POST",
-                url: "{{ route('auth.sendLinkResetPassword') }}",
-                data: {
-                    callback_domain: window.location.protocol + "//" + window.location.hostname,
-                    email: email,
-                },
-                success: function(response) {
-                    if (response.code == 204) {
-                        $("#alert-link-getPassword-success").append(
-                            'Thông báo đã được gửi, bạn vui lòng kiểm tra email'
-                        )
-                        $("#alert-link-getPassword-success").show()
-                    } else {
-                        $("#alert-link-getPassword-fail").append(
-                            'Thông báo đã được gửi hoặc email không đúng'
-                        )
-                        $("#alert-link-getPassword-fail").show()
-                    }
-                },
-                error: function(response) {
+            sendPasswordReset()
+            // toggleLoading()
+            // $.ajax({
+            //     type: "POST",
+            //     url: "{{ route('auth.sendLinkResetPassword') }}",
+            //     data: {
+            //         callback_domain: window.location.protocol + "//" + window.location.hostname,
+            //         email: email,
+            //     },
+            //     success: function(response) {
+            //         if (response.code == 204) {
+            //             $("#alert-link-getPassword-success").append(
+            //                 'Thông báo đã được gửi, bạn vui lòng kiểm tra email'
+            //             )
+            //             $("#alert-link-getPassword-success").show()
+            //         } else {
+            //             $("#alert-link-getPassword-fail").append(
+            //                 'Thông báo đã được gửi hoặc email không đúng'
+            //             )
+            //             $("#alert-link-getPassword-fail").show()
+            //         }
+            //     },
+            //     error: function(response) {
 
-                }
-            })
+            //     }
+            // })
         })
     })
 

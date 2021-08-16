@@ -9,11 +9,6 @@ use App\Http\Controllers\shipments\ShipmentsController as ShipmenstController;
 
 class TransactionsController extends Controller
 {
-
-    public function __construct(ShipmenstController $shipmentsController)
-    {
-        $this->shipmentsController = $shipmentsController;
-    }
     /**
      * Display a listing of the resource.
      *
@@ -21,8 +16,8 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-        $token = $this->shipmentsController->getToken($request);
-        $user_id = $this->shipmentsController->getUserId($request);
+        $token = $this->getToken($request);
+        $user_id = $this->getUserId($request);
 
         $param_search_transactions = [
             'search' => 'user_id:' . $user_id,
@@ -75,8 +70,21 @@ class TransactionsController extends Controller
         $transactions = Http::withHeaders([
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'Authorization' => $token,
-        ])->get('http://accounting.tomonisolution.com:82/api/transactions', $param_search_transactions);
+            'X-Firebase-IdToken' => $token,
+        ])->get('https://dev-accounting.tomonisolution.com/api/transactions', $param_search_transactions);
+
+        if ($request->wantsJson()) {
+            if ($transactions->status() == 401) {
+                $this->deleteSession();
+                $this->deleteCookie();
+                return response()->json(['code' => 401]);
+            }
+        }
+        if ($transactions->status() == 401) {
+            $this->deleteSession();
+            $this->deleteCookie();
+            return redirect()->route('auth.logout');
+        }
 
         $transactions = json_decode($transactions, true);
         if ($request->transaction) {
@@ -116,13 +124,13 @@ class TransactionsController extends Controller
      */
     public function show($id, Request $request)
     {
-        $token  = $this->shipmentsController->getToken($request);
-        $user_id = $this->shipmentsController->getUserId($request);
+        $token  = $this->getToken($request);
+        $user_id = $this->getUserId($request);
 
         $header = [
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'Authorization' => $token,
+            'X-Firebase-IdToken' => $token,
         ];
         $param = [
             'search' => 'user_id:' . $id,
@@ -130,8 +138,12 @@ class TransactionsController extends Controller
             'with' => 'currency',
         ];
 
-        $getAccount = Http::withHeaders($header)->get('http://accounting.tomonisolution.com:82/api/accounts', $param);
-
+        $getAccount = Http::withHeaders($header)->get('https://dev-accounting.tomonisolution.com/api/accounts', $param);
+        if ($getAccount->status() == 401) {
+            $this->deleteSession();
+            $this->deleteCookie();
+            return redirect()->route('auth.logout');
+        }
         $data = json_decode($getAccount->body(), true);
         $data = collect(['transactions' => $data]);
         return view('transactions.index', compact('data'));

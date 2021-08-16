@@ -165,6 +165,7 @@
             })
         })
 
+        //done
         function findByField(type_transaction, type_money) {
             $("#fix-paginate-transaction").pagination({
                 ajax: function(options, refresh, $target) {
@@ -180,15 +181,30 @@
                         },
                         success: function(data) {
                             if (data.code == 401) {
-                                location.reload()
+                                removeToken()
+                                swal({
+                                    title: "Vui lòng đăng nhập lại",
+                                    type: "warning",
+                                    icon: "warning",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#fca901",
+                                    confirmButtonText: "Exit",
+                                    closeOnConfirm: true
+                                }).then((check) => {
+                                    window.location.href ="{{ route('auth.logout') }}"
+                                })
                             } else {
                                 $("#history-transactions").empty()
                                 $("#fix-paginate-transaction").empty()
                                 if (data.transactions.data.length) {
                                     $.each(data.transactions.data, function(index, value) {
                                         var name_action = '';
+                                        var description='';
                                         if (value.prepared_by_id) {
                                             name_action = '****************';
+                                        }
+                                        if(value.description){
+                                            description=value.description
                                         }
                                         $("#history-transactions").append(
                                             '<tr class="text-center addHover">' +
@@ -198,7 +214,7 @@
                                             '</td>' +
                                             '<td>' + value.currency_id +
                                             '<td>' + value.type.name + '</td>' +
-                                            '<td>' + value.description + '</td>' +
+                                            '<td>' + description + '</td>' +
                                             '<td>' + name_action + '</td>' +
                                             '<td>' + value.created_at + '</td>' +
                                             '</tr>'
@@ -221,6 +237,7 @@
             })
         }
 
+        //done
         function fetch_data_transaction(page) {
             var type_transaction = $("#type_transaction").val();
             var type_money = $("#type_money").val();
@@ -235,6 +252,7 @@
                 },
                 success: function(data) {
                     if (data.code == 401) {
+                        removeToken()
                         location.reload()
                     } else {
                         $("#history-transactions").empty()

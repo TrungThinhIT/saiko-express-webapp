@@ -194,7 +194,17 @@
                             },
                             success: function(data) {
                                 if (data.code == 401) {
-                                    location.reload()
+                                    swal({
+                                        title: "Mã xác thực hết hạn. Load lại trang",
+                                        type: "warning",
+                                        icon: "warning",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#fca901",
+                                        confirmButtonText: "Exit",
+                                        closeOnConfirm: true
+                                    }).then(()=>{
+                                        location.reload()
+                                    })
                                 } else {
                                     $("#list-orders").empty();
                                     // $("#fix-paginate-order").empty()
@@ -314,7 +324,17 @@
                 },
                 success: function(data) {
                     if (data.code == 401) {
-                        location.reload()
+                        swal({
+                            title: "Mã xác thực hết hạn. Load lại trang",
+                            type: "warning",
+                            icon: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        }).then(()=>{
+                            location.reload()
+                        })
                     } else {
                         $("#list-orders").empty()
                         // $("#fix-paginate-order").empty()

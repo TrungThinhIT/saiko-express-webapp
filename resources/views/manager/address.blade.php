@@ -7,7 +7,9 @@
             color: orange;
         }
 
-
+        .swal-button-container > .swal-button--cancel{
+            background-color: silver !important;
+        }
         .fix-select {
             border: #484848 1px solid !important;
         }
@@ -325,8 +327,8 @@
                     <div class="modal-footer">
                         <div class="row">
                             <div style="padding: 30px">
-                                <button class="btn btn-success set-bg-btn-cancel" id="close-modal-update">Thoát</button>
-                                <button class="btn btn-success set-bg-btn" onclick="sendUpdate(this)"
+                                <button class="btn set-bg-btn-cancel" id="close-modal-update">Thoát</button>
+                                <button class="btn btn-warning set-bg-btn" onclick="sendUpdate(this)"
                                     id="btn-send-update-add">Cập
                                     nhật</button>
                             </div>
@@ -420,6 +422,7 @@
                         location.reload()
                     } else {
                         if (data.list_address.data.length) {
+
                             $("#list-address").empty()
                             $.each(data.list_address.data, function(index, value) {
 
@@ -447,7 +450,6 @@
                                     '</tr>'
                                 )
                             })
-                            console.log(data.list_address.current_page)
                             $("#fix-paginate-address").pagination({
                                 current: data.list_address.current_page,
                                 total: data.list_address.total,
@@ -528,6 +530,9 @@
                 success: function(response) {
                     $("#alert-errors").empty()
                     $("#modal-create-address").hide()
+                    if (response.code == 401) {
+                        location.reload();
+                    }
                     if (response.code == 201) {
                         var page = $("#fix-paginate-address .active a").data('page');
                         fetch_data(page);
@@ -584,6 +589,9 @@
                         type: "DELETE",
                         url: "../shipment/" + id_shipment,
                         success: function(response) {
+                            if (response.code == 401) {
+                                location.reload()
+                            }
                             if (response.code == 200) {
                                 var page = $("#fix-paginate-address .active a").data('page');
                                 $("#address-" + id_shipment).remove()
@@ -605,11 +613,13 @@
             $("#modal-update-address").show()
             var id_shipment = $(obj).data('id');
             $("#btn-send-update-add").attr("data-id_address", id_shipment)
-
             $.ajax({
                 type: "GET",
                 url: "../shipment/" + id_shipment + "/edit",
                 success: function(response) {
+                    if (response.code == 401) {
+                        location.reload()
+                    }
                     if (response.code == 200) {
                         $("#inputSender-name-update").val(response.data.sender_name)
                         $("#inputSender-tel-update").val(response.data.sender_tel)
@@ -710,6 +720,9 @@
                 success: function(response) {
                     $("#alert-errors").empty()
                     $("#modal-update-address").hide()
+                    if (response.code == 401) {
+                        location.reload()
+                    }
                     if (response.code == 200) {
                         var page = $("#fix-paginate-address .active a").data('page');
                         fetch_data(page);

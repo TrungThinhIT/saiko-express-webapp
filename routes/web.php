@@ -63,7 +63,7 @@ Route::get('api/password/reset/{token}', 'auth\AuthController@sendInfoResetPassw
 Route::prefix('auth')->namespace('auth')->name('auth.')->group(function () {
     Route::get('index', 'AuthController@index')->name('index');
     Route::post('login', 'AuthController@login')->name('login');
-    Route::get('logout', 'AuthController@logout')->middleware('cookie')->name('logout');
+    Route::get('logout', 'AuthController@logout')->name('logout');
     Route::post('register', 'AuthController@register')->name('register');
     Route::post('sendLinkResetPassword', 'AuthController@sendLinkResetPassword')->name('sendLinkResetPassword');
     Route::get('me', 'AuthController@info')->middleware('cookie')->name('info');
@@ -78,7 +78,7 @@ Route::prefix('shipment')->middleware('cookie')->name('shipment.')->namespace('s
     Route::get('list-address-book', 'ShipmentsController@listAddressBook')->name('machine.listAddress');
 });
 
-Route::prefix('transactions')->name('transaction.')->namespace('transactions')->group(function () {
+Route::prefix('transactions')->middleware('cookie')->name('transaction.')->namespace('transactions')->group(function () {
     Route::resource('', 'TransactionsController')->parameters(['' => 'transaction']);
 });
 

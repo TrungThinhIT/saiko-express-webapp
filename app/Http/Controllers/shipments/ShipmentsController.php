@@ -13,8 +13,9 @@ class ShipmentsController extends Controller
 {
     public function getData($request)
     {
-        $data = $request->session()->get('token');
+        $data = $request->session()->get('idToken');
         $data = unserialize($data);
+
         return $data;
     }
 
@@ -30,7 +31,7 @@ class ShipmentsController extends Controller
         if (!$data) {
             return false;
         }
-        $token = $data['token_type'] . ' ' . $data['access_token'];
+        $token = $data['idToken'];
         return $token;
     }
 
@@ -41,10 +42,11 @@ class ShipmentsController extends Controller
      */
     public function index(Request $request)
     {
-        $data = $request->session()->get('token');
+        // dd($request);
+        $data = $request->session()->get('idToken');
         $data = unserialize($data);
 
-        $token = $data['token_type'] . ' ' . $data['access_token'];
+        $token = $data['idToken'];
         $param_search_shipment = [
             'search' => 'user_id:' . $data['id'],
             'searchFields' => 'user_id:=',
@@ -54,14 +56,27 @@ class ShipmentsController extends Controller
         $shipment_info = Http::withHeaders([
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'Authorization' => $token,
-        ])->get('http://auth.tomonisolution.com:82/api/shipment-infos', $param_search_shipment);
+            'X-Firebase-IdToken' => $token,
+        ])->get('https://dev-auth.tomonisolution.com/api/shipment-infos', $param_search_shipment);
 
-        $shipment_info = json_decode($shipment_info->body(), true);
-        if ($request->shipment) {
-            return response()->json(['list_address' => $shipment_info]);
+        if ($shipment_info->status() == 401 && !$request->shipment) {
+            $this->deleteSession();
+            $this->deleteCookie();
+            return redirect()->route('auth.logout');
         }
-        $data = array_merge($data, ['list_address' => $shipment_info]);
+
+        $list_shipment = json_decode($shipment_info->body(), true);
+
+        if ($request->shipment) {
+            if ($shipment_info->status() == 401) {
+                $this->deleteSession();
+                $this->deleteCookie();
+                return response()->json(['code' => 401]);
+            }
+            return response()->json(['list_address' => $list_shipment]);
+        }
+
+        $data = array_merge($data, ['list_address' => $list_shipment]);
 
         return view('manager.address', compact('data'));
     }
@@ -89,9 +104,12 @@ class ShipmentsController extends Controller
         $param = array_merge($request->all(), $user);
         $create = Http::withHeaders([
             'Accept' => 'application/json',
-            'Authorization' => $token
-        ])->post('http://auth.tomonisolution.com:82/api/shipment-infos', $param);
-
+            'X-Firebase-IdToken' => $token
+        ])->post('https://dev-auth.tomonisolution.com/api/shipment-infos', $param);
+        if ($create->status() == 401) {
+            $this->deleteSession();
+            $this->deleteCookie();
+        }
         return response()->json(['code' => $create->status(), 'message' => $create->body()]);
     }
 
@@ -118,11 +136,13 @@ class ShipmentsController extends Controller
         $send = Http::withHeaders(
             [
                 'Accept' => 'application/json',
-                'Authorization' => $token
+                'X-Firebase-IDToken' => $token
             ]
-        )->get('http://auth.tomonisolution.com:82/api/shipment-infos/' . $id);
+        )->get('https://dev-auth.tomonisolution.com/api/shipment-infos/' . $id);
 
-        if ($send->status() == 401) {
+        if ($send->status() == 401 && !$request->order) {
+            $this->deleteSession();
+            $this->deleteCookie();
             return response()->json(['code' => 401]);
         }
 
@@ -136,17 +156,22 @@ class ShipmentsController extends Controller
         ];
         $full_address = Http::withHeaders([
             'Accept' => 'application/json',
-            'Authorization' => $token
-        ])->get('http://notification.tomonisolution.com:82/api/wards/' . $info['ward_id'], $param_get_fulladdress);
-        $full_address = json_decode($full_address, true);
+            'X-Firebase-IdToken' => $token
+        ])->get('https://dev-notification.tomonisolution.com/api/wards/' . $info['ward_id'], $param_get_fulladdress);
 
+        if ($full_address->status() == 401) {
+            $this->deleteSession();
+            $this->deleteCookie();
+            return response()->json(['code' => 401]);
+        }
+
+        $full_address = json_decode($full_address, true);
 
         $provinces = tinhthanh::all()->toArray();
 
         $data = array_merge($info, ['provinces' => $provinces]);
 
         $data = array_merge($data, ['full_address' => $full_address]);
-
 
         $district_by_province = quanhuyen::where('matinhthanh', $full_address['district']['province']['id'])->get()->toArray();
         $data = array_merge($data, ['districts' => $district_by_province]);
@@ -168,11 +193,11 @@ class ShipmentsController extends Controller
     {
         $send_update = Http::withHeaders([
             'Accept' => 'application/json',
-            'Authorization' => $this->getToken($request),
-        ])->PUT("http://auth.tomonisolution.com:82/api/shipment-infos/" . $id, $request->all());
+            'X-Firebase-IdToken' => $this->getToken($request),
+        ])->PUT("https://dev-auth.tomonisolution.com/api/shipment-infos/" . $id, $request->all());
 
-        if ($send_update->status() == 200) {
-            return response()->json(['code' => 200, 'message' => $send_update->body()]);
+        if ($send_update->status() == 401) {
+            $this->deleteSession();
         }
 
         return response()->json(['code' => $send_update->status(), 'message' => $send_update->body()]);
@@ -184,16 +209,20 @@ class ShipmentsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id, Request $request)
     {
         $token = $this->getToken($request);
         $send = Http::withHeaders(
             [
                 'Accept' => 'application/json',
-                'Authorization' => $token
+                'X-Firebase-IdToken' => $token
             ]
-        )->DELETE('http://auth.tomonisolution.com:82/api/shipment-infos/' . $id);
-
+        )->DELETE('https://dev-auth.tomonisolution.com/api/shipment-infos/' . $id);
+        if ($send->status() == 401) {
+            $this->deleteSession();
+            $this->deleteCookie();
+        }
         return response(['code' => $send->status(), 'message' => $send->body()]);
     }
 }

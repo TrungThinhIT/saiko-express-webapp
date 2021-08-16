@@ -1,11 +1,12 @@
 @extends('modules_manager.main_new')
 @section('title', 'Theo dõi kiện hàng hàng')
-@section('title-header-content','Theo dõi kiện hàng')
+@section('title-header-content', 'Theo dõi kiện hàng')
 @section('css')
     <style>
-        .timeline > li{
-            position: unset !important ;
+        .timeline>li {
+            position: unset !important;
         }
+
         .table-striped>tbody>tr:nth-child(odd)>td,
         .table-striped>tbody>tr:nth-child(odd)>th {
             background-color: #fad792; // Choose your own color here
@@ -20,6 +21,10 @@
             cursor: pointer;
         }
 
+        .alert-danger{
+            background-color: #f8d7da !important;
+            border-left: unset !important;
+        }
         table.table-bordered {
             border: 1px solid #fca901;
             margin-top: 20px;
@@ -180,7 +185,7 @@
                                     <thead>
                                         <tr>
                                             <th>Mã Tracking</th>
-                                            <th >Tổng khối lượng tính phí</th>
+                                            <th>Tổng khối lượng tính phí</th>
                                             <th>Đơn giá</th>
                                             <th>Đường vận chuyển</th>
                                             <th>Phí vận chuyển (Nhật - Kho Việt)</th>
@@ -372,6 +377,19 @@
                         $("#body-table-firt-vnpost").empty()
                         $("#table-firt-vnpost").hide()
                         $("#alert").hide()
+                        if(res==401){
+                            swal({
+                                title: "Mã xác thực hết hạn. Đăng nhập lại",
+                                type: "warning",
+                                icon: "warning",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            }).then(()=>{
+                                location.reload()
+                            })
+                        }
                         if (res == 404) {
                             $("#table").hide();
                             $("#body-table-firt").empty()
@@ -379,7 +397,7 @@
                             $("#statusData").empty();
                             $(".table").hide();
                             $("#statusData").css('display', 'block');
-                            $("#statusData").append('<h4>' +
+                            $("#statusData").append('<h4 class="text-danger">' +
                                 'Không tìm thấy mã tracking' + '</h4>')
                         } else {
                             if (res.data[0].boxes.length == 0 & res.data[0].orders.length ==
@@ -421,19 +439,15 @@
                                         if (value.orders.length != 0) {
                                             if (!value.orders[0].shipment_info
                                                 .sender_name) {
-                                                if (isValidJSONString(value.orders[0]
-                                                        .note)) {
+                                                if (isValidJSONString(value.orders[0].note)) {
                                                     var parse_note = JSON.parse(value
                                                         .orders[0].note);
                                                     if (parse_note) {
-                                                        if (typeof parse_note ==
-                                                            "object") {
-                                                            if (parse_note.send_name ==
-                                                                undefined) {
+                                                        if (typeof parse_note =="object") {
+                                                            if (parse_note.send_name ==undefined) {
                                                                 name_send = ""
                                                             } else {
-                                                                name_send = parse_note
-                                                                    .send_name;
+                                                                name_send = parse_note.send_name;
                                                             }
                                                         }
                                                     }
@@ -1276,6 +1290,19 @@
                     id_box: id_box
                 },
                 success: function(res) {
+                    if(res == 401){
+                        swal({
+                            title: "Mã xác thực hết hạn. Load lại trang",
+                            type: "warning",
+                            icon: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        }).then(()=>{
+                            location.reload()
+                        })
+                    }
                     $("#time_line").empty()
                     if (res.logs.length == 0) {
                         $("#time_line").append(

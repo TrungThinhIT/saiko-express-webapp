@@ -25,6 +25,7 @@
     <script src="assets/js/jquery.masknumber.js"></script>
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="assets/js/plugins/jquery/jquery.cookie.js"></script>
 
     <style>
         .table-striped>tbody>tr:nth-child(odd)>td,
@@ -188,12 +189,14 @@
                 text-align: left !important;
             }
         }
-
-
-        #fix-float {
-            float: right;
+        @media screen and (max-width: 767px){
+            .table-responsive {
+                border: 0px;
+            }
         }
-
+        .input-group .form-control{
+            z-index: unset ;
+        }
     </style>
 
 <body>
@@ -285,11 +288,11 @@
                                     <li><a href="{{ route('contact.index') }}">Liên
                                             hệ</a></li>
                                     <li id="sub-menu-custom">
-                                        @if (Session::get('token') != '')
+                                        @if (Session::get('idToken') != '')
                                             @php
-                                                $data = unserialize(Session::get('token'));
+                                                $datas = unserialize(Session::get('idToken'));
                                             @endphp
-                                            <a class="" href="javascript:;">{{ $data['id'] }}</a>
+                                            <a class="" href="javascript:;">{{ $datas['id'] }}</a>
                                             <ul class="sub-menu">
                                                 <li>
                                                     <a class="" href="{{ route('auth.info') }}">Thông tin
@@ -297,12 +300,12 @@
                                                         tôi</a>
                                                 </li>
                                                 <li>
-                                                    <a class="" href="{{ route('auth.logout') }}">Thoát</a>
+                                                    <a class="" href="{{ route('auth.logout') }} " id="logout-firebase">Thoát</a>
                                                 </li>
                                             </ul>
                                         @endif
                                     </li>
-                                    @if (Session::get('token') == '')
+                                    @if (Session::get('idToken') == '')
                                         <li>
                                             <a href="auth/index">Đăng
                                                 nhập</a>

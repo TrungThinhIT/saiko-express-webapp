@@ -37,6 +37,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets_customer/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets_customer/css/atlantis.min.css">
+
     <style>
         .bg-secondary-fix {
             background-color: wheat;
@@ -327,17 +328,17 @@
                         <div class="info">
                             <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                                 <span>
-                                    @if (Session::get('token') != '')
+                                    @if (Session::get('idToken') != '')
                                         @php
-                                            $data = unserialize(Session::get('token'));
+                                            $data = unserialize(Session::get('idToken'));
                                         @endphp
                                         {{ $data['id'] }}
 
                                     @endif
                                     <span class="user-level">
-                                        @if (Session::get('token') != '')
+                                        @if (Session::get('idToken') != '')
                                             @php
-                                                $data = unserialize(Session::get('token'));
+                                                $data = unserialize(Session::get('idToken'));
                                             @endphp
                                             {{ $data['role_id'] }}
                                         @endif
@@ -427,7 +428,7 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('auth.logout') }}">
+                            <a href="{{ route('auth.logout') }}" id="logout-firebase">
                                 <i class="fa fa-sign-out"></i>
                                 <p>Thoát</p>
                                 {{-- <span class="caret"></span> --}}
@@ -628,6 +629,9 @@
     <script src="assets_customer/js/jquery.datetimepicker.full.min.js"></script>
 
     <script src="assets_customer/js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="assets/js/plugins/jquery/jquery.cookie.js"></script>
+
+
     <script>
         $(document).ready(function() {
             $("#show-search").click(function() {
@@ -730,6 +734,109 @@
             lineColor: '#ffa534',
             fillColor: 'rgba(255, 165, 52, .14)'
         });
+
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+   https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-analytics.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+   https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    {{-- <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDGy2NFzP3UlDm-U1XHjl9hgBdG-YJiYH8",
+            authDomain: "saikoexpress-4e48e.firebaseapp.com",
+            projectId: "saikoexpress-4e48e",
+            storageBucket: "saikoexpress-4e48e.appspot.com",
+            messagingSenderId: "232985951792",
+            appId: "1:232985951792:web:6f407fd73072f5846af7f5"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        var provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+        firebase.auth().languageCode = 'it';
+        provider.setCustomParameters({
+            'login_hint': 'user@example.com'
+        });
+
+    </script> --}}
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = ''
+        // Initialize Firebase
+        firebase.initializeApp({
+            apiKey: "{{ config('services.firebase.apiKey') }}",
+            authDomain: "{{ config('services.firebase.authDomain') }}",
+            projectId: "{{ config('services.firebase.projectId') }}",
+            storageBucket: "{{ config('services.firebase.storageBucket') }}",
+            messagingSenderId: "{{ config('services.firebase.messagingSenderId') }}",
+            appId: "{{ config('services.firebase.appId') }}",
+            measurementId: "{{ config('services.firebase.measurementId') }}"
+        });
+        firebase.analytics();
+
+        let id_session = "{{ Session::get('idToken') }}";
+
+        if(id_session == ""){
+            $.removeCookie('idToken', {
+                path: '/'
+            })
+            firebase.auth().signOut().then(() => {
+                // Sign-out successful.
+                window.location.href = "{{ route('auth.logout') }}"
+            }).catch((error) => {
+                // An error happened.
+                window.location.href = "{{ route('auth.logout') }}"
+            });
+        }
+
+        $(document).ready(function() {
+            //logout
+            $("#logout-firebase").click(function(e) {
+                e.preventDefault()
+                $.removeCookie('idToken', {
+                    path: '/'
+                });
+                firebase.auth().signOut().then(() => {
+                    // Sign-out successful.
+                    window.location.href = "{{ route('auth.logout') }}"
+                }).catch((error) => {
+                    window.location.href = "{{ route('auth.logout') }}"
+                });
+            })
+
+            //information
+        })
+
+        function checkToken() {
+            if ($.cookie('idToken') != undefined) {
+                return true;
+            }
+            return false;
+        }
+
+        function getToken() {
+            var idToken = '';
+            if (checkToken()) {
+                idToken = $.cookie('idToken');
+            }
+            return idToken;
+        }
+
+        function removeToken() {
+            $.removeCookie('idToken', {
+                path: '/'
+            });
+        }
 
     </script>
 </body>

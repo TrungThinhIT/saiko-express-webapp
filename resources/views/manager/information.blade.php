@@ -7,9 +7,11 @@
             border-color: 1px #ffffff !important;
         }
 
-        .form-check label, .form-group label {
+        .form-check label,
+        .form-group label {
             white-space: unset !important;
         }
+
         .panel-heading {
             height: 40px;
             line-height: 40px;
@@ -24,17 +26,22 @@
 
         @media (max-width:1024px) {
             .col-md-4 {
+                margin-top:10px !important;
                 width: 100% !important;
             }
 
             .row {
                 --bs-gutter-x: unset !important;
-                display: unset !important;
+            }.fix-margin-left {
+                margin-left: unset !important;
             }
-
-            .stretch-card {
-                display: unset !important;
-            }
+        }
+        .fix-margin-left {
+            font-size: 16px;
+            margin-left: -20px ;
+        }
+        .fix-width-input{
+            width: auto !important;
         }
 
     </style>
@@ -50,7 +57,7 @@
                         </div>
                         {{-- body --}}
                         <div class="panel-body p-2 pt-4">
-                            <form id="update-info-form" method="put" action="" class="form-horizontal" role="form">
+                            <form id="update-info-form" method="put" action="" class="form-horizontal" role="form" autocomplete="off">
                                 @csrf
                                 <div class="form-group">
                                     <div class="row align-items-center">
@@ -68,9 +75,28 @@
                                         <div class="col-md-2">
                                             <label for="">Email</label>
                                         </div>
-                                        <div class="col-md-10">
+                                        <div class="col-md-8">
                                             <input id="login-email" type="email" readonly class="form-control"
                                                 name="email-info" value="{{ $data['email'] }}">
+                                        </div>
+                                        <div class="col-md-2 fix-margin-left" id="btn-show-password">
+                                            <input type="button" class="form-control btn-secondary fix-width-input" value="Sửa">
+                                        </div>
+                                        <div class="col-md-2 d-none fix-margin-left confirm-update-mail"
+                                            id="btn-hidden-password">
+                                            <input type="button" class="form-control btn-secondary fix-width-input" value="Hủy">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-group d-none confirm-update-mail">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-2">
+                                            <label for="">Mật khẩu</label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <input id="login-email-update" type="password"  autocomplete="off" class="form-control"
+                                                name="email-info" value="" placeholder="Nhập mật khẩu để xác thực">
                                         </div>
                                     </div>
 
@@ -83,11 +109,17 @@
                                         <div class="col-md-10">
                                             <input id="role-info" type="text" readonly class="form-control" name="email"
                                                 value="{{ $data['role_id'] }}">
+
                                         </div>
                                     </div>
-
                                 </div>
-                                <div class="form-group">
+                                <div class="text-center">
+                                    {{-- id="btn-update-password" --}}
+                                    <button onclick="updateUserEmail()" type="submit"
+                                        class="btn btn-warning d-none confirm-update-mail">Cập
+                                        nhật</button>
+                                </div>
+                                {{-- <div class="form-group">
                                     <div class="row align-items-center">
                                         <div class="col-md-2">
                                             <label for="">Trạng thái</label>
@@ -97,7 +129,7 @@
                                                 value="{{ $data['status_id'] }}">
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 {{-- <div class="text-center">
                             <button id="btn-update-info" type="submit" class="btn btn-success">Cập
                                 nhật</button>
@@ -145,7 +177,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                {{-- <div class="row">
                                     <div class="form-group">
                                         <div class="row align-items-center">
                                             <div class="col-md-3">
@@ -157,9 +189,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="text-center">
-                                    <button id="btn-update-password" type="submit" class="btn btn-warning bg-warning">Cập
+                                    {{-- id="btn-update-password" --}}
+                                    <button onclick="updatePassword_check()" type="submit"
+                                        class="btn btn-warning bg-warning">Cập
                                         nhật</button>
                                 </div>
                             </form>
@@ -268,6 +302,19 @@
                         password_confirmation: password_confirmation
                     },
                     success: function(response) {
+                        if (response.code == 401) {
+                            swal({
+                                title: "Mã xác thực hết hạn. Đăng nhập lại",
+                                type: "warning",
+                                icon: "warning",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            }).then(()=>{
+                                window.location.reload()
+                            })
+                        }
                         if (response.code == 200) {
                             swal({
                                 title: "Cập nhật thành công",
@@ -277,8 +324,10 @@
                                 confirmButtonColor: "#fca901",
                                 confirmButtonText: "Exit",
                                 closeOnConfirm: true
+                            }).then(()=>{
+                                window.location.reload()
                             })
-                            window.location.reload()
+
                         } else {
                             var data = JSON.parse(response.data)
                             $.each(data.errors, function(index, value) {
@@ -296,10 +345,186 @@
                     }
                 })
             })
+
+            //show input password
+            $("#btn-show-password").click(function(e) {
+                e.preventDefault();
+                $("#login-email").prop('readonly', false)
+                $("#btn-show-password").hide()
+                $(".confirm-update-mail").removeClass('d-none')
+
+            })
+            $("#btn-hidden-password").click(function(e) {
+                e.preventDefault();
+                $("#login-email").prop('readonly', true)
+                $("#btn-show-password").show()
+                $(".confirm-update-mail").addClass('d-none')
+            })
         })
 
         function toggleLoading() {
             $('.tmn-custom-mask').toggleClass('d-none');
+        }
+
+        function updateUserEmail() {
+            // [START auth_update_user_email]
+            $("#update-info-form").submit(function(e) {
+                e.preventDefault();
+            })
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    const user_update = firebase.auth().currentUser;
+                    var current_password = $("#login-email-update").val();
+                    var credential = firebase.auth.EmailAuthProvider.credential(user_update.email, current_password)
+                    user.reauthenticateWithCredential(credential).then(() => {
+                        var email = $("#login-email").val();
+
+                        user.updateEmail(email).then(() => {
+                            // Update successful
+                            // Email verification sent!
+
+                            firebase.auth().currentUser.getIdToken( /* forceRefresh */ false).then(
+                                function(idToken) {
+                                    // Send token to your backend via HTTPS
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ route('auth.login') }}",
+                                        data: {
+                                            token: idToken,
+                                        },
+                                        success: function(respone) {
+                                            if (respone.code == 200) {
+                                                swal({
+                                                    title: "Cập nhật thành công",
+                                                    type: "success",
+                                                    icon: "success",
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: "#fca901",
+                                                    confirmButtonText: "Exit",
+                                                    closeOnConfirm: true
+                                                }).then((check) => {
+                                                    window.location.reload()
+                                                })
+                                            } else {
+                                                $("#alert-errors").append(
+                                                    "<span class='text-danger'>" +
+                                                    "Email hoặc mật khẩu sai" +
+                                                    "</span>" + "<br>"
+                                                )
+                                                $("#modalConfirmDelete").show()
+                                            }
+                                        },
+                                        error: function(respone) {
+                                            if (respone.status == 419) {
+                                                window.location.reload();
+                                            }
+                                        }
+
+                                    })
+
+                                }).catch(function(error) {
+                                console.log(error)
+                            });
+
+                        }).catch((error) => {
+                            // An error occurred
+                            swal({
+                                title: "Cập nhật thất bại: " + error.code,
+                                type: "warning",
+                                icon: "warning",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            })
+                            // ...
+                        });
+                    }).catch((error) => {
+                        swal({
+                            title: error.message,
+                            type: "warning",
+                            icon: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        })
+                    });
+                } else {
+                    // User is signed out
+                    // ...
+                }
+
+                // [END auth_update_user_email]
+            });
+        }
+
+        function updatePassword_check() {
+            // [START auth_state_listener]
+            $("#update-password-form").submit(function(e) {
+                e.preventDefault()
+            })
+
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    var current_password = $("#old-password").val();
+                    const user_update = firebase.auth().currentUser;
+                    var credential = firebase.auth.EmailAuthProvider.credential(user_update.email, current_password)
+                    user.reauthenticateWithCredential(credential).then(() => {
+                        var newPassword = $("#new-password").val();
+                        if (newPassword == "") {
+                            swal({
+                                title: "Vui lòng nhập mật khẩu mới",
+                                type: "warning",
+                                icon: "warning",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            })
+                            return;
+                        }
+                        user_update.updatePassword(newPassword).then(() => {
+                            swal({
+                                title: "Cập nhật thành công",
+                                type: "success",
+                                icon: "success",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            }).then((check) => {
+                                window.location.reload()
+                            })
+                        }).catch((error) => {
+                            // An error ocurred
+                            swal({
+                                title: "Cập nhật thất bại: " + error.message,
+                                type: "warning",
+                                icon: "warning",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            })
+                        });
+
+                    }).catch((error) => {
+                        swal({
+                            title: error.message,
+                            type: "warning",
+                            icon: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        })
+                    });
+
+
+
+                } else {}
+            });
         }
 
     </script>

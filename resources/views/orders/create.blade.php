@@ -514,6 +514,8 @@
             $('#close-modal-address').click(function() {
                 $('#modal-addressbook').hide()
             })
+
+            //done
             $('#send_infor_tracking-address-book').click(function() {
                 var tracking = $('#utracking').val();
                 var trip = $('input[name="fh_radio"]:checked', '#trip').val();
@@ -581,25 +583,41 @@
                     },
                     success: function(response) {
                         if (response.code == 401) {
-                            window.location.href = "{{ route('auth.index') }}";
+                            location.reload()
                         }
                         $("#table_showResultCreatedTrackings").empty()
                         $.each(response, function(index, value) {
+                            if(value.code ==401){
+                                swal({
+                                    title: "Vui lòng đăng nhập lại",
+                                    type: "warning",
+                                    icon: "warning",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#fca901",
+                                    confirmButtonText: "Exit",
+                                    closeOnConfirm: true
+                                })
+                                .then((willDelete) => {
+                                    if (willDelete) {
+                                        window.location.reload();
+                                    }
+                                });
+                            }
                             if (value.code == 201) {
                                 swal({
-                                        title: "Đã tạo thành công",
-                                        type: "success",
-                                        icon: "success",
-                                        showCancelButton: false,
-                                        confirmButtonColor: "#fca901",
-                                        confirmButtonText: "Exit",
-                                        closeOnConfirm: true
-                                    })
-                                    .then((willDelete) => {
-                                        if (willDelete) {
-                                            window.location.reload();
-                                        }
-                                    });
+                                    title: "Đã tạo thành công",
+                                    type: "success",
+                                    icon: "success",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#fca901",
+                                    confirmButtonText: "Exit",
+                                    closeOnConfirm: true
+                                })
+                                .then((willDelete) => {
+                                    if (willDelete) {
+                                        window.location.reload();
+                                    }
+                                });
                             }
                             if (value.code == 405) {
                                 swal({
@@ -627,7 +645,9 @@
                         })
                     }
                 });
+
             })
+
             $('#sendInfoTracking').click(function() {
                 var check_address = $("#list-address .bg-white .bg-warning").data('id');
                 if (check_address != undefined) {
@@ -635,7 +655,6 @@
                     var html = $("#list-address .bg-white .bg-warning").clone().removeClass("h-100")
                         .removeClass("mt-2").removeClass("p-3").removeClass('bg-warning').addClass(
                             'add-box-shadow').addClass('set-max-width-modal').prop("onclick",null);
-                    console.log(html)
                     $("#choosed-address").html(html)
                     $('#ele-add-choose').show()
                     $('.hidden-input').hide()
@@ -644,7 +663,7 @@
 
 
             })
-
+            //done
             $('#showModal-address').click(function() {
                 var check = $('#list-address .bg-white')
                 if (!check.length) {
@@ -818,6 +837,7 @@
             $(document).ajaxStop(function() {
                 $("#loader").hide();
             });
+            //done
             $("#send_infor_tracking").click(function() {
                 var check_address = $("#choosed-address .remove-bg").data('id');
 
@@ -901,6 +921,7 @@
                     $("#first_choose").attr("selected", true)
                     $("#modal_qoute").hide()
                     $("#table_showCreatedTrackings").empty()
+
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -934,6 +955,22 @@
                         success: function(response) {
                             $("#table_showResultCreatedTrackings").empty()
                             $.each(response, function(index, value) {
+                                if(value.code ==401){
+                                    swal({
+                                            title: "Vui lòng đăng nhập lại",
+                                            type: "warning",
+                                            icon: "warning",
+                                            showCancelButton: false,
+                                            confirmButtonColor: "#fca901",
+                                            confirmButtonText: "Exit",
+                                            closeOnConfirm: true
+                                        })
+                                        .then((willDelete) => {
+                                            if (willDelete) {
+                                                window.location.reload();
+                                            }
+                                        });
+                                }
                                 if (value.code == 201) {
                                     swal({
                                             title: "Đã tạo thành công",
@@ -975,7 +1012,9 @@
                             })
                         }
                     });
-                } else {}
+                } else {
+
+                }
             })
 
 
