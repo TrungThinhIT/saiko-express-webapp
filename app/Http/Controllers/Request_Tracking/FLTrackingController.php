@@ -254,6 +254,7 @@ class FLTrackingController extends Controller
         $item_box = Http::withHeaders($header)->get('https://dev-warehouse.tomonisolution.com/api/boxes/' . $req->id_box . '?appends=logs');
 
         if ($item_box->status() == 401) {
+            $this->deleteSession();
             $this->deleteCookie();
             return 401;
         }
