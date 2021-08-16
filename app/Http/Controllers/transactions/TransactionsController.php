@@ -71,7 +71,7 @@ class TransactionsController extends Controller
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
             'X-Firebase-IdToken' => $token,
-        ])->get('https://dev-accounting.tomonisolution.com/api/transactions', $param_search_transactions);
+        ])->get('https://prod-accounting.tomonisolution.com/api/transactions', $param_search_transactions);
 
         if ($request->wantsJson()) {
             if ($transactions->status() == 401) {
@@ -138,7 +138,7 @@ class TransactionsController extends Controller
             'with' => 'currency',
         ];
 
-        $getAccount = Http::withHeaders($header)->get('https://dev-accounting.tomonisolution.com/api/accounts', $param);
+        $getAccount = Http::withHeaders($header)->get('https://prod-accounting.tomonisolution.com/api/accounts', $param);
         if ($getAccount->status() == 401) {
             $this->deleteSession();
             $this->deleteCookie();

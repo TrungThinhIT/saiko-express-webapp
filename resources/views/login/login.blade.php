@@ -4,6 +4,11 @@
 <body>
     @include('modules.header')
     <style>
+        .fix-max-with {
+            padding: 5px;
+            margin: auto;
+            width: 85%;
+        }
         label {
             display: inline-block;
             width: 150px;
@@ -203,13 +208,25 @@
                                 </div>
 
                                 <div style="margin-top:10px" class="form-group">
-                                    <div class="col-md-12 text-center">
-                                        <input id="btn-login" type="submit" class="btn btn-success" value="Đăng nhập" />
-                                        <button class="btn btn-danger" onclick="googleSignInPopup()" type="button">
-                                            <i class="fa fa-google-plus" aria-hidden="true"></i>
-                                            <span>| Đăng nhập bằng Google</span>
-                                        </button>
-
+                                    <div class="col-md-12 ">
+                                        <div class="row fix-max-with">
+                                            <input id="btn-login" type="submit" class="form-control btn btn-success"
+                                                value="Đăng nhập" />
+                                        </div>
+                                        <div class="row fix-max-with">
+                                            <button class="btn btn-danger form-control"
+                                                onclick="googleSignInPopup()" type="button">
+                                                <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                                <span>| Đăng nhập bằng Google</span>
+                                            </button>
+                                        </div>
+                                        <div class="row fix-max-with">
+                                            <button class="btn btn-primary form-control" onclick="facebookSiginUp()"
+                                                type="button">
+                                                <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                                                <span>| Đăng nhập bằng Facebook</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -536,11 +553,10 @@
                 var user = result.user;
                 if (!user.emailVerified) {
                     firebase.auth().currentUser.sendEmailVerification()
-                    .then(() => {
-                        swal("warning", error.message)
-                    }).catch((error) => {
-                        swal("warning", error.message)
-                    });
+                        .then(() => {
+                        }).catch((error) => {
+                            swal("warning", error.message)
+                        });
                 }
                 firebase.auth().currentUser.getIdToken( /* forceRefresh */ false).then(function(token_gg) {
 
@@ -597,6 +613,41 @@
                 console.log(errorMessage)
             });
         // [END auth_google_signin_popup]
+    }
+
+    //provider facebook
+    function facebookSiginUp() {
+        var provider = new firebase.auth.FacebookAuthProvider();
+        provider.addScope('user_birthday');
+        provider.setCustomParameters({
+            'display': 'popup'
+        })
+        firebase
+            .auth()
+            .signInWithPopup(provider)
+            .then((result) => {
+                /** @type {firebase.auth.OAuthCredential} */
+                var credential = result.credential;
+
+                // The signed-in user info.
+                var user = result.user;
+
+                // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+                var accessToken = credential.accessToken;
+                console.log(result)
+                // ...
+            })
+            .catch((error) => {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // The email of the user's account used.
+                var email = error.email;
+                // The firebase.auth.AuthCredential type that was used.
+                var credential = error.credential;
+                console.log(error)
+                // ...
+            });
     }
 
 

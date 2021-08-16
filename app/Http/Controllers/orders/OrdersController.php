@@ -57,7 +57,7 @@ class OrdersController extends Controller
             $params['searchJoin'] = 'and';
         };
 
-        $send = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders/shipment', $params);
+        $send = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders/shipment', $params);
 
         $data = json_decode($send->body(), true);
         foreach ($data['data'] as $key => $value) {
@@ -113,7 +113,7 @@ class OrdersController extends Controller
             'X-Firebase-IDToken' => '1',
         ]);
 
-        $create_shipment = $create_shipment->post('https://dev-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
+        $create_shipment = $create_shipment->post('https://prod-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
             'shipment_method_id' => $request->method, //đường vận chuyển
             'type' => 'shipment',
             'trackings' => $tracking, //danh sách tracking
@@ -171,7 +171,7 @@ class OrdersController extends Controller
             'with' => 'shipmentInfo;trackings',
         ];
 
-        $order = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders', $params);
+        $order = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders', $params);
         // dd($order->body());
         if($order->status()==401){
             $this->deleteSession();
@@ -262,7 +262,7 @@ class OrdersController extends Controller
             'search' => 'directors.type_id:Shipment',
         ];
 
-        $listStatus = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders/statuses', $params);
+        $listStatus = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders/statuses', $params);
 
         $listStatus = json_decode($listStatus->body(), true);
 
