@@ -556,7 +556,7 @@
 </section>
 @include('modules.footer')
 <script>
-
+    let id_session = "{{Session::get('idToken')}}"
 
     function toggleLoading() {
         $('.tmn-custom-mask').toggleClass('d-none');
