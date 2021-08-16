@@ -94,4 +94,18 @@
             </div>
         </div>
     @endif
+    <script>
+
+    $(document).ready(function() {
+        $(document).ajaxStart(function() {
+            $("#loader").show();
+        });
+        $(document).ajaxStop(function() {
+            $("#loader").hide();
+        });
+    });
+
+    </script>
+
+
 @endsection

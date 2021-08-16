@@ -3,9 +3,6 @@
 @section('title-header-content', 'Theo dõi kiện hàng')
 @section('css')
     <style>
-        .timeline>li {
-            position: unset !important;
-        }
 
         .table-striped>tbody>tr:nth-child(odd)>td,
         .table-striped>tbody>tr:nth-child(odd)>th {
@@ -48,49 +45,7 @@
             border: 1px solid #fca901;
         }
 
-        .lftredbrdr {
-            border-left: 2px solid #fca901;
-            padding-left: 25px;
-        }
 
-        ul.timeline {
-            list-style-type: none;
-            position: relative;
-            padding: revert !important;
-        }
-
-        ul.timeline:before {
-            content: ' ';
-            background: #fca901;
-            display: inline-block;
-            position: absolute;
-            left: 29px;
-            width: 2px;
-            height: 100%;
-            z-index: 100;
-        }
-
-        ul.timeline>li {
-            margin: 20px 0;
-            /* padding-left: 44px; */
-            box-shadow: 6px 3px 17px 1px #aaaaaa;
-            border-radius: 2px 7px 10px 4px;
-            margin-left: 10px;
-            padding: 9px;
-        }
-
-        ul.timeline>li:before {
-            content: ' ';
-            background: white;
-            display: inline-block;
-            position: absolute;
-            border-radius: 50%;
-            border: 3px solid #000000;
-            left: 20px;
-            width: 20px;
-            height: 20px;
-            z-index: 100;
-        }
 
         p {
             margin-bottom: 0 !important;
@@ -180,8 +135,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered" id="table_price_shipping"
-                                    style="display:none">
+                                <table class="table table-striped table-bordered d-none" id="table_price_shipping">
                                     <thead>
                                         <tr>
                                             <th>Mã Tracking</th>
@@ -287,7 +241,7 @@
 
 
                     </div>
-                    <div class="underline table-responsive" style="display:none" id="table-firt-vnpost">
+                    {{-- <div class="underline table-responsive" style="display:none" id="table-firt-vnpost">
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -302,7 +256,7 @@
 
                             </tbody>
                         </table>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -345,7 +299,7 @@
                 e.preventDefault();
                 $("#declaration_price").hide()
                 $("#alert").hide()
-                $("#table_price_shipping").hide()
+                $("#table_price_shipping").addClass('d-none')
                 $("#table_body_price_shipping").empty()
                 $("#body-table-firt").empty()
                 $("#time_line").empty()
@@ -414,7 +368,7 @@
                                 $("#statusData").css('display', 'none');
                                 $(".table").show();
                                 $("#table_item").hide()
-                                $("#table_price_shipping").hide()
+                                $("#table_price_shipping").addClass('d-none')
                                 $("#table-firt").show();
                                 $("#alert").hide()
                                 if (res.data.length == 0) {
@@ -497,7 +451,7 @@
                                             }
                                             // BẢNG GIÁ
                                             if (value.boxes.length) {
-                                                $("#table_price_shipping").show()
+                                                $("#table_price_shipping").removeClass('d-none')
                                                 $("#table_body_price_shipping").empty()
                                                 $("#table_body_price_shipping").append(
                                                     '<tr>' +

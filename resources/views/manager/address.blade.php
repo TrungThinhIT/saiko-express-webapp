@@ -110,7 +110,7 @@
             }
         }
 
-        .addHover {
+        .addHover-address {
             cursor: default !important;
         }
 
@@ -144,7 +144,7 @@
                         </thead>
                         <tbody id="list-address">
                             @foreach ($data['list_address']['data'] as $key => $value)
-                                <tr class="text-center addHover" id="address-{{ $value['id'] }}">
+                                <tr class="text-center addHover-address" id="address-{{ $value['id'] }}">
                                     <td>{{ $data['list_address']['from']++ }}</td>
                                     <td>{{ $value['consignee'] }}</td>
                                     <td>{{ $value['tel'] }}</td>
