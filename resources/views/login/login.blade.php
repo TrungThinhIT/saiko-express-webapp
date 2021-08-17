@@ -9,6 +9,7 @@
             margin: auto;
             width: 85%;
         }
+
         label {
             display: inline-block;
             width: 150px;
@@ -214,8 +215,8 @@
                                                 value="Đăng nhập" />
                                         </div>
                                         <div class="row fix-max-with">
-                                            <button class="btn btn-danger form-control"
-                                                onclick="googleSignInPopup()" type="button">
+                                            <button class="btn btn-danger form-control" onclick="googleSignInPopup()"
+                                                type="button">
                                                 <i class="fa fa-google-plus" aria-hidden="true"></i>
                                                 <span>| Đăng nhập bằng Google</span>
                                             </button>
@@ -553,8 +554,7 @@
                 var user = result.user;
                 if (!user.emailVerified) {
                     firebase.auth().currentUser.sendEmailVerification()
-                        .then(() => {
-                        }).catch((error) => {
+                        .then(() => {}).catch((error) => {
                             swal("warning", error.message)
                         });
                 }
@@ -618,7 +618,6 @@
     //provider facebook
     function facebookSiginUp() {
         var provider = new firebase.auth.FacebookAuthProvider();
-        provider.addScope('user_birthday');
         provider.setCustomParameters({
             'display': 'popup'
         })
@@ -634,10 +633,46 @@
 
                 // This gives you a Facebook Access Token. You can use it to access the Facebook API.
                 var accessToken = credential.accessToken;
-                console.log(result)
+                firebase.auth().currentUser.getIdToken( /* forceRefresh */ false).then(function(token_gg) {
+                    // Send token to your backend via HTTPS
+                    setToken(token_gg)
+                    let idToken = getToken();
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('auth.login') }}",
+                        data: {
+                            token: idToken,
+                        },
+                        success: function(respone) {
+                            if (respone.code == 200) {
+                                window.location.href = "{{ route('orders.create') }}";
+                            } else {
+                                $("#alert-errors").empty()
+                                $("#alert-errors").append(
+                                    "<span class='text-danger'>" +
+                                    "Email hoặc mật khẩu sai" +
+                                    "</span>" + "<br>"
+                                )
+                                $("#modalConfirmDelete").show()
+                            }
+                        },
+                        error: function(respone) {
+                            console.log(respone.responseJSON.errors.id)
+                        }
+                    })
+                }).catch(function(error) {
+                    swal({
+                        title: error.message,
+                        type: "warning",
+                        icon: "warning",
+                        showCancelButton: false,
+                        confirmButtonColor: "#fca901",
+                        confirmButtonText: "Exit",
+                        closeOnConfirm: true
+                    })
+                });
                 // ...
-            })
-            .catch((error) => {
+            }).catch((error) => {
                 // Handle Errors here.
                 var errorCode = error.code;
                 var errorMessage = error.message;
