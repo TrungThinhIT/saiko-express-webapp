@@ -251,8 +251,7 @@
                                     <div class="col-sm-8">
                                         <input type="text" readonly class="form-control" id="consignee"
                                             @isset($value['shipment_info']['consignee'])
-                                                value="{{ $value['shipment_info']['consignee'] ? '***********' : '' }}"
-                                            @endisset>
+                                            value="{{ $value['shipment_info']['consignee'] }}" @endisset>
                                     </div>
                                 </div>
                                 <div class="form-group row align-items-center">
@@ -277,8 +276,7 @@
                                     <div class="col-sm-8">
                                         <input type="text" readonly class="form-control" id="sender_name"
                                             @isset($value['shipment_info']['sender_name'])
-                                                value="{{ $value['shipment_info']['sender_name'] ? '***********' : '' }}"
-                                            @endisset>
+                                            value="{{ $value['shipment_info']['sender_name'] }}" @endisset>
                                     </div>
                                 </div>
                                 <div class="form-group row align-items-center">
@@ -371,7 +369,7 @@
                                                                         Người thực hiện:
                                                                     </div>
                                                                     <div class="col-md-9 fix-reponsive">
-                                                                        <b>{{ $value_transaction['prepared_by_id'] ? '***********' : '' }}</b>
+                                                                        <b>{{ $value_transaction['prepared_by_id'] }}</b>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row d-block">
@@ -420,14 +418,15 @@
                                                 @foreach ($value['log_transaction'] as $value_log)
                                                     <tr>
                                                         <td>
-                                                            <b
-                                                                class="">{{ $value_log['creator_id'] ? '*************' : '' }}</b>
+                                                            <b class="">{{ $value_log['creator_id'] }}</b>
                                                         </td>
                                                         <td>
                                                             {{ $value_log['created_at'] }}
                                                         </td>
                                                         <td>
-                                                            {{ $value_log['content']['transaction']['description'] }}
+                                                            @isset($value_log['content']['transaction'])
+                                                                {{ $value_log['content']['transaction']['description'] }}
+                                                            @endisset
                                                         </td>
                                                         {{-- {{ dd($a) }} --}}
                                                         {{-- <div class="row order-log-card">
