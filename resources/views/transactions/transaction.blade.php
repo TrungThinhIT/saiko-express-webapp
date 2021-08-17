@@ -104,7 +104,7 @@
                                     <td>{{ $value['currency_id'] }}</td>
                                     <td>{{ $value['type']['name'] }}</td>
                                     <td>{{ $value['description'] }}</td>
-                                    <td>{{ $value['prepared_by_id'] ? '****************' : '' }}</td>
+                                    <td>{{ $value['prepared_by_id'] }}</td>
                                     <td>{{ $value['created_at'] }}</td>
                                 </tr>
                             @endforeach
@@ -201,7 +201,7 @@
                                         var name_action = '';
                                         var description='';
                                         if (value.prepared_by_id) {
-                                            name_action = '****************';
+                                            name_action = value.prepared_by_id;
                                         }
                                         if(value.description){
                                             description=value.description
@@ -261,7 +261,7 @@
                             $.each(data.transactions.data, function(index, value) {
                                 var name_action = '';
                                 if (value.prepared_by_id) {
-                                    name_action = '****************';
+                                    name_action = value.prepared_by_id;
                                 }
                                 $("#history-transactions").append(
                                     '<tr class="text-center addHover">' +

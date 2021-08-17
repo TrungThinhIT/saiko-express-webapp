@@ -77,6 +77,7 @@
                         <a href="">
                             <tr class="text-center" style="color:black;font-weight:900">
                                 <td class="unset-border-bottom">STT</td>
+                                <td class="unset-border-bottom">Trạng thái</td>
                                 <td class="unset-border-bottom">Tracking</td>
                                 <td class="unset-border-bottom">Người gửi</td>
                                 <td class="unset-border-bottom">Người nhận</td>
@@ -85,17 +86,42 @@
                                 <td class="unset-border-bottom">PTVC</td>
                                 <td class="unset-border-bottom">Ghi chú</td>
                                 <td class="unset-border-bottom">Ngày tạo</td>
-                                <td class="unset-border-bottom">Trạng thái</td>
 
                             </tr>
                         </a>
                     </thead>
                     <tbody id="list-orders">
 
+
                         @if (isset($data['list_orders']))
                             @foreach ($data['list_orders']['data'] as $key => $value)
+                                @php
+                                    switch($value['status']['id']){
+                                        case "Pending":
+                                            $background = "bg-warning p-2 rounded text-white";
+                                            break;
+                                        case "Approved":
+                                            $background ="bg-success p-2 rounded text-white";
+                                            break;
+                                        case "ReceivedAtWarehouse":
+                                            $background ="bg-primary p-2 rounded text-white";
+                                            break;
+                                        case "Paid":
+                                            $background ="bg-white p-2 rounded text-white";
+                                            break;
+                                        case "Finish":
+                                            $background ="bg-secondary p-2 rounded text-white";
+                                            break;
+                                        case "Cancelled":
+                                            $background ="bg-danger p-2 rounded text-white";
+                                            break;
+                                        default:
+                                            $background ="";
+                                    }
+                                @endphp
                                 <tr class="text-center addHover detail-order" data-id={{ $value['id'] }}>
                                     <td>{{ $data['list_orders']['from']++ }}</td>
+                                    <td><span class="{{$background}}">{{ $value['status']['name'] }}</span></td>
                                     <td>
                                         @if (isset($value['trackings'][0]))
                                             {{ $value['trackings'][0]['id'] }}
@@ -103,12 +129,12 @@
                                     </td>
                                     <td>
                                         @if (isset($value['shipment_info']['sender_name']))
-                                            {{ $value['shipment_info']['sender_name'] ? '****************' : '' }}
+                                            {{ $value['shipment_info']['sender_name']}}
                                         @endif
                                     </td>
                                     <td>
                                         @if (isset($value['shipment_info']['consignee']))
-                                            {{ $value['shipment_info']['consignee'] ? '****************' : '' }}
+                                            {{ $value['shipment_info']['consignee']}}
                                         @endif
                                     </td>
                                     <td>
@@ -124,7 +150,6 @@
                                     <td>{{ $value['shipment_method_id'] }}</td>
                                     <td>{{ $value['note'] }}</td>
                                     <td>{{ $value['created_at'] }}</td>
-                                    <td>{{ $value['status']['name'] }}</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -215,8 +240,8 @@
                                             var tel = '';
                                             var full_address ='';
                                             if(value.shipment_info!=null){
-                                                sender_name = value.shipment_info.sender_name.length ?'****************':'';
-                                                consignee = value.shipment_info.consignee.length?'****************':'';
+                                                sender_name = value.shipment_info.sender_name
+                                                consignee = value.shipment_info.consignee
                                                 tel = value.shipment_info.tel;
                                                 full_address=value.shipment_info.full_address;
                                             }
@@ -231,11 +256,12 @@
                                             } else {
                                                 var tracking_id = "";
                                             }
-
+                                            var background = setBackground(value.status.id)
                                             $("#list-orders").append(
                                                 '<tr class="text-center addHover detail-order" data-id="' +
                                                 value.id +'" id="order-' + value.id + '">' +
                                                 '<td>' + data.list_orders.from++ +'</td>' +
+                                                '<td>' + `<span class="${background}">` + value.status.name + '</span></td>' +
                                                 '<td>' + tracking_id +'</td>' +
                                                 '<td>' + sender_name +'</td>' +
                                                 '<td>' + consignee +'</td>' +
@@ -244,7 +270,6 @@
                                                 '<td>' + value.shipment_method_id + '</td>' +
                                                 '<td>' + note +'</td>' +
                                                 '<td>' + value.created_at + '</td>' +
-                                                '<td>' + value.status.name + '</td>' +
                                                 '</tr>'
                                             )
                                         })
@@ -313,6 +338,34 @@
             })
         })
 
+        //set bg
+        function setBackground(status){
+            var background = '';
+            switch(status){
+                case "Pending":
+                    background = "bg-warning p-2 rounded text-white";
+                    break;
+                case "Approved":
+                    background ="bg-success p-2 rounded text-white";
+                    break;
+                case "ReceivedAtWarehouse":
+                    background ="bg-primary p-2 rounded text-white";
+                    break;
+                case "Paid":
+                    background ="bg-white p-2 rounded text-white";
+                    break;
+                case "Finish":
+                    background ="bg-secondary p-2 rounded text-white";
+                    break;
+                case "Cancelled":
+                    background ="bg-danger p-2 rounded text-white";
+                    break;
+                default:
+                    background =""
+            }
+            return background;
+        }
+
 
         function fetch_data_order(page) {
             $.ajax({
@@ -346,9 +399,8 @@
                                 var tel = '';
                                 var full_address ='';
                                 if(value.shipment_info!=null){
-                                    sender_name = value.shipment_info.sender_name.length ?'****************':'';
-                                    consignee = value.shipment_info.consignee.length?'****************':'';
-                                    tel = value.shipment_info.tel;
+                                    sender_name = value.shipment_info.sender_name
+                                    consignee = value.shipment_info.consignee
                                     full_address=value.shipment_info.full_address;
                                 }
 
@@ -362,10 +414,13 @@
                                 } else {
                                     var tracking_id = "";
                                 }
+
+                                var background = setBackground(value.status.id);
                                 $("#list-orders").append(
                                     '<tr class="text-center addHover detail-order" data-id="' +
                                     value.id + '" id="order-' + value.id + '"">' +
                                         '<td>' + data.list_orders.from++ + '</td>' +
+                                        '<td>'+ `<span class="${background}">` + value.status.name + '</span></td>' +
                                         '<td>' + tracking_id + '</td>' +
                                         '<td>' + sender_name +'</td>' +
                                         '<td>' + consignee +'</td>' +
@@ -374,7 +429,6 @@
                                         '<td>' + value.shipment_method_id + '</td>' +
                                         '<td>' + note + '</td>' +
                                         '<td>' + value.created_at + '</td>' +
-                                        '<td>' + value.status.name + '</td>' +
                                     '</tr>'
                                 )
                             })
