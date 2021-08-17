@@ -345,39 +345,38 @@
             path: "/"
         });
     }
-    //set token
-    // if ($.cookie('idToken') == undefined) {
-
-    //     firebase.auth().onAuthStateChanged((user) => {
-    //         if (user) {
-    //             firebase.auth().currentUser.getIdToken( /* forceRefresh */ true).then(
-    //                 function(token_gg) {
-    //                     // Send token to your backend via HTTPS
-    //                     setToken(token_gg)
-    //                 }).catch(function(error) {
-    //                 swal('warning', error.message)
-    //             });
-    //         } else {
-    //             // User is signed out
-    //             var email = "sale@saikoexpress.com";
-    //             var password = "{{config('services.saiko.password')}}";
-    //             firebase.auth().signInWithEmailAndPassword(email, password).then((
-    //                 userCredential) => {
-    //                 // Signed in
-    //                 firebase.auth().currentUser.getIdToken( /* forceRefresh */
-    //                     false).then(
-    //                     function(token_gg) {
-    //                         // Send token to your backend via HTTPS
-    //                         setToken(token_gg)
-    //                     }).catch(function(error) {
-    //                     swal("warning", error.message)
-    //                 });
-    //             }).catch((error) => {
-    //                 swal("warning", error.message);
-    //             });
-    //         }
-    //     });
-    // }
+    // set token
+    if ($.cookie('idToken') == undefined) {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                firebase.auth().currentUser.getIdToken( /* forceRefresh */ true).then(
+                    function(token_gg) {
+                        // Send token to your backend via HTTPS
+                        setToken(token_gg)
+                    }).catch(function(error) {
+                    swal('warning', error.message)
+                });
+            } else {
+                // User is signed out
+                var email = "sale@saikoexpress.com";
+                var password = "{{config('services.saiko.password')}}";
+                firebase.auth().signInWithEmailAndPassword(email, password).then((
+                    userCredential) => {
+                    // Signed in
+                    firebase.auth().currentUser.getIdToken( /* forceRefresh */
+                        false).then(
+                        function(token_gg) {
+                            // Send token to your backend via HTTPS
+                            setToken(token_gg)
+                        }).catch(function(error) {
+                        swal("warning", error.message)
+                    });
+                }).catch((error) => {
+                    swal("warning", error.message);
+                });
+            }
+        });
+    }
 
     $(document).ready(function() {
 
@@ -1074,6 +1073,7 @@
                 type: "POST",
                 url: "{{ route('rq_tk.getInforBox') }}",
                 data: {
+                    token:idToken,
                     id_box: id_box
                 },
                 success: function(res) {
@@ -1249,6 +1249,7 @@
                             type: "POST",
                             url: "{{ route('rq_tk.getInforBox') }}",
                             data: {
+                                token:idToken,
                                 id_box: id_box
                             },
                             success: function(res) {
@@ -1427,6 +1428,7 @@
                                 type: "POST",
                                 url: "{{ route('rq_tk.getInforBox') }}",
                                 data: {
+                                    token:idToken,
                                     id_box: id_box
                                 },
                                 success: function(res) {

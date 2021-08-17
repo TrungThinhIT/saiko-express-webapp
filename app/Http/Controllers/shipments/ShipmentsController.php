@@ -11,29 +11,7 @@ use Illuminate\Support\Facades\Http;
 
 class ShipmentsController extends Controller
 {
-    public function getData($request)
-    {
-        $data = $request->session()->get('idToken');
-        $data = unserialize($data);
 
-        return $data;
-    }
-
-    public function getUserID($request)
-    {
-        $data = $this->getData($request);
-        return $data['id'];
-    }
-
-    public function getToken($request)
-    {
-        $data = $this->getData($request);
-        if (!$data) {
-            return false;
-        }
-        $token = $data['idToken'];
-        return $token;
-    }
 
     /**
      * Display a listing of the resource.

@@ -267,7 +267,7 @@ class OrdersController extends Controller
         $listStatus = json_decode($listStatus->body(), true);
 
         $data = ['listStatus' => $listStatus];
-
+        
         return response()->json($data);
     }
 }

@@ -107,7 +107,7 @@
                                             $background ="bg-primary p-2 rounded text-white";
                                             break;
                                         case "Paid":
-                                            $background ="bg-white p-2 rounded text-white";
+                                            $background ="bg-info p-2 rounded text-white";
                                             break;
                                         case "Finish":
                                             $background ="bg-secondary p-2 rounded text-white";
@@ -352,7 +352,7 @@
                     background ="bg-primary p-2 rounded text-white";
                     break;
                 case "Paid":
-                    background ="bg-white p-2 rounded text-white";
+                    background ="bg-info p-2 rounded text-white";
                     break;
                 case "Finish":
                     background ="bg-secondary p-2 rounded text-white";
