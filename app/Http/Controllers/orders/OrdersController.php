@@ -57,7 +57,7 @@ class OrdersController extends Controller
             $params['searchJoin'] = 'and';
         };
 
-        $send = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders/shipment', $params);
+        $send = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders/shipment', $params);
 
         if ($request->wantsJson()) {
             if ($send->status() == 401) {
@@ -127,7 +127,7 @@ class OrdersController extends Controller
             'X-Firebase-IDToken' => $this->getToken($request) ? $this->getToken($request) : $request->token,
         ]);
 
-        $create_shipment = $create_shipment->post('https://prod-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
+        $create_shipment = $create_shipment->post('https://dev-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
             'shipment_method_id' => $request->method, //đường vận chuyển
             'type' => 'shipment',
             'trackings' => $tracking, //danh sách tracking
@@ -186,7 +186,7 @@ class OrdersController extends Controller
             'with' => 'shipmentInfo;trackings',
         ];
 
-        $order = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders', $params);
+        $order = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders', $params);
         // dd($order->body());
         if ($order->status() == 401) {
             return redirect()->route('auth.logout');
@@ -275,7 +275,7 @@ class OrdersController extends Controller
             'search' => 'directors.type_id:Shipment',
         ];
 
-        $listStatus = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders/statuses', $params);
+        $listStatus = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders/statuses', $params);
 
         $listStatus = json_decode($listStatus->body(), true);
 
