@@ -81,8 +81,6 @@ class TransactionsController extends Controller
             }
         }
         if ($transactions->status() == 401) {
-            $this->deleteSession();
-            $this->deleteCookie();
             return redirect()->route('auth.logout');
         }
 
@@ -140,8 +138,6 @@ class TransactionsController extends Controller
 
         $getAccount = Http::withHeaders($header)->get('https://dev-accounting.tomonisolution.com/api/accounts', $param);
         if ($getAccount->status() == 401) {
-            $this->deleteSession();
-            $this->deleteCookie();
             return redirect()->route('auth.logout');
         }
         $data = json_decode($getAccount->body(), true);

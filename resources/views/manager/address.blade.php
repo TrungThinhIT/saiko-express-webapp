@@ -236,7 +236,7 @@
                                 <div class="row">
                                     <div class="form-group col-md-12">
                                         <label>Ghi chú</label>
-                                        <textarea rows="6" cols="10" type="text" class="form-control" id="note"
+                                        <textarea rows="6" cols="10" type="text" class="form-control"  id="note"
                                             placeholder="Nội dùng cần chú ý"></textarea>
                                     </div>
                                 </div>
@@ -626,6 +626,7 @@
                         $("#consignee-update").val(response.data.consignee)
                         $("#consignee-tel-update").val(response.data.tel)
                         $("#address-home-update").val(response.data.address)
+                        $("#note-update").val(response.data.note)
                         var id_province = response.data.full_address.district.province.id
                         var id_district = response.data.full_address.district.id
                         if (response.data.provinces.length) {

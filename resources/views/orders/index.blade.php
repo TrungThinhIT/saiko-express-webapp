@@ -392,7 +392,6 @@
                         $("#list-orders").empty()
                         // $("#fix-paginate-order").empty()
                         if (data.list_orders.data.length) {
-
                             $.each(data.list_orders.data, function(index, value) {
                                 var sender_name ='';
                                 var consignee = '';
@@ -402,6 +401,7 @@
                                     sender_name = value.shipment_info.sender_name
                                     consignee = value.shipment_info.consignee
                                     full_address=value.shipment_info.full_address;
+                                    tel = value.shipment_info.tel
                                 }
 
                                 if (value.note == null) {
