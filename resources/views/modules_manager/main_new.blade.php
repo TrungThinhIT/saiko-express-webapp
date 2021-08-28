@@ -481,6 +481,13 @@
                                 </ul>
                             </div>
                         </li>
+                        <li class="nav-item" id="fix-bg-menu-info">
+                            <a href="{{ route('contract.index') }}">
+                                <i class="fa fa-user"></i>
+                                <p>Gom hàng theo lô</p>
+                                {{-- <span class="caret"></span> --}}
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('auth.logout') }}" id="logout-firebase">
                                 <i class="fa fa-sign-out"></i>
@@ -818,7 +825,6 @@
 
     <script src="assets_customer/js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script src="assets/js/plugins/jquery/jquery.cookie.js"></script>
-
 
     <script>
         $(document).ready(function() {

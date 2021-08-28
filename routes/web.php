@@ -88,6 +88,9 @@ Route::prefix('orders')->middleware('cookie')->namespace('orders')->name('orders
     Route::get('status/index', 'OrdersController@listStatus')->name('listStatus');
 });
 
+Route::prefix('contracts')->middleware('cookie')->namespace('contracts')->name('contract.')->group(function () {
+    Route::resource('', 'ContractsController')->parameters(['' => 'contract']);
+});
 
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {
     Route::get('create-tickit', 'appController@storeTickit')->name('storeTickit');
