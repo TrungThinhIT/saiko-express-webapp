@@ -90,6 +90,7 @@ Route::prefix('orders')->middleware('cookie')->namespace('orders')->name('orders
 
 Route::prefix('contracts')->middleware('cookie')->namespace('contracts')->name('contract.')->group(function () {
     Route::resource('', 'ContractsController')->parameters(['' => 'contract']);
+    Route::post('order', 'ContractsController@getBoxes')->name('getBoxes');
 });
 
 Route::prefix('Api')->namespace('api')->name('api')->group(function () {

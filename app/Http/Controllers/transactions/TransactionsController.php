@@ -20,8 +20,8 @@ class TransactionsController extends Controller
         $user_id = $this->getUserId($request);
 
         $param_search_transactions = [
-            'search' => 'user_id:' . $user_id,
-            'searchFields' => 'user_id:=',
+            'search' => 'objectable_id:' . $user_id,
+            'searchFields' => 'objectable_id:=',
             'orderBy' => 'created_at',
             'sortedBy' => 'desc',
             'page' => $request->page_transaction ?? 1,
@@ -32,8 +32,8 @@ class TransactionsController extends Controller
         if ($request->wantsJson()) {
             if ($request->type_transaction != "all" && $request->type_money != "all") {
                 $param_search_transactions = [
-                    'search' => 'user_id:' . $user_id . ';currency_id:' . $request->type_money . ';type_id:' . $request->type_transaction,
-                    'searchFields' => 'user_id:=;currency_id:=;type_id:=',
+                    'search' => 'objectable_id:' . $user_id . ';currency_id:' . $request->type_money . ';type_id:' . $request->type_transaction,
+                    'searchFields' => 'objectable_id:=;currency_id:=;type_id:=',
                     'searchJoin' => 'and',
                     'orderBy' => 'created_at',
                     'sortedBy' => 'desc',
@@ -44,8 +44,8 @@ class TransactionsController extends Controller
 
             if ($request->type_money != "all" && $request->type_transaction == "all") {
                 $param_search_transactions = [
-                    'search' => 'user_id:' . $user_id . ';currency_id:' . $request->type_money,
-                    'searchFields' => 'user_id:=;currency_id:=',
+                    'search' => 'objectable_id:' . $user_id . ';currency_id:' . $request->type_money,
+                    'searchFields' => 'objectable_id:=;currency_id:=',
                     'searchJoin' => 'and',
                     'orderBy' => 'created_at',
                     'sortedBy' => 'desc',
@@ -56,8 +56,8 @@ class TransactionsController extends Controller
 
             if ($request->type_transaction != "all" && $request->type_money == "all") {
                 $param_search_transactions = [
-                    'search' => 'user_id:' . $user_id . ';type_id:' . $request->type_transaction,
-                    'searchFields' => 'user_id:=;type_id:=',
+                    'search' => 'objectable_id:' . $user_id . ';type_id:' . $request->type_transaction,
+                    'searchFields' => 'objectable_id:=;type_id:=',
                     'searchJoin' => 'and',
                     'orderBy' => 'created_at',
                     'sortedBy' => 'desc',
@@ -131,8 +131,8 @@ class TransactionsController extends Controller
             'X-Firebase-IdToken' => $token,
         ];
         $param = [
-            'search' => 'user_id:' . $id,
-            'searchFields' => 'user_id:=',
+            'search' => 'objectable_id:' . $id,
+            'searchFields' => 'objectable_id:=',
             'with' => 'currency',
         ];
 
@@ -142,6 +142,7 @@ class TransactionsController extends Controller
         }
         $data = json_decode($getAccount->body(), true);
         $data = collect(['transactions' => $data]);
+        dd($data);
         return view('transactions.index', compact('data'));
     }
 

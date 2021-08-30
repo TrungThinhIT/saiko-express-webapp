@@ -40,6 +40,7 @@
 
     </style>
 @section('content')
+    {{-- {{ dd($data) }} --}}
     @if (isset($data['transactions']))
         <div class="col-md-12">
             <div class="card">
@@ -191,7 +192,7 @@
                                     confirmButtonText: "Exit",
                                     closeOnConfirm: true
                                 }).then((check) => {
-                                    window.location.href ="{{ route('auth.logout') }}"
+                                    window.location.href = "{{ route('auth.logout') }}"
                                 })
                             } else {
                                 $("#history-transactions").empty()
@@ -199,12 +200,12 @@
                                 if (data.transactions.data.length) {
                                     $.each(data.transactions.data, function(index, value) {
                                         var name_action = '';
-                                        var description='';
+                                        var description = '';
                                         if (value.prepared_by_id) {
                                             name_action = value.prepared_by_id;
                                         }
-                                        if(value.description){
-                                            description=value.description
+                                        if (value.description) {
+                                            description = value.description
                                         }
                                         $("#history-transactions").append(
                                             '<tr class="text-center addHover">' +

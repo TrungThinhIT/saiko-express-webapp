@@ -55,7 +55,6 @@ class ShipmentsController extends Controller
         }
 
         $data = array_merge($data, ['list_address' => $list_shipment]);
-
         return view('manager.address', compact('data'));
     }
 

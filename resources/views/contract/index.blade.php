@@ -38,18 +38,19 @@
             </div>
             <div class="card-body custom-background set-overflow">
                 <div class="row align-items-center">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <select name="" class="form-select " id="select_search">
                                 <option value="all">Tất cả</option>
-                                <option value="name_contract">Tên lô</option>
-                                <option value="status_contract">Trạng thái</option>
-                                <option value="date_contract">Ngày</option>
+                                <option value="id">Tên lô</option>
+                                <option value="closed">Trạng thái</option>
+                                <option value="start_date">Ngày bắt đầu</option>
+                                <option value="end_date">Ngày kết thúc</option>
                             </select>
                         </div>
 
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <div class="form-group" id="name_contract">
                             <input type="text" class="form-control" id="value_contract">
                         </div>
@@ -59,13 +60,15 @@
                                 <option value="1">Đã đóng</option>
                             </select>
                         </div>
-                        <div class="row d-none" id="date-contract">
-                            <div class="col-md-6">
+                        <div class="row d-none" id="start-date-contract">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="start_date" placeholder="Ngày bắt đầu">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="row d-none" id="end-date-contract">
+                            <div class="col-md-12">
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="end_date" placeholder="Ngày kết thúc">
                                 </div>
@@ -75,7 +78,7 @@
                     </div>
                     <div class="col-md-1">
                         <button type="button" class="btn btn-secondary form-control text-center "
-                            id="reset_contract">reset</button>
+                            id="reset_filter">reset</button>
                     </div>
                     <div class="col-md-1">
                         <button type="button" class="btn form-control text-center fh-btn" id="filter_contract">Lọc</button>
@@ -165,23 +168,33 @@
                 switch (field_seach) {
                     case 'all':
                         $("#select-status-contract").addClass('d-none');
-                        $("#date-contract").addClass('d-none');
+                        $("#start-date-contract").addClass('d-none');
+                        $("#end-date-contract").addClass('d-none');
                         $("#name_contract").removeClass('d-none');
                         break;
-                    case 'name_contract':
+                    case 'id':
                         $("#select-status-contract").addClass('d-none');
-                        $("#date-contract").addClass('d-none');
+                        $("#start-date-contract").addClass('d-none');
+                        $("#end-date-contract").addClass('d-none');
                         $("#name_contract").removeClass('d-none');
                         break;
-                    case 'status_contract':
-                        $("#date-contract").addClass('d-none');
+                    case 'closed':
+                        $("#start-date-contract").addClass('d-none');
+                        $("#end-date-contract").addClass('d-none');
                         $("#name_contract").addClass('d-none');
                         $("#select-status-contract").removeClass('d-none');
                         break;
-                    case 'date_contract':
+                    case 'start_date':
                         $("#select-status-contract").addClass('d-none');
                         $("#name_contract").addClass('d-none');
-                        $("#date-contract").removeClass('d-none');
+                        $("#end-date-contract").addClass('d-none');
+                        $("#start-date-contract").removeClass('d-none');
+                        break;
+                    case 'end_date':
+                        $("#select-status-contract").addClass('d-none');
+                        $("#name_contract").addClass('d-none');
+                        $("#start-date-contract").addClass('d-none');
+                        $("#end-date-contract").removeClass('d-none');
                         break;
 
                     default:
@@ -190,13 +203,105 @@
             })
             $(function() {
                 $("#start_date").datepicker({
-                    format: 'dd-mm-yyyy',
+                    format: 'yyyy-mm-dd',
                 })
                 $("#end_date").datepicker({
-                    format: 'dd-mm-yyyy',
+                    format: 'yyyy-mm-dd',
+                })
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'Accept': "application/json"
+                    },
+                });
+            })
+
+            $("#reset_filter").click(function() {
+                $("#select_search").val('all').change()
+                // $("#type_money").val('all').change()
+            })
+
+            $("#filter_contract").click(function() {
+                let field_search = $("#select_search").val();
+                let id_contract = $("#value_contract").val();
+                let start_date = $("#start_date").val();
+                let end_date = $("#end_date").val();
+                let closed = $("#list-status").val();
+                $("#fix-paginate-contracts").pagination({
+                    ajax: function(options, refresh, $target) {
+                        let page = $(this)[0].current;
+                        $.ajax({
+                            type: "GET",
+                            url: "{{ route('contract.index') }}",
+                            data: {
+                                field_search: field_search,
+                                id_contract: id_contract,
+                                start_date: start_date,
+                                end_date: end_date,
+                                closed: closed,
+                                page: page
+                            },
+                            success: function(response) {
+                                if (response.code == 401) {
+                                    swal({
+                                        title: "Vui lòng đăng nhập lại",
+                                        type: "warning",
+                                        icon: "warning",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#fca901",
+                                        confirmButtonText: "Exit",
+                                        closeOnConfirm: true
+                                    }).then((check) => {
+                                        window.location.reload()
+                                    })
+                                }
+                                $("#list-contracts").empty()
+
+                                if (response.list_contracts?.total > 0) {
+                                    $.each(response.list_contracts.data, function(
+                                        index, value) {
+                                        let item = mapData(value);
+                                        $("#list-contracts").append(item);
+                                    })
+                                }
+                                refresh({
+                                    total: response.list_contracts.total,
+                                    length: response.list_contracts.per_page
+                                });
+                            },
+                            error: function(response) {
+                                if (response.status == 419) {
+                                    swal({
+                                        title: "Vui lòng load lại trang",
+                                        type: "warning",
+                                        icon: "warning",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#fca901",
+                                        confirmButtonText: "Exit",
+                                        closeOnConfirm: true
+                                    }).then((check) => {
+                                        window.location.reload()
+                                    })
+                                }
+                            }
+                        })
+                    }
                 })
             })
         })
+
+        function mapData(data) {
+            var html =
+                `<tr class="text-center addHover detail-contract" data-id="${data.id}">` +
+                `<td>${data.id}</td>` +
+                `<td>${ data.price_shipping_fee_air ? formatNumber(data.price_shipping_fee_air) + ' VND' : '' } </td>` +
+                `<td>${ data.price_shipping_fee_sea ? formatNumber(data.price_shipping_fee_sea) + ' VND' : '' } </td>` +
+                `<td>${ data.service_fee ? formatNumber(data.service_fee) + ' VND' : '' } </td>` +
+                `<td>${ data.shipping_fee ? formatNumber(data.shipping_fee) + ' VND' : '' } </td>` +
+                `<td>${ data.closed ? 'Đã đóng' : 'Chưa đóng' }</td>` +
+                '</tr>'
+            return html;
+        }
 
         function fetch_data_contracts(page) {
             $.ajax({
@@ -206,7 +311,6 @@
                     page: page
                 },
                 success: function(respone) {
-                    console.log(respone)
                     checkStatus(respone.code)
                     $("#list-contracts").empty();
                     if (respone.list_contracts.data.length) {

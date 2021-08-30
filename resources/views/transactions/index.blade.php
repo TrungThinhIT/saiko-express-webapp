@@ -36,7 +36,7 @@
                                             <label for="tracking-id" class="col-sm-4 col-form-label">Tổng tiền nộp</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['total_deposit']) ? number_format($value['total_deposit']) . '   ' . $value['currency']['symbol'] : '' }}">
+                                                    value="{{ number_format($value['deposit']) ? number_format($value['deposit']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
