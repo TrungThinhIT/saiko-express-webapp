@@ -118,7 +118,7 @@ class ContractsController extends Controller
 
         $params = [
             'appends' => 'transactions.type;logs',
-            'with' => 'orders.trackings',
+            'with' => 'orders.trackings;orders.shipmentInfo',
         ];
 
         $send = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/contracts/' . $id, $params);
@@ -129,6 +129,7 @@ class ContractsController extends Controller
             return redirect()->route('auth.logout');
         }
         $data = json_decode($send->body(), true);
+        // dd($data);
         if (!empty($data['orders'])) {
             $list_orders = collect($data['orders']);
             $orders_key_string = implode(',', $list_orders->pluck('id')->all()); // dd($orders_key_string);

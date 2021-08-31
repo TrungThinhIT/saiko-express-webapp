@@ -20,6 +20,10 @@
             font-size: 13px;
         }
 
+        .font-size-custom-info {
+            font-size: 15px;
+        }
+
         .font-size-custom-tracking {
             font-size: 17px;
         }
@@ -100,7 +104,16 @@
                     </div>
                 </div>
                 <div class="card-body">
-
+                    <div class="form-group row">
+                        <label for="" class="font-weight-light">Phí tiền hàng</label>
+                        <div class="input-group mb-2 mr-sm-2">
+                            <input type="text" class="form-control"
+                                value="{{ number_format($data['cost_of_goods']) }}" readonly id="">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text font-weight-bold">JPY</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card">
@@ -208,43 +221,69 @@
                                 @endphp
                                 <div class="bg-white">
                                     <div class="m-2 p-2 bg-info-custom rounded">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="text-primary">
+                                        <div class="row col-md-12 d-flex ">
+                                            <div class="col-md-3 text-primary">
                                                 <a href="{{ route('orders.show', ['order' => $item['id']]) }}">{{ $item['id'] }}
                                                 </a>
                                             </div>
-                                            <div
-                                                class="d-flex p-1 align-items-center font-size-status {{ $background }}">
-                                                <span>{{ $item['status']['name'] }}</span>
+                                            <div class="col-md-3 d-flex align-items-center font-size-custom-info">
+                                                <i class="fa fa-user-circle-o"></i>
+                                                <span>{{ $item['shipment_info']['consignee'] }}</span>
+                                            </div>
+                                            <div class="col-md-3 d-flex align-items-center font-size-custom-info">
+                                                <i class="fa fa-user-circle-o"></i><span>{{ $item['shipment_info']['sender_name'] }}
+                                                </span>
+                                            </div>
+
+                                            <div class="col-md-3 d-flex p-1 align-items-center font-size-status ">
+                                                <span class="{{ $background }} p-1">{{ $item['status']['name'] }}
+                                                </span>
                                             </div>
                                         </div>
-                                        <div>
-                                            <div class="text-uppercase text-danger">{{ $item['shipment_method_id'] }}
+                                        <div class="row col-md-12 d-flex">
+                                            <div class="col-md-3 text-uppercase text-danger">
+                                                {{ $item['shipment_method_id'] }}
+                                            </div>
+                                            <div class="col-md-3 d-flex align-items-center font-size-custom-info">
+                                                <i class="fa fa-volume-control-phone" style="color: turquoise"></i>
+                                                <span>{{ $item['shipment_info']['tel'] }}</span>
+                                            </div>
+                                            <div class="col-md-3 d-flex align-items-center font-size-custom-info">
+                                                <i class="fa fa-volume-control-phone" style="color: turquoise"></i>
+                                                <span>{{ $item['shipment_info']['sender_tel'] }}</span>
                                             </div>
                                         </div>
-                                        @if (!empty($item['trackings']))
-                                            <div class="d-flex font-size-custom-tracking justify-content-between">
+                                        <div class="row col-md-12 d-flex font-size-custom-tracking justify-content-between">
+                                            @if (!empty($item['trackings']))
+
                                                 @foreach ($item['trackings'] as $item_tracking)
-                                                    <div>Tracking: <span
+                                                    <div class="col-md-4">Tracking: <span
                                                             id="tracking-id">{{ $item_tracking['id'] }}</span></div>
                                                 @endforeach
-                                                <div><u>{{ $item['type']['name'] }}</u></div>
+                                            @endif
+                                            <div class="col-md-5 font-size-custom-info d-lfex" style="color: red">
+                                                <i class="fa fa-map-marker"></i>
+                                                <span>{{ $item['shipment_info']['full_address'] }}</span>
                                             </div>
-                                        @endif
+                                            <div class="col-md-3 font-size-custom-info">
+                                                <u>{{ $item['type']['name'] }}</u>
+                                            </div>
+                                        </div>
+
                                         @isset($item['quantity_box'])
                                             @if ($item['quantity_box'] > 0)
-                                                <div class="d-flex bg-warning-custom font-size-custom justify-content-between"
+                                                <div class="col-md-12 d-flex bg-warning-custom font-size-custom justify-content-between"
                                                     id="box_owner">
-                                                    <div>
+                                                    <div class="col-md-3">
                                                         <b>Số thùng: </b>{{ $item['quantity_box'] }}
                                                     </div>
-                                                    <div>
+                                                    <div class="col-md-3">
                                                         <b>Tổng thể tích: </b>{{ $item['volumne'] . ' m3' }}
                                                     </div>
-                                                    <div>
+                                                    <div class="col-md-3">
                                                         <b>Tổng khối lượng: </b>{{ $item['total_weight'] . ' Kg' }}
                                                     </div>
-                                                    <div>
+                                                    <div class="col-md-3">
                                                         <a href="javascript:" data-id="{{ $item['id'] }}"
                                                             onclick="showInfoOrder(this)" data-toggle="modal"
                                                             data-target=".modal-tracking">
@@ -279,7 +318,44 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            @if (!empty($data['transactions']))
+                                @foreach ($data['transactions'] as $item_transaction)
+                                    <tr>
+                                        <td>
+                                            <div class="" style="min-width: 200px">
+                                                <div>
+                                                    <span>Mã: </span>
+                                                    <span class="text-danger font-weight-bold">
+                                                        {{ $item_transaction['id'] }}
+                                                    </span>
+                                                    <span class="text-primary text-uppercase font-weight-bold">
+                                                        {{ '-' . $item_transaction['type']['name'] }}
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <span>Ngày tạo: </span>
+                                                    <span class="text-uppercase font-weight-bold">
+                                                        {{ $item_transaction['created_at'] }}
+                                                    </span>
+                                                </div>
+                                                <div>
+                                                    <span>Tài khoản</span>
+                                                    <span class="text-uppercase font-weight-bold">
+                                                        {{ $item_transaction['objectable_id'] }}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {{ number_format($item_transaction['amount']) . ' ' . $item_transaction['currency_id'] }}
+                                        </td>
+                                        <td>
+                                            {{ $item_transaction['description'] }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
                     </table>
                 </div>
             </div>

@@ -135,7 +135,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12">
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered d-none" id="table_price_shipping">
+                                <table class="table table-striped table-bordered d-none check-contract-order" id="table_price_shipping">
                                     <thead>
                                         <tr>
                                             <th>Mã Tracking</th>
@@ -152,7 +152,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row text-black mt-3 fix-padding-div">
+                    <div class="row text-black mt-3 fix-padding-div check-contract-order">
                         <div class="col-md-12 m-2 bg-saiko" id="declaration_price" style="display:none;font-size:18px">
                             <div class="row ">
                                 <tr>
@@ -188,7 +188,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row p-3 mt-2 " id="alert" style="display:none">
+                    <div class="row p-3 mt-2 check-contract-order" id="alert" style="display:none">
                         <div class="col-md-12 col-sm-12 bg-saiko ">
                             <h2 class="text-center text-danger mt-2 font-weight-bold"> <b> PHIẾU YÊU CẦU THANH TOÁN </b>
                             </h2>
@@ -208,10 +208,16 @@
                                     biệt)</span></p>
                         </div>
                     </div>
-                    <div class="row p-2 mt-2 fix-padding-div" id="paid" style="display:none">
+                    <div class="row p-2 mt-2 fix-padding-div check-contract-order" id="paid" style="display:none">
                         <div class="col-md-12 col-sm-12 bg-saiko">
                             <h2 class="text-center text-danger font-weight-bold"> <b> Đã Thanh Toán </b></h2>
                             <h2 class="text-center text-danger">Cảm Ơn Quý Khách</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-12 " id="alert-contract-order" style="display: none">
+                        <div class="background-contract p-2">
+                            <span class="text-danger text-xl-left">Chi phí của tracking được tính trong lô hàng:</span>
+                            <span class="text-danger font-weight-bold" id="id_contract_order"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -297,6 +303,7 @@
             });
             $('#tracking_form').submit(function(e) {
                 e.preventDefault();
+                let idToken = getToken()
                 $("#declaration_price").hide()
                 $("#alert").hide()
                 $("#table_price_shipping").addClass('d-none')
@@ -313,6 +320,7 @@
                 $("#paid").hide()
                 $("#fee_shipping_inside_jp").text(0)
                 $("#fee_shipping_inside_vn").text(0)
+                $("#alert-contract-order").hide()
                 var tracking = $("#utrack").val();
                 if (tracking.length <= 5) {
                     alert('Tracking chưa đúng')
@@ -325,15 +333,16 @@
                     type: 'POST',
                     url: "{{ route('rq_tk.getStatus') }}",
                     data: {
+                        idToken:idToken,
                         tracking: tracking
                     },
                     success: function(res) {
                         $("#body-table-firt-vnpost").empty()
                         $("#table-firt-vnpost").hide()
                         $("#alert").hide()
-                        if(res==401){
+                        if(res?.code==401){
                             swal({
-                                title: "Mã xác thực hết hạn. Đăng nhập lại",
+                                title: res?.message,
                                 type: "warning",
                                 icon: "warning",
                                 showCancelButton: false,
@@ -341,10 +350,10 @@
                                 confirmButtonText: "Exit",
                                 closeOnConfirm: true
                             }).then(()=>{
-                                location.reload()
+                                window.location.href="{{route('auth.logout')}}"
                             })
                         }
-                        if (res == 404) {
+                        if (res?.code == 404) {
                             $("#table").hide();
                             $("#body-table-firt").empty()
                             $("#time_line").empty()
@@ -352,10 +361,9 @@
                             $(".table").hide();
                             $("#statusData").css('display', 'block');
                             $("#statusData").append('<h4 class="text-danger">' +
-                                'Không tìm thấy mã tracking' + '</h4>')
+                                res?.message + '</h4>')
                         } else {
-                            if (res.data[0].boxes.length == 0 & res.data[0].orders.length ==
-                                0) {
+                            if (res.data[0].boxes.length == 0 & res.data[0].orders.length == 0) {
                                 $(".table").hide();
                                 // $("#table-firt").show();
                                 $("#body-table-firt").empty()
@@ -1219,6 +1227,13 @@
                                                             })
                                                 }
                                             })
+                                        }
+                                        if(value.orders.length!=0){
+                                            if(value.orders[0].contract_id){
+                                                $(".check-contract-order").hide()
+                                                $("#alert-contract-order").show()
+                                                $("#id_contract_order").text(value.orders[0].contract_id)
+                                            }
                                         }
                                     })
                                 }

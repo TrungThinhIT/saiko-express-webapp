@@ -23,9 +23,22 @@ class FLTrackingController extends Controller
     }
     public function getStatus(Request $request)
     {
+        $check_tracking = Http::withHeaders([
+            'Accept' => 'application/json',
+        ])->get('https://dev-order.tomonisolution.com/api/trackings/' . $request->tracking);
 
+        if ($check_tracking->status() == 404) {
+            return response()->json(['code' => 404, 'message' => 'Không tìm thấy tracking này.']);
+        }
+
+        $customer_id = $this->IdUserByToken($request);
+        if ($customer_id['code'] == 401) {
+            $mess = ['code' => $customer_id['code'], 'message' => 'Mã xác thực hết hạn vui lòng tải lại trang.'];
+            return response()->json($mess);
+        }
         //apishow
         $dataShow = [
+            'search' => 'orders.customer_id:' . $customer_id['customer_id'],
             'with' => 'orders.shipmentInfo',
             'appends' => 'boxes.owners;logs;sfa',
         ];
@@ -34,108 +47,110 @@ class FLTrackingController extends Controller
             'Accept' => 'application/json',
         ])->get('https://dev-order.tomonisolution.com/api/trackings/' . $request->tracking, $dataShow);
 
-        if ($apiShow->status() == 404) {
-            return $apiShow->status();
-        } else {
-            $results = json_decode($apiShow->body(), true); //results of tomoni
-            if (!empty($results['orders'])) {
-                // return $results;
-                usort($results['orders'], function ($a, $b) {
-                    $b = strtotime($b['created_at']);
-                    $a = strtotime($a['created_at']);
-                    return $b - $a;
-                }); //sort orders
-                $results['orders'][0]['insurance_result_fee'] = round($results['orders'][0]['insurance_declaration'] * 0.03, 0); //tính phí bảo hiểm
-                $results['orders'][0]['special_result_fee'] = round($results['orders'][0]['special_declaration'] * 0.02, 0); // tính phí đặc biệt
-            }
+        if ($apiShow)
+            if ($apiShow->status() == 404) {
+                $mess = ['code' => $apiShow->status(), 'message' => 'Vui lòng đăng nhập tài khoản sở hữu tracking này.'];
+                return response()->json($mess);
+            } else {
+                $results = json_decode($apiShow->body(), true); //results of tomoni
+                if (!empty($results['orders'])) {
+                    // return $results;
+                    usort($results['orders'], function ($a, $b) {
+                        $b = strtotime($b['created_at']);
+                        $a = strtotime($a['created_at']);
+                        return $b - $a;
+                    }); //sort orders
+                    $results['orders'][0]['insurance_result_fee'] = round($results['orders'][0]['insurance_declaration'] * 0.03, 0); //tính phí bảo hiểm
+                    $results['orders'][0]['special_result_fee'] = round($results['orders'][0]['special_declaration'] * 0.02, 0); // tính phí đặc biệt
+                }
 
-            if (!empty($results['boxes'])) {
-                //list item & volumne
-                $total_weight = 0;
-                $total_volume = 0;
+                if (!empty($results['boxes'])) {
+                    //list item & volumne
+                    $total_weight = 0;
+                    $total_volume = 0;
 
-                if (count($results['boxes']) == 1) {
-                    for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
-                        // volumne
-                        $weight = $results['boxes'][$i]['weight'];
-                        $date_default = strtotime($this->date);
-                        $date_defaultNew = strtotime($this->dateDefault);
-                        if (empty($results['orders'])) {
-                            $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
-                        } else {
-
-                            $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_info']['ward_id']))->first(); //get ward
-                            $province = $getWard->MaTinhThanh; //ID province
-                            $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
-                            if ($method_shipment == "Air") {
-                                $volumne_weight = $results['boxes'][$i]['volume'] / 6000;
-                            } else {
+                    if (count($results['boxes']) == 1) {
+                        for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
+                            // volumne
+                            $weight = $results['boxes'][$i]['weight'];
+                            $date_default = strtotime($this->date);
+                            $date_defaultNew = strtotime($this->dateDefault);
+                            if (empty($results['orders'])) {
                                 $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
-                            }
-                        }
-                        $total_volume += $volumne_weight;
-                        $total_weight += $weight;
-                        $results['boxes'][$i]['volume_weight_box'] = $volumne_weight; //box
-
-                    }
-                    if (!empty($results['orders'])) {
-                        $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew, $results['orders'][0]['insurance_declaration'], $results['orders'][0]['special_declaration']);
-                        $fee_special = $results['orders'][0]['special_declaration'] * $fee['special'];
-                        $fee_insurance = $results['orders'][0]['insurance_declaration'] * $fee['insurance'];
-                        $fee_COD_inside = $results['sfa']['shipping_inside'] * 215;
-                        $results['orders'][0]['special_result_fee'] = $fee_special;
-                        $results['orders'][0]['insurance_result_fee'] = $fee_insurance;
-                        $results['orders'][0]['total_fee'] = round($fee['money'] + $fee_insurance + $fee_special + $fee_COD_inside, 0);
-                        $results['orders'][0]['pay_money'] = $fee['total_money'];
-                        $results['orders'][0]['total_weight'] = $fee['total_weight'];
-                        $results['orders'][0]['fee_ship'] = $fee['fee_ship'];
-                    }
-                } else {
-                    for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
-                        $weight = $results['boxes'][$i]['weight'];
-                        $date_default = strtotime($this->date);
-                        $date_defaultNew = strtotime($this->dateDefault);
-                        if (empty($results['orders'])) {
-                            $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
-                        } else {
-
-                            usort($results['orders'], function ($a, $b) {
-                                $b = strtotime($b['created_at']);
-                                $a = strtotime($a['created_at']);
-                                return $b - $a;
-                            });
-                            //     return $b['shipment_info_id'] - $a['shipment_info_id'];
-                            // }); //sort orders
-                            $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_info']['ward_id']))->first(); //get ward
-                            $province = $getWard->MaTinhThanh; //ID province
-                            $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
-                            if ($method_shipment == "Air") {
-                                $volumne_weight = $results['boxes'][$i]['volume'] / 6000;
                             } else {
-                                $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
+
+                                $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_info']['ward_id']))->first(); //get ward
+                                $province = $getWard->MaTinhThanh; //ID province
+                                $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
+                                if ($method_shipment == "Air") {
+                                    $volumne_weight = $results['boxes'][$i]['volume'] / 6000;
+                                } else {
+                                    $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
+                                }
                             }
+                            $total_volume += $volumne_weight;
+                            $total_weight += $weight;
+                            $results['boxes'][$i]['volume_weight_box'] = $volumne_weight; //box
+
                         }
-                        $total_volume += $volumne_weight;
-                        $total_weight += $weight;
-                        $results['boxes'][$i]['volume_weight_box'] = $volumne_weight;
-                    }
-                    if (!empty($results['orders'])) {
-                        $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew, $results['orders'][0]['insurance_declaration'], $results['orders'][0]['special_declaration']);
-                        $fee_special = $results['orders'][0]['special_declaration'] * $fee['special'];
-                        $fee_insurance = $results['orders'][0]['insurance_declaration'] * $fee['insurance'];
-                        $fee_COD_inside = $results['sfa']['shipping_inside'] * 215;
-                        $results['orders'][0]['special_result_fee'] = $fee_special;
-                        $results['orders'][0]['insurance_result_fee'] = $fee_insurance;
-                        $results['orders'][0]['pay_money'] = $fee['total_money'];
-                        $results['orders'][0]['total_fee'] =  round($fee['money'] + $fee_insurance + $fee_special + $fee_COD_inside, 0);
-                        $results['orders'][0]['total_weight'] = $fee['total_weight'];
-                        $results['orders'][0]['fee_ship'] = $fee['fee_ship'];
+                        if (!empty($results['orders'])) {
+                            $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew, $results['orders'][0]['insurance_declaration'], $results['orders'][0]['special_declaration']);
+                            $fee_special = $results['orders'][0]['special_declaration'] * $fee['special'];
+                            $fee_insurance = $results['orders'][0]['insurance_declaration'] * $fee['insurance'];
+                            $fee_COD_inside = $results['sfa']['shipping_inside'] * 215;
+                            $results['orders'][0]['special_result_fee'] = $fee_special;
+                            $results['orders'][0]['insurance_result_fee'] = $fee_insurance;
+                            $results['orders'][0]['total_fee'] = round($fee['money'] + $fee_insurance + $fee_special + $fee_COD_inside, 0);
+                            $results['orders'][0]['pay_money'] = $fee['total_money'];
+                            $results['orders'][0]['total_weight'] = $fee['total_weight'];
+                            $results['orders'][0]['fee_ship'] = $fee['fee_ship'];
+                        }
+                    } else {
+                        for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
+                            $weight = $results['boxes'][$i]['weight'];
+                            $date_default = strtotime($this->date);
+                            $date_defaultNew = strtotime($this->dateDefault);
+                            if (empty($results['orders'])) {
+                                $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
+                            } else {
+
+                                usort($results['orders'], function ($a, $b) {
+                                    $b = strtotime($b['created_at']);
+                                    $a = strtotime($a['created_at']);
+                                    return $b - $a;
+                                });
+                                //     return $b['shipment_info_id'] - $a['shipment_info_id'];
+                                // }); //sort orders
+                                $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_info']['ward_id']))->first(); //get ward
+                                $province = $getWard->MaTinhThanh; //ID province
+                                $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
+                                if ($method_shipment == "Air") {
+                                    $volumne_weight = $results['boxes'][$i]['volume'] / 6000;
+                                } else {
+                                    $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
+                                }
+                            }
+                            $total_volume += $volumne_weight;
+                            $total_weight += $weight;
+                            $results['boxes'][$i]['volume_weight_box'] = $volumne_weight;
+                        }
+                        if (!empty($results['orders'])) {
+                            $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['sfa'], $province, $method_shipment, $date_default, $date_defaultNew, $results['orders'][0]['insurance_declaration'], $results['orders'][0]['special_declaration']);
+                            $fee_special = $results['orders'][0]['special_declaration'] * $fee['special'];
+                            $fee_insurance = $results['orders'][0]['insurance_declaration'] * $fee['insurance'];
+                            $fee_COD_inside = $results['sfa']['shipping_inside'] * 215;
+                            $results['orders'][0]['special_result_fee'] = $fee_special;
+                            $results['orders'][0]['insurance_result_fee'] = $fee_insurance;
+                            $results['orders'][0]['pay_money'] = $fee['total_money'];
+                            $results['orders'][0]['total_fee'] =  round($fee['money'] + $fee_insurance + $fee_special + $fee_COD_inside, 0);
+                            $results['orders'][0]['total_weight'] = $fee['total_weight'];
+                            $results['orders'][0]['fee_ship'] = $fee['fee_ship'];
+                        }
                     }
                 }
+                $data['data'][] = $results;
+                return $data;
             }
-            $data['data'][] = $results;
-            return $data;
-        }
     }
     public function calFeeFollowSFA($weight, $sfa, $province, $method_shipment, $date_default, $insurance, $specialGoods)
     {

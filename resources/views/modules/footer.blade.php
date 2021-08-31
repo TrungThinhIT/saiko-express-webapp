@@ -104,7 +104,7 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-bordered" id="table_price_shipping_footer_2"
+                                    <table class="table table-striped table-bordered check-contract-footer" id="table_price_shipping_footer_2"
                                         style="display:none">
                                         <thead>
                                             <tr>
@@ -122,7 +122,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row d-none" id="declaration_price_footer" style="margin:4px">
+                        <div class="row d-none check-contract-footer" id="declaration_price_footer" style="margin:4px">
                             <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                 <div class="col-md-6 " style="padding-left: unset">
                                     <p><label for="">Giá trị gói bảo hiểm </label>: <span
@@ -156,7 +156,7 @@
 
                             </div>
                         </div>
-                        <div class="row d-none" id="alert_footer" style="margin:4px">
+                        <div class="row d-none check-contract-footer" id="alert_footer" style="margin:4px">
                             <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                 <p class="text-danger">Xin quý khách vui lòng thanh toán đến STK :
                                     <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img
@@ -171,10 +171,16 @@
                                         gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
                             </div>
                         </div>
-                        <div class="row d-none" id="paid_footer" style="margin:4px">
+                        <div class="row d-none check-contract-footer" id="paid_footer" style="margin:4px">
                             <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                 <h2 class="text-center text-danger font-weight-bold"> <b> Đã Thanh Toán </b></h2>
                                 <h2 class="text-center text-danger">Cảm Ơn Quý Khách</h2>
+                            </div>
+                        </div>
+                        <div class="col-md-12 d-none" id="alert-contract-footer">
+                            <div class="background-contract row p-2">
+                                <span class="text-danger text-xl-left">Chi phí của tracking được tính trong lô hàng:</span>
+                                <span class="text-danger font-weight-bold" id="id_contract_footer"></span>
                             </div>
                         </div>
                         <div class="row">
@@ -396,6 +402,7 @@
     })
     // Your web app's Firebase configuration
     function track() {
+        let idToken = getToken();
         $("#alert_footer").hide()
         $("#paid_footer").hide()
         $("#table_price_shipping_footer_2").hide()
@@ -410,6 +417,7 @@
         $("#modal_tracking").modal('show')
         $("#fee_shipping_inside_jp_footer").text(0)
         $("#fee_shipping_inside_vn_footer").text(0)
+        $("#alert-contract-footer").hide()
         var tracking = $("#track_tracking").val();
         if (tracking == "") {
             $("#statusData_tracking").append('<h4>' + 'Chưa nhập tracking' + '</h4>')
@@ -422,15 +430,16 @@
             type: 'POST',
             url: "{{ route('rq_tk.getStatus') }}",
             data: {
+                idToken:idToken,
                 tracking: tracking
             },
             success: function(res) {
-                if (res == 404) {
+                if (res?.code == 404 || res?.code == 401) {
                     $("#table").hide();
                     $(".table").hide();
                     $("#statusData_tracking").css('display', 'block');
                     $("#statusData_tracking").append('<h4>' +
-                        'Không tìm thấy mã tracking' + '</h4>')
+                        res?.message + '</h4>')
                 } else {
                     if (res.data[0].boxes.length == 0 & res.data[0].orders
                         .length == 0) {
@@ -1044,6 +1053,13 @@
                                                 })
                                         }
                                     })
+                                }
+                                if(value.orders.length!=0){
+                                    if(value.orders[0].contract_id){
+                                        $(".check-contract-footer").hide()
+                                        $("#alert-contract-footer").show()
+                                        $("#id_contract_footer").text(value.orders[0].contract_id)
+                                    }
                                 }
                             })
                         }

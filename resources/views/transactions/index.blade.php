@@ -44,7 +44,7 @@
                                                 hàng</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['total_payment_sale']) ? number_format($value['total_payment_sale']) . '   ' . $value['currency']['symbol'] : '' }}">
+                                                    value="{{ number_format($value['order']) ? number_format($value['order']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -54,7 +54,7 @@
                                                 hàng</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['total_payment_purchase']) ? number_format($value['total_payment_purchase']) . '   ' . $value['currency']['symbol'] : '' }}">
+                                                    value="{{ number_format($value['purchase']) ? number_format($value['purchase']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -63,7 +63,7 @@
                                                 vụ</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['total_payment_service']) ? number_format($value['total_payment_service']) . '   ' . $value['currency']['symbol'] : '' }}">
+                                                    value="{{ number_format($value['service']) ? number_format($value['service']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -71,7 +71,7 @@
                                                 toán</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['total_payment']) ? number_format($value['total_payment']) . '   ' . $value['currency']['symbol'] : '' }}">
+                                                    value="{{ number_format($value['total_debit']) ? number_format($value['total_debit']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
                                         <div class="form-group row align-items-center">
@@ -79,7 +79,7 @@
                                                 trả</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
-                                                    value="{{ number_format($value['total_compensation']) ? number_format($value['total_compensation']) . '   ' . $value['currency']['symbol'] : '' }}">
+                                                    value="{{ number_format($value['compensation']) ? number_format($value['compensation']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
 

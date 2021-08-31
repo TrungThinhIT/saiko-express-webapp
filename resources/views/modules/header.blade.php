@@ -41,7 +41,10 @@
             background-color: #fca901 !important;
             cursor: pointer;
         }
-
+        .background-contract{
+            padding: 15px;
+            background-color: #fad792;
+        }
         table.table-bordered {
             border: 1px solid #fca901;
             margin-top: 20px;

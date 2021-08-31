@@ -15,6 +15,10 @@
             border-radius: 5px;
             border: none;
         }
+        .background-contract{
+            padding: 15px;
+            background-color: #fad792;
+        }
 
         .modal-confirm .modal-header {
             border-bottom: none;
@@ -938,7 +942,7 @@
                 <div class="row ">
                     <div class="col-md-12 col-sm-12">
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered" id="table_price_shipping" style="display:none">
+                            <table class="table table-striped table-bordered check-contract" id="table_price_shipping" style="display:none">
                                 <thead>
                                     <tr>
                                     <th style="text-align: center">Mã Tracking</th>
@@ -955,7 +959,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row d-none" id="declaration_price" style="margin:4px">
+                <div class="row d-none check-contract" id="declaration_price" style="margin:4px">
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <div class="col-md-6 " style="padding-left: unset">
                             <p class="" ><label for="" >Giá trị gói bảo hiểm</label>: <span id="insurance_result"></span> </p>
@@ -982,7 +986,7 @@
 
                     </div>
                 </div>
-                <div class="row d-none"  id="alert" style="margin:4px"  >
+                <div class="row d-none check-contract"  id="alert" style="margin:4px"  >
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <h2 class="text-center text-danger font-weight-bold"> <b> PHIẾU YÊU CẦU THANH TOÁN </b></h2>
                         <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png" alt="" width="100px"></p>
@@ -990,10 +994,16 @@
                         <p class="text-danger text-uppercase font-weight-bold" style="font-weight: bold">Số tiền thanh toán: <span id="money" style="font-size: 25px"></span> <span style="font-weight: normal !important;">( Đã bao gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
                     </div>
                 </div>
-                <div class="row d-none"  id="paid" style="margin:4px"  >
+                <div class="row d-none check-contract"  id="paid" style="margin:4px"  >
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <h2 class="text-center text-danger font-weight-bold"> <b> Đã Thanh Toán </b></h2>
                         <h2 class="text-center text-danger">Cảm Ơn Quý Khách</h2>
+                    </div>
+                </div>
+                <div class="col-md-12 d-none" id="alert-contract">
+                    <div class="background-contract row p-2">
+                        <span class="text-danger text-xl-left">Chi phí của tracking được tính trong lô hàng:</span>
+                        <span class="text-danger font-weight-bold" id="id_contract"></span>
                     </div>
                 </div>
                 <div class="row">
@@ -1022,7 +1032,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="underline table-responsive" style="display:none" id="table-index-vnpost">
+                <div class="underline table-responsive check-contract" style="display:none" id="table-index-vnpost">
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
@@ -1577,6 +1587,7 @@
     })
     $('#tracking_form_index').submit(function() {
         event.preventDefault();
+        let idToken = getToken();
         $("#alert").hide()
         $("#paid").hide()
         $("#declaration_price").hide()
@@ -1592,6 +1603,7 @@
         $("load_item").empty()
         $("#fee_shipping_inside_jp").text(0)
         $("#fee_shipping_inside_vn").text(0)
+        $("#alert-contract").hide()
         var tracking = $("#utrack").val();
         if(tracking.length<=5){
             alert('Tracking chưa đúng')
@@ -1605,13 +1617,14 @@
             type: 'POST',
             url: "{{ route('rq_tk.getStatus') }}",
             data: {
+                idToken:idToken,
                 tracking: tracking
             },
             success: function(res) {
                 $("#body-table-index-vnpost").empty()
                 $("#table-index-vnpost").hide()
                 $("#alert").hide()
-                if (res == 404) {
+                if (res?.code == 404 || res?.code == 401) {
                     $("#table-index").hide();
                     $("#body-table-index").empty()
                     $("#time_line_index").empty()
@@ -1619,7 +1632,7 @@
                     $(".table").hide();
                     $("#statusData").css('display', 'block');
                     $("#statusData").append('<h4>' +
-                        'Không tìm thấy mã tracking' + '</h4>')
+                        res?.message + '</h4>')
                 } else {
                     if (res.data[0].boxes.length == 0 & res.data[0].orders.length == 0) {
                         $(".table").hide();
@@ -2069,7 +2082,13 @@
                                         }
                                     })
                                 }
-
+                                if (value.orders.length != 0) {
+                                    if (value.orders[0].contract_id) {
+                                        $(".check-contract").hide()
+                                        $("#alert-contract").show()
+                                        $("#id_contract").text(value.orders[0].contract_id)
+                                    }
+                                }
                             })
                         }
                     }

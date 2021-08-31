@@ -42,6 +42,10 @@
         .timeline>li {
             position: unset !important;
         }
+        .background-contract{
+            padding: 15px;
+            background-color: #fad792;
+        }
         .fix-bg-table>tbody>tr:nth-child(odd)>td,
         .fix-bg-table>tbody>tr:nth-child(odd)>th {
             background-color: #fad792; // Choose your own color here
@@ -553,7 +557,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="alert alert-danger" id="statusData_tracking" style="display: none;margin-top:20px;">
+                        <div class="alert alert-danger" id="statusData_tracking" style="display: none;margin-top:20px;color:red">
                         </div>
                         <div class="row paddtop30">
                             <div class="col-sm-12 col-md-12">
@@ -581,7 +585,7 @@
                             </div>
                             <div class="col-md-12 col-sm-12">
                                 <div class="table-responsive hidden-table">
-                                    <table class="table table-striped fix-bg-table border-warning"
+                                    <table class="table table-striped fix-bg-table border-warning check-contract-order-header"
                                         id="table_price_shipping_footer_2" style="display:none">
                                         <thead class="fix-border-width">
                                             <tr>
@@ -599,7 +603,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="row d-none" id="declaration_price_footer" style="margin:4px">
+                            <div class="row d-none check-contract-order-header" id="declaration_price_footer" style="margin:4px">
                                 <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                     <div class="row">
                                         <div class="col-md-6 " >
@@ -638,7 +642,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row d-none" id="alert_footer" style="margin:4px">
+                            <div class="row d-none check-contract-order-header" id="alert_footer" style="margin:4px">
                                 <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                     <p class="text-danger">Xin quý khách vui lòng thanh toán đến STK :
                                         <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank
@@ -653,10 +657,16 @@
                                             gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
                                 </div>
                             </div>
-                            <div class="row d-none" id="paid_footer" style="margin:4px">
+                            <div class="row d-none check-contract-order-header" id="paid_footer" style="margin:4px">
                                 <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                     <h2 class="text-center text-danger font-weight-bold"> <b> Đã Thanh Toán </b></h2>
                                     <h2 class="text-center text-danger">Cảm Ơn Quý Khách</h2>
+                                </div>
+                            </div>
+                            <div class="col-md-12 " id="alert-contract-order-header" style="display: none">
+                                <div class="background-contract p-2">
+                                    <span class="text-danger text-xl-left">Chi phí của tracking được tính trong lô hàng:</span>
+                                    <span class="text-danger font-weight-bold" id="id_contract_order_header"></span>
                                 </div>
                             </div>
                             <div class="row">
@@ -1012,7 +1022,7 @@
 
             $('#form-search-header').submit(function(e) {
                 e.preventDefault()
-
+                let idToken = getToken()
                 $("#alert_footer").addClass('d-none')
                 $("#paid_footer").addClass('d-none')
                 $("#table_price_shipping_footer_2").hide()
@@ -1025,6 +1035,7 @@
                 $("#body-table-tracking").empty();
                 $("#fee_shipping_inside_jp_footer").text(0)
                 $("#fee_shipping_inside_vn_footer").text(0)
+                $("#alert-contract-order-header").hide()
                 var tracking = $("#track_tracking").val();
                 if (tracking == "") {
                     swal({
@@ -1045,16 +1056,16 @@
                     type: 'POST',
                     url: "{{ route('rq_tk.getStatus') }}",
                     data: {
+                        idToken:idToken,
                         tracking: tracking
                     },
                     success: function(res) {
-                        console.log(res)
-                        if (res == 404) {
+                        if (res?.code == 404 || res?.code == 401) {
                             $("#table").hide();
                             $(".hidden-table .table").hide();
                             $("#statusData_tracking").css('display', 'block');
                             $("#statusData_tracking").append('<h4>' +
-                                'Không tìm thấy mã tracking' + '</h4>')
+                                res?.message + '</h4>')
                         } else {
                             if (res.data[0].boxes.length == 0 & res.data[0].orders
                                 .length == 0) {
@@ -1616,6 +1627,14 @@
                                                 }
                                             })
                                         }
+
+                                        if(value.orders.length){
+                                            if(value.orders[0].contract_id){
+                                                $(".check-contract-order-header").hide();
+                                                $("#alert-contract-order-header").show()
+                                                $("#id_contract_order_header").text(value.orders[0].contract_id)
+                                            }
+                                        }
                                     })
                                 }
                             }
@@ -1637,7 +1656,6 @@
 
             $("#time_line_tracking").empty()
             if(checkToken()){
-                let idToken = getToken();
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
