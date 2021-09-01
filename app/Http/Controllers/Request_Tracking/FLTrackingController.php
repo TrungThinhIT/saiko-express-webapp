@@ -40,7 +40,7 @@ class FLTrackingController extends Controller
         }
         //apishow
         $dataShow = [
-            'search' => 'orders.customer_id:' . $customer_id['customer_id'],
+            // 'search' => 'orders.customer_id:' . $customer_id['customer_id'],
             'with' => 'orders.shipmentInfo',
             'appends' => 'boxes.owners;logs;sfa',
         ];
@@ -51,7 +51,7 @@ class FLTrackingController extends Controller
 
         if ($apiShow)
             if ($apiShow->status() == 404) {
-                $mess = ['code' => $apiShow->status(), 'message' => 'Vui lòng đăng nhập tài khoản sở hữu tracking này.'];
+                $mess = ['code' => $apiShow->status(), 'message' => 'Không tìm thấy tracking này.'];
                 return response()->json($mess);
             } else {
                 $results = json_decode($apiShow->body(), true); //results of tomoni
@@ -64,6 +64,10 @@ class FLTrackingController extends Controller
                     }); //sort orders
                     $results['orders'][0]['insurance_result_fee'] = round($results['orders'][0]['insurance_declaration'] * 0.03, 0); //tính phí bảo hiểm
                     $results['orders'][0]['special_result_fee'] = round($results['orders'][0]['special_declaration'] * 0.02, 0); // tính phí đặc biệt
+                    if ($results['orders'][0]['customer_id'] != $customer_id['customer_id']) {
+                        $mess = ['code' => 404, 'message' => 'Vui lòng đăng nhập tài khoản sở hữu tracking này.'];
+                        return response()->json($mess);
+                    }
                 }
 
                 if (!empty($results['boxes'])) {
