@@ -7,6 +7,14 @@
             background-color: #e6f7ff !important;
         }
 
+        .color-custom {
+            color: black !important;
+        }
+
+        .currency-corlor-custom {
+            color: darkslateblue !important;
+        }
+
         .height-custom {
             max-height: 600px;
             overflow-y: auto;
@@ -62,33 +70,34 @@
                     <div class="form-group row ">
                         <div class="col-12 p-4">
                             <label for="" class="font-weight-light">Tên lô hàng</label>
-                            <input type="text" class="form-control" value="{{ $data['id'] }}" readonly>
+                            <input type="text" class="form-control color-custom" value="{{ $data['id'] }}" readonly>
                         </div>
                         <div class="col-12 p-4">
                             <label for="" class="font-weight-light">Ngày bắt đầu</label>
-                            <input type="text" class="form-control" value="{{ $data['start_date'] }}" readonly>
+                            <input type="text" class="form-control color-custom" value="{{ $data['start_date'] }}"
+                                readonly>
                         </div>
                         <div class="col-12 p-4">
                             <label for="" class="font-weight-light">Ngày kết thúc</label>
-                            <input type="text" class="form-control" value="{{ $data['end_date'] }}" readonly>
+                            <input type="text" class="form-control color-custom" value="{{ $data['end_date'] }}" readonly>
                         </div>
                         <div class="col-12 p-4">
                             <label for="" class="font-weight-light">Phí ship đường bay</label>
                             <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control"
-                                    value="{{ number_format($data['price_shipping_fee_air']) }}" readonly id="">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['price_shipping_fee_air']) }}" readonly>
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold">VND</div>
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 p-4">
                             <label for="" class="font-weight-light">Phí ship đường biển</label>
                             <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control"
-                                    value="{{ number_format($data['price_shipping_fee_sea']) }}" readonly id="">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['price_shipping_fee_sea']) }}" readonly>
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold">VND</div>
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
                                 </div>
                             </div>
                         </div>
@@ -107,10 +116,10 @@
                     <div class="form-group row">
                         <label for="" class="font-weight-light">Phí tiền hàng</label>
                         <div class="input-group mb-2 mr-sm-2">
-                            <input type="text" class="form-control"
-                                value="{{ number_format($data['cost_of_goods']) }}" readonly id="">
+                            <input type="text" class="form-control color-custom"
+                                value="{{ number_format($data['cost_of_goods']) }}" readonly>
                             <div class="input-group-prepend">
-                                <div class="input-group-text font-weight-bold">JPY</div>
+                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY</div>
                             </div>
                         </div>
                     </div>
@@ -129,50 +138,50 @@
                         <div class="col-12 p-4">
                             <label for="" class="font-weight-light">Phí dịch vụ</label>
                             <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control" value="{{ number_format($data['service_fee']) }}"
-                                    readonly id="">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['service_fee']) }}" readonly>
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold">VND</div>
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 p-4">
                             <label for="" class="font-weight-light">Phí giao hàng</label>
                             <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control" value="{{ number_format($data['shipping_fee']) }}"
-                                    readonly id="">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['shipping_fee']) }}" readonly>
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold">VND</div>
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 p-4">
                             <label for="" class="font-weight-light">Phí giao hàng bay</label>
                             <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control"
-                                    value="{{ number_format($data['shipping_fee_air']) }}" readonly id="">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['shipping_fee_air']) }}" readonly>
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold">VND</div>
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 p-4">
                             <label for="" class="font-weight-light">Phí giao hàng biển</label>
                             <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control"
-                                    value="{{ number_format($data['shipping_fee_sea']) }}" readonly id="">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['shipping_fee_sea']) }}" readonly>
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold">VND</div>
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-12 p-4">
                             <label for="" class="font-weight-light">Nợ phí giao hàng</label>
                             <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control"
-                                    value="{{ number_format($data['shipping_fee_outstanding']) }}" readonly id="">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['shipping_fee_outstanding']) }}" readonly>
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold">VND</div>
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
                                 </div>
                             </div>
                         </div>

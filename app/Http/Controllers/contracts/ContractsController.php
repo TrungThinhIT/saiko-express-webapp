@@ -167,11 +167,9 @@ class ContractsController extends Controller
                         $orders->push($value);
                     });
                     $data['orders'] = $orders->toArray();
-                    $data['boxes'] = $obj_boxes;
                 }
             }
         }
-
         return view('contract.detail', compact('data'));
     }
 
