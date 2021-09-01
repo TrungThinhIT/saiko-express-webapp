@@ -33,6 +33,8 @@ class FLTrackingController extends Controller
 
         $customer_id = $this->IdUserByToken($request);
         if ($customer_id['code'] == 401) {
+            $this->deleteCookie();
+            $this->deleteSession();
             $mess = ['code' => $customer_id['code'], 'message' => 'Mã xác thực hết hạn vui lòng tải lại trang.'];
             return response()->json($mess);
         }

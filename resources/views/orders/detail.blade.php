@@ -148,7 +148,7 @@
                                             thanh
                                             toán</label>
                                         <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="goods-money-paid" @if ($value['cost_of_goods_paid'] > 0) value="{{ number_format($value['cost_of_goods_paid']) . '  JPY' }}" @endif>
+                                            <input type="text" readonly class="form-control" id="goods-money-paid" @if ($value['cost_of_goods_debited'] > 0) value="{{ number_format($value['cost_of_goods_paid']) . '  JPY' }}" @endif>
                                         </div>
                                     </div>
 
@@ -176,7 +176,7 @@
                                         <label for="compensation-paid" class="col-sm-4 col-form-label">Tiền đền bù đã thanh
                                             toán</label>
                                         <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="compensation-paid" @if ($value['compensation_paid'] > 0) value="{{ number_format($value['compensation_paid']) . '  JPY' }}" @endif>
+                                            <input type="text" readonly class="form-control" id="compensation-paid" @if ($value['compensation_debited'] > 0) value="{{ number_format($value['compensation_paid']) . '  JPY' }}" @endif>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -219,7 +219,7 @@
                                             thanh
                                             toán</label>
                                         <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="service_fee_paid" @if ($value['service_fee_paid'] > 0) value="{{ number_format($value['service_fee_paid']) . '  VND' }}" @endif>
+                                            <input type="text" readonly class="form-control" id="service_fee_paid" @if ($value['service_fee_debited'] > 0) value="{{ number_format($value['service_fee_paid']) . '  VND' }}" @endif>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
