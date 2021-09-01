@@ -187,7 +187,7 @@
                 $("#UPhuongXa").empty()
                 $("#Uhuyen").append(new Option('Vui lòng chọn', ''))
                 $.each(res, function(index, value) {
-                    $("#Uhuyen").append(new Option(value.TenQuanHuyen, value.MaQuanHuyen))
+                    $("#Uhuyen").append(new Option(value.name, value.id))
                 })
             },
             error: function(res) {
@@ -215,7 +215,7 @@
                 $("#UPhuongXa").empty()
                 $("#UPhuongXa").append(new Option('Vui lòng chọn', ''))
                 $.each(res, function(index, value) {
-                    $("#UPhuongXa").append(new Option(value.TenPhuongXa, value.MaPhuongXa))
+                    $("#UPhuongXa").append(new Option(value.name, value.id))
                 })
             },
             error: function(res) {
@@ -323,7 +323,7 @@
                                             <select id="Utinh" name="tinh" onchange="Select_Tinh(this)">
                                                 <option value="">Vui lòng chọn</option>
                                                 @foreach ($data as $item)
-                                                    <option value={{ $item->MaTinhThanh }}>{{ $item->TenTinhThanh }}
+                                                    <option value={{ $item->id }}>{{ $item->name }}
                                                     </option>
                                                 @endforeach
                                             </select>

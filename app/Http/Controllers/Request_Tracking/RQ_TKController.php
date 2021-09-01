@@ -7,18 +7,35 @@ use App\Models\phuongxa;
 use App\Models\quanhuyen;
 use App\Models\tinhthanh;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class RQ_TKController extends Controller
 {
     //
     public function price()
     {
-        $data = tinhthanh::all();
+        $header = [
+            'Accept' => 'Application/json',
+        ];
+        $param = [
+            'search' => 'country_id:vn',
+        ];
+        $provinces = Http::withHeaders($header)->get('https://prod-notification.tomonisolution.com/api/provinces', $param);
+
+        $data = collect(json_decode($provinces->body()));
         return view('rq-tracking.price', compact('data'));
     }
     public function quote(Request $request)
     {
-        $data = tinhthanh::all();
+        $header = [
+            'Accept' => 'Application/json',
+        ];
+        $param = [
+            'search' => 'country_id:vn',
+        ];
+        $provinces = Http::withHeaders($header)->get('https://prod-notification.tomonisolution.com/api/provinces', $param);
+
+        $data = collect(json_decode($provinces->body()));
         if ($request->wantsJson()) {
             return response()->json($data);
         }
@@ -30,12 +47,28 @@ class RQ_TKController extends Controller
     }
     public function quanhuyen(Request $request)
     {
-        $data = quanhuyen::where('MaTinhThanh', $request->province)->get();
+        $header = [
+            'Accept' => 'Application/json',
+        ];
+        $param = [
+            'search' => 'province_id:' . $request->province,
+        ];
+        $provinces = Http::withHeaders($header)->get('https://prod-notification.tomonisolution.com/api/districts', $param);
+
+        $data = collect(json_decode($provinces->body()));
         return response()->json($data);
     }
     public function phuongxa(Request $request)
     {
-        $data = phuongxa::where('MaQuanHuyen', $request->district)->get();
+        $header = [
+            'Accept' => 'Application/json',
+        ];
+        $param = [
+            'search' => 'district_id:' . $request->district,
+        ];
+        $provinces = Http::withHeaders($header)->get('https://prod-notification.tomonisolution.com/api/wards', $param);
+
+        $data = collect(json_decode($provinces->body()));
         return response()->json($data);
     }
 }

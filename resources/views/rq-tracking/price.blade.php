@@ -316,7 +316,7 @@
                     <select name="province" class="form-control width-custom" id="Utinh" onchange="Select_Tinh(this)">
                         <option value="">Chọn Tỉnh</option>
                         @foreach ($data as $item)
-                            <option value="{{ $item->MaTinhThanh }}">{{ $item->TenTinhThanh }}</option>
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>
                     <select name="District" class="form-control width-custom" onchange="domesticShipping()" id="Uhuyen">
@@ -543,7 +543,7 @@
                 $("#UPhuongXa").empty()
                 $("#Uhuyen").append(new Option('Vui lòng chọn', ''))
                 $.each(res, function(index, value) {
-                    $("#Uhuyen").append(new Option(value.TenQuanHuyen, value.MaQuanHuyen))
+                    $("#Uhuyen").append(new Option(value.name, value.id))
                 })
             },
             error: function(res) {

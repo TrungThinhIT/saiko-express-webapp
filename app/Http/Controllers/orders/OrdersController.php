@@ -96,7 +96,15 @@ class OrdersController extends Controller
      */
     public function create(Request $request)
     {
-        $data = tinhthanh::all();
+        $header = [
+            'Accept' => 'Application/json',
+        ];
+        $param = [
+            'search' => 'country_id:vn',
+        ];
+        $provinces = Http::withHeaders($header)->get('https://dev-notification.tomonisolution.com/api/provinces', $param);
+
+        $data = collect(json_decode($provinces->body()));
         return view('orders.create', compact('data'));
     }
 
