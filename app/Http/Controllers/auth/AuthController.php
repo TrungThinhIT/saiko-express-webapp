@@ -32,7 +32,7 @@ class AuthController extends Controller
                 'Accept' => 'application/json',
                 'X-Firebase-IdToken' => $request->token,
             ]
-        )->get('https://prod-auth.tomonisolution.com/api/me');
+        )->get('https://dev-auth.tomonisolution.com/api/me');
 
         if ($user->status() == 200) {
             $user = json_decode($user->body(), true);
@@ -53,7 +53,7 @@ class AuthController extends Controller
     {
         $data = Http::withHeaders([
             'Accept' => 'application/json'
-        ])->post('https://prod-auth.tomonisolution.com/api/password/email', $request->all());
+        ])->post('https://dev-auth.tomonisolution.com/api/password/email', $request->all());
 
         return response()->json(['code' => $data->status(), 'data' => $data->body()]);
     }
@@ -73,7 +73,7 @@ class AuthController extends Controller
         $data = $request->all();
         $send = Http::withHeaders([
             'Accept' => 'application/json',
-        ])->post('https://prod-auth.tomonisolution.com/api/password/reset', $data);
+        ])->post('https://dev-auth.tomonisolution.com/api/password/reset', $data);
 
         if ($send->status() == 204) {
             return response()->json(['code' => 204, 'message' => "Cập nhật thành công"]);
@@ -104,7 +104,7 @@ class AuthController extends Controller
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
             'X-Firebase-IdToken' => $token,
-        ])->get('https://prod-accounting.tomonisolution.com/api/accounts', $param_search_account);
+        ])->get('https://dev-accounting.tomonisolution.com/api/accounts', $param_search_account);
         if ($account->status() == 401) {
             return redirect()->route('auth.logout');
         }
@@ -122,7 +122,7 @@ class AuthController extends Controller
         $resultUpdate = Http::withHeaders([
             'Accept' => 'application/json',
             'X-Firebase-IdToken' => $token,
-        ])->put('https://prod-auth.tomonisolution.com/api/me/password', $request->all());
+        ])->put('https://dev-auth.tomonisolution.com/api/me/password', $request->all());
 
         return response()->json(['code' => $resultUpdate->status(), 'data' => $resultUpdate->body()]);
     }
