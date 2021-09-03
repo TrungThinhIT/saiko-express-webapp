@@ -133,7 +133,6 @@ class ShipmentsController extends Controller
         ];
         $full_address = Http::withHeaders([
             'Accept' => 'application/json',
-            'X-Firebase-IdToken' => $token
         ])->get('https://dev-notification.tomonisolution.com/api/wards/' . $info['ward_id'], $param_get_fulladdress);
 
         if ($full_address->status() == 401) {
@@ -144,16 +143,43 @@ class ShipmentsController extends Controller
 
         $full_address = json_decode($full_address, true);
 
-        $provinces = tinhthanh::all()->toArray();
+        $header = [
+            'Accept' => 'Application/json',
+        ];
+        $param = [
+            'search' => 'country_id:vn',
+        ];
+        $provinces = Http::withHeaders($header)->get('https://dev-notification.tomonisolution.com/api/provinces', $param);
+
+        $provinces = json_decode($provinces->body());
 
         $data = array_merge($info, ['provinces' => $provinces]);
 
         $data = array_merge($data, ['full_address' => $full_address]);
 
-        $district_by_province = quanhuyen::where('matinhthanh', $full_address['district']['province']['id'])->get()->toArray();
+        //quanhuyen
+        $header = [
+            'Accept' => 'Application/json',
+        ];
+        $param = [
+            'search' => 'province_id:' . $full_address['district']['province']['id'],
+        ];
+        $district_by_province = Http::withHeaders($header)->get('https://dev-notification.tomonisolution.com/api/districts', $param);
+
+        $district_by_province = json_decode($district_by_province->body());
+
         $data = array_merge($data, ['districts' => $district_by_province]);
 
-        $ward = phuongxa::where('maquanhuyen', $full_address['district']['id'])->get()->toArray();
+        //phuongxa
+        $header = [
+            'Accept' => 'Application/json',
+        ];
+        $param = [
+            'search' => 'district_id:' . $full_address['district']['id'],
+        ];
+        $ward = Http::withHeaders($header)->get('https://dev-notification.tomonisolution.com/api/wards', $param);
+
+        $ward = json_decode($ward->body());
         $data = array_merge($data, ['wards' => $ward]);
 
         return response()->json(['code' => 200, 'data' => $data]);
@@ -174,6 +200,7 @@ class ShipmentsController extends Controller
         ])->PUT("https://dev-auth.tomonisolution.com/api/shipment-infos/" . $id, $request->all());
 
         if ($send_update->status() == 401) {
+            $this->deleteCookie();
             $this->deleteSession();
         }
 
