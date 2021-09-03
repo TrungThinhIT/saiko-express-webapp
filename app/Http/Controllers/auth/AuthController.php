@@ -36,7 +36,7 @@ class AuthController extends Controller
 
         if ($user->status() == 200) {
             $user = json_decode($user->body(), true);
-            $token = ['idToken' => $request->token];
+            $token = ['idToken' => $request->idToken];
             $user_token = array_merge($user, $token);
             $value = serialize($user_token);
 
