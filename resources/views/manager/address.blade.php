@@ -383,9 +383,9 @@
                             $("#ward").empty();
                             $("#province").append(new Option('Vui lòng chọn', ''));
                             $.each(response, function(index, value) {
-                                $("#province").append(new Option(value.TenTinhThanh,
+                                $("#province").append(new Option(value.name,
                                     value
-                                    .MaTinhThanh))
+                                    .id))
                             })
                         },
                         error: function(response) {
@@ -632,22 +632,22 @@
                         var id_district = response.data.full_address.district.id
                         if (response.data.provinces.length) {
                             $.each(response.data.provinces, function(index, value) {
-                                $("#province-update").append(new Option(value.TenTinhThanh, value
-                                    .MaTinhThanh, value.MaTinhThanh == id_province ? true :
-                                    false, value.MaTinhThanh == id_province ? true :
+                                $("#province-update").append(new Option(value.name, value
+                                    .id, value.id == id_province ? true :
+                                    false, value.id == id_province ? true :
                                     false))
                             })
                             $.each(response.data.districts, function(index, value) {
-                                $("#district-update").append(new Option(value.TenQuanHuyen, value
-                                    .MaQuanHuyen, value.MaQuanHuyen == id_district ? true :
-                                    false, value.MaQuanHuyen == id_district ? true :
+                                $("#district-update").append(new Option(value.name, value
+                                    .id, value.id == id_district ? true :
+                                    false, value.id == id_district ? true :
                                     false))
                             })
                             $.each(response.data.wards, function(index, value) {
-                                $("#ward-update").append(new Option(value.TenPhuongXa, value
-                                    .MaPhuongXa, value.MaPhuongXa == response.data.ward_id ?
+                                $("#ward-update").append(new Option(value.name, value
+                                    .id, value.id == response.data.ward_id ?
                                     true :
-                                    false, value.MaPhuongXa == response.data.ward_id ?
+                                    false, value.id == response.data.ward_id ?
                                     true :
                                     false))
                             })
@@ -770,7 +770,7 @@
                     $("#ward").empty()
                     $("#district").append(new Option('Vui lòng chọn', ''))
                     $.each(res, function(index, value) {
-                        $("#district").append(new Option(value.TenQuanHuyen, value.MaQuanHuyen))
+                        $("#district").append(new Option(value.name, value.id))
                     })
                 },
                 error: function(res) {
@@ -791,7 +791,7 @@
                     $("#ward").empty()
                     $("#ward").append(new Option('Vui lòng chọn', ''))
                     $.each(res, function(index, value) {
-                        $("#ward").append(new Option(value.TenPhuongXa, value.MaPhuongXa))
+                        $("#ward").append(new Option(value.name, value.id))
                     })
                 },
                 error: function(res) {
@@ -813,8 +813,8 @@
                     $("#ward-update").empty()
                     $("#district-update").append(new Option('Vui lòng chọn', ''))
                     $.each(res, function(index, value) {
-                        $("#district-update").append(new Option(value.TenQuanHuyen, value
-                            .MaQuanHuyen))
+                        $("#district-update").append(new Option(value.name, value
+                            .id))
                     })
                 },
                 error: function(res) {
@@ -835,7 +835,7 @@
                     $("#ward-update").empty()
                     $("#ward-update").append(new Option('Vui lòng chọn', ''))
                     $.each(res, function(index, value) {
-                        $("#ward-update").append(new Option(value.TenPhuongXa, value.MaPhuongXa))
+                        $("#ward-update").append(new Option(value.name, value.id))
                     })
                 },
                 error: function(res) {
