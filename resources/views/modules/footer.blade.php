@@ -360,7 +360,6 @@
                         // Send token to your backend via HTTPS
                         setToken(token_gg)
                     }).catch(function(error) {
-                    swal('warning', error.message)
                 });
             } else {
                 // User is signed out
@@ -375,10 +374,8 @@
                             // Send token to your backend via HTTPS
                             setToken(token_gg)
                         }).catch(function(error) {
-                        swal("warning", error.message)
                     });
                 }).catch((error) => {
-                    swal("warning", error.message);
                 });
             }
         });

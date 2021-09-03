@@ -79,9 +79,11 @@
                                             <input id="login-email" type="email" readonly class="form-control"
                                                 name="email-info" value="{{ $data['email'] }}">
                                         </div>
+                                        @if($data['id']!="sale.se")
                                         <div class="col-md-2 fix-margin-left" id="btn-show-password">
                                             <input type="button" class="form-control btn-secondary fix-width-input" value="Sửa">
                                         </div>
+                                        @endif
                                         <div class="col-md-2 d-none fix-margin-left confirm-update-mail"
                                             id="btn-hidden-password">
                                             <input type="button" class="form-control btn-secondary fix-width-input" value="Hủy">
@@ -190,12 +192,14 @@
                                         </div>
                                     </div>
                                 </div> --}}
-                                <div class="text-center">
-                                    {{-- id="btn-update-password" --}}
-                                    <button onclick="updatePassword_check()" type="submit"
-                                        class="btn btn-warning bg-warning">Cập
-                                        nhật</button>
-                                </div>
+                                @if($data['id']!="sale.se")
+                                    <div class="text-center">
+                                        {{-- id="btn-update-password" --}}
+                                        <button onclick="updatePassword_check()" type="submit"
+                                            class="btn btn-warning bg-warning">Cập
+                                            nhật</button>
+                                    </div>
+                                @endif
                             </form>
                         </div>
                     </div>
