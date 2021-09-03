@@ -142,7 +142,7 @@ class TransactionsController extends Controller
         }
         $data = json_decode($getAccount->body(), true);
         $data = collect(['transactions' => $data]);
-        dd($data);
+        // dd($data);
         return view('transactions.index', compact('data'));
     }
 
