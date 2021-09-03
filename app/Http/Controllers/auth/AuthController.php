@@ -30,7 +30,7 @@ class AuthController extends Controller
         $user = Http::withHeaders(
             [
                 'Accept' => 'application/json',
-                'X-Firebase-IdToken' => $request->token,
+                'X-Firebase-IdToken' => $request->idToken,
             ]
         )->get('https://dev-auth.tomonisolution.com/api/me');
 

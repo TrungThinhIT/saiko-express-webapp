@@ -389,7 +389,7 @@
                     type: "POST",
                     url: "{{ route('auth.login') }}",
                     data: {
-                        token: idToken,
+                        idToken: idToken,
                     },
                     success: function(respone) {
                         if (respone.code == 200) {
@@ -544,7 +544,7 @@
                         type: "POST",
                         url: "{{ route('auth.login') }}",
                         data: {
-                            token: idToken,
+                            idToken: idToken,
                         },
                         success: function(respone) {
                             if (respone.code == 200) {
@@ -618,7 +618,7 @@
                         type: "POST",
                         url: "{{ route('auth.login') }}",
                         data: {
-                            token: idToken,
+                            idToken: idToken,
                         },
                         success: function(respone) {
                             if (respone.code == 200) {
