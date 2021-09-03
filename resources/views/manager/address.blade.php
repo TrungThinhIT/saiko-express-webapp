@@ -7,9 +7,10 @@
             color: orange;
         }
 
-        .swal-button-container > .swal-button--cancel{
+        .swal-button-container > .swal-button--cancel {
             background-color: silver !important;
         }
+
         .fix-select {
             border: #484848 1px solid !important;
         }
