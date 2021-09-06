@@ -279,6 +279,13 @@
                                             name="password" placeholder="Nhập mật khẩu" value=''>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-md-3 control-label">Password Confirm</label>
+                                    <div class="col-md-9">
+                                        <input type="password" required id="repassword" class="form-control"
+                                            name="repassword" placeholder="Nhập lại mật khẩu" value=''>
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
@@ -428,6 +435,20 @@
     function signUpWithEmailPassword() {
         var email = $("#email").val();
         var password = $("#password").val();
+        var repassword = $("#repassword").val();
+        if (repassword !== password) {
+            swal({
+                title: "Mật khẩu không trùng khớp",
+                type: "warning",
+                icon: "warning",
+                showCancelButton: false,
+                confirmButtonColor: "#fca901",
+                confirmButtonText: "Exit",
+                closeOnConfirm: true
+                // ...
+            })
+            return false
+        }
         // [START auth_signup_password]
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
