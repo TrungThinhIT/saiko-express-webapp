@@ -48,40 +48,6 @@ class AuthController extends Controller
         return response()->json(['code' => $user->status(), 'data' => $user->body()]);
     }
 
-    //api changen port remember
-    public function sendLinkResetPassword(Request $request)
-    {
-        $data = Http::withHeaders([
-            'Accept' => 'application/json'
-        ])->post('https://dev-auth.tomonisolution.com/api/password/email', $request->all());
-
-        return response()->json(['code' => $data->status(), 'data' => $data->body()]);
-    }
-
-    public function sendInfoResetPassword(Request $request, $token)
-    {
-        if (!$request->has('email')) {
-            return redirect()->route('auth.index');
-        }
-        $data = ['token' => $token, 'email' => $request->email];
-        return view('login.reset_password', compact('data'));
-    }
-
-    //changen port remember
-    public function resetPassword(Request $request)
-    {
-        $data = $request->all();
-        $send = Http::withHeaders([
-            'Accept' => 'application/json',
-        ])->post('https://dev-auth.tomonisolution.com/api/password/reset', $data);
-
-        if ($send->status() == 204) {
-            return response()->json(['code' => 204, 'message' => "Cập nhật thành công"]);
-        } else {
-            return response()->json(['code' => $send->status(), 'message' => $send->body()]);
-        }
-    }
-
     public function logout(Request $request)
     {
         Cookie::queue(Cookie::forget('idToken'));

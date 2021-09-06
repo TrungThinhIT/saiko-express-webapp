@@ -394,7 +394,7 @@
                                         type: "POST",
                                         url: "{{ route('auth.login') }}",
                                         data: {
-                                            token: idToken,
+                                            idToken: idToken,
                                         },
                                         success: function(respone) {
                                             if (respone.code == 200) {
@@ -410,12 +410,15 @@
                                                     window.location.reload()
                                                 })
                                             } else {
-                                                $("#alert-errors").append(
-                                                    "<span class='text-danger'>" +
-                                                    "Email hoặc mật khẩu sai" +
-                                                    "</span>" + "<br>"
-                                                )
-                                                $("#modalConfirmDelete").show()
+                                                swal({
+                                                    title: respone.data,
+                                                    type: "warning",
+                                                    icon: "warning",
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: "#fca901",
+                                                    confirmButtonText: "Exit",
+                                                    closeOnConfirm: true
+                                                })
                                             }
                                         },
                                         error: function(respone) {
@@ -433,7 +436,7 @@
                         }).catch((error) => {
                             // An error occurred
                             swal({
-                                title: "Cập nhật thất bại: " + error.code,
+                                title: error.message,
                                 type: "warning",
                                 icon: "warning",
                                 showCancelButton: false,
