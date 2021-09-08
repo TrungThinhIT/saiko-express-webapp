@@ -84,9 +84,18 @@ class FLTrackingController extends Controller
                             if (empty($results['orders'])) {
                                 $volumne_weight = $results['boxes'][$i]['volume'] / 3500;
                             } else {
+                                $header = [
+                                    'Accept' => 'Application/json',
+                                ];
+                                $param = [
+                                    'with' => 'district.province',
+                                ];
+                                $ward_id = $results['orders'][0]['shipment_info']['ward_id'];
+                                $ward = Http::withHeaders($header)->get('https://dev-notification.tomonisolution.com/api/wards/' . $ward_id, $param);
 
-                                $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_info']['ward_id']))->first(); //get ward
-                                $province = $getWard->MaTinhThanh; //ID province
+                                $ward = json_decode($ward->body());
+                                $province = $ward->district->province->id;
+
                                 $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
                                 if ($method_shipment == "Air") {
                                     $volumne_weight = $results['boxes'][$i]['volume'] / 6000;
@@ -127,8 +136,18 @@ class FLTrackingController extends Controller
                                 });
                                 //     return $b['shipment_info_id'] - $a['shipment_info_id'];
                                 // }); //sort orders
-                                $getWard = phuongxa::where('MaPhuongXa', ($results['orders'][0]['shipment_info']['ward_id']))->first(); //get ward
-                                $province = $getWard->MaTinhThanh; //ID province
+                                $header = [
+                                    'Accept' => 'Application/json',
+                                ];
+                                $param = [
+                                    'with' => 'district.province',
+                                ];
+                                $ward_id = $results['orders'][0]['shipment_info']['ward_id'];
+                                $ward = Http::withHeaders($header)->get('https://dev-notification.tomonisolution.com/api/wards/' . $ward_id, $param);
+
+                                $ward = json_decode($ward->body());
+                                $province = $ward->district->province->id;
+
                                 $method_shipment = Str::ucfirst($results['orders'][0]['shipment_method_id']);
                                 if ($method_shipment == "Air") {
                                     $volumne_weight = $results['boxes'][$i]['volume'] / 6000;
