@@ -13,10 +13,21 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public function deleteCheckSession()
+    {
+        session()->forget('checkToken');
+    }
+
     public function deleteSession()
     {
         session()->forget('idToken');
     }
+
+    public function deleteCookie()
+    {
+        Cookie::queue(Cookie::forget('idToken'));
+    }
+    // --------------------------------------
     public function getData($request)
     {
         $data = $request->session()->get('idToken');
@@ -41,19 +52,48 @@ class Controller extends BaseController
         return $token;
     }
 
-    public function deleteCookie()
+    // ------------------------------------------
+    public function getCheckSession($request)
     {
-        Cookie::queue(Cookie::forget('idToken'));
+        $data = $request->session()->get('checkToken');
+        if (!$data) {
+            return false;
+        }
+        $data = unserialize($data);
+
+        return $data;
+    }
+
+    public function userIdSession($request)
+    {
+        $data = $this->getCheckSession($request);
+        if (!$data) {
+            return false;
+        }
+        $token = $data['id'];
+        return $token;
+    }
+
+    public function getTokenSession($request)
+    {
+        $data = $this->getCheckSession($request);
+        if (!$data) {
+            return false;
+        }
+        $token = $data['idToken'];
+        return $token;
     }
 
     public function IdUserByToken($request)
     {
+        $token_checkSession = $this->getTokenSession(($request));
+
         $user = Http::withHeaders(
             [
                 'Accept' => 'application/json',
-                'X-Firebase-IdToken' => $request->idToken,
+                'X-Firebase-IdToken' => $request->idToken ? $request->idToken : $token_checkSession,
             ]
-        )->get('https://dev-auth.tomonisolution.com/api/me');
+        )->get('https://prod-auth.tomonisolution.com/api/me');
 
         $id = 'sale.se';
 

@@ -420,7 +420,17 @@
                 },
                 success: function(data) {
                     if (data.code == 401) {
-                        location.reload()
+                        swal({
+                            title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                            type: "success",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        }).then(()=>{
+                            window.location.reload()
+                        })
                     } else {
                         if (data.list_address.data.length) {
 
@@ -532,7 +542,17 @@
                     $("#alert-errors").empty()
                     $("#modal-create-address").hide()
                     if (response.code == 401) {
-                        location.reload();
+                        swal({
+                            title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                            type: "warning",
+                            icon: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        }).then(()=>{
+                            location.reload()
+                        })
                     }
                     if (response.code == 201) {
                         var page = $("#fix-paginate-address .active a").data('page');
@@ -591,7 +611,17 @@
                         url: "../shipment/" + id_shipment,
                         success: function(response) {
                             if (response.code == 401) {
-                                location.reload()
+                                swal({
+                                    title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                                    type: "success",
+                                    icon: "success",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#fca901",
+                                    confirmButtonText: "Exit",
+                                    closeOnConfirm: true
+                                }).then(()=>{
+                                    window.location.reload()
+                                })
                             }
                             if (response.code == 200) {
                                 var page = $("#fix-paginate-address .active a").data('page');
@@ -619,7 +649,17 @@
                 url: "../shipment/" + id_shipment + "/edit",
                 success: function(response) {
                     if (response.code == 401) {
-                        location.reload()
+                        swal({
+                            title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                            type: "success",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        }).then(()=>{
+                            location.reload()
+                        })
                     }
                     if (response.code == 200) {
                         $("#inputSender-name-update").val(response.data.sender_name)
@@ -633,9 +673,8 @@
                         if (response.data.provinces.length) {
                             $.each(response.data.provinces, function(index, value) {
                                 $("#province-update").append(new Option(value.name, value
-                                    .id, value.id == id_province ? true :
-                                    false, value.id == id_province ? true :
-                                    false))
+                                    .id, value.id == id_province ? true : false,
+                                    value.id == id_province ? true : false ))
                             })
                             $.each(response.data.districts, function(index, value) {
                                 $("#district-update").append(new Option(value.name, value
@@ -723,7 +762,17 @@
                     $("#alert-errors").empty()
                     $("#modal-update-address").hide()
                     if (response.code == 401) {
-                        location.reload()
+                        swal({
+                            title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                            type: "success",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        }).then(()=>{
+                            window.location.reload()
+                        })
                     }
                     if (response.code == 200) {
                         var page = $("#fix-paginate-address .active a").data('page');

@@ -57,16 +57,17 @@ class OrdersController extends Controller
             $params['searchJoin'] = 'and';
         };
 
-        $send = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders/shipment', $params);
+        $send = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders/shipment', $params);
 
         if ($request->wantsJson()) {
             if ($send->status() == 401) {
-                $this->deleteSession();
                 $this->deleteCookie();
                 return response()->json(['code' => 401]);
             }
         }
         if ($send->status() == 401) {
+            $this->deleteSession();
+            $this->deleteCookie();
             return redirect()->route('auth.logout');
         }
         $data = json_decode($send->body(), true);
@@ -102,7 +103,7 @@ class OrdersController extends Controller
         $param = [
             'search' => 'country_id:vn',
         ];
-        $provinces = Http::withHeaders($header)->get('https://dev-notification.tomonisolution.com/api/provinces', $param);
+        $provinces = Http::withHeaders($header)->get('https://prod-notification.tomonisolution.com/api/provinces', $param);
 
         $data = collect(json_decode($provinces->body()));
         return view('orders.create', compact('data'));
@@ -120,7 +121,6 @@ class OrdersController extends Controller
         $data = $this->shipmentsController->edit($shipment_id, $request);
         if (!isset($data['info']['consignee'])) {
             session()->flash('login', "Vui lòng đăng nhập lại");
-            $this->deleteSession();
             $this->deleteCookie();
             return  response()->json(['code' => 401]);
         }
@@ -132,10 +132,10 @@ class OrdersController extends Controller
         $arr_created = array();
         $create_shipment = Http::withHeaders([
             'Accept' => 'application/json',
-            'X-Firebase-IDToken' => $this->getToken($request) ? $this->getToken($request) : $request->token,
+            'X-Firebase-IDToken' => $request->idToken,
         ]);
 
-        $create_shipment = $create_shipment->post('https://dev-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
+        $create_shipment = $create_shipment->post('https://prod-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
             'shipment_method_id' => $request->method, //đường vận chuyển
             'type' => 'shipment',
             'trackings' => $tracking, //danh sách tracking
@@ -153,9 +153,7 @@ class OrdersController extends Controller
                 'sender_tel' => $data['info']['sender_tel']
             ]
         ]);
-
         if ($create_shipment->status() == 401) {
-            $this->deleteSession();
             $this->deleteCookie();
             return response()->json(['code' => 401]);
         }
@@ -180,7 +178,6 @@ class OrdersController extends Controller
     public function show($id, Request $request)
     {
         $token = $this->getToken($request);
-
         $header = [
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
@@ -194,9 +191,10 @@ class OrdersController extends Controller
             'with' => 'shipmentInfo;trackings',
         ];
 
-        $order = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders', $params);
-        // dd($order->body());
+        $order = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders', $params);
         if ($order->status() == 401) {
+            $this->deleteCookie();
+            $this->deleteSession();
             return redirect()->route('auth.logout');
         }
         $data = json_decode($order->body(), true);
@@ -283,7 +281,7 @@ class OrdersController extends Controller
             'search' => 'directors.type_id:Shipment',
         ];
 
-        $listStatus = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders/statuses', $params);
+        $listStatus = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders/statuses', $params);
 
         $listStatus = json_decode($listStatus->body(), true);
 

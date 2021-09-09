@@ -366,7 +366,6 @@
             return background;
         }
 
-
         function fetch_data_order(page) {
             $.ajax({
                 type: "GET",
@@ -378,7 +377,7 @@
                 success: function(data) {
                     if (data.code == 401) {
                         swal({
-                            title: "Mã xác thực hết hạn. Load lại trang",
+                            title: "Mã xác thực hết hạn vui lòng tải lại trang",
                             type: "warning",
                             icon: "warning",
                             showCancelButton: false,

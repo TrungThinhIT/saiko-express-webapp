@@ -21,7 +21,7 @@ class QuoteController extends Controller
 {
     public function cookie_token(Request $request)
     {
-        return $this->getToken($request);
+        return $this->getTokenSession($request);
     }
 
     /**
@@ -44,25 +44,6 @@ class QuoteController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-
-    public function getTinh($id)
-    {
-        return tinhthanh::where('MaTinhThanh', $id)->first()->TenTinhThanh;
-    }
-    public function getQuan($id)
-    {
-        return quanhuyen::where('MaQuanHuyen', $id)->first()->TenQuanHuyen;
-    }
-    public function getPhuong($id)
-    {
-        return phuongxa::where('MaPhuongXa', $id)->first()->TenPhuongXa;
-    }
     //nhớ thay đổi cổng
     public function store(Request $request)
     {
@@ -73,18 +54,6 @@ class QuoteController extends Controller
             $ward_id = $request->ward;
         }
         $address = $request->Add;
-        // if ($request->utypeadd == "Nhận tại VP Sóc Sơn") {
-        //     $ward_id = "13900";
-        // }
-        // if ($request->utypeadd == "Nhận tại VP Đào Tấn") {
-        //     $address = "Nhận tại VP Đào Tấn";
-        //     $ward_id = "11800";
-        // } else {
-        //     $address = $request->Add;
-        // }
-        // if ($request->utypeadd == "Nhận tại VP Tân Bình HCM") {
-        //     $ward_id = "76000";
-        // }
 
         $tracking = explode(" ", $request->TrackingSaiko);
 
@@ -96,12 +65,11 @@ class QuoteController extends Controller
         $arr_created = array();
         $insurance = str_replace(',', '', $request->insurance);
         $special_price = str_replace(',', '', $request->special_price);
-
         $create_shipment = Http::withHeaders([
             'Accept' => 'application/json',
-            'X-Firebase-IDToken' => $this->cookie_token($request) ? $this->cookie_token($request) : $request->token,
+            'X-Firebase-IDToken' => $request->idToken ? $request->idToken : $this->cookie_token($request),
         ]);
-        $create_shipment = $create_shipment->post('https://dev-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
+        $create_shipment = $create_shipment->post('https://prod-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
             'shipment_method_id' => $shipping, //đường vận chuyển
             'type' => 'shipment',
             'trackings' => $tracking, //danh sách tracking
@@ -121,7 +89,7 @@ class QuoteController extends Controller
         ]);
         if ($create_shipment->status() == 401) {
             $arr_created[] = ['code' => $create_shipment->status()];
-            session()->forget('idToken');
+            $this->deleteCheckSession();
             $this->deleteCookie();
             return response()->json($arr_created);
         }

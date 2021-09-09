@@ -556,7 +556,6 @@
 </section>
 @include('modules.footer')
 <script>
-    let id_session = "{{Session::get('idToken')}}"
 
     function toggleLoading() {
         $('.tmn-custom-mask').toggleClass('d-none');
@@ -669,7 +668,7 @@
         //     })
         // })
         $("#send_infor_tracking").click(function() {
-
+            const id_session = "{{Session::has('idToken')}}";
             let OptionAdd = $('#utypeadd').val();
             let AddRev = $("#UaddNumber").val();
             if (OptionAdd.length > 5) {
@@ -746,7 +745,7 @@
             $("#modal_qoute").hide()
             $("#table_showCreatedTrackings").empty()
 
-            if (id_session != "") {
+            if (id_session) {
                 if (checkToken()) {
                     let idToken = getToken();
                     $.ajax({
@@ -756,7 +755,7 @@
                         type: 'POST',
                         url: "{{ route('rq_tk.store') }}",
                         data: {
-                            token: idToken,
+                            idToken: idToken,
                             special_price: special_price,
                             insurance: insurance_price,
                             utypeadd: utypeadd,
@@ -784,33 +783,18 @@
                             $("#table_showResultCreatedTrackings").empty()
                             $.each(response, function(index, value) {
                                 if (value.code == 401) {
-                                    removeToken()
-                                    firebase.auth().signOut().then(() => {
-                                        // Sign-out successful.
-                                        swal({
-                                            title: "Vui lòng đăng nhập lại",
-                                            type: "warning",
-                                            icon: "warning",
-                                            showCancelButton: false,
-                                            confirmButtonColor: "#fca901",
-                                            confirmButtonText: "Exit",
-                                            closeOnConfirm: true
-                                        }).then((check) => {
-                                            window.location.href ="{{ route('auth.logout') }}"
-                                        })
-                                    }).catch((error) => {
-                                        swal({
-                                            title: "Warning logout:" + error.message,
-                                            type: "warning",
-                                            icon: "warning",
-                                            showCancelButton: false,
-                                            confirmButtonColor: "#fca901",
-                                            confirmButtonText: "Exit",
-                                            closeOnConfirm: true
-                                        }).then((check) => {
-                                            window.location.href = "{{ route('auth.logout') }}"
-                                        })
-                                    });
+                                    refreshToken(value.code);
+                                    swal({
+                                        title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                                        type: "warning",
+                                        icon: "warning",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#fca901",
+                                        confirmButtonText: "Exit",
+                                        closeOnConfirm: true
+                                    }).then((check) => {
+                                        window.location.reload()
+                                    })
                                 }
                                 if (value.code == 201) {
                                     $("#table_showResultCreatedTrackings").append(
@@ -883,7 +867,7 @@
                                     type: 'POST',
                                     url: "{{ route('rq_tk.store') }}",
                                     data: {
-                                        token: idToken,
+                                        idToken: idToken,
                                         special_price: special_price,
                                         insurance: insurance_price,
                                         utypeadd: utypeadd,
@@ -913,33 +897,18 @@
                                         $.each(response, function(index,
                                             value) {
                                             if (value.code == 401) {
-                                                firebase.auth().signOut().then(() => {
-                                                    // Sign-out successful.
-                                                    swal({
-                                                        title: "Vui lòng đăng nhập lại",
-                                                        type: "warning",
-                                                        icon: "warning",
-                                                        showCancelButton: false,
-                                                        confirmButtonColor: "#fca901",
-                                                        confirmButtonText: "Exit",
-                                                        closeOnConfirm: true
-                                                    }).then((check) => {
-                                                        window.location.href = "{{ route('auth.index') }}"
-                                                    })
-                                                }).catch((error) => {
-                                                    swal({
-                                                        title: "Warning:" + error.message,
-                                                        type: "warning",
-                                                        icon: "warning",
-                                                        showCancelButton: false,
-                                                        confirmButtonColor: "#fca901",
-                                                        confirmButtonText: "Exit",
-                                                        closeOnConfirm: true
-                                                    }).then((check) => {
-                                                            window.location.href = "{{ route('auth.index') }}"
-                                                        }
-                                                    )
-                                                });
+                                                refreshToken(value.code);
+                                                swal({
+                                                    title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                                                    type: "warning",
+                                                    icon: "warning",
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: "#fca901",
+                                                    confirmButtonText: "Exit",
+                                                    closeOnConfirm: true
+                                                }).then((check) => {
+                                                    window.location.reload()
+                                                })
                                             }
                                             if (value.code == 201) {
                                                 $("#table_showResultCreatedTrackings")
@@ -1009,276 +978,116 @@
                         }
                     });
                 }
-
             } else {
-                var email = "sale@saikoexpress.com";
-                var password = "{{config('services.saiko.password')}}";
-                if (checkToken()) {
-                    let idToken = getToken();
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type: 'POST',
-                        url: "{{ route('rq_tk.store') }}",
-                        data: {
-                            token: idToken,
-                            special_price: special_price,
-                            insurance: insurance_price,
-                            utypeadd: utypeadd,
-                            TrackingSaiko: Tracking,
-                            Phone: Phone,
-                            Name_Send: Name_Send,
-                            Number_Send: Number_Send,
-                            Name_Rev: Name_Rev,
-                            Add: AddRev,
-                            Type: Type,
-                            Note: Note,
-                            Reparking: Reparking,
-                            ShipAir: ShipAir,
-                            ShipSea: ShipSea,
-                            Location: '203.205.41.135',
-                            Code_Add: Code_Add,
-                            province: province,
-                            district: district,
-                            ward: ward,
-                            checkAir: checkAir,
-                            checkSea: checkSea,
-                            merge_box: merge_box,
-                        },
-                        success: function(response) {
-                            $("#table_showResultCreatedTrackings").empty()
-                            $.each(response, function(index, value) {
-                                if (value.code == 401) {
-                                    removeToken()
-                                    firebase.auth().signOut().then(() => {
-                                        // Sign-out successful.
-                                        swal({
-                                            title: "Vui lòng đăng nhập lại",
-                                            type: "warning",
-                                            icon: "warning",
-                                            showCancelButton: false,
-                                            confirmButtonColor: "#fca901",
-                                            confirmButtonText: "Exit",
-                                            closeOnConfirm: true
-                                        }).then((check) => {
-                                            window.location.href ="{{ route('auth.logout') }}"
-                                        })
-                                    }).catch((error) => {
-                                        swal({
-                                            title: "Warning logout:" + error.message,
-                                            type: "warning",
-                                            icon: "warning",
-                                            showCancelButton: false,
-                                            confirmButtonColor: "#fca901",
-                                            confirmButtonText: "Exit",
-                                            closeOnConfirm: true
-                                        }).then((check) => {
-                                            window.location.href = "{{ route('auth.logout') }}"
-                                        })
-                                    });
-                                }
-                                if (value.code == 201) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:green;border:none !important;text-align:center'>" +
-                                        value
-                                        .message + " " +
-                                        "<i class='fa fa-check' style='color:green'></i>" +
-                                        "</td>" +
-                                        "</tr>"
-                                    )
-                                    $('#message').html('');
-                                    $('#exitForm').hide();
-                                    $('#exitSuccess').show();
-                                    $('#show_result').show();
-                                }
-                                if (value.code == 405) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:#fca901;border:none !important;text-align:center'>" +
-                                        value
-                                        .message + " " +
-                                        "<span><i class='fa fa-warning'></i></span>" +
-                                        "</td>" + "</tr>"
-                                    )
-                                    $('#message').html('');
-                                    $('#exitForm').hide();
-                                    $('#exitSuccess').show();
-                                    $('#show_result').show();
-                                }
-                                if (value.code == 422) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:red;border:none !important;text-align:center'>" +
-                                        value
-                                        .message + " " +
-                                        "<span><i class='fa fa-times'></i></span>" +
-                                        "</td>" +
-                                        "</tr>"
-                                    )
-                                    $('#message').html('');
-                                    $('#exitForm').hide();
-                                    $('#exitSuccess').show();
-                                    $('#show_result').show();
-                                }
-                            })
-
-                        },
-                        error: function(res) {
-                            if (res.status == 419) {
-                                window.location.reload()
-                            } else {
-                                console.log(res)
-                            }
-                        }
-                    });
-                }else{
-                    firebase.auth().signInWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        firebase.auth().currentUser.getIdToken( /* forceRefresh */ false).then(
-                            function(token_gg) {
-                                setToken(token_gg)
-                                let idToken = getToken();
-                                $.ajax({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $(
-                                            'meta[name="csrf-token"]'
-                                        ).attr('content')
-                                    },
-                                    type: 'POST',
-                                    url: "{{ route('rq_tk.store') }}",
-                                    data: {
-                                        token: idToken,
-                                        special_price: special_price,
-                                        insurance: insurance_price,
-                                        utypeadd: utypeadd,
-                                        TrackingSaiko: Tracking,
-                                        Phone: Phone,
-                                        Name_Send: Name_Send,
-                                        Number_Send: Number_Send,
-                                        Name_Rev: Name_Rev,
-                                        Add: AddRev,
-                                        Type: Type,
-                                        Note: Note,
-                                        Reparking: Reparking,
-                                        ShipAir: ShipAir,
-                                        ShipSea: ShipSea,
-                                        Location: '203.205.41.135',
-                                        Code_Add: Code_Add,
-                                        province: province,
-                                        district: district,
-                                        ward: ward,
-                                        checkAir: checkAir,
-                                        checkSea: checkSea,
-                                        merge_box: merge_box,
-                                    },
-                                    success: function(response) {
-                                        $("#table_showResultCreatedTrackings")
-                                            .empty()
-                                        $.each(response, function(
-                                            index, value) {
-                                            if (value.code == 401) {
-                                                swal({
-                                                    title: "Mã xác thực hết hạn. Load lại trang",
-                                                    type: "warning",
-                                                    icon: "warning",
-                                                    showCancelButton: false,
-                                                    confirmButtonColor: "#fca901",
-                                                    confirmButtonText: "Exit",
-                                                    closeOnConfirm: true
-                                                }).then((check) => {
-                                                    window.location.href = "{{ route('auth.index') }}"
-                                                })
-                                            }
-                                            if (value.code == 201) {
-                                                $("#table_showResultCreatedTrackings").append(
-                                                    "<tr style='border:none'>" +
-                                                    "<td style='color:green;border:none !important;text-align:center'>" +
-                                                    value
-                                                    .message +
-                                                    " " +
-                                                    "<i class='fa fa-check' style='color:green'></i>" +
-                                                    "</td>" +
-                                                    "</tr>"
-                                                )
-                                            }
-                                            if (value.code == 405) {
-                                                $("#table_showResultCreatedTrackings").append(
-                                                    "<tr style='border:none'>" +
-                                                    "<td style='color:#fca901;border:none !important;text-align:center'>" +
-                                                    value
-                                                    .message +
-                                                    " " +
-                                                    "<span><i class='fa fa-warning'></i></span>" +
-                                                    "</td>" +
-                                                    "</tr>"
-                                                )
-                                            }
-                                            if (value.code == 422) {
-                                                $("#table_showResultCreatedTrackings").append(
-                                                    "<tr style='border:none'>" +
-                                                    "<td style='color:red;border:none !important;text-align:center'>" +
-                                                    value.message +
-                                                    " " +
-                                                    "<span><i class='fa fa-times'></i></span>" +
-                                                    "</td>" +
-                                                    "</tr>"
-                                                )
-                                            }
-                                        })
-                                        $('#message').html('');
-                                        $('#exitForm').hide();
-                                        $('#exitSuccess').show();
-                                        $('#show_result').show();
-                                    },
-                                    error: function(res) {
-                                        if (res.status == 419) {
-                                            swal({
-                                                title: "Mã duyệt hết hạn. Load lại trang",
-                                                type: "warning",
-                                                icon: "warning",
-                                                showCancelButton: false,
-                                                confirmButtonColor: "#fca901",
-                                                confirmButtonText: "Exit",
-                                                closeOnConfirm: true
-                                            }).then(()=>{
-                                                window.location.reload()
-                                            })
-                                        } else {
-                                            console.log(res)
-                                        }
-                                    }
-                                });
-                            }).catch((error) => {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $(
+                            'meta[name="csrf-token"]'
+                        ).attr('content')
+                    },
+                    type: 'POST',
+                    url: "{{ route('rq_tk.store') }}",
+                    data: {
+                        special_price: special_price,
+                        insurance: insurance_price,
+                        utypeadd: utypeadd,
+                        TrackingSaiko: Tracking,
+                        Phone: Phone,
+                        Name_Send: Name_Send,
+                        Number_Send: Number_Send,
+                        Name_Rev: Name_Rev,
+                        Add: AddRev,
+                        Type: Type,
+                        Note: Note,
+                        Reparking: Reparking,
+                        ShipAir: ShipAir,
+                        ShipSea: ShipSea,
+                        Location: '203.205.41.135',
+                        Code_Add: Code_Add,
+                        province: province,
+                        district: district,
+                        ward: ward,
+                        checkAir: checkAir,
+                        checkSea: checkSea,
+                        merge_box: merge_box,
+                    },
+                    success: function(response) {
+                        $("#table_showResultCreatedTrackings").empty()
+                        $.each(response, function(index, value) {
+                            if (value.code == 401) {
+                                refreshToken(value.code);
                                 swal({
-                                    title: "Warning get token:" + error.message,
+                                    title: "Mã xác thực hết hạn vui lòng tải lại trang",
                                     type: "warning",
                                     icon: "warning",
                                     showCancelButton: false,
                                     confirmButtonColor: "#fca901",
                                     confirmButtonText: "Exit",
                                     closeOnConfirm: true
+                                }).then((check) => {
+                                    window.location.reload()
                                 })
+                            }
+                            if (value.code == 201) {
+                                $("#table_showResultCreatedTrackings").append(
+                                    "<tr style='border:none'>" +
+                                    "<td style='color:green;border:none !important;text-align:center'>" +
+                                    value
+                                    .message +
+                                    " " +
+                                    "<i class='fa fa-check' style='color:green'></i>" +
+                                    "</td>" +
+                                    "</tr>"
+                                )
+                            }
+                            if (value.code == 405) {
+                                $("#table_showResultCreatedTrackings").append(
+                                    "<tr style='border:none'>" +
+                                    "<td style='color:#fca901;border:none !important;text-align:center'>" +
+                                    value.message +
+                                    " " +
+                                    "<span><i class='fa fa-warning'></i></span>" +
+                                    "</td>" +
+                                    "</tr>"
+                                )
+                            }
+                            if (value.code == 422) {
+                                $("#table_showResultCreatedTrackings").append(
+                                    "<tr style='border:none'>" +
+                                    "<td style='color:red;border:none !important;text-align:center'>" +
+                                    value.message +
+                                    " " +
+                                    "<span><i class='fa fa-times'></i></span>" +
+                                    "</td>" +
+                                    "</tr>"
+                                )
+                            }
                         })
-                    }).catch((error) => {
-                        swal({
-                            title: "Warning :" + error.message,
-                            type: "warning",
-                            icon: "warning",
-                            showCancelButton: false,
-                            confirmButtonColor: "#fca901",
-                            confirmButtonText: "Exit",
-                            closeOnConfirm: true
-                        })
-                    })
-                }
-
+                        $('#message').html('');
+                        $('#exitForm').hide();
+                        $('#exitSuccess').show();
+                        $('#show_result').show();
+                    },
+                    error: function(res) {
+                        if (res.status == 419) {
+                            swal({
+                                title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                                type: "warning",
+                                icon: "warning",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            }).then(()=>{
+                                window.location.reload()
+                            })
+                        } else {
+                            console.log(res)
+                        }
+                    }
+                });
             }
-
         })
-
-
     });
 
     function exitSuccess() {

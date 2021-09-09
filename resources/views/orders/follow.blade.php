@@ -228,41 +228,7 @@
                                 </ul>
                             </div>
                         </div>
-                        {{-- <div class="col-md-6 col-sm-6">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered" id="table_item" style="display:none">
-                                    <thead>
-                                        <tr>
-                                        <th style="text-align: center">STT</th>
-                                        <th style='width:100px;text-align:center'>Số Lượng</th>
-                                        <th>Tên Sản Phẩm</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="load_item">
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div> --}}
-
-
                     </div>
-                    {{-- <div class="underline table-responsive" style="display:none" id="table-firt-vnpost">
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th style="text-align: center;">Mã Dịch Vụ</th>
-                                    <th style="text-align: center;">Phương thức vận chuyển</th>
-                                    <th style="text-align: center;">Cước COD</th>
-                                    <th style="text-align: center;">Tổng Cước Sau VAT</th>
-                                    <th style="text-align: center;">Tổng tiền</th>
-                                </tr>
-                            </thead>
-                            <tbody id="body-table-firt-vnpost">
-
-                            </tbody>
-                        </table>
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -303,7 +269,7 @@
             });
             $('#tracking_form').submit(function(e) {
                 e.preventDefault();
-                let idToken = getToken()
+                let idToken = getToken();
                 $("#declaration_price").hide()
                 $("#alert").hide()
                 $("#table_price_shipping").addClass('d-none')
@@ -350,7 +316,7 @@
                                 confirmButtonText: "Exit",
                                 closeOnConfirm: true
                             }).then(()=>{
-                                window.location.href="{{route('auth.logout')}}"
+                                window.location.reload()
                             })
                         }
                         if (res?.code == 404) {
@@ -1248,6 +1214,7 @@
         })
         //show log by id
         function check(id_box, vnpost, created_at, fee, method, logs_merge, pay_money, length_order) {
+            var idToken = getToken();
             var id_box = id_box;
             $.ajax({
                 headers: {
@@ -1256,12 +1223,13 @@
                 type: "POST",
                 url: "{{ route('rq_tk.getInforBox') }}",
                 data: {
+                    idToken:idToken,
                     id_box: id_box
                 },
                 success: function(res) {
                     if(res == 401){
                         swal({
-                            title: "Mã xác thực hết hạn. Load lại trang",
+                            title: "Mã xác thực hết hạn vui lòng tải lại trang",
                             type: "warning",
                             icon: "warning",
                             showCancelButton: false,
@@ -1304,24 +1272,7 @@
                                 status = "Lên đơn hàng"
                             }
                             if (keyObject == "in_container" || keyObject == "in_container,from,to") {
-                                // var parts = value.created_at.split('-')
-                                // var year = parts[2].split(' ')
-                                // var getDate = new Date(year[0],parts[1]-1,parts[0])
-                                // var now = new Date()
-                                // var date_arv = getDate-now;
-                                // var add_date;
-                                // var check_method = method.charAt(0).toUpperCase() + method.slice(1);
-                                // if(check_method =="Air"){
-                                //     add_date=6;
-                                // }else{
-                                //     add_date = 30;
-                                // }
-                                // var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+add_date
-                                // if(expected_date > 0) {
-                                //     status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
-                                // }else{
                                 status = "Xuất kho Nhật"
-                                // }
                             }
                             if (keyObject == "out_container") {
                                 status = "Nhập kho Việt Nam"

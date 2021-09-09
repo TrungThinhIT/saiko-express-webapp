@@ -25,6 +25,27 @@ class AuthController extends Controller
         return response()->json(['code' => $data->status(), 'data' => $data->body()]);
     }
 
+    public function setSessionSK(Request $request)
+    {
+        $user = Http::withHeaders(
+            [
+                'Accept' => 'application/json',
+                'X-Firebase-IdToken' => $request->idToken,
+            ]
+        )->get('https://prod-auth.tomonisolution.com/api/me');
+
+        if ($user->status() == 200) {
+            $user = json_decode($user->body(), true);
+            $token = ['idToken' => $request->idToken];
+            $user_token = array_merge($user, $token);
+            $value = serialize($user_token);
+
+            session()->put("checkToken", $value);
+            return response()->json(['code' => 200, 'data' => $user_token]);
+        }
+        return response()->json(['code' => $user->status(), 'data' => $user->body()]);
+    }
+
     public function login(Request $request)
     {
         $user = Http::withHeaders(
@@ -32,7 +53,7 @@ class AuthController extends Controller
                 'Accept' => 'application/json',
                 'X-Firebase-IdToken' => $request->idToken,
             ]
-        )->get('https://dev-auth.tomonisolution.com/api/me');
+        )->get('https://prod-auth.tomonisolution.com/api/me');
 
         if ($user->status() == 200) {
             $user = json_decode($user->body(), true);
@@ -41,6 +62,7 @@ class AuthController extends Controller
             $value = serialize($user_token);
 
             session()->put("idToken", $value);
+            session()->forget("checkToken");
 
             return response()->json(['code' => 200, 'data' => $user_token]);
         }
@@ -50,8 +72,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Cookie::queue(Cookie::forget('idToken'));
-        session()->forget('idToken');
+        $this->deleteCookie();
+        $this->deleteSession();
         return redirect()->route('auth.index');
     }
 
@@ -70,8 +92,10 @@ class AuthController extends Controller
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
             'X-Firebase-IdToken' => $token,
-        ])->get('https://dev-accounting.tomonisolution.com/api/accounts', $param_search_account);
+        ])->get('https://prod-accounting.tomonisolution.com/api/accounts', $param_search_account);
         if ($account->status() == 401) {
+            $this->deleteSession();
+            $this->deleteCookie();
             return redirect()->route('auth.logout');
         }
         $account = json_decode($account, true);
@@ -81,14 +105,13 @@ class AuthController extends Controller
 
     public function updateUser(Request $request)
     {
-
         $data = $request->session()->get('idToken');
         $data = unserialize($data);
         $token = $data['idToken'];
         $resultUpdate = Http::withHeaders([
             'Accept' => 'application/json',
             'X-Firebase-IdToken' => $token,
-        ])->put('https://dev-auth.tomonisolution.com/api/me/password', $request->all());
+        ])->put('https://prod-auth.tomonisolution.com/api/me/password', $request->all());
 
         return response()->json(['code' => $resultUpdate->status(), 'data' => $resultUpdate->body()]);
     }
