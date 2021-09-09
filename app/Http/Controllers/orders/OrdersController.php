@@ -57,7 +57,7 @@ class OrdersController extends Controller
             $params['searchJoin'] = 'and';
         };
 
-        $send = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders/shipment', $params);
+        $send = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders/shipment', $params);
 
         if ($request->wantsJson()) {
             if ($send->status() == 401) {
@@ -103,7 +103,7 @@ class OrdersController extends Controller
         $param = [
             'search' => 'country_id:vn',
         ];
-        $provinces = Http::withHeaders($header)->get('https://prod-notification.tomonisolution.com/api/provinces', $param);
+        $provinces = Http::withHeaders($header)->get('https://dev-notification.tomonisolution.com/api/provinces', $param);
 
         $data = collect(json_decode($provinces->body()));
         return view('orders.create', compact('data'));
@@ -135,7 +135,7 @@ class OrdersController extends Controller
             'X-Firebase-IDToken' => $request->idToken,
         ]);
 
-        $create_shipment = $create_shipment->post('https://prod-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
+        $create_shipment = $create_shipment->post('https://dev-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
             'shipment_method_id' => $request->method, //đường vận chuyển
             'type' => 'shipment',
             'trackings' => $tracking, //danh sách tracking
@@ -191,7 +191,7 @@ class OrdersController extends Controller
             'with' => 'shipmentInfo;trackings',
         ];
 
-        $order = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders', $params);
+        $order = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders', $params);
         if ($order->status() == 401) {
             $this->deleteCookie();
             $this->deleteSession();
@@ -281,7 +281,7 @@ class OrdersController extends Controller
             'search' => 'directors.type_id:Shipment',
         ];
 
-        $listStatus = Http::withHeaders($header)->get('https://prod-order.tomonisolution.com/api/orders/statuses', $params);
+        $listStatus = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/orders/statuses', $params);
 
         $listStatus = json_decode($listStatus->body(), true);
 

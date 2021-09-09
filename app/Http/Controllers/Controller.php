@@ -93,7 +93,7 @@ class Controller extends BaseController
                 'Accept' => 'application/json',
                 'X-Firebase-IdToken' => $request->idToken ? $request->idToken : $token_checkSession,
             ]
-        )->get('https://prod-auth.tomonisolution.com/api/me');
+        )->get('https://dev-auth.tomonisolution.com/api/me');
 
         $id = 'sale.se';
 
