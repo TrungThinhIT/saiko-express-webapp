@@ -66,14 +66,14 @@
                                                     value="{{ number_format($value['service']) ? number_format($value['service']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
                                         </div>
-                                        <div class="form-group row align-items-center">
+                                        {{-- <div class="form-group row align-items-center">
                                             <label for="trip-id" class="col-sm-4 col-form-label">Tổng tiền thanh
                                                 toán</label>
                                             <div class="col-sm-8">
                                                 <input type="text" readonly class="form-control"
                                                     value="{{ number_format($value['total_debit']) ? number_format($value['total_debit']) . '   ' . $value['currency']['symbol'] : '' }}">
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="form-group row align-items-center">
                                             <label for="money-refund-jpy" class="col-sm-4 col-form-label">Tổng tiền hoàn
                                                 trả</label>
