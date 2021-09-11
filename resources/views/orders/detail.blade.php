@@ -51,7 +51,6 @@
 @section('content')
     @if (count($data['order']['data']))
         @foreach ($data['order']['data'] as $key => $value)
-            {{-- {{ dd($value) }} --}}
             <div class="col-md-12">
                 <div class="card fix-overflow">
 
@@ -67,6 +66,8 @@
                             </div>
                         </div>
                     </div>
+                    {{-- {{ dd($value) }} --}}
+
                     <div class="card-body custom-background set-overflow">
                         <div class="row">
                             <div class="col-md-6 ">
@@ -148,10 +149,23 @@
                                             thanh
                                             toán</label>
                                         <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="goods-money-paid" @if ($value['cost_of_goods_debited'] > 0) value="{{ number_format($value['cost_of_goods_paid']) . '  JPY' }}" @endif>
+                                            <input type="text" readonly class="form-control" id="goods-money-paid" @if ($value['cost_of_goods_paid'] > 0) value="{{ number_format($value['cost_of_goods_paid']) . '  JPY' }}" @endif>
                                         </div>
                                     </div>
-
+                                    <div class="form-group row align-items-center">
+                                        <label for="cost_of_goods_debited" class="col-sm-4 col-form-label">Tiền hàng
+                                            đã ghi nợ</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control" id="cost_of_goods_debited" @if ($value['cost_of_goods_debited']) value="{{ number_format($value['cost_of_goods_debited']) . '  JPY' }}" @endif>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row align-items-center">
+                                        <label for="cost_of_goods_unsolved" class="col-sm-4 col-form-label">Tiền hàng
+                                            cần ghi nợ</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control" id="cost_of_goods_unsolved" @if ($value['cost_of_goods_unsolved']) value="{{ number_format($value['cost_of_goods_unsolved']) . '  JPY' }}" @endif>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                             <div class="col-md-6">
@@ -165,6 +179,7 @@
                                                 @if ($value['cost_of_goods_outstanding']) value="{{ number_format($value['cost_of_goods_outstanding']) . '  JPY' }}" @endif>
                                         </div>
                                     </div>
+
                                     <div class="form-group row align-items-center">
                                         <label for="compensation" class="col-sm-4 col-form-label">Tiền đền bù hàng
                                             hóa</label>
@@ -173,19 +188,19 @@
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
-                                        <label for="compensation-paid" class="col-sm-4 col-form-label">Tiền đền bù đã thanh
-                                            toán</label>
+                                        <label for="compensation-paid" class="col-sm-4 col-form-label">Tiền đền bù đã ghi
+                                            nợ</label>
                                         <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="compensation-paid" @if ($value['compensation_debited'] > 0) value="{{ number_format($value['compensation_paid']) . '  JPY' }}" @endif>
+                                            <input type="text" readonly class="form-control" id="compensation-paid" @if ($value['compensation_debited'] > 0) value="{{ number_format($value['compensation_debited']) . '  JPY' }}" @endif>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
                                         <label for="compensation-outstanding" class="col-sm-4 col-form-label">Tiền đền bù
-                                            cần
-                                            trả</label>
+                                            cần trả cho khách
+                                        </label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="compensation-outstanding"
-                                                @if ($value['compensation_outstanding'] > 0) value="{{ number_format($value['compensation_outstanding']) . '  JPY' }}" @endif>
+                                                @if ($value['compensation_unsolved'] > 0) value="{{ number_format($value['compensation_unsolved']) . '  JPY' }}" @endif>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -216,22 +231,36 @@
                                     </div>
                                     <div class="form-group row align-items-center">
                                         <label for="service_fee_paid" class="col-sm-4 col-form-label">Tiền phí dịch vụ đã
-                                            thanh
-                                            toán</label>
+                                            thanh toán
+                                        </label>
                                         <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="service_fee_paid" @if ($value['service_fee_debited'] > 0) value="{{ number_format($value['service_fee_paid']) . '  VND' }}" @endif>
+                                            <input type="text" readonly class="form-control" id="service_fee_paid" @if ($value['service_fee_paid'] > 0) value="{{ number_format($value['service_fee_paid']) . '  VND' }}" @endif>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row align-items-center">
+                                        <label for="service_fee_debited" class="col-sm-4 col-form-label">Tiền phí dịch
+                                            vụ
+                                            đã ghi nợ
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control" id="service_fee_debited" @if ($value['service_fee_debited'] > 0) value="{{ number_format($value['service_fee_debited']) . '  VND' }}" @endif>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
                                         <label for="service_fee_outstanding" class="col-sm-4 col-form-label">Tiền phí dịch
-                                            vụ
-                                            cần
-                                            thanh
-                                            toán
+                                            vụ cần thanh toán
                                         </label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="service_fee_outstanding"
                                                 @if ($value['service_fee_outstanding'] > 0) value="{{ number_format($value['service_fee_outstanding']) . '  VND' }}" @endif>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row align-items-center">
+                                        <label for="service_fee_unsolved" class="col-sm-4 col-form-label">Tiền phí dịch
+                                            vụ cần ghi nợ
+                                        </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control" id="service_fee_unsolved" @if ($value['service_fee_unsolved'] > 0) value="{{ number_format($value['service_fee_unsolved']) . '  VND' }}" @endif>
                                         </div>
                                     </div>
                                 </form>

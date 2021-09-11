@@ -79,14 +79,12 @@ class AuthController extends Controller
 
     public function info(Request $request)
     {
-        // dd($request->all());
         $data = $request->session()->get('idToken');
         $data = unserialize($data);
         $token = $data['idToken'];
-        //account
+
         $param_search_account = [
-            'search' => 'user_id:' . $data['id'],
-            // 'searchFields' => 'user_id:=',
+            'search' => 'objectable_id:' . $data['id'],
         ];
         $account = Http::withHeaders([
             'Accept-Language' => 'vi',
