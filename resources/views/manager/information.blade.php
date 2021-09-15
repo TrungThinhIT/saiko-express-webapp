@@ -234,34 +234,6 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                    @else
-                                        <div class="row">
-                                            <div style="margin-bottom: 25px" class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label for="">VND</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input id="money-VND" readonly type="text" class="form-control"
-                                                            name="money-VND" value="0">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div style="margin-bottom: 25px" class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label for="">JPY</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input id="money-JPY" readonly type="text" class="form-control"
-                                                            name="money-JPY" value="0">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     @endif
                                 @endif
                             </form>

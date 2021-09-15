@@ -185,7 +185,7 @@ class OrdersController extends Controller
         ];
 
         $params = [
-            'appends' => 'customer;transactions.receipts;owningBoxes.pivotLadingBills;logs',
+            'appends' => 'customer;transactions.receipts;transactions.type;owningBoxes.pivotLadingBills;logs',
             'search' => 'id:' . $id,
             'searchField' => '=',
             'with' => 'shipmentInfo;trackings',
