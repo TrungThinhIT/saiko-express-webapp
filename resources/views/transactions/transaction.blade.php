@@ -60,7 +60,7 @@
                                     <option value="all">Tất cả</option>
                                     <option value="deposit">Nộp tiền </option>
                                     <option value="payment-sale">Thanh toán đơn mua hàng </option>
-                                    <option value="payment-service">Thanh toán phí vận chuyển </option>
+                                    <option value="payment-service">Thanh toán phí dịch vụ </option>
                                 </select>
                             </div>
 

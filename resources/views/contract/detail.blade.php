@@ -67,20 +67,20 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row ">
-                        <div class="col-12 p-4">
+                        <div class="col-12 p-3">
                             <label for="" class="font-weight-light">Tên lô hàng</label>
                             <input type="text" class="form-control color-custom" value="{{ $data['id'] }}" readonly>
                         </div>
-                        <div class="col-12 p-4">
+                        <div class="col-12 p-3">
                             <label for="" class="font-weight-light">Ngày bắt đầu</label>
                             <input type="text" class="form-control color-custom" value="{{ $data['start_date'] }}"
                                 readonly>
                         </div>
-                        <div class="col-12 p-4">
+                        <div class="col-12 p-3">
                             <label for="" class="font-weight-light">Ngày kết thúc</label>
                             <input type="text" class="form-control color-custom" value="{{ $data['end_date'] }}" readonly>
                         </div>
-                        <div class="col-12 p-4">
+                        <div class="col-12 p-3">
                             <label for="" class="font-weight-light">Phí ship đường bay</label>
                             <div class="input-group mb-2 mr-sm-2">
                                 <input type="text" class="form-control color-custom"
@@ -90,7 +90,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 p-4">
+                        <div class="col-12 p-3">
                             <label for="" class="font-weight-light">Phí ship đường biển</label>
                             <div class="input-group mb-2 mr-sm-2">
                                 <input type="text" class="form-control color-custom"
@@ -98,6 +98,13 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-12 p-3">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <label for="" class="font-weight-light">Trạng thái</label>
+                                <label class="{{ $data['closed'] ? 'bg-danger' : 'bg-info' }} p-1 rounded text-white"
+                                    for="">{{ $data['closed'] ? 'Đã đóng' : 'Chưa đóng' }}</label>
                             </div>
                         </div>
                     </div>
@@ -252,7 +259,7 @@
                 <div class="car-header border-bottom">
                     <div class="card-title">
                         <div class="card-label mt-3 pl-4">
-                            Danh sách đơn hàng:
+                            Danh sách đơn hàng
                         </div>
                     </div>
                 </div>
@@ -353,8 +360,8 @@
                                                     <div class="col-md-3">
                                                         <a href="javascript:" data-id="{{ $item['id'] }}"
                                                             onclick="showInfoOrder(this)" data-toggle="modal"
-                                                            data-target=".modal-tracking">
-                                                            <i class="fa fa-eye"></i>
+                                                            data-target=".modal-tracking">Chi tiết
+                                                            <i class="fa fa-arrow-right"></i>
                                                         </a>
                                                     </div>
                                                 </div>
@@ -407,7 +414,7 @@
                                                 </div>
                                                 <div>
                                                     <span>Tài khoản</span>
-                                                    <span class="text-uppercase font-weight-bold">
+                                                    <span class="font-weight-bold">
                                                         {{ $item_transaction['objectable_id'] }}
                                                     </span>
                                                 </div>

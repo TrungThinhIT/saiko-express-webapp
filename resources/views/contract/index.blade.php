@@ -106,7 +106,11 @@
                                     </td>
                                     <td>{{ $item['service_fee'] ? number_format($item['service_fee']) . ' VND' : '' }}</td>
                                     <td>{{ $item['shipping_fee'] ? number_format($item['shipping_fee']) . ' VND' : '' }}</td>
-                                    <td>{{ $item['closed'] ? 'Đã đóng' : 'Chưa đóng' }}</td>
+                                    <td>
+                                        <span
+                                            class="p-2 rounded {{ $item['closed'] ? 'bg-danger' : 'bg-info' }}">{{ $item['closed'] ? 'Đã đóng' : 'Chưa đóng' }}
+                                        </span>
+                                    </td>
                                 </tr>
                             @endforeach
                         @endisset

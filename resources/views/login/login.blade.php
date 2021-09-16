@@ -375,6 +375,10 @@
     @include('modules.footer')
 </body>
 <script>
+    function validateEmail(email) {
+        const re =/^([a-z0-9]+)(\.[a-z0-9]+)*@([a-z0-9]+\.)+[a-z]{2,6}$/i;
+        return re.test(email);
+    }
     //login
     function signInWithEmailPassword() {
         firebase.auth().signOut().then(() => {
@@ -436,6 +440,19 @@
         var email = $("#email").val();
         var password = $("#password").val();
         var repassword = $("#repassword").val();
+        if(!validateEmail(email)){
+            swal({
+                title: "Không đúng định dạng email",
+                type: "warning",
+                icon: "warning",
+                showCancelButton: false,
+                confirmButtonColor: "#fca901",
+                confirmButtonText: "Exit",
+                closeOnConfirm: true
+                // ...
+            })
+            return false;
+        }
         if (repassword !== password) {
             swal({
                 title: "Mật khẩu không trùng khớp",
@@ -466,7 +483,7 @@
                             confirmButtonText: "Exit",
                             closeOnConfirm: true
                             // ...
-                        }).then((check)=>{
+                        }).then((check) => {
                             console.log('a')
                             $.ajax({
                                 type: "POST",
@@ -476,7 +493,8 @@
                                 },
                                 success: function(respone) {
                                     if (respone.code == 200) {
-                                        window.location.href = "{{ route('orders.create') }}";
+                                        window.location.href =
+                                            "{{ route('orders.create') }}";
                                     } else {
                                         $("#alert-errors").empty()
                                         $("#alert-errors").append(

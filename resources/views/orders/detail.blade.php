@@ -47,10 +47,38 @@
             background-color: orange !important;
         }
 
+        .currency-corlor-custom {
+            color: darkslateblue !important;
+        }
+
     </style>
 @section('content')
     @if (count($data['order']['data']))
         @foreach ($data['order']['data'] as $key => $value)
+            @php
+                switch ($value['status']['id']) {
+                    case 'Pending':
+                        $background = 'bg-warning p-1 rounded text-white';
+                        break;
+                    case 'Approved':
+                        $background = 'bg-success p-1 rounded text-white';
+                        break;
+                    case 'ReceivedAtWarehouse':
+                        $background = 'bg-primary p-1 rounded text-white';
+                        break;
+                    case 'Paid':
+                        $background = 'bg-info p-1 rounded text-white';
+                        break;
+                    case 'Finish':
+                        $background = 'bg-secondary p- rounded text-white';
+                        break;
+                    case 'Cancelled':
+                        $background = 'bg-danger p-1 rounded text-white';
+                        break;
+                    default:
+                        $background = '';
+                }
+            @endphp
             <div class="col-md-12">
                 <div class="card fix-overflow">
 
@@ -82,30 +110,46 @@
                                     <div class="form-group row align-items-center">
                                         <label for="tracking-id" class="col-sm-4 col-form-label">Mã tracking</label>
                                         <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="tracking-id" @if (isset($value['trackings'][0]['id'])) value="{{ $value['trackings'][0]['id'] }}" @endif>
+                                            <div>
+                                                @if (isset($value['trackings'][0]['id']))
+                                                    <span class="bg-info p-1 rounded text-white">
+                                                        {{ $value['trackings'][0]['id'] }}
+                                                    </span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
                                         <label for="status" class="col-sm-4 col-form-label">Trạng thái</label>
                                         <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="status"
-                                                value="{{ $value['status']['name'] }}">
+                                            <div>
+                                                <span class="{{ $background }}"
+                                                    style="width: max-contnent">{{ $value['status']['name'] }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
-                                        <label for="insuarance-price" class="col-sm-4 col-form-label">Tiền báo giá bảo
+                                        <label for="" class="col-sm-4 col-form-label">Tiền báo giá bảo
                                             hiểm</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="insuarance-price" @if ($value['insurance_declaration']) value="{{ number_format($value['insurance_declaration']) . '  VND' }}" @endif>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="insuarance-price" @if ($value['insurance_declaration'] != 0) value="{{ number_format($value['insurance_declaration']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
-                                        <label for="special-goods-price" class="col-sm-4 col-form-label">Tiền báo giá
+                                        <label for="" class="col-sm-4 col-form-label">Tiền báo giá
                                             hàng
                                             đặc
                                             biệt</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="special-goods-price" @if ($value['special_declaration']) value="{{ number_format($value['special_declaration']) . '  VND' }}" @endif>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="special-goods-price" @if ($value['special_declaration'] != 0) value="{{ number_format($value['special_declaration']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
@@ -130,40 +174,52 @@
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
-                                        <label for="updated_at" class="col-sm-4 col-form-label">Cập nhật cuối
-                                            cùng</label>
+                                        <label for="updated_at" class="col-sm-4 col-form-label">Cập nhật cuối cùng</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control" id="updated_at"
                                                 value="{{ $value['updated_at'] }}">
                                         </div>
                                     </div>
+
                                     <div class="form-group row align-items-center">
-                                        <label for="goods-money" class="col-sm-4 col-form-label">Tiền hàng</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="goods-money" @if ($value['cost_of_goods'] > 0) value="{{ number_format($value['cost_of_goods']) . '  JPY' }}" @endif>
+                                        <label for="" class="col-sm-4 col-form-label">Tiền hàng</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="goods-money" @if ($value['cost_of_goods'] != 0) value="{{ number_format($value['cost_of_goods']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
-                                        <label for="goods-money-paid" class="col-sm-4 col-form-label">Tiền hàng
-                                            đã
-                                            thanh
-                                            toán</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="goods-money-paid" @if ($value['cost_of_goods_paid'] > 0) value="{{ number_format($value['cost_of_goods_paid']) . '  JPY' }}" @endif>
+                                        <label for="" class="col-sm-4 col-form-label">Tiền hàng đã thanh toán</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="goods-money-paid" @if ($value['cost_of_goods_paid'] != 0) value="{{ number_format($value['cost_of_goods_paid']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <label for="" class="col-sm-4 col-form-label">Tiền hàng cần ghi nợ</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="cost_of_goods_unsolved" @if ($value['cost_of_goods_unsolved'] != 0) value="{{ number_format($value['cost_of_goods_unsolved']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
-                                        <label for="cost_of_goods_debited" class="col-sm-4 col-form-label">Tiền hàng
-                                            đã ghi nợ</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="cost_of_goods_debited" @if ($value['cost_of_goods_debited']) value="{{ number_format($value['cost_of_goods_debited']) . '  JPY' }}" @endif>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="cost_of_goods_unsolved" class="col-sm-4 col-form-label">Tiền hàng
-                                            cần ghi nợ</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="cost_of_goods_unsolved" @if ($value['cost_of_goods_unsolved']) value="{{ number_format($value['cost_of_goods_unsolved']) . '  JPY' }}" @endif>
+                                        <label for="" class="col-sm-4 col-form-label">Tiền hàng đã ghi nợ</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="cost_of_goods_unsolved" @if ($value['cost_of_goods_debited'] != 0) value="{{ number_format($value['cost_of_goods_debited']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
@@ -171,96 +227,136 @@
                             <div class="col-md-6">
                                 <form>
                                     <div class="form-group row align-items-center">
-                                        <label for="goods-money-outstanding" class="col-sm-4 col-form-label">Tiền hàng cần
-                                            thanh
-                                            toán</label>
-                                        <div class="col-sm-8">
+                                        <label for="" class="col-sm-4 col-form-label">Tiền hàng cần thanh toán</label>
+                                        <div class="col-sm-8 d-flex">
                                             <input type="text" readonly class="form-control" id="goods-money-outstanding"
-                                                @if ($value['cost_of_goods_outstanding']) value="{{ number_format($value['cost_of_goods_outstanding']) . '  JPY' }}" @endif>
+                                                @if ($value['cost_of_goods_outstanding'] != 0) value="{{ number_format($value['cost_of_goods_outstanding']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group row align-items-center">
-                                        <label for="compensation" class="col-sm-4 col-form-label">Tiền đền bù hàng
-                                            hóa</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="compensation" @if ($value['compensation']) value="{{ number_format($value['compensation']) . '  JPY' }}" @endif>
+                                        <label for="" class="col-sm-4 col-form-label">Tiền đền bù hàng hóa</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="compensation" @if ($value['compensation'] != 0) value="{{ number_format($value['compensation']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
-                                        <label for="compensation-paid" class="col-sm-4 col-form-label">Tiền đền bù đã ghi
-                                            nợ</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="compensation-paid" @if ($value['compensation_debited'] > 0) value="{{ number_format($value['compensation_debited']) . '  JPY' }}" @endif>
+                                        <label for="" class="col-sm-4 col-form-label">Tiền đền bù đã ghi nợ</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="compensation-paid" @if ($value['compensation_debited'] != 0) value="{{ number_format($value['compensation_debited']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
                                     <div class="form-group row align-items-center">
-                                        <label for="compensation-outstanding" class="col-sm-4 col-form-label">Tiền đền bù
-                                            cần trả cho khách
-                                        </label>
-                                        <div class="col-sm-8">
+                                        <label for="" class="col-sm-4 col-form-label">Tiền đền bù cần trả cho khách</label>
+                                        <div class="col-sm-8 d-flex">
                                             <input type="text" readonly class="form-control" id="compensation-outstanding"
-                                                @if ($value['compensation_unsolved'] > 0) value="{{ number_format($value['compensation_unsolved']) . '  JPY' }}" @endif>
+                                                @if ($value['compensation_unsolved'] != 0) value="{{ number_format($value['compensation_unsolved']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <label for="" class="col-sm-4 col-form-label">Phí bảo hiểm</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="insurance_fee" @if ($value['insurance_fee'] != 0) value="{{ number_format($value['insurance_fee']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <label for="" class="col-sm-4 col-form-label">Phí hàng hóa đặc biệt</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="special_fee" @if ($value['special_goods_fee'] != 0) value="{{ number_format($value['special_goods_fee']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <label for="" class="col-sm-4 col-form-label">Phí dịch vụ hàng hóa</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="service_fee_boxes" @if ($value['service_fee_boxes'] != 0) value="{{ number_format($value['service_fee_boxes']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <label for="" class="col-sm-4 col-form-label">Phí dịch vụ</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="service_fee" @if ($value['service_fee'] != 0) value="{{ number_format($value['service_fee']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ đã thanh toán</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="service_fee_paid" @if ($value['service_fee_paid'] != 0) value="{{ number_format($value['service_fee_paid']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ đã ghi nợ</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="service_fee_debited" @if ($value['service_fee_debited'] != 0) value="{{ number_format($value['service_fee_debited']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group row align-items-center">
-                                        <label for="insurance_fee" class="col-sm-4 col-form-label">Phí bảo hiểm</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="insurance_fee" @if ($value['insurance_fee'] > 0) value="{{ number_format($value['insurance_fee']) . '  VND' }}" @endif>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="special_fee" class="col-sm-4 col-form-label">Phí hàng háo đặc
-                                            biệt</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="special_fee" @if ($value['special_goods_fee'] > 0) value="{{ number_format($value['special_goods_fee']) . '  VND' }}" @endif>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="service_fee_boxes" class="col-sm-4 col-form-label">Phí dịch vụ hàng
-                                            hóa</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="service_fee_boxes" @if ($value['service_fee_boxes'] > 0) value="{{ number_format($value['service_fee_boxes']) . '  VND' }}" @endif>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="service_fee" class="col-sm-4 col-form-label">Phí dịch vụ</label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="service_fee" @if ($value['service_fee'] > 0) value="{{ number_format($value['service_fee']) . '  VND' }}" @endif>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="service_fee_paid" class="col-sm-4 col-form-label">Tiền phí dịch vụ đã
-                                            thanh toán
-                                        </label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="service_fee_paid" @if ($value['service_fee_paid'] > 0) value="{{ number_format($value['service_fee_paid']) . '  VND' }}" @endif>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="service_fee_debited" class="col-sm-4 col-form-label">Tiền phí dịch
-                                            vụ
-                                            đã ghi nợ
-                                        </label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="service_fee_debited" @if ($value['service_fee_debited'] > 0) value="{{ number_format($value['service_fee_debited']) . '  VND' }}" @endif>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="service_fee_outstanding" class="col-sm-4 col-form-label">Tiền phí dịch
-                                            vụ cần thanh toán
-                                        </label>
-                                        <div class="col-sm-8">
+                                        <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ cần thanh
+                                            toán</label>
+                                        <div class="col-sm-8 d-flex">
                                             <input type="text" readonly class="form-control" id="service_fee_outstanding"
-                                                @if ($value['service_fee_outstanding'] > 0) value="{{ number_format($value['service_fee_outstanding']) . '  VND' }}" @endif>
+                                                @if ($value['service_fee_outstanding'] != 0) value="{{ number_format($value['service_fee_outstanding']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+
                                     <div class="form-group row align-items-center">
-                                        <label for="service_fee_unsolved" class="col-sm-4 col-form-label">Tiền phí dịch
-                                            vụ cần ghi nợ
-                                        </label>
-                                        <div class="col-sm-8">
-                                            <input type="text" readonly class="form-control" id="service_fee_unsolved" @if ($value['service_fee_unsolved'] > 0) value="{{ number_format($value['service_fee_unsolved']) . '  VND' }}" @endif>
+                                        <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ cần ghi nợ</label>
+                                        <div class="col-sm-8 d-flex">
+                                            <input type="text" readonly class="form-control" id="service_fee_unsolved" @if ($value['service_fee_unsolved'] != 0) value="{{ number_format($value['service_fee_unsolved']) }}" @endif>
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </form>
@@ -377,14 +473,14 @@
                             <div class="card-header">
                                 Giao dịch phát sinh
                             </div>
-                            <div class="card-body fix-overflow">
+                            <div class="card-body fix-overflow set-height-card">
                                 <div class="">
                                     @if (isset($value['transactions']))
                                         @if (count($value['transactions']))
                                             <table class="table table-striped">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Tin nhắn</th>
+                                                        <th scope="col">Thông tin chung</th>
                                                         <th scope="col">Số tiền</th>
                                                         <th scope="col">Nội dung</th>
                                                     </tr>
@@ -407,6 +503,14 @@
                                                                     </div>
                                                                     <div class="col-sm-9 fix-reponsive">
                                                                         <b>{{ $value_transaction['created_at'] }}</b>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row d-block">
+                                                                    <div class="col-sm-3 fix-reponsive">
+                                                                        Loại giao dịch:
+                                                                    </div>
+                                                                    <div class="col-sm-9 fix-reponsive">
+                                                                        <b>{{ $value_transaction['type']['name'] }}</b>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -432,7 +536,7 @@
                             <div class="card-header">
                                 Lịch sử giao dịch
                             </div>
-                            <div class="card-body d-flex flex-column justify-content-between fix-overflow">
+                            <div class="card-body d-flex flex-column justify-content-between fix-overflow set-height-card">
                                 @if (isset($value['log_transaction']))
                                     @if (count($value['log_transaction']))
                                         <table class="table table-striped">
@@ -457,17 +561,6 @@
                                                                 {{ $value_log['content']['transaction']['description'] }}
                                                             @endisset
                                                         </td>
-                                                        {{-- {{ dd($a) }} --}}
-                                                        {{-- <div class="row order-log-card">
-                                                            <div class="col-12">
-                                                                <div class="">
-                                                                    <p class="" style="color: rgb(177, 141, 28);">
-                                                                       </p>
-                                                                    <p>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div> --}}
                                                     </tr>
                                                 @endforeach
                                             </tbody>
