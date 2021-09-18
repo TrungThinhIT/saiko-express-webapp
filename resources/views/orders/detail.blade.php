@@ -128,30 +128,38 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền báo giá bảo
-                                            hiểm</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="insuarance-price" @if ($value['insurance_declaration'] != 0) value="{{ number_format($value['insurance_declaration']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                    @if ($value['insurance_declaration'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền báo giá bảo
+                                                hiểm</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="insuarance-price"
+                                                    value="{{ number_format($value['insurance_declaration']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        VND
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền báo giá
-                                            hàng
-                                            đặc
-                                            biệt</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="special-goods-price" @if ($value['special_declaration'] != 0) value="{{ number_format($value['special_declaration']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                    @endif
+                                    @if ($value['special_declaration'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền báo giá
+                                                hàng
+                                                đặc
+                                                biệt</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="special-goods-price"
+                                                    value="{{ number_format($value['special_declaration']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        VND
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                     <div class="form-group row align-items-center">
                                         <label for="trip-id" class="col-sm-4 col-form-label">PTVC</label>
                                         <div class="col-sm-8">
@@ -180,185 +188,241 @@
                                                 value="{{ $value['updated_at'] }}">
                                         </div>
                                     </div>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền hàng</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="goods-money" @if ($value['cost_of_goods'] != 0) value="{{ number_format($value['cost_of_goods']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                    @if ($value['cost_of_goods'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền hàng</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="goods-money"
+                                                    value="{{ number_format($value['cost_of_goods']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        JPY
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền hàng đã thanh toán</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="goods-money-paid" @if ($value['cost_of_goods_paid'] != 0) value="{{ number_format($value['cost_of_goods_paid']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                    @endif
+                                    @if ($value['cost_of_goods_paid'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền hàng đã thanh toán</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="goods-money-paid"
+                                                    value="{{ number_format($value['cost_of_goods_paid']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        JPY
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền hàng cần ghi nợ</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="cost_of_goods_unsolved" @if ($value['cost_of_goods_unsolved'] != 0) value="{{ number_format($value['cost_of_goods_unsolved']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                    @endif
+                                    @if ($value['cost_of_goods_unsolved'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền hàng cần ghi nợ</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="cost_of_goods_unsolved"
+                                                    value="{{ number_format($value['cost_of_goods_unsolved']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        JPY
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền hàng đã ghi nợ</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="cost_of_goods_unsolved" @if ($value['cost_of_goods_debited'] != 0) value="{{ number_format($value['cost_of_goods_debited']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                    @endif
+                                    @if ($value['cost_of_goods_debited'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền hàng đã ghi nợ</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="cost_of_goods_unsolved"
+                                                    value="{{ number_format($value['cost_of_goods_debited']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        JPY
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 </form>
                             </div>
                             <div class="col-md-6">
                                 <form>
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền hàng cần thanh toán</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="goods-money-outstanding"
-                                                @if ($value['cost_of_goods_outstanding'] != 0) value="{{ number_format($value['cost_of_goods_outstanding']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                    @if ($value['cost_of_goods_outstanding'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền hàng cần thanh toán</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control"
+                                                    id="goods-money-outstanding"
+                                                    value="{{ number_format($value['cost_of_goods_outstanding']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        JPY
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền đền bù hàng hóa</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="compensation" @if ($value['compensation'] != 0) value="{{ number_format($value['compensation']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                    @endif
+                                    @if ($value['compensation'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền đền bù hàng hóa</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="compensation"
+                                                    value="{{ number_format($value['compensation']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        JPY
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền đền bù đã ghi nợ</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="compensation-paid" @if ($value['compensation_debited'] != 0) value="{{ number_format($value['compensation_debited']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                    @endif
+                                    @if ($value['compensation_debited'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền đền bù đã ghi nợ</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="compensation-paid"
+                                                    value="{{ number_format($value['compensation_debited']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        JPY
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền đền bù cần trả cho khách</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="compensation-outstanding"
-                                                @if ($value['compensation_unsolved'] != 0) value="{{ number_format($value['compensation_unsolved']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">JPY
+                                    @endif
+                                    @if ($value['compensation_unsolved'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền đền bù cần trả cho
+                                                khách</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control"
+                                                    id="compensation-outstanding"
+                                                    value="{{ number_format($value['compensation_unsolved']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        JPY
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Phí bảo hiểm</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="insurance_fee" @if ($value['insurance_fee'] != 0) value="{{ number_format($value['insurance_fee']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                    @endif
+                                    @if ($value['insurance_fee'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Phí bảo hiểm</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="insurance_fee"
+                                                    value="{{ number_format($value['insurance_fee']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        VND
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Phí hàng hóa đặc biệt</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="special_fee" @if ($value['special_goods_fee'] != 0) value="{{ number_format($value['special_goods_fee']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                    @endif
+                                    @if ($value['special_goods_fee'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Phí hàng hóa đặc biệt</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="special_fee"
+                                                    value="{{ number_format($value['special_goods_fee']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        VND
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Phí dịch vụ hàng hóa</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="service_fee_boxes" @if ($value['service_fee_boxes'] != 0) value="{{ number_format($value['service_fee_boxes']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                    @endif
+                                    @if ($value['service_fee_boxes'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Phí dịch vụ hàng hóa</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="service_fee_boxes"
+                                                    value="{{ number_format($value['service_fee_boxes']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        VND
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Phí dịch vụ</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="service_fee" @if ($value['service_fee'] != 0) value="{{ number_format($value['service_fee']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                    @endif
+                                    @if ($value['service_fee'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Phí dịch vụ</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="service_fee"
+                                                    value="{{ number_format($value['service_fee']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        VND
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ đã thanh toán</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="service_fee_paid" @if ($value['service_fee_paid'] != 0) value="{{ number_format($value['service_fee_paid']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                    @endif
+                                    @if ($value['service_fee_paid'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ đã thanh
+                                                toán</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="service_fee_paid"
+                                                    value="{{ number_format($value['service_fee_paid']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        VND
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ đã ghi nợ</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="service_fee_debited" @if ($value['service_fee_debited'] != 0) value="{{ number_format($value['service_fee_debited']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                    @endif
+                                    @if ($value['service_fee_debited'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ đã ghi nợ</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="service_fee_debited"
+                                                    value="{{ number_format($value['service_fee_debited']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        VND
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ cần thanh
-                                            toán</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="service_fee_outstanding"
-                                                @if ($value['service_fee_outstanding'] != 0) value="{{ number_format($value['service_fee_outstanding']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                    @endif
+                                    @if ($value['service_fee_outstanding'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ cần thanh
+                                                toán</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control"
+                                                    id="service_fee_outstanding"
+                                                    value="{{ number_format($value['service_fee_outstanding']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        VND
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group row align-items-center">
-                                        <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ cần ghi nợ</label>
-                                        <div class="col-sm-8 d-flex">
-                                            <input type="text" readonly class="form-control" id="service_fee_unsolved" @if ($value['service_fee_unsolved'] != 0) value="{{ number_format($value['service_fee_unsolved']) }}" @endif>
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text font-weight-bold currency-corlor-custom">VND
+                                    @endif
+                                    @if ($value['service_fee_unsolved'] != 0)
+                                        <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Tiền phí dịch vụ cần ghi
+                                                nợ</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="service_fee_unsolved"
+                                                    value="{{ number_format($value['service_fee_unsolved']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        VND
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                 </form>
                             </div>
                         </div>
