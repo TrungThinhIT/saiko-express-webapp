@@ -213,18 +213,21 @@
                                 @if (isset($data['account']))
                                     @if (count($data['account']['data']))
                                         @foreach ($data['account']['data'] as $key => $value)
-                                            <div class="row d-inline">
-                                                <div style="margin-bottom: 25px" class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <label for="">{{ $value['currency_id'] }}</label>
-                                                        </div>
-                                                        <div class="col-md-9">
-                                                            <input readonly type="text" class="form-control"
-                                                                value="{{ number_format($value['balance']) }}">
+                                            <div class="row d-inline ">
+                                                @if ($value['balance'] != 0)
+                                                    <div style="margin-bottom: 25px" class="form-group">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-3">
+                                                                <label for="">{{ $value['currency_id'] }}</label>
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                <input readonly type="text" class="form-control"
+                                                                    value="{{ number_format($value['balance']) }}">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                @endif
+
                                             </div>
                                         @endforeach
                                     @endif
@@ -352,7 +355,7 @@
                     var credential = firebase.auth.EmailAuthProvider.credential(user_update.email, current_password)
                     user.reauthenticateWithCredential(credential).then(() => {
                         var email = $("#login-email").val();
-                        if(!validateEmail(email)){
+                        if (!validateEmail(email)) {
                             swal({
                                 title: "Không đúng định dạng email",
                                 type: "warning",

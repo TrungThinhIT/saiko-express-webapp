@@ -641,8 +641,13 @@
 
     @endif
     <script>
-        $(window).load(function() {
-            $('#remove-stretch-card').removeClass('stretch-card')
+        $(document).ready(function() {
+            $(document).ajaxStart(function() {
+                $("#loader").show();
+            });
+            $(document).ajaxStop(function() {
+                $("#loader").hide();
+            });
         })
 
     </script>
