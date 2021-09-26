@@ -55,9 +55,8 @@
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="widget text-widget">
                         <h4 class="widget-title">Liên hệ</h4>
-                        <p><i class="fa fa-home" aria-hidden="true"></i> 5101-1 Kaminokawa-machi Kawachi-gun,
-                            Tochigi-ken, Japan</p>
-                        <p><i class="fa fa-home" aria-hidden="true"></i> 329-0611 栃木県河内郡上三川町 上三川 51011</p>
+                        <p><i class="fa fa-home" aria-hidden="true"></i> 289-1501 Chibaken Sammushi Matsuomachi Yamamuro 121-2</p>
+                        <p><i class="fa fa-home" aria-hidden="true"></i> 〒289-1501 千葉県山武市松尾町山室121-2</p>
                         <p><i class="fa fa-envelope" aria-hidden="true"></i>info@saikoexpress.com </p>
                         <p><i class="fa fa-phone" aria-hidden="true"></i> 1900.2149(VN)</p>
                     </div>

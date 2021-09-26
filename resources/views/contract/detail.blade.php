@@ -41,7 +41,7 @@
         }
 
         .set-height-list-orders {
-            max-height: 800px;
+            max-height: 1000px;
         }
 
         .overflow-custom-orders {
@@ -56,7 +56,7 @@
 @section('content')
     {{-- {{ dd($data) }} --}}
     <div class="row">
-        <div class="col-md-4 h-100">
+        <div class="col-md-12">
             <div class="card">
                 <div class="car-header border-bottom">
                     <div class="card-title d-flex align-items-center">
@@ -67,20 +67,20 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group row ">
-                        <div class="col-12 p-3">
+                        <div class="col-md-4 p-1">
                             <label for="" class="font-weight-light">Tên lô hàng</label>
                             <input type="text" class="form-control color-custom" value="{{ $data['id'] }}" readonly>
                         </div>
-                        <div class="col-12 p-3">
+                        <div class="col-md-4 p-1">
                             <label for="" class="font-weight-light">Ngày bắt đầu</label>
                             <input type="text" class="form-control color-custom" value="{{ $data['start_date'] }}"
                                 readonly>
                         </div>
-                        <div class="col-12 p-3">
+                        <div class="col-md-4 p-1">
                             <label for="" class="font-weight-light">Ngày kết thúc</label>
                             <input type="text" class="form-control color-custom" value="{{ $data['end_date'] }}" readonly>
                         </div>
-                        <div class="col-12 p-3">
+                        <div class="col-md-4 p-1">
                             <label for="" class="font-weight-light">Phí ship đường bay</label>
                             <div class="input-group mb-2 mr-sm-2">
                                 <input type="text" class="form-control color-custom"
@@ -90,7 +90,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 p-3">
+                        <div class="col-md-4 p-1">
                             <label for="" class="font-weight-light">Phí ship đường biển</label>
                             <div class="input-group mb-2 mr-sm-2">
                                 <input type="text" class="form-control color-custom"
@@ -100,187 +100,232 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 p-3">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <label for="" class="font-weight-light">Trạng thái</label>
-                                <label class="{{ $data['closed'] ? 'bg-danger' : 'bg-info' }} p-1 rounded text-white"
+                        <div class="col-md-4 p-1">
+                            <label for="" class="font-weight-light">Trạng thái</label>
+                            <input type="text" class=" form-control color-custom"
+                                value="{{ $data['closed'] ? 'Đã đóng' : 'Chưa đóng' }}" readonly>
+                            {{-- <div class="mb-2 mr-sm-2">
+                                <label class="form-control {{ $data['closed'] ? 'bg-danger' : 'bg-info' }} p-1 rounded text-white"
                                     for="">{{ $data['closed'] ? 'Đã đóng' : 'Chưa đóng' }}</label>
-                            </div>
+                            </div> --}}
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="car-header border-bottom">
-                    <div class="card-title">
-                        <div class="card-label mt-3 pl-4">
-                            Các loại chi phí
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="form-group row" style="max-height: 800px; overflow:auto">
-                        @if ($data['service_fee'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí dịch vụ</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['service_fee']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['service_fee_outstanding'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí dịch vụ cần thanh toán</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['service_fee_outstanding']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['service_fee_debited'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí dịch vụ đã ghi nợ</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['service_fee_debited']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['service_fee_unsolved'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí dịch vụ cần ghi nợ</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['service_fee_unsolved']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['shipping_fee'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí giao hàng</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['shipping_fee']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['shipping_fee_paid'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí giao hàng đã thanh toán</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['shipping_fee_paid']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['shipping_fee_outstanding'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí giao hàng cần thanh toán</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['shipping_fee_outstanding']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['shipping_fee_debited'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí giao hàng đã ghi nợ</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['shipping_fee_debited']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['shipping_fee_unsolved'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí giao hàng cần ghi nợ</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['shipping_fee_unsolved']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['shipping_fee_air'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí giao hàng bay</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['shipping_fee_air']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['shipping_fee_sea'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí giao hàng biển</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['shipping_fee_sea']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['compensation_debited'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí đền bù đã ghi nợ</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['compensation_debited']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
-                        @if ($data['compensation_unsolved'] != 0)
-                            <div class="col-12 p-4">
-                                <label for="" class="font-weight-light">Phí đền bù cần ghi nợ</label>
-                                <div class="input-group mb-2 mr-sm-2">
-                                    <input type="text" class="form-control color-custom"
-                                        value="{{ number_format($data['compensation_unsolved']) }}" readonly>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endif
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-8 h-100">
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card  h-100">
+                <div class="car-header border-bottom">
+                    <div class="card-title">
+                        <div class="card-label mt-3 pl-4">
+                            Phí dịch vụ
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if ($data['service_fee'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí dịch vụ</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['service_fee']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($data['service_fee_outstanding'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí dịch vụ cần thanh toán</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['service_fee_outstanding']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($data['service_fee_paid'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí dịch vụ đã thanh toán</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['service_fee_paid']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($data['service_fee_debited'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí dịch vụ đã ghi nợ</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['service_fee_debited']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($data['service_fee_unsolved'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí dịch vụ cần ghi nợ</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['service_fee_unsolved']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            <div class="card h-100">
+                <div class="car-header border-bottom">
+                    <div class="card-title">
+                        <div class="card-label mt-3 pl-4">
+                            Phí giao hàng
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if ($data['shipping_fee'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí giao hàng</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['shipping_fee']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($data['shipping_fee_paid'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí giao hàng đã thanh toán</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['shipping_fee_paid']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($data['shipping_fee_outstanding'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí giao hàng cần thanh toán</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['shipping_fee_outstanding']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($data['shipping_fee_debited'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí giao hàng đã ghi nợ</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['shipping_fee_debited']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($data['shipping_fee_unsolved'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí giao hàng cần ghi nợ</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['shipping_fee_unsolved']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($data['shipping_fee_air'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí giao hàng bay</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['shipping_fee_air']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($data['shipping_fee_sea'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí giao hàng biển</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['shipping_fee_sea']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 ">
+            <div class="card h-100">
+                <div class="car-header border-bottom">
+                    <div class="card-title">
+                        <div class="card-label mt-3 pl-4">
+                            Đền bù
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if ($data['compensation_debited'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí đền bù đã ghi nợ</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['compensation_debited']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @if ($data['compensation_unsolved'] != 0)
+                        <div class="col-12 p-2">
+                            <label for="" class="font-weight-light">Phí đền bù cần ghi nợ</label>
+                            <div class="input-group mb-2 mr-sm-2">
+                                <input type="text" class="form-control color-custom"
+                                    value="{{ number_format($data['compensation_unsolved']) }}" readonly>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md-12">
             <div class="card">
                 <div class="car-header border-bottom">
                     <div class="card-title">
@@ -408,7 +453,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body fix-overflow" style="max-height: 390px">
+                <div class="card-body fix-overflow" style="max-height: 450px">
                     <table class="table table-striped border-bottom">
                         <thead>
                             <tr>
@@ -471,7 +516,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body fix-overflow" style="max-height: 300px">
+                <div class="card-body fix-overflow" style="max-height: 450px">
                     <div class="row">
                         <ul class="timeline">
 
@@ -523,39 +568,39 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade modal-tracking" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Thùng hàng được phân cho đơn hàng</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="d-flex justify-content-between p-2 bg-warning-custom  font-size-custom">
-                            <div>
-                                <b>Số thùng: </b><span id="quanity_boxes"></span>
-                            </div>
-                            <div>
-                                <b>Tổng thể tích: </b><span id="volumne_boxes"></span>
-                            </div>
-                            <div>
-                                <b>Tống khối lượng: </b><span id="weight_boxes"></span>
-                            </div>
+    </div>
+    <div class="modal fade modal-tracking" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thùng hàng được phân cho đơn hàng</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-between p-2 bg-warning-custom  font-size-custom">
+                        <div>
+                            <b>Số thùng: </b><span id="quanity_boxes"></span>
+                        </div>
+                        <div>
+                            <b>Tổng thể tích: </b><span id="volumne_boxes"></span>
+                        </div>
+                        <div>
+                            <b>Tống khối lượng: </b><span id="weight_boxes"></span>
                         </div>
                     </div>
-                    <div class="form-group height-custom">
-                        <div class="d-flex align-items-center">
-                            <small>Tracking: </small><span class="text-danger" id="id_tracking"></span>
-                        </div>
-                        <div class="border-left-custom ml-2" id="list_boxes">
-                        </div>
+                </div>
+                <div class="form-group height-custom">
+                    <div class="d-flex align-items-center">
+                        <small>Tracking: </small><span class="text-danger" id="id_tracking"></span>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="border-left-custom ml-2" id="list_boxes">
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

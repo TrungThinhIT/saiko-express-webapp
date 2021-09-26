@@ -860,7 +860,7 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 
                 <div class="ed_search_image">
-                    <img src="../assets/images/aba.jpg" alt="" title="map" height="500px">
+                    <img src="../assets/images/aba2.jpg" alt="" title="map" height="500px">
                 </div>
 
 
@@ -1086,7 +1086,7 @@
             </div>
             <div class="ed_mostrecomeded_course_slider" style="text-align:center">
                 <div>
-                    <img class="img-mobile-index" src="../assets/images/send_order.png" alt="item1" class="img-responsive">
+                    <img class="img-mobile-index" src="../assets/images/send_goods.png" alt="item1" class="img-responsive">
                 </div>
                 {{-- <div style="margin-top:10px">
                     <a href="{{ route('service.procedure') }}" class="btn ed_btn ed_orange">Xem thêm</a>
@@ -1221,8 +1221,8 @@
                 <div class="ed_video_section">
                     <div class="embed-responsive embed-responsive-16by9">
 
-                        <video controls>
-                            <source src="../assets/saiko.mp4" type="video/mp4">
+                        <video controls="controls" preload="none">
+                            <source src="../assets/Saikoexpress_small.mp4" type="video/mp4">
 
                             Your browser does not support the video tag.
                         </video>
@@ -1354,7 +1354,7 @@
                             </div>
                         </div>
                         <ul>
-                            <li>Nhận hàng từ 150 - 300kg/ chuyến</li>
+                            <li>Nhận hàng từ 150 - 350kg/ chuyến</li>
                             <li>Bảo hiểm 3% giá trị hàng</li>
                             <li>Hỗ trợ 24/7</li>
                             <li>Thanh toán trước</li>
@@ -1374,7 +1374,7 @@
                             </div>
                         </div>
                         <ul>
-                            <li>nhận hàng từ 300kg/chuyến</li>
+                            <li>nhận hàng từ 350kg/chuyến</li>
                             <li>Bảo hiểm 3% giá trị hàng</li>
                             <li>Có chuyên viên CSKH riêng</li>
                             <li>Thanh toán thương lượng</li>

@@ -272,7 +272,7 @@
                                             </li>
 
                                             <li><a href="{{ route('about.policy') }}">Chính
-                                                    Sách</a></li>
+                                                    Sách Dịch Vụ</a></li>
                                             <li><a href="{{ route('about.gallery') }}">Hình ảnh thực tế</a>
                                             </li>
                                         </ul>
