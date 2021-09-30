@@ -40,8 +40,34 @@ return [
         'measurementId' => env('firebase_measurementId')
     ],
 
-    'saiko'=>[
-        'password'=>env('saiko_password')
-    ]
+    'saiko' => [
+        'password' => env('saiko_password', 'anh:M:v:-7?6?98')
+    ],
 
+
+    'tomonisolution' => [
+        'auth' => [
+            'host' => env('SERVICE_AUTH_HOST', 'https://prod-auth.tomonisolution.com'),
+        ],
+
+        'accounting' => [
+            'host' => env('SERVICE_ACCOUNTING_HOST', 'https://prod-accounting.tomonisolution.com'),
+        ],
+
+        'product' => [
+            'host' => env('SERVICE_PRODUCT_HOST', 'https://prod-product.tomonisolution.com'),
+        ],
+
+        'warehouse' => [
+            'host' => env('SERVICE_WAREHOUSE_HOST', 'https://prod-warehouse.tomonisolution.com'),
+        ],
+
+        'order' => [
+            'host' => env('SERVICE_ORDER_HOST', 'https://prod-order.tomonisolution.com'),
+        ],
+
+        'notification' => [
+            'host' => env('SERVICE_NOTIFICATION_HOST', 'https://prod-notification.tomonisolution.com'),
+        ],
+    ]
 ];

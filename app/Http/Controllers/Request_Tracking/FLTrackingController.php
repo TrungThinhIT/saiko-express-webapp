@@ -17,6 +17,7 @@ class FLTrackingController extends Controller
     private $date;
     public function __construct(QuoteController $QCT)
     {
+        parent::__construct();
         $this->date = Carbon::create(2021, 5, 15)->format("d-m-Y");
         $this->dateDefault = Carbon::create(2021, 5, 23)->format("d-m-Y");
         $this->QCT = $QCT;
@@ -25,16 +26,17 @@ class FLTrackingController extends Controller
     {
         $check_tracking = Http::withHeaders([
             'Accept' => 'application/json',
-        ])->get('https://dev-order.tomonisolution.com/api/trackings/' . $request->tracking);
+        ])->get(self::$order_host . '/api/trackings/' . $request->tracking);
 
         if ($check_tracking->status() == 404) {
             return response()->json(['code' => 404, 'message' => 'Không tìm thấy tracking này.']);
         }
 
         $customer_id = $this->IdUserByToken($request);
+
         if ($customer_id['code'] == 401) {
             $this->deleteCookie();
-            $this->deleteSession();
+            $this->deleteCheckSession();
             $mess = ['code' => $customer_id['code'], 'message' => 'Mã xác thực hết hạn vui lòng tải lại trang.'];
             return response()->json($mess);
         }
@@ -47,7 +49,7 @@ class FLTrackingController extends Controller
         //check status code
         $apiShow = Http::withHeaders([
             'Accept' => 'application/json',
-        ])->get('https://dev-order.tomonisolution.com/api/trackings/' . $request->tracking, $dataShow);
+        ])->get(self::$order_host . '/api/trackings/' . $request->tracking, $dataShow);
 
         if ($apiShow)
             if ($apiShow->status() == 404) {
@@ -91,7 +93,7 @@ class FLTrackingController extends Controller
                                     'with' => 'district.province',
                                 ];
                                 $ward_id = $results['orders'][0]['shipment_info']['ward_id'];
-                                $ward = Http::withHeaders($header)->get('https://dev-notification.tomonisolution.com/api/wards/' . $ward_id, $param);
+                                $ward = Http::withHeaders($header)->get(self::$notification_host . '/api/wards/' . $ward_id, $param);
 
                                 $ward = json_decode($ward->body());
                                 $province = $ward->district->province->id;
@@ -143,7 +145,7 @@ class FLTrackingController extends Controller
                                     'with' => 'district.province',
                                 ];
                                 $ward_id = $results['orders'][0]['shipment_info']['ward_id'];
-                                $ward = Http::withHeaders($header)->get('https://dev-notification.tomonisolution.com/api/wards/' . $ward_id, $param);
+                                $ward = Http::withHeaders($header)->get(self::$notification_host . '/api/wards/' . $ward_id, $param);
 
                                 $ward = json_decode($ward->body());
                                 $province = $ward->district->province->id;
@@ -192,7 +194,7 @@ class FLTrackingController extends Controller
         ];
         $call = Http::withHeaders([
             'Accept' => 'application/json',
-        ])->get('https://dev-warehouse.tomonisolution.com/api/amount-with-conditions', $data);
+        ])->get(self::$warehouse_host . '/api/amount-with-conditions', $data);
         $amount = (intval($call->body()));
         $parse_int = strtotime($sfa['created_at']);
         if ($weight < 1) {
@@ -267,7 +269,7 @@ class FLTrackingController extends Controller
         ];
         $call_insurance = Http::withHeaders([
             'Accept' => 'application/json',
-        ])->get('https://dev-warehouse.tomonisolution.com/api/amount-with-conditions', $get_price_insurance);
+        ])->get(self::$warehouse_host . '/api/amount-with-conditions', $get_price_insurance);
         $call_insurance = floatval($call_insurance->body());
         //get price special
         $get_price_special = [
@@ -277,26 +279,28 @@ class FLTrackingController extends Controller
         ];
         $call_special = Http::withHeaders([
             'Accept' => 'application/json',
-        ])->get('https://dev-warehouse.tomonisolution.com/api/amount-with-conditions', $get_price_special);
+        ])->get(self::$warehouse_host . '/api/amount-with-conditions', $get_price_special);
         $call_special = floatval($call_special->body());
 
         return ['total_money' => $total_money, 'money' => $money, 'fee_ship' => $fee_ship, 'total_weight' => $weight_real, 'special' => $call_special, 'insurance' => $call_insurance];
     }
     public function getInforBox(Request $req)
     {
-        $token  = $this->getToken($req);
+        $token_checkSession = $this->getTokenSession($req);
+        // return $token_checkSession;
         //get infor box
         $header = [
             'Accept' => 'application/json',
-            'X-Firebase-IDToken' => $req->token ?? $token,
+            'X-Firebase-IDToken' => $req->idToken ? $req->idToken : $token_checkSession,
         ];
 
-        $item_box = Http::withHeaders($header)->get('https://dev-warehouse.tomonisolution.com/api/boxes/' . $req->id_box . '?appends=logs');
+        $item_box = Http::withHeaders($header)->get(self::$warehouse_host . '/api/boxes/' . $req->id_box . '?appends=logs');
 
         if ($item_box->status() == 401) {
-            $this->deleteSession();
+            $this->deleteCheckSession();
             $this->deleteCookie();
-            return 401;
+            $mess = ['code'=> 401,'mesage'=>'Mã xác thực hết hạn vui lòng tải lại trang'];
+            return response()->json($mess);
         }
         $result_list_item = json_decode($item_box->body(), true);
 

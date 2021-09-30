@@ -55,9 +55,8 @@
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="widget text-widget">
                         <h4 class="widget-title">Liên hệ</h4>
-                        <p><i class="fa fa-home" aria-hidden="true"></i> 5101-1 Kaminokawa-machi Kawachi-gun,
-                            Tochigi-ken, Japan</p>
-                        <p><i class="fa fa-home" aria-hidden="true"></i> 329-0611 栃木県河内郡上三川町 上三川 51011</p>
+                        <p><i class="fa fa-home" aria-hidden="true"></i> 289-1501 Chibaken Sammushi Matsuomachi Yamamuro 121-2</p>
+                        <p><i class="fa fa-home" aria-hidden="true"></i> 〒289-1501 千葉県山武市松尾町山室121-2</p>
                         <p><i class="fa fa-envelope" aria-hidden="true"></i>info@saikoexpress.com </p>
                         <p><i class="fa fa-phone" aria-hidden="true"></i> 1900.2149(VN)</p>
                     </div>
@@ -329,11 +328,21 @@
     firebase.analytics();
     firebase.auth().languageCode = 'vi';
 
-
-
-
 </script>
 <script>
+    function removeAndLogout(){
+        let id_session = "{{ Session::has('checkToken') }}";
+        let user_session = "{{ Session::has('idToken') }}";
+        if (!id_session && !user_session) {
+            $.removeCookie('idToken', {
+                path: '/'
+            })
+            firebase.auth().signOut().then(() => {
+            }).catch((error) => {
+            });
+        }
+    }
+    removeAndLogout();
     //function remove token
 
     function removeToken() {
@@ -345,42 +354,95 @@
     function setToken(token_gg) {
         var name = 'idToken';
         var now = new Date();
-        now.setTime(now.getTime() + 60 * 60 * 1000);
+        now.setTime(now.getTime() + 57 * 60 * 1000);
         $.cookie(name, token_gg, {
             expires: now,
             path: "/"
         });
     }
-    // set token
-    if ($.cookie('idToken') == undefined) {
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                firebase.auth().currentUser.getIdToken( /* forceRefresh */ true).then(
-                    function(token_gg) {
-                        // Send token to your backend via HTTPS
-                        setToken(token_gg)
-                    }).catch(function(error) {
-                });
-            } else {
-                // User is signed out
-                var email = "sale@saikoexpress.com";
-                var password = "{{config('services.saiko.password')}}";
-                firebase.auth().signInWithEmailAndPassword(email, password).then((
-                    userCredential) => {
-                    // Signed in
-                    firebase.auth().currentUser.getIdToken( /* forceRefresh */
-                        false).then(
-                        function(token_gg) {
-                            // Send token to your backend via HTTPS
-                            setToken(token_gg)
-                        }).catch(function(error) {
-                    });
-                }).catch((error) => {
-                });
+
+    //ajax
+    function sendSetSession(token){
+        $.ajax({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: "POST",
+            url: "{{ route('auth.session') }}",
+            data: {
+                idToken: token,
+            },
+            global:false,
+            success:function(response){
+            },error:function(response){
+                console.log(response)
             }
-        });
+        })
     }
 
+    function setSessionToken(){
+        const checkToken = "{{Session::has('checkToken')}}";
+        const user_session = "{{Session::has('idToken')}}";
+        const cookie = $.cookie('idToken');
+        if (!checkToken && user_session && cookie == undefined) {
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    firebase.auth().currentUser.getIdToken( /* forceRefresh */ true).then(
+                        function(token_gg) {
+                            setToken(token_gg)
+                            $.ajax({
+                                headers:{
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                },
+                                type: "POST",
+                                url: "{{ route('auth.login') }}",
+                                data: {
+                                    idToken: token_gg,
+                                },
+                                global:false,
+                                success: function(respone) {
+                                    if (respone.code == 200) {
+                                    }
+                                },
+                                error: function(respone) {
+                                    console.log(respone.responseJSON.errors)
+                                }
+                            })
+                        }).catch(function(error) {
+                            console.log(error)
+                    });
+                }
+            });
+        }
+        if (!checkToken && !user_session) {
+            // User is signed out
+            removeAndLogout()
+            var email = "sale@saikoexpress.com";
+            var password = "{{config('services.saiko.password')}}";
+            firebase.auth().signInWithEmailAndPassword(email, password).then((
+                userCredential) => {
+                    let token_gg = userCredential.user.toJSON().stsTokenManager.accessToken
+                    sendSetSession(token_gg)
+            }).catch((error) => {
+            });
+        }
+    }
+    setSessionToken();
+
+    function refreshToken(code){
+        const checkToken = "{{Session::has('checkToken')}}";
+        if(code ==401 && checkToken){
+            removeAndLogout()
+            var email = "sale@saikoexpress.com";
+            var password = "{{config('services.saiko.password')}}";
+            firebase.auth().signInWithEmailAndPassword(email, password).then((
+                userCredential) => {
+                    let token_gg = userCredential.user.toJSON().stsTokenManager.accessToken
+                    sendSetSession(token_gg)
+            }).catch((error) => {
+            });
+        }
+    }
     $(document).ready(function() {
 
         $("#logout-firebase").click(function(e) {
@@ -1075,6 +1137,7 @@
 
     function check_footer(id_box, vnpost, created_at, weight, fee, method, money, logs_merge, pay_money) {
         var id_box = id_box;
+        const checkSession  = "{{ Session::has('idToken') }}"
 
         $("#time_line_tracking").empty()
         if(checkToken()){
@@ -1086,7 +1149,7 @@
                 type: "POST",
                 url: "{{ route('rq_tk.getInforBox') }}",
                 data: {
-                    token:idToken,
+                    idToken:idToken,
                     id_box: id_box
                 },
                 success: function(res) {
@@ -1251,7 +1314,7 @@
             })
         }else{
             firebase.auth().onAuthStateChanged((user) => {
-                if(user){
+                if(user && checkSession){
                     firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(token_gg) {
                         setToken(token_gg)
                         let idToken = getToken();
@@ -1262,7 +1325,7 @@
                             type: "POST",
                             url: "{{ route('rq_tk.getInforBox') }}",
                             data: {
-                                token:idToken,
+                                idToken:token_gg,
                                 id_box: id_box
                             },
                             success: function(res) {
@@ -1429,11 +1492,11 @@
                         swal("warning",error.message)
                     });
                 }else{
+                    var email = "sale@saikoexpress.com"
+                    var password = "{{config('services.saiko.password')}}"
                     firebase.auth().signInWithEmailAndPassword(email, password)
                     .then((userCredential) => {
                         firebase.auth().currentUser.getIdToken(/* forceRefresh */ false).then(function(token_gg) {
-                            setToken(token_gg)
-                            let idToken = getToken();
                             $.ajax({
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1441,11 +1504,13 @@
                                 type: "POST",
                                 url: "{{ route('rq_tk.getInforBox') }}",
                                 data: {
-                                    token:idToken,
+                                    idToken:token_gg,
                                     id_box: id_box
                                 },
                                 success: function(res) {
-
+                                    if(res?.code==401){
+                                        refreshToken(res?.code);
+                                    }
                                     //log box
                                     $("#time_line_tracking").empty()
                                     if (res.logs.length == 0) {

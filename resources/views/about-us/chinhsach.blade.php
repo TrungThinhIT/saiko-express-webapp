@@ -36,7 +36,7 @@
      <h2>Chính sách</h2>
     </div>
    </div>
- 
+
   </div>
  </div>
 </div> -->
@@ -48,173 +48,372 @@
                 <div class="fh-section-title clearfix f25 text-left version-dark paddbtm40">
                     <h2>CHÍNH SÁCH VẬN CHUYỂN & ĐIỀU KHOẢN SỬ DỤNG</h2>
                 </div>
-                <p>Quý khách vui lòng xem thông tin về chính sách & điều khoản các dịch vụ của Saiko Express
-                    “Saiko Express trân trọng gửi tới quý khách hàng Chính Sách Vận Chuyển & Điều Khoản Sử Dụng của
-                    chúng tôi. Các chính sách này được soạn dựa theo quy định hoạt động của Saiko Express trên cơ sở
-                    tuân theo các điều khoản của các website bán hàng nước ngoài, luật pháp quốc tế và luật pháp Việt
-                    Nam. Chân thành cảm ơn quý khách đã giành thời gian tham khảo.”
+                <p>Saiko Express trân trọng gửi tới quý khách hàng Chính Sách Vận Chuyển & Điều Khoản Sử Dụng của chúng
+                    tôi. Các chính sách này được soạn dựa theo quy định hoạt động của Saiko Express trên cơ sở tuân theo
+                    các điều khoản của các website bán hàng nước ngoài, luật pháp quốc tế và luật pháp Việt Nam. Chân
+                    thành cảm ơn quý khách đã dành thời gian tham khảo.
                 </p>
                 <h4></h4>
-                <h4><span style="color: red">Điều 1: Danh mục hàng hóa cấm xuất & nhập khẩu</span></h4>
+                <h4><span style="color: red">1– CHÍNH SÁCH VỀ GIÁ:</span></h4>
 
-                <p><b>• 1.1</b> Saiko Express sẽ không nhận hỗ trợ và cung cấp dịch vụ với các loại hàng hóa thuộc
-                    <b>danh mục cấm xuất & nhập khẩu</b> theo quy định pháp luật.
+                <p><b>• 1.1 Đối với khách lẻ, giá dịch vụ sẽ áp dụng như trong biểu phí mới nhất công khai của Saiko
+                        Express trên website hoặc fanpage Facebook.</b>
                 </p>
-                <p><b>• 1.2</b> Saiko Express tuân thủ nghiêm ngặt các điều lệ và quy định theo luật pháp hiện hành của
-                    Việt Nam, Nhật Bản và Quốc Tế.</p>
-                <p><b>• 1.3</b> Mọi thắc mắc về hàng hóa thuộc <b>danh mục cấm xuất & nhập khẩu</b> vui lòng liên hệ
-                    trực tiếp Saiko Express để được giải đáp một cách kỹ lưỡng.</p>
-
-                <h4></h4>
-                <h4><span style="color: red">Điều 2: Trách nhiệm & quyền lợi người gửi hàng, nhờ mua hộ</span></h4>
-
-                <p><b>• 2.1</b> Người gửi hàng, người mua hộ là các cá nhân hoặc tổ chức tại Việt Nam có nhu cầu gửi
-                    hàng hoặc mua hàng thông qua Saiko Express. </p>
-                <p><b>• 2.2</b> Chịu trách nhiệm về tính pháp lý của hàng hóa vận chuyển, mua hộ dựa trên pháp luật hiện
-                    hành của Việt Nam & Quốc Tế.</p>
-                <p><b>• 2.3</b> Chịu trách nhiệm trong việc khai báo đúng, đủ thông tin về hàng hóa, mọi tranh chấp nếu
-                    có sẽ dựa vào thông tin khai báo của quý khách. Cho phép Saiko Express mở hàng hoá ra để kiểm tra
-                    theo luật của IAC trước khi đóng lại để vận chuyển đi.</p>
-                <p><b>• 2.4</b> Chịu trách nhiệm <b>tìm hiểu thông tin chi tiết sản phẩm & uy tín của website bán
-                        hàng</b> cho dịch vụ Mua Hàng Nhật & Tự Order Hàng Nhật về Việt Nam.</p>
-                <p><b>• 2.5</b> Đảm bảo thông tin về người nhận: Địa chỉ, họ tên, số điện thoại, chứng minh thư. Nếu sai
-                    sót thông tin gây đến việc sai người nhận Saiko Express sẽ không chịu trách nhiệm.</p>
-                <p><b>• 2.6</b> Thanh toán đúng như cam kết trước và sau khi nhận hàng, theo đúng quy trình ship, mua hộ
-                    hàng hóa của Saiko Express.</p>
-                <p><b>• 2.7</b> Thanh toán toàn bộ tiền hàng lẫn các chi phí khác như thuế mua hàng ở Nhật, chi phí vận
-                    chuyển, thuế nhập khẩu,…</p>
-                <p><b>• 2.8</b> Đóng gói hàng hóa (gửi hàng), ký nhận giấy tờ đầy đủ.</p>
-                <p><b>• 2.9</b> Chúng tôi sẽ thông báo, hỗ trợ, hướng dẫn cho khách mua hàng trước, trong và sau khi
-                    nhận hàng. Nếu không liên lạc được trách nhiệm thuộc về quý khách.</p>
-                <p><b>• 2.10</b>Chúng tôi sẽ xuất phiếu thu, tờ khai cho quý khách, nếu quý khách không nhận được vui
-                    lòng kiểm tra và báo lại cho chúng tôi theo thông tin liên hệ.</p>
-
-                <h4></h4>
-                <h4><span style="color: red">Điều 3: Trách nhiệm của Saiko Express</span></h4>
-
-                <p><b>• 3.1</b> Saiko Express là trung gian tiến hành đặt hàng hoá cho khách hàng khi khách yêu cầu.</p>
-                <p><b>• 3.2</b> Tư vấn dịch vụ và cập nhật thông tin về đơn hàng cho khách hàng cho đến khi đơn hàng
-                    giao dịch thành công.</p>
-                <p><b>• 3.3</b> Đảm bảo hàng hóa đúng cam kết thời gian, tình trạng khi quý khách đặt hàng, gửi hàng,
-                    nhờ mua hộ.</p>
-                <p><b>• 3.4</b> Kiểm tra hàng hóa hợp pháp trước khi nhận gửi (không kiểm tra chất lượng), kiểm tra link
-                    sản phẩm trước khi đặt mua hộ.</p>
-                <p><b>• 3.5</b> Đảm bảo chi phí không đổi sau khi đã báo giá, viết phiếu thu.</p>
-                <p><b>• 3.6</b> Đảm bảo chất lượng dịch vụ, và các hỗ trợ khác về thủ tục, hải quan, ship tận nhà tại
-                    nội địa Việt Nam.</p>
-                <p><b>• 3.7</b> Thông báo rõ ràng mọi chi phí về tiền hàng, tiền vận chuyển, tiền phụ thu cho khách hàng
-                    trước khi nhận đơn hàng.</p>
-                <p><b>• 3.8</b> Thông báo, giải đáp thắc mắc về tình trạng đơn hàng cho quý khách trong khoảng thời gian
-                    nhận đơn.</p>
-                <p><b>• 3.9</b> Cam kết thủ tục giao nhận an toàn uy tín. Tuyệt đối không có việc hàng hoá bị thay đổi
-                    trong quá trình vận chuyển.</p>
-                <p><b>• 3.10</b> Giải quyết mọi khiếu nại, tuân theo chính sách đền bù đã đưa ra trong trường hợp xảy ra
-                    sự cố.</p>
-                <p><b>• 3.11</b> Hỗ trợ khách hàng xử lý tranh chấp với hãng bán sản phẩm trong trường hợp hàng hoá
-                    không như mô tả <b>(xem thêm tại điều 10).</b></p>
-
-                <h4></h4>
-                <h4><span style="color: red">Điều 4: Các trường hợp miễn trừ trách nhiệm</span></h4>
-                <p><b>• 4.1</b> Saiko Express không nhận ship các mặt hàng không hợp lệ theo như quy định của Nhật Bản
-                    và Việt Nam. Nếu xảy ra sai phạm không đáng có, Saiko Express không chịu trách nhiệm trong việc khai
-                    gian hàng hóa, vi phạm pháp luật từ phía khách hàng.</p>
-                <p><b>• 4.2</b> Saiko Express đóng vai trò là công ty vận chuyển trung gian, không trực tiếp bán sản
-                    phẩm cho khách hàng nên sẽ không nhận khiếu nại về bảo hành, sữa chữa cho các đơn hàng mua hộ. </p>
-                <p><b>• 4.3</b> Saiko Express sẽ không chịu trách nhiệm trong trường hợp chiến tranh, động đất, thiên
-                    tai, những tình huống bất khả kháng mà mất mát hàng hóa, chậm thời gian cam kết. </p>
-                <p><b>• 4.4</b> Saiko Express sẽ không chịu trách nhiệm trong trường hợp hàng hóa mất mát, hỏng hóc do
-                    cơ quan có thẩm quyền của Nhật Bản và Việt Nam kiểm tra, tịch thu; hoặc hàng hóa chuyển phát sai,
-                    mua hộ nhầm do khách hàng đưa sai thông tin, số điện thoại không liên lạc được. Saiko Express không
-                    chịu trách nhiệm cho các trường hợp mất mát, hư hỏng hàng hóa gây ra bởi các công ty vận chuyển Nhật
-                    như Yamato,... trong quá trình vận chuyển đến kho hàng Saiko Express. Đối với các đơn hàng giá trị
-                    cao, quý khách có thể tự chủ động mua bảo hiểm với các công ty vận chuyển nội địa Nhật bản khi
-                    drop-off đồ. </p>
-                <p><b>• 4.5</b> Khiếu nại mua hàng, sai phạm hàng hóa do bất cứ vấn đề gì mà khách hàng không chứng minh
-                    được bằng hóa đơn, phiếu thu, các thông tin khác. </p>
-                <p><b>• 4.6</b> Hàng hóa là chất lỏng, các thực phẩm có hạn sử dụng, các mặt hàng dễ vỡ chưa khai báo
-                    trước đó. Các hàng hoá có giá trị kỉ niệm, trang sức không khai báo giá trị, hoặc các mặt hàng không
-                    được định giá cơ bản. </p>
-                <p><b>• 4.7</b> Saiko Express không có trách nhiệm kiểm tra hàng, cũng như đếm số lượng, màu sắc cho
-                    hàng hoá nếu là hàng quý khách tự order về văn phòng tại Nhật. </p>
-                <p><b>• 4.8</b> Saiko Express không có trách nhiệm kiểm tra và bảo đảm chất lượng hàng hoá cho khách sử
-                    dụng dịch vụ Mua Hàng Nhật. Saiko Express chỉ hỗ trợ kiểm tra đúng như số lượng và các thông số cơ
-                    bản như lúc tiến hành đặt mua hàng. Mọi trường hợp liên quan đến chất lượng sản phẩm sẽ được xử lý
-                    theo điều (10). </p>
-                <p><b>• 4.9</b> Saiko Express không bảo đảm tuyệt đối cho các đơn hàng khẩn cần phải về đúng ngày. Mọi
-                    hàng hoá đều có thể bị trễ/hoãn vì nhiều lý do khác ngoài tầm kiểm soát của Saiko Express (hãng máy
-                    bay delay, dời chuyến bay, thủ tục hải quan bị trễ do nhiều hàng,…). </p>
-                <p><b>• 4.10</b> Saiko Express không giải quyết mọi khiếu nại về đủ hàng/ thiếu hàng/ hàng bị hư hỏng
-                    sau khi khách hàng nhận đồ và kí nhận “Đầy Đủ”. Nếu có bất cứ vấn đề về việc thùng hàng bị móp méo
-                    hỏng hóc/ thiếu hàng/… quý khách phải thông báo ngay với Saiko Express và ghi rõ thông tin vào tờ
-                    biên nhận nhận hàng.</p>
-                <p><b>• 4.11</b> Saiko Express có quyền từ chối giao dịch bất cứ đơn hàng nào của khách hàng nếu cảm
-                    thấy không phù hợp với quy định hoặc vi phạm luật pháp.</p>
-
-                <h4></h4>
-                <h4><span style="color: red">Điều 5: Về thông tin khách hàng:</span></h4>
-                <p><b>•</b> Saiko Express chỉ lưu trữ thông tin khách hàng cho mục đích nâng cao chất lượng dịch vụ.
-                    Chúng tôi cam kết mọi thông tin sẽ không bị lạm dụng bởi bất cứ mục đích gì và bất kì ai.</p>
-
-                <h4></h4>
-                <h4><span style="color: red">Điều 6: Phụ thu vận chuyển:</span></h4>
-                <p><b>•</b> Phụ thu vận chuyển được áp dụng theo đúng như bản giá đăng tải trên website, Saiko Express
-                    không được tự ý thay đổi chi phí phụ thu vận chuyển trong và sau khi đã chốt vận đơn với khách hàng.
+                <p><b>• 1.2 Đối với khách sỉ, giá dịch vụ sẽ áp dụng theo thỏa thuận giữa 2 bên.</b></p>
+                <p>- Lúc này, Quý khách cần thiết đăng ký tài khoản trên website Saiko Express và gửi địa
+                    chỉ
+                    email dùng để đăng ký cho CSKH trên fanpage Facebook Saiko Express để công ty ghi nhận thông tin.
+                </p>
+                <p>- Quý khách lưu ý đăng nhập tài khoản trước khi sử dụng dịch vụ trên website hoặc app
+                    Saiko Express để phía công ty có thể nhận biết, áp dụng các thông số ưu đãi chính xác. Nếu Quý khách
+                    không đăng nhập tài khoản khi sử dụng dịch vụ, công ty sẽ nhận biết là khách lẻ và tính giá trên
+                    Biểu phí công khai thông thường.
                 </p>
 
                 <h4></h4>
-                <h4><span style="color: red"> Điều 7: Chính sách bảo hiểm & đền bù tổn thất trong quá trình vận chuyển
-                        hàng hóa:</span></h4>
-                <p><b>• 7.1</b> Tất cả mọi hàng hoá giao dịch với Saiko Express đều được bảo hiểm miễn phí với giá trị
-                    bảo hiểm bằng 200% phí vận chuyển về từ Nhật Bản về Việt Nam mà trước đó Saiko Express đã thỏa thuận
-                    với khách hàng. </p>
-                <p><b>• 7.2</b> Hàng không khai đúng giá trị thực tế hoặc trong danh mục hàng cấm có thể bị cơ quan chức
-                    năng Nhật Bản hoặc Việt Nam tịch thu mà không cần thông báo trước, và sẽ không được bảo hiểm.</p>
-                <p><b>• 7.3</b> Ngoài bảo hiểm miễn phí, quý khách có thể mua gói bảo hiểm thêm với mức giá tương
-                    đương<b> 5% của tổng giá trị đơn hàng (cho phép đền bù lên đến 100.000¥)</b>. Saiko Express chỉ có
-                    trách nhiệm bảo hiểm theo giá trị mà quý khách đã khai báo khi yêu cầu vận chuyển. Đồng thời, chính
-                    sách bảo hiểm không áp dụng cho hàng hóa mang tính chất dễ vỡ, chất lỏng, dễ hỏng do đặc tính của
-                    sản phẩm. Lưu ý: Saiko Express không có trách nhiệm đền bù những đơn hàng có hàng giá trị cao mà quý
-                    khách không khai giá cụ thể chính xác, không đóng phí phụ thu dẫn đến việc hàng hoá bị tịch thu hoặc
-                    tạm giữ bởi cơ quan chức năng hoặc chính phủ.Vui lòng liên lạc bộ phận hỗ trợ khách hàng để được tư
-                    vấn thông tin cụ thể nếu quý khách có nhu cầu mua bảo hiểm vận chuyển.</p>
-                <p><b>• 7.4</b> Các sự cố như lạc thùng hàng, hỏng hóc trong quá trình vận chuyển là những rủi ro không
-                    ai muốn xảy ra. Saiko Express luôn cố gắng để tráng những trường hợp rủi ro đó cho khách hàng bằng
-                    cách luôn đóng gói hàng, kiểm tra thùng hàng mỗi khi nhận hàng hoặc chuẩn bị giao. Tuy nhiên, có
-                    những rủi ro có thể xảy ra ngoài tầm kiểm soát của Saiko Express (rủi ro xảy ra trong quá trình vận
-                    chuyển, do hãng máy bay, hoặc trong kho hải quan…) Đó là lý do Saiko Express luôn khuyến khích khách
-                    hàng mua bảo hiểm để bảo đảm an toàn cho thùng hàng của quý khách, đặc biệt là những đơn hàng có giá
-                    trị cao. </p>
+                <h4><span style="color: red">2 – CHÍNH SÁCH VỀ HÀNG HÓA:</span></h4>
 
-                <h4></h4>
-                <h4><span style="color: red">Điều 8: Trách nhiệm thanh toán:</span></h4>
-                <p><b>• 8.1</b> Quý khách có trách nhiệm thanh toán trước 100% nếu đặt mua hộ.</p>
-                <p><b>• 8.2</b> Đối với quý khách gửi hàng thì thanh toán 100% phí dịch vụ mới được xác nhận là hoàn
-                    thành thủ tục,</p>
-
-
-                <h4></h4>
-                <h4><span style="color: red">Điều 9: Thủ tục gửi hàng:</span></h4>
-                <p><b>• 9.1</b> Quý khách có trách nhiệm cung cấp đầy đủ và chính xác thông tin người gửi lẫn người
-                    nhận, bao gồm họ tên, địa chỉ, số điện thoại để nhân viên giao hàng có thể liên lạc.</p>
-                <p><b>• 9.2</b> Chú ý: người nhận hàng phải cung cấp được giấy tờ tuỳ thân chứng minh được đúng tên
-                    (CMND hoặc Passport) hoặc số điện thoại thì mới có thể nhận được hàng.</p>
-                <p><b>• 9.3</b> Ngoài ra, tất cả mọi hàng hoá chỉ được giao một lần. Người nhận sẽ được thông báo trước
-                    bởi nhân viên giao hàng của Saiko Express để đặt hẹn thời điểm giao hàng. Trong trường hợp người
-                    nhận tự ý huỷ cuộc hẹn giao hàng này, hàng sẽ được gửi về lại văn phòng công ty và quý khách sẽ phải
-                    đến văn phòng công ty để nhận. Yêu cầu gửi hàng lại lần nữa sẽ bị tính thêm phí giao hàng phát sinh.
+                <p><b>• 2.1 Chính sách hàng đặc biệt (có tính phụ phí):</b></p>
+                <p>- Các hàng hóa đặc biệt bao gồm Loa / Ampli / Điện thoại di động / Máy tính bảng / Laptop / Rượu /
+                    Đồng hồ đeo tay / Đồ cổ.
                 </p>
-                <p><b>• 9.4</b> Hàng sẽ được gửi trung gian qua một công ty chuyển phát nhanh nội địa nếu khách hàng ở
-                    ngoại thành TP.HCM hoặc các tỉnh thành khác ngoài TP.HCM. Mọi sự cố hoặc vấn đề phát sinh trong
-                    trường hợp giao hàng ở các tỉnh thành khác này đều phải được thông báo trực tiếp lại với Saiko
-                    Express để được xử lý.</p>
-                <p><b>• 9.5</b> Chú ý: Saiko Express chỉ giữ hàng của khách tại kho trong vòng 7 ngày. Sau 7 ngày kể từ
-                    ngày hàng về đến Việt Nam, nếu như không liên lạc được với khách để bàn giao hàng hoặc khách không
-                    nhận hàng phí lưu kho sẽ được tính vào đơn hàng: 50.000 VNĐ/ ngày với kiện dưới 5kg và 100.000 VNĐ/
-                    ngày với kiện trên 5kg. Sau 30 ngày nếu khách vẫn không nhận hàng, hàng sẽ được đem đi tiêu huỷ.</p>
+                <p>
+                    - Tất cả các thiết bị chứa Pin đều phải được tháo Pin, kể cả Pin trong Laptop, Smartphone đều bị
+                    giới hạn 1 lần chỉ gửi 1 cái.
+                </p>
+                <p>
+                    - Các hàng hóa thuộc danh sách trên đều cần phụ phí để thông quan, nếu không được khai báo sẽ bị
+                    phạt cước vận chuyển tùy theo số lượng và giá trị món hàng.
+                </p>
+                <p><b>• 2.2 Chính sách hàng hóa đi đường bay:</b></p>
+                <p>
+                    <b> a/ Không nhận vận chuyển với hàng cấm bay sau:</b>
+                </p>
+                <p>
+                    - Hàng hóa trộm cắp, lừa đảo, mua hàng bằng thẻ tín dụng của người khác.
+                </p>
+                <p>
+                    - Ma túy, chất gây nghiện, chất kích thích và hàng hóa có thể gây nhầm lẫn là chất kích thích.
+                </p>
+                <p>
+                    - Vũ khí/mô hình đạn dược, trang thiết bị kỹ thuật quân sự (nguyên liệu phóng xạ, súng, đao, các
+                    loại KIẾM NHẬT, dao kéo, bom, mìn, pháo,...).
+                </p>
+                <p>
+                    - Chứa hợp chất có chiết xuất từ động vật quý hiếm vi phạm vào hiệp định Washington như
+                    Da bò, da cá sấu, ngà voi, Mai rùa. Thực vật quý hiếm như nhân sâm, lô hội Kidachi (có một số loại
+                    mỹ phẩm, thực phẩm giảm cân), ngưu hoàng (như Viên An cung ngưu hoàng)... Các sản phẩm giá trị văn
+                    hóa, tự nhiên cần bảo tồn (tiền cổ, ngọc, đá quí, gỗ quí,..).
+                </p>
+                <p>
+                    - Các chất dễ gây cháy nổ: pin, gas, cồn, xăng dầu, chất ăn mòn (axit, muối). Có thể nhận
+                    biết nếu đọc trên sản phẩm có chữ như sau: LPガス、ガス使用. Bật lửa như Zippo cũ (Có chứa dầu hỏa bên
+                    trong), bình xịt có gas (bình xịt chống nắng, bình xịt Salonpas,...).
+                </p>
+                <p>
+                    - Ắc quy xe máy, ô tô. Thiết bị chứa ôxy lỏng.
+                </p>
+                <p>
+                    - Tiền mặt và những mặt hàng có giá trị lớn như kim loại quí, trang sức, phiếu chứng khoán,…
+                </p>
+                <p>
+                    - Các chất độc (thuốc trừ sâu), chất lây nhiễm.
+                </p>
+                <p>
+                    - Nho mẫu đơn.
+                </p>
+                <p>
+                    - Các loại cây cảnh Bonsai.
+                </p>
+                <p>
+                    <b>b/ Hạn chế vận chuyển đường bay với những mặt hàng sau:</b>
+                </p>
+                <p>
+                    - Hoa, thực vật, rau, quả, trứng ấp, thịt tươi sống, vắc-xin, huyết thanh y tế (Thịt bò Nhật cần có
+                    giấy phép xuất khẩu).
+                </p>
+                <p>
+                    - Rượu: Hạn chế 3.5lít/lô.
+                </p>
+                <p>
+                    - Nước hoa: Hạn chế 70 chai 50 ml 1 lần (3.5lít/ lô).
+                </p>
+                <p>
+                    - Đồ dùng cá nhân đã qua sử dụng (quần áo, túi xách, giày dép…).
+                </p>
+                <p>
+                    - Tất cả các thiết bị chứa Pin đều phải tháo Pin. Trừ Pin Điện thoại di động, laptop,
+                    ... nhưng vẫn hạn chế. Hạn chế không quá 10 cái/chuyến. Pin tiểu, than chì (các loại A) không vận
+                    chuyển.
+                </p>
+                <p>
+                    - Riêng Điện thoại di động, laptop, máy tính bảng hạn chế không quá 3 cái/chuyến.
+                </p>
+                <p>
+                    - Các loại đồ thủy tinh, dễ vỡ như đồng hồ có mặt kính, lọ hoa...: Saiko không nhận bảo hiểm, không
+                    có chính sách đền bù.
+                </p>
+                <p>
+                    - Đồng hồ: Nếu trị giá trên 10 man thì chỉ bảo hiểm tối đa 10 man.
+                </p>
+                <p><b> 2.3 Chính sách hàng hóa đi đường biển: </b></p>
+                <div style="margin-left:15px">
+                    <p><b>a/ Không nhận vận chuyển với hàng cấm đi đường biển sau: </b></p>
+                    <div style="margin-left:15px">
+                        <p>
+                            - Hàng hóa trộm cắp, lừa đảo, mua hàng bằng thẻ tín dụng của người khác.
+                        </p>
+                        <p>
+                            - Ma túy, chất gây nghiện, chất kích thích và hàng hóa có thể gây nhầm lẫn là chất kích
+                            thích.
+                        </p>
+                        <p>
+                            - Vũ khí/mô hình đạn dược, trang thiết bị kỹ thuật quân sự (nguyên liệu phóng xạ, súng, đao,
+                            các
+                            loại KIẾM NHẬT, dao kéo, bom, mìn, pháo,...).
+                        </p>
+                        <p>
+                            - Chứa hợp chất có chiết xuất từ động vật quý hiếm vi phạm vào hiệp định
+                            Washington
+                            như Da bò, da cá sấu, ngà voi, Mai rùa. Thực vật quý hiếm như nhân sâm, lô hội Kidachi (có
+                            một
+                            số loại mỹ phẩm, thực phẩm giảm cân), ngưu hoàng (như Viên An cung ngưu hoàng)... Các sản
+                            phẩm
+                            giá trị văn hóa, tự nhiên cần bảo tồn (tiền cổ, ngọc, đá quí, gỗ quí,..).
+                        </p>
+                        <p>
+                            - Ắc quy chứa trong xe máy, ô tô. Thiết bị chứa ôxy lỏng
+                        </p>
+                        <p>
+                            - Tiền mặt và những mặt hàng có giá trị lớn như kim loại quí, trang sức, phiếu chứng khoán,…
+                        </p>
+                        <p>
+                            - Các chất độc (thuốc trừ sâu), chất lây nhiễm.
+                        </p>
+                        <p>
+                            - Nho mẫu đơn. Hoa, thực vật, các loại cây cảnh Bonsai, rau, quả, trứng ấp, thịt tươi sống,
+                            vắc-xin, huyết thanh y tế.
+                        </p>
+                        <p>
+                            - Rượu.
+                        </p>
+                        <p>
+                            - Quần áo đã qua sử dụng.
+                        </p>
+                    </div>
+                    <p><b>b/ Hạn chế vận chuyển đường biển với những mặt hàng sau: </b></p>
+                    <div style="margin-left:15px">
+                        <p>
+                            - Nước hoa: Hạn chế 70 chai 50 ml 1 lần (3.5lít/ lô).
+                        </p>
+                        <p>
+                            - Tất cả các thiết bị chứa Pin đều phải tháo Pin. Trừ Pin Điện thoại di động,
+                            laptop, ... nhưng vẫn hạn chế. Hạn chế không quá 10 cái/chuyến. Pin tiểu, than chì (các loại
+                            A) không vận chuyển.
+                        </p>
+                        <p>
+                            - Riêng Điện thoại di động, laptop, máy tính bảng hạn chế không quá 3 cái/chuyến.
+                        </p>
+                        <p>
+                            - Các loại đồ thủy tinh, dễ vỡ như đồng hồ có mặt kính, lọ hoa...: Saiko không nhận bảo
+                            hiểm, không có chính sách đền bù.
+                        </p>
+                        <p>
+                            - Đồng hồ: Nếu trị giá trên 10 man thì chỉ bảo hiểm tối đa 10 man.
+                        </p>
+                    </div>
+                </div>
+
+                <h4></h4>
+                <h4><span style="color: red">3 – CHÍNH SÁCH VỀ BẢO HIỂM:</span></h4>
+
+                <p><b>3.1 Chính sách bảo hiểm với hàng vận chuyển bay:</b></p>
+                <div style="margin-left:15px">
+
+                    <p>
+                        - Hàng hóa được đóng bảo hiểm sẽ được đền bù 100% giá trị hàng hóa. Bảo hiểm chỉ có giá trị tối
+                        đa
+                        20 triệu/lô hàng.
+                    </p>
+                    <p>
+                        - Bảo hiểm chỉ có giá trị trong phạm vi từ kho của SAIKO tại Nhật đến kho của SAIKO tại Việt
+                        Nam.
+                    </p>
+                    <p>
+                        - Giá trị và số lượng hàng hóa được khách hàng tự khai báo khi đăng ký thông tin kiện hàng trên
+                        website (https://www.saikoexpress.com).
+                    </p>
+                    <p>
+                        - LƯU Ý: Không nhận bảo hiểm với hàng công nghệ cao, đồ dễ vỡ (bao gồm cả điện thoại, laptop,
+                        máy
+                        tính bảng và đồng hồ có mặt kính)
+                    </p>
+                </div>
+
+                <p><b>• 3.2 Chính sách bảo hiểm với hàng vận chuyển biển:</b></p>
+                <div style="margin-left:15px">
+                    <p>
+                        - Hàng hóa được đóng bảo hiểm sẽ được đền bù 100% giá trị hàng hóa. Bảo hiểm chỉ có giá trị tối
+                        đa
+                        50 triệu/lô hàng.
+                    </p>
+                    <p>
+                        - Bảo hiểm chỉ có giá trị trong phạm vi từ kho của SAIKO tại Nhật đến kho của SAIKO tại Việt
+                        Nam.
+                    </p>
+                    <p>
+                        - Giá trị và số lượng hàng hóa được khách hàng tự khai báo khi đăng khí thông tin kiện hàng trên
+                        website (https://www.saikoexpress.com).
+                    </p>
+                    <p>
+                        - LƯU Ý: Không nhận bảo hiểm với hàng công nghệ cao, đồ dễ vỡ (bao gồm cả điện thoại, laptop,
+                        máy
+                        tính bảng và đồng hồ có mặt kính)
+                    </p>
+                </div>
+                <h4></h4>
+                <h4><span style="color: red">4 – CHÍNH SÁCH VỀ KHIẾU NẠI VÀ BỒI THƯỜNG:</span></h4>
+                <p><b>4.1 ĐIỀU KIỆN CỦA CHÍNH SÁCH KHIẾU NẠI VÀ BỒI THƯỜNG:</b></p>
+                <p>
+                    - Đối với dịch vụ vận chuyển: Saiko Express chỉ nhận khiếu nại do lỗi dịch vụ vận chuyển của Saiko
+                    Express và không nhận xử lý các khiếu nại do lỗi khách quan (như thiên tai, dịch bệnh,…) hoặc lỗi do
+                    các bên vận chuyển thứ 3 (như Hãng tàu, Hãng bay, Grab, GHTK, Ahamove,…)
+                </p>
+                <p>
+                    - Đối với dịch vụ mua hộ: Saiko Express chỉ nhận khiếu nại do lỗi dịch vụ mua hộ của Saiko Express
+                    và không nhận xử lý các khiếu nại do lỗi đơn vị bán sản phẩm. Saiko Express sẽ chỉ hỗ trợ khách hàng
+                    phản ánh trực tiếp tới bên bán.
+                </p>
+                <p><b>4.2 THỜI GIAN VÀ CÁCH THỨC PHẢN ÁNH KHIẾU NẠI:</b></p>
+                <p>
+                    - Thời gian nhận phản ánh khiếu nại: Trong giờ hành chính từ 8:00 đến 17:00 hàng ngày từ thứ 2 đến
+                    thứ 7 (trừ Chủ Nhật, Lễ Tết)
+                </p>
+                <p>
+                    - Kênh tiếp nhận khiếu nại: Qua hotline 1900 2149 hoặc nhắn tin trên fanpage Facebook Saiko Express.
+                </p>
+                <p>
+                    - Các nội dung khách hàng cần cung cấp cho Saiko Express khi khiếu nại:
+                <div style="margin-left:15px">
+                    <p>
+                        + Mã tracking của kiện hàng
+                    </p>
+                    <p>
+                        + Thời gian gửi kiện hàng
+                    </p>
+                    <p>
+                        + Hình ảnh/ video của kiện hàng thực tế
+                    </p>
+                    <p>
+                        + Họ và tên người gửi kiện hàng
+                    </p>
+                    <p>
+                        + Nội dung khiếu nại
+                    </p>
+                </div>
+                </p>
+                <p><b>4.3 CÁC TRƯỜNG HỢP NHẬN KHIẾU NẠI VÀ ĐỀN BÙ: </b>
+                <div style="margin-left:15px">
+                    <p><b>4.3.1 TRỄ HÀNG:</b></p>
+                    <p>LƯU Ý:</p>
+                    <div>
+                        <ul>
+                            <li>Các chuyến bay và công tác thông quan đôi khi cũng bị ảnh hưởng dẫn đến chậm trễ hàng.
+                            </li>
+                            <li>Không chịu trách nhiệm đền bù nếu chậm trễ do lỗi của các bên vận chuyển nội địa như
+                                VNPOST.</li>
+                            <li>
+                                Không tính ngày lễ của Nhật và Việt Nam vào ngày trễ hàng.
+                            </li>
+                        </ul>
+                    </div>
+                    <p><b>a/ Với hàng bay:</b></p>
+                    <p>
+                        - KHÔNG ĐỀN BÙ nếu trễ dưới 2 tuần so với lịch hẹn dự kiến.
+                    </p>
+                    <p>
+                        - TRỄ 15 NGÀY thì giảm 50% giá vận chuyển.
+                    </p>
+                    <p>
+                        - TRỄ 45 NGÀY thì miễn phí tiền vận chuyển. Đây là mức đền bù tối đa đối với sự cố trễ hàng.
+                    </p>
+                    <p><b>b/ Với hàng biển: </b></p>
+                    <p>
+                        - KHÔNG ĐỀN BÙ nếu trễ dưới 3 tháng so với lịch hẹn dự kiến.
+                    </p>
+                    <p>
+                        - TRỄ TRÊN 3 THÁNG thì giảm 50% giá vận chuyển. Đây là mức đền bù tối đa đối với sự cố trễ hàng.
+                    </p>
+                </div>
+                <div style="margin-left:15px">
+                    <p><b>4.3.2 THẤT LẠC, HƯ HỎNG HÀNG: :</b></p>
+
+                    <p>
+                        - Hàng hóa không được đóng bảo hiểm thì sẽ được ĐỀN BÙ 4 LẦN PHÍ VẬN CHUYỂN trong trường hợp
+                        thất lạc hoặc hư hỏng trong quá trình vận chuyển trong các điều kiện nêu trên.
+                    </p>
+                    <p>
+                        - Các hàng dễ vỡ, hư hỏng như đồ gốm, thủy tinh và một số máy móc công nghệ cao, … và các hàng
+                        biến dạng hoặc xây xát do việc đóng gói của khách hàng, không nằm trong danh sách đền bù khi hư
+                        hỏng.
+                    </p>
+                </div>
+                </p>
+
+                <h4></h4>
+                <h4><span style="color: red">5 – CHÍNH SÁCH VỀ BẢO MẬT THÔNG TIN KHÁCH HÀNG:</span></h4>
+                <div style="margin-left:15px">
+
+                    <p><b> 5.1 Thu thập thông tin:</b>
+                    <div style="margin-left:15px">
+                        <p>
+                            - Khi khách hàng thực hiện giao dịch/ đăng ký mở tài khoản trên các nền tảng website/app
+                            Saiko
+                            Express, khách hàng phải cung cấp một số thông tin cần thiết.
+                        </p>
+                        <p>
+                            - Khách hàng có trách nhiệm bảo đảm thông tin đúng và luôn cập nhật đầy đủ và chính xác
+                            nhất.
+                        </p>
+                    </div>
+                    </p>
+                    <p><b> 5.2 Lưu trữ và bảo mật thông tin riêng:</b>
+                    <div style="margin-left:15px">
+                        <p>
+                            - Thông tin khách hàng, cũng như các trao đổi giữa khách hàng và SAIKO EXPRESS, đều được lưu
+                            trữ
+                            và bảo mật bởi hệ thống của SAIKO EXPRESS.
+                        </p>
+                        <p>
+                            - SAIKO EXPRESS có các biện pháp thích hợp về kỹ thuật và an ninh để ngăn chặn việc truy cập
+                            sử
+                            dụng trái phép thông tin khách hàng.
+                        </p>
+                    </div>
+                    </p>
+                    </p>
+                    <p><b>5.3 Sử dụng thông tin khách hàng:</b>
+                    <p>
+                        - Giao hàng theo địa chỉ mà quý khách cung cấp.
+                    </p>
+                    <p>
+                        - Xử lý đơn đặt hàng và cung cấp dịch vụ, thông tin qua trang web Saiko Express theo yêu cầu của
+                        quý
+                        khách.
+                    </p>
+                    <p>
+                        -Sử dụng thông tin đã thu thập được từ các cookies nhằm cải thiện trải nghiệm người dùng và chất
+                        lượng các dịch vụ của Saiko Express.
+                        SAIKO EXPRESS cam kết sẽ không chia sẻ thông tin của khách hàng cho bất kỳ một công ty nào khác
+                        ngoại trừ những công ty và các bên thứ ba có liên quan trực tiếp đến việc giao hàng. Chúng tôi
+                        có
+                        thể tiết lộ hoặc cung cấp thông tin cá nhân của quý khách trong các trường hợp thật sự cần thiết
+                        như
+                        khi có yêu cầu của các cơ quan Pháp luật.
+                    </p>
+                </div>
 
             </div>
-
-
         </div>
     </div>
 </section>

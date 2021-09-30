@@ -572,10 +572,12 @@
                     return
                 }
                 $('#modal_qoute').hide()
+                const idToken = getToken();
                 $.ajax({
                     type: 'POST',
                     url: "{{ route('orders.store') }}",
                     data: {
+                        idToken:idToken,
                         order: true,
                         tracking: tracking,
                         insurance: check_insurance,
@@ -585,13 +587,26 @@
                     },
                     success: function(response) {
                         if (response.code == 401) {
-                            location.reload()
+                            swal({
+                                title: "Mã xác thực hết hạn, vui lòng tải lại trang",
+                                type: "warning",
+                                icon: "warning",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    window.location.reload();
+                                }
+                            });
                         }
                         $("#table_showResultCreatedTrackings").empty()
                         $.each(response, function(index, value) {
                             if(value.code ==401){
                                 swal({
-                                    title: "Vui lòng đăng nhập lại",
+                                    title: "Mã xác thực hết hạn, vui lòng tải lại trang",
                                     type: "warning",
                                     icon: "warning",
                                     showCancelButton: false,
@@ -671,17 +686,32 @@
                 if (!check.length) {
                     $("#paginate-address-book").pagination({
                         ajax: function(options, refresh, $target) {
+                            const idToken = getToken();
                             var page = $(this)[0].current;
                             $.ajax({
                                 type: "GET",
                                 url: "{{ route('shipment.index') }}",
                                 data: {
+                                    idToken:idToken,
                                     shipment: true,
                                     page_shipment: page,
                                 },
                                 success: function(data) {
                                     if (data.code == 401) {
-                                        location.reload()
+                                        swal({
+                                            title: "Mã xác thực hết hạn, vui lòng tải lại trang",
+                                            type: "warning",
+                                            icon: "warning",
+                                            showCancelButton: false,
+                                            confirmButtonColor: "#fca901",
+                                            confirmButtonText: "Exit",
+                                            closeOnConfirm: true
+                                        })
+                                        .then((willDelete) => {
+                                            if (willDelete) {
+                                                window.location.reload();
+                                            }
+                                        });
                                     } else {
                                         if (data.list_address.data.length) {
                                             $("#list-address").empty()
@@ -844,7 +874,7 @@
                 var check_address = $("#choosed-address .remove-bg").data('id');
 
                 if (check_address == undefined) {
-
+                    const idToken = getToken();
                     var OptionAdd = $('#utypeadd').val();
                     var AddRev = $("#UaddNumber").val();
                     if (OptionAdd.length > 5) {
@@ -931,6 +961,7 @@
                         type: 'POST',
                         url: "{{ route('rq_tk.store') }}",
                         data: {
+                            idToken:idToken,
                             special_price: special_price,
                             insurance: insurance_price,
                             utypeadd: utypeadd,
@@ -959,35 +990,35 @@
                             $.each(response, function(index, value) {
                                 if(value.code ==401){
                                     swal({
-                                            title: "Vui lòng đăng nhập lại",
-                                            type: "warning",
-                                            icon: "warning",
-                                            showCancelButton: false,
-                                            confirmButtonColor: "#fca901",
-                                            confirmButtonText: "Exit",
-                                            closeOnConfirm: true
-                                        })
-                                        .then((willDelete) => {
-                                            if (willDelete) {
-                                                window.location.reload();
-                                            }
-                                        });
+                                        title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                                        type: "warning",
+                                        icon: "warning",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#fca901",
+                                        confirmButtonText: "Exit",
+                                        closeOnConfirm: true
+                                    })
+                                    .then((willDelete) => {
+                                        if (willDelete) {
+                                            window.location.reload();
+                                        }
+                                    });
                                 }
                                 if (value.code == 201) {
                                     swal({
-                                            title: "Đã tạo thành công",
-                                            type: "success",
-                                            icon: "success",
-                                            showCancelButton: false,
-                                            confirmButtonColor: "#fca901",
-                                            confirmButtonText: "Exit",
-                                            closeOnConfirm: true
-                                        })
-                                        .then((willDelete) => {
-                                            if (willDelete) {
-                                                window.location.reload();
-                                            }
-                                        });
+                                        title: "Đã tạo thành công",
+                                        type: "success",
+                                        icon: "success",
+                                        showCancelButton: false,
+                                        confirmButtonColor: "#fca901",
+                                        confirmButtonText: "Exit",
+                                        closeOnConfirm: true
+                                    })
+                                    .then((willDelete) => {
+                                        if (willDelete) {
+                                            window.location.reload();
+                                        }
+                                    });
                                 }
                                 if (value.code == 405) {
                                     swal({
@@ -1014,8 +1045,6 @@
                             })
                         }
                     });
-                } else {
-
                 }
             })
 
@@ -1026,7 +1055,6 @@
             $(".remove-bg").addClass('bg-secondary-fix')
             $(".remove-bg").removeClass('bg-warning')
             $(obj).addClass('bg-warning')
-
         }
 
         function swal_action(string) {
@@ -1229,16 +1257,31 @@
         }
 
         function fetch_data(page) {
+            const idToken = getToken();
             $.ajax({
                 type: "GET",
                 url: "{{ route('shipment.index') }}",
                 data: {
+                    idToken:idToken,
                     shipment: true,
                     page_shipment: page
                 },
                 success: function(data) {
                     if (data.code == 401) {
-                        location.reload()
+                        swal({
+                            title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                            type: "success",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                window.location.reload();
+                            }
+                        });
                     } else {
                         if (data.list_address.data.length) {
                             $("#list-address").empty()

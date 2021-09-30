@@ -137,8 +137,6 @@
                                 <td class="unset-border-bottom">STT</td>
                                 <td class="unset-border-bottom">Tên người nhận</td>
                                 <td class="unset-border-bottom">Số điện thoại</td>
-                                <td class="unset-border-bottom">Tên người gửi</td>
-                                <td class="unset-border-bottom">Số điện thoại người gửi</td>
                                 <td class="unset-border-bottom">Địa chỉ</td>
                                 <td class="unset-border-bottom">#</td>
                             </tr>
@@ -149,8 +147,6 @@
                                     <td>{{ $data['list_address']['from']++ }}</td>
                                     <td>{{ $value['consignee'] }}</td>
                                     <td>{{ $value['tel'] }}</td>
-                                    <td>{{ $value['sender_name'] }}</td>
-                                    <td>{{ $value['sender_tel'] }}</td>
                                     <td>{{ $value['full_address'] }}</td>
                                     <td>
                                         <div class="row">
@@ -187,18 +183,6 @@
                     <div class="modal-body">
                         <div>
                             <form>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label>Tên người gửi</label>
-                                        <input type="text" class="form-control" id="inputSender-name"
-                                            placeholder="Nhập tên người nhận">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label>Số điện thoại</label>
-                                        <input type="number" class="form-control " id="inputSender-tel"
-                                            placeholder="Nhập số điện thoại người gửi">
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Tên người nhận</label>
@@ -266,18 +250,6 @@
                     <div class="modal-body">
                         <div>
                             <form>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label>Tên người gửi</label>
-                                        <input type="text" class="form-control empty-input fix-height-ip"
-                                            id="inputSender-name-update" placeholder="Nhập tên người nhận">
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label>Số điện thoại</label>
-                                        <input type="number" class="form-control empty-input fix-height-ip"
-                                            id="inputSender-tel-update" placeholder="Nhập số điện thoại người gửi">
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="form-group col-md-6">
                                         <label>Tên người nhận</label>
@@ -420,7 +392,17 @@
                 },
                 success: function(data) {
                     if (data.code == 401) {
-                        location.reload()
+                        swal({
+                            title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                            type: "success",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        }).then(()=>{
+                            window.location.reload()
+                        })
                     } else {
                         if (data.list_address.data.length) {
 
@@ -432,8 +414,6 @@
                                     '<td>' + data.list_address.from++ + '</td>' +
                                     '<td>' + value.consignee + '</td>' +
                                     '<td>' + value.tel + '</td>' +
-                                    '<td>' + value.sender_name + '</td>' +
-                                    '<td>' + value.sender_tel + '</td>' +
                                     '<td>' + value.full_address + '</td>' +
                                     '<td>' + '<div class="row">' +
                                     '<div class="col-m-6" style="width:auto !important;">' +
@@ -474,8 +454,6 @@
         }
         //created Address
         function CreateAddress() {
-            var sender_name = $("#inputSender-name").val();
-            var sender_tel = $("#inputSender-tel").val();
             var consignee = $("#consignee").val();
             var consignee_tel = $("#consignee-tel").val();
             var province = $("#province").val();
@@ -484,14 +462,6 @@
             var address = $("#address-home").val();
             var note = $("#note").val();
 
-            if (sender_name.length < 4) {
-                alert('Nhập thiếu tên người gửi')
-                return;
-            }
-            if (sender_tel.length < 9) {
-                alert('Nhập thiếu số điện thoại người gửi')
-                return;
-            }
             if (consignee.length < 4) {
                 alert('Nhập thiếu tên người nhận')
                 return;
@@ -521,8 +491,6 @@
                 url: "{{ route('shipment.store') }}",
                 data: {
                     note: note,
-                    sender_name: sender_name,
-                    sender_tel: sender_tel,
                     consignee: consignee,
                     tel: consignee_tel,
                     ward_id: ward,
@@ -532,7 +500,17 @@
                     $("#alert-errors").empty()
                     $("#modal-create-address").hide()
                     if (response.code == 401) {
-                        location.reload();
+                        swal({
+                            title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                            type: "warning",
+                            icon: "warning",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        }).then(()=>{
+                            location.reload()
+                        })
                     }
                     if (response.code == 201) {
                         var page = $("#fix-paginate-address .active a").data('page');
@@ -546,8 +524,6 @@
                             confirmButtonText: "Exit",
                             closeOnConfirm: true
                         })
-                        $("#inputSender-name").val('');
-                        $("#inputSender-tel").val('');
                         $("#consignee").val('');
                         $("#consignee-tel").val('');
                         $("#address-home").val('');
@@ -591,7 +567,17 @@
                         url: "../shipment/" + id_shipment,
                         success: function(response) {
                             if (response.code == 401) {
-                                location.reload()
+                                swal({
+                                    title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                                    type: "success",
+                                    icon: "success",
+                                    showCancelButton: false,
+                                    confirmButtonColor: "#fca901",
+                                    confirmButtonText: "Exit",
+                                    closeOnConfirm: true
+                                }).then(()=>{
+                                    window.location.reload()
+                                })
                             }
                             if (response.code == 200) {
                                 var page = $("#fix-paginate-address .active a").data('page');
@@ -619,11 +605,19 @@
                 url: "../shipment/" + id_shipment + "/edit",
                 success: function(response) {
                     if (response.code == 401) {
-                        location.reload()
+                        swal({
+                            title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                            type: "success",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        }).then(()=>{
+                            location.reload()
+                        })
                     }
                     if (response.code == 200) {
-                        $("#inputSender-name-update").val(response.data.sender_name)
-                        $("#inputSender-tel-update").val(response.data.sender_tel)
                         $("#consignee-update").val(response.data.consignee)
                         $("#consignee-tel-update").val(response.data.tel)
                         $("#address-home-update").val(response.data.address)
@@ -633,9 +627,8 @@
                         if (response.data.provinces.length) {
                             $.each(response.data.provinces, function(index, value) {
                                 $("#province-update").append(new Option(value.name, value
-                                    .id, value.id == id_province ? true :
-                                    false, value.id == id_province ? true :
-                                    false))
+                                    .id, value.id == id_province ? true : false,
+                                    value.id == id_province ? true : false ))
                             })
                             $.each(response.data.districts, function(index, value) {
                                 $("#district-update").append(new Option(value.name, value
@@ -664,8 +657,6 @@
         //send info update address
         function sendUpdate(obj) {
             var id_shipment = $(obj).attr("data-id_address")
-            var sender_name = $("#inputSender-name-update").val();
-            var sender_tel = $("#inputSender-tel-update").val();
             var consignee = $("#consignee-update").val();
             var consignee_tel = $("#consignee-tel-update").val();
             var province = $("#province-update").val();
@@ -674,14 +665,6 @@
             var address = $("#address-home-update").val();
             var note = $("#note-update").val();
 
-            if (sender_name.length < 4) {
-                alert('Nhập thiếu tên người gửi')
-                return;
-            }
-            if (sender_tel.length < 9) {
-                alert('Nhập thiếu số điện thoại người gửi')
-                return;
-            }
             if (consignee.length < 4) {
                 alert('Nhập thiếu tên người nhận')
                 return;
@@ -702,7 +685,7 @@
                 alert('Vui lòng chọn phường xã')
                 return;
             }
-            if (address.length < 7) {
+            if (address.length < 1) {
                 alert('Vui lòng nhập số nhà tên đường')
                 return;
             }
@@ -712,8 +695,6 @@
                 url: "../shipment/" + id_shipment,
                 data: {
                     note: note,
-                    sender_name: sender_name,
-                    sender_tel: sender_tel,
                     consignee: consignee,
                     tel: consignee_tel,
                     ward_id: ward,
@@ -723,7 +704,17 @@
                     $("#alert-errors").empty()
                     $("#modal-update-address").hide()
                     if (response.code == 401) {
-                        location.reload()
+                        swal({
+                            title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                            type: "success",
+                            icon: "success",
+                            showCancelButton: false,
+                            confirmButtonColor: "#fca901",
+                            confirmButtonText: "Exit",
+                            closeOnConfirm: true
+                        }).then(()=>{
+                            window.location.reload()
+                        })
                     }
                     if (response.code == 200) {
                         var page = $("#fix-paginate-address .active a").data('page');

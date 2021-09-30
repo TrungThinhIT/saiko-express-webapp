@@ -26,21 +26,25 @@
 
         @media (max-width:1024px) {
             .col-md-4 {
-                margin-top:10px !important;
+                margin-top: 10px !important;
                 width: 100% !important;
             }
 
             .row {
                 --bs-gutter-x: unset !important;
-            }.fix-margin-left {
+            }
+
+            .fix-margin-left {
                 margin-left: unset !important;
             }
         }
+
         .fix-margin-left {
             font-size: 16px;
-            margin-left: -20px ;
+            margin-left: -20px;
         }
-        .fix-width-input{
+
+        .fix-width-input {
             width: auto !important;
         }
 
@@ -57,7 +61,8 @@
                         </div>
                         {{-- body --}}
                         <div class="panel-body p-2 pt-4">
-                            <form id="update-info-form" method="put" action="" class="form-horizontal" role="form" autocomplete="off">
+                            <form id="update-info-form" method="put" action="" class="form-horizontal" role="form"
+                                autocomplete="off">
                                 @csrf
                                 <div class="form-group">
                                     <div class="row align-items-center">
@@ -79,14 +84,16 @@
                                             <input id="login-email" type="email" readonly class="form-control"
                                                 name="email-info" value="{{ $data['email'] }}">
                                         </div>
-                                        @if($data['id']!="sale.se")
-                                        <div class="col-md-2 fix-margin-left" id="btn-show-password">
-                                            <input type="button" class="form-control btn-secondary fix-width-input" value="Sửa">
-                                        </div>
+                                        @if ($data['id'] != 'sale.se')
+                                            <div class="col-md-2 fix-margin-left" id="btn-show-password">
+                                                <input type="button" class="form-control btn-secondary fix-width-input"
+                                                    value="Sửa">
+                                            </div>
                                         @endif
                                         <div class="col-md-2 d-none fix-margin-left confirm-update-mail"
                                             id="btn-hidden-password">
-                                            <input type="button" class="form-control btn-secondary fix-width-input" value="Hủy">
+                                            <input type="button" class="form-control btn-secondary fix-width-input"
+                                                value="Hủy">
                                         </div>
                                     </div>
 
@@ -97,8 +104,9 @@
                                             <label for="">Mật khẩu</label>
                                         </div>
                                         <div class="col-md-10">
-                                            <input id="login-email-update" type="password"  autocomplete="off" class="form-control"
-                                                name="email-info" value="" placeholder="Nhập mật khẩu để xác thực">
+                                            <input id="login-email-update" type="password" autocomplete="off"
+                                                class="form-control" name="email-info" value=""
+                                                placeholder="Nhập mật khẩu để xác thực">
                                         </div>
                                     </div>
 
@@ -121,21 +129,6 @@
                                         class="btn btn-warning d-none confirm-update-mail">Cập
                                         nhật</button>
                                 </div>
-                                {{-- <div class="form-group">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-2">
-                                            <label for="">Trạng thái</label>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <input id="status-info" type="text" readonly class="form-control" name="email"
-                                                value="{{ $data['status_id'] }}">
-                                        </div>
-                                    </div>
-                                </div> --}}
-                                {{-- <div class="text-center">
-                            <button id="btn-update-info" type="submit" class="btn btn-success">Cập
-                                nhật</button>
-                        </div> --}}
                             </form>
                         </div>
                     </div>
@@ -192,7 +185,7 @@
                                         </div>
                                     </div>
                                 </div> --}}
-                                @if($data['id']!="sale.se")
+                                @if ($data['id'] != 'sale.se')
                                     <div class="text-center">
                                         {{-- id="btn-update-password" --}}
                                         <button onclick="updatePassword_check()" type="submit"
@@ -220,48 +213,23 @@
                                 @if (isset($data['account']))
                                     @if (count($data['account']['data']))
                                         @foreach ($data['account']['data'] as $key => $value)
-                                            <div class="row d-inline">
-                                                <div style="margin-bottom: 25px" class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-md-3">
-                                                            <label for="">{{ $value['currency_id'] }}</label>
-                                                        </div>
-                                                        <div class="col-md-9">
-                                                            <input readonly type="text" class="form-control"
-                                                                value="{{ number_format($value['balance']) }}">
+                                            <div class="row d-inline ">
+                                                @if ($value['balance'] != 0)
+                                                    <div style="margin-bottom: 25px" class="form-group">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-md-3">
+                                                                <label for="">{{ $value['currency_id'] }}</label>
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                <input readonly type="text" class="form-control"
+                                                                    value="{{ number_format($value['balance']) }}">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                @endif
+
                                             </div>
                                         @endforeach
-                                    @else
-                                        <div class="row">
-                                            <div style="margin-bottom: 25px" class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label for="">VND</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input id="money-VND" readonly type="text" class="form-control"
-                                                            name="money-VND" value="0">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div style="margin-bottom: 25px" class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <label for="">JPY</label>
-                                                    </div>
-                                                    <div class="col-md-9">
-                                                        <input id="money-JPY" readonly type="text" class="form-control"
-                                                            name="money-JPY" value="0">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     @endif
                                 @endif
                             </form>
@@ -315,7 +283,7 @@
                                 confirmButtonColor: "#fca901",
                                 confirmButtonText: "Exit",
                                 closeOnConfirm: true
-                            }).then(()=>{
+                            }).then(() => {
                                 window.location.reload()
                             })
                         }
@@ -328,7 +296,7 @@
                                 confirmButtonColor: "#fca901",
                                 confirmButtonText: "Exit",
                                 closeOnConfirm: true
-                            }).then(()=>{
+                            }).then(() => {
                                 window.location.reload()
                             })
 
@@ -370,6 +338,11 @@
             $('.tmn-custom-mask').toggleClass('d-none');
         }
 
+        function validateEmail(email) {
+            const re = /^([a-z0-9]+)(\.[a-z0-9]+)*@([a-z0-9]+\.)+[a-z]{2,6}$/i;
+            return re.test(email);
+        }
+
         function updateUserEmail() {
             // [START auth_update_user_email]
             $("#update-info-form").submit(function(e) {
@@ -382,7 +355,18 @@
                     var credential = firebase.auth.EmailAuthProvider.credential(user_update.email, current_password)
                     user.reauthenticateWithCredential(credential).then(() => {
                         var email = $("#login-email").val();
-
+                        if (!validateEmail(email)) {
+                            swal({
+                                title: "Không đúng định dạng email",
+                                type: "warning",
+                                icon: "warning",
+                                showCancelButton: false,
+                                confirmButtonColor: "#fca901",
+                                confirmButtonText: "Exit",
+                                closeOnConfirm: true
+                            })
+                            return false;
+                        }
                         user.updateEmail(email).then(() => {
                             // Update successful
                             // Email verification sent!
@@ -394,7 +378,7 @@
                                         type: "POST",
                                         url: "{{ route('auth.login') }}",
                                         data: {
-                                            token: idToken,
+                                            idToken: idToken,
                                         },
                                         success: function(respone) {
                                             if (respone.code == 200) {
@@ -410,12 +394,15 @@
                                                     window.location.reload()
                                                 })
                                             } else {
-                                                $("#alert-errors").append(
-                                                    "<span class='text-danger'>" +
-                                                    "Email hoặc mật khẩu sai" +
-                                                    "</span>" + "<br>"
-                                                )
-                                                $("#modalConfirmDelete").show()
+                                                swal({
+                                                    title: respone.data,
+                                                    type: "warning",
+                                                    icon: "warning",
+                                                    showCancelButton: false,
+                                                    confirmButtonColor: "#fca901",
+                                                    confirmButtonText: "Exit",
+                                                    closeOnConfirm: true
+                                                })
                                             }
                                         },
                                         error: function(respone) {
@@ -433,7 +420,7 @@
                         }).catch((error) => {
                             // An error occurred
                             swal({
-                                title: "Cập nhật thất bại: " + error.code,
+                                title: error.message,
                                 type: "warning",
                                 icon: "warning",
                                 showCancelButton: false,

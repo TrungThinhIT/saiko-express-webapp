@@ -20,7 +20,7 @@ class RQ_TKController extends Controller
         $param = [
             'search' => 'country_id:vn',
         ];
-        $provinces = Http::withHeaders($header)->get('https://prod-notification.tomonisolution.com/api/provinces', $param);
+        $provinces = Http::withHeaders($header)->get(self::$notification_host . '/api/provinces', $param);
 
         $data = collect(json_decode($provinces->body()));
         return view('rq-tracking.price', compact('data'));
@@ -33,7 +33,7 @@ class RQ_TKController extends Controller
         $param = [
             'search' => 'country_id:vn',
         ];
-        $provinces = Http::withHeaders($header)->get('https://prod-notification.tomonisolution.com/api/provinces', $param);
+        $provinces = Http::withHeaders($header)->get(self::$notification_host . '/api/provinces', $param);
 
         $data = collect(json_decode($provinces->body()));
         if ($request->wantsJson()) {
@@ -53,7 +53,7 @@ class RQ_TKController extends Controller
         $param = [
             'search' => 'province_id:' . $request->province,
         ];
-        $provinces = Http::withHeaders($header)->get('https://prod-notification.tomonisolution.com/api/districts', $param);
+        $provinces = Http::withHeaders($header)->get(self::$notification_host . '/api/districts', $param);
 
         $data = collect(json_decode($provinces->body()));
         return response()->json($data);
@@ -66,7 +66,7 @@ class RQ_TKController extends Controller
         $param = [
             'search' => 'district_id:' . $request->district,
         ];
-        $provinces = Http::withHeaders($header)->get('https://prod-notification.tomonisolution.com/api/wards', $param);
+        $provinces = Http::withHeaders($header)->get(self::$notification_host . '/api/wards', $param);
 
         $data = collect(json_decode($provinces->body()));
         return response()->json($data);

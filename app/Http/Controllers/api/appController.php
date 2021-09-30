@@ -19,6 +19,7 @@ class appController extends Controller
 {
     public function __construct(QuoteController $QCT)
     {
+        parent::__construct();
         $this->QCT = $QCT;
     }
     //kiểm tra cổng trước khi upfile

@@ -13,10 +13,43 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public static $auth_host,
+        $accounting_host,
+        $product_host,
+        $order_host,
+        $warehouse_host,
+        $notification_host;
+
+    public function __construct()
+    {
+        $this->boot();
+    }
+
+    public function boot()
+    {
+        self::$auth_host = config('services.tomonisolution.auth.host');
+        self::$accounting_host = config('services.tomonisolution.accounting.host');
+        self::$product_host = config('services.tomonisolution.product.host');
+        self::$order_host = config('services.tomonisolution.order.host');
+        self::$warehouse_host = config('services.tomonisolution.warehouse.host');
+        self::$notification_host = config('services.tomonisolution.notification.host');
+    }
+
+    public function deleteCheckSession()
+    {
+        session()->forget('checkToken');
+    }
+
     public function deleteSession()
     {
         session()->forget('idToken');
     }
+
+    public function deleteCookie()
+    {
+        Cookie::queue(Cookie::forget('idToken'));
+    }
+    // --------------------------------------
     public function getData($request)
     {
         $data = $request->session()->get('idToken');
@@ -41,19 +74,48 @@ class Controller extends BaseController
         return $token;
     }
 
-    public function deleteCookie()
+    // ------------------------------------------
+    public function getCheckSession($request)
     {
-        Cookie::queue(Cookie::forget('idToken'));
+        $data = $request->session()->get('checkToken');
+        if (!$data) {
+            return false;
+        }
+        $data = unserialize($data);
+
+        return $data;
+    }
+
+    public function userIdSession($request)
+    {
+        $data = $this->getCheckSession($request);
+        if (!$data) {
+            return false;
+        }
+        $token = $data['id'];
+        return $token;
+    }
+
+    public function getTokenSession($request)
+    {
+        $data = $this->getCheckSession($request);
+        if (!$data) {
+            return false;
+        }
+        $token = $data['idToken'];
+        return $token;
     }
 
     public function IdUserByToken($request)
     {
+        $token_checkSession = $this->getTokenSession(($request));
+
         $user = Http::withHeaders(
             [
                 'Accept' => 'application/json',
-                'X-Firebase-IdToken' => $request->idToken,
+                'X-Firebase-IdToken' => $request->idToken ? $request->idToken : $token_checkSession,
             ]
-        )->get('https://dev-auth.tomonisolution.com/api/me');
+        )->get(self::$auth_host . '/api/me');
 
         $id = 'sale.se';
 

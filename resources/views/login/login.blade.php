@@ -279,6 +279,13 @@
                                             name="password" placeholder="Nhập mật khẩu" value=''>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-md-3 control-label">Password Confirm</label>
+                                    <div class="col-md-9">
+                                        <input type="password" required id="repassword" class="form-control"
+                                            name="repassword" placeholder="Nhập lại mật khẩu" value=''>
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
@@ -368,6 +375,10 @@
     @include('modules.footer')
 </body>
 <script>
+    function validateEmail(email) {
+        const re =/^([a-z0-9]+)(\.[a-z0-9]+)*@([a-z0-9]+\.)+[a-z]{2,6}$/i;
+        return re.test(email);
+    }
     //login
     function signInWithEmailPassword() {
         firebase.auth().signOut().then(() => {
@@ -384,7 +395,7 @@
                 let access_token = userCredential.user.toJSON().stsTokenManager.accessToken;
                 // Send token to your backend via HTTPS
                 setToken(access_token)
-                let idToken = getToken();
+                let idToken = access_token;
                 $.ajax({
                     type: "POST",
                     url: "{{ route('auth.login') }}",
@@ -428,13 +439,41 @@
     function signUpWithEmailPassword() {
         var email = $("#email").val();
         var password = $("#password").val();
+        var repassword = $("#repassword").val();
+        if(!validateEmail(email)){
+            swal({
+                title: "Không đúng định dạng email",
+                type: "warning",
+                icon: "warning",
+                showCancelButton: false,
+                confirmButtonColor: "#fca901",
+                confirmButtonText: "Exit",
+                closeOnConfirm: true
+                // ...
+            })
+            return false;
+        }
+        if (repassword !== password) {
+            swal({
+                title: "Mật khẩu không trùng khớp",
+                type: "warning",
+                icon: "warning",
+                showCancelButton: false,
+                confirmButtonColor: "#fca901",
+                confirmButtonText: "Exit",
+                closeOnConfirm: true
+                // ...
+            })
+            return false
+        }
         // [START auth_signup_password]
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                // Signed in
+                let user = userCredential.user
+                let idToken = user.toJSON().stsTokenManager.accessToken;
+
                 firebase.auth().currentUser.sendEmailVerification()
                     .then(() => {
-                        // Email verification sent!
                         swal({
                             title: "Kiểm tra mail để xác thực",
                             type: "success",
@@ -444,6 +483,32 @@
                             confirmButtonText: "Exit",
                             closeOnConfirm: true
                             // ...
+                        }).then((check) => {
+                            console.log('a')
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('auth.login') }}",
+                                data: {
+                                    idToken: idToken,
+                                },
+                                success: function(respone) {
+                                    if (respone.code == 200) {
+                                        window.location.href =
+                                            "{{ route('orders.create') }}";
+                                    } else {
+                                        $("#alert-errors").empty()
+                                        $("#alert-errors").append(
+                                            "<span class='text-danger'>" +
+                                            "Email hoặc mật khẩu sai" +
+                                            "</span>" + "<br>"
+                                        )
+                                        $("#modalConfirmDelete").show()
+                                    }
+                                },
+                                error: function(respone) {
+                                    console.log(respone.responseJSON.errors.id)
+                                }
+                            })
                         })
 
                     }).catch((error) => {
@@ -511,13 +576,6 @@
         provider.setCustomParameters({
             'display': 'popup'
         })
-        // [END auth_google_provider_create]
-
-        // [START auth_google_provider_scopes]
-
-        // [END auth_google_provider_scopes]
-
-        // [START auth_google_provider_params]
 
         firebase.auth()
             .signInWithPopup(provider)
@@ -527,66 +585,46 @@
 
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 var token = credential.accessToken;
+                // return false
                 // The signed-in user info.
                 var user = result.user;
+                var access_token = user.toJSON().stsTokenManager.accessToken;
                 if (!user.emailVerified) {
                     firebase.auth().currentUser.sendEmailVerification()
                         .then(() => {}).catch((error) => {
                             swal("warning", error.message)
                         });
                 }
-                firebase.auth().currentUser.getIdToken( /* forceRefresh */ false).then(function(token_gg) {
-
-                    // Send token to your backend via HTTPS
-                    setToken(token_gg)
-                    let idToken = getToken();
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ route('auth.login') }}",
-                        data: {
-                            idToken: idToken,
-                        },
-                        success: function(respone) {
-                            if (respone.code == 200) {
-                                window.location.href = "{{ route('orders.create') }}";
-                            } else {
-                                $("#alert-errors").empty()
-                                $("#alert-errors").append(
-                                    "<span class='text-danger'>" +
-                                    "Email hoặc mật khẩu sai" +
-                                    "</span>" + "<br>"
-                                )
-                                $("#modalConfirmDelete").show()
-                            }
-                        },
-                        error: function(respone) {
-                            console.log(respone.responseJSON.errors.id)
+                // Send token to your backend via HTTPS
+                setToken(access_token)
+                let idToken = access_token;
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('auth.login') }}",
+                    data: {
+                        idToken: idToken,
+                    },
+                    success: function(respone) {
+                        if (respone.code == 200) {
+                            window.location.href = "{{ route('orders.create') }}";
+                        } else {
+                            $("#alert-errors").empty()
+                            $("#alert-errors").append(
+                                "<span class='text-danger'>" +
+                                "Email hoặc mật khẩu sai" +
+                                "</span>" + "<br>"
+                            )
+                            $("#modalConfirmDelete").show()
                         }
-                    })
-                }).catch(function(error) {
-                    swal({
-                        title: error.message,
-                        type: "warning",
-                        icon: "warning",
-                        showCancelButton: false,
-                        confirmButtonColor: "#fca901",
-                        confirmButtonText: "Exit",
-                        closeOnConfirm: true
-                    })
-                });
-
+                    },
+                    error: function(respone) {
+                        console.log(respone.responseJSON.errors.id)
+                    }
+                })
                 // swal(token, credential)
 
             }).catch((error) => {
-                // Handle Errors here.
-                var errorCode = error.code;
                 var errorMessage = error.message;
-                // The email of the user's account used.
-                var email = error.email;
-                // The firebase.auth.AuthCredential type that was used.
-                var credential = error.credential;
-                // ...
-
                 console.log(errorMessage)
             });
         // [END auth_google_signin_popup]
@@ -607,48 +645,35 @@
 
                 // The signed-in user info.
                 var user = result.user;
+                var access_token = result.user.toJSON().stsTokenManager.accessToken
 
                 // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-                var accessToken = credential.accessToken;
-                firebase.auth().currentUser.getIdToken( /* forceRefresh */ false).then(function(token_gg) {
-                    // Send token to your backend via HTTPS
-                    setToken(token_gg)
-                    let idToken = getToken();
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ route('auth.login') }}",
-                        data: {
-                            idToken: idToken,
-                        },
-                        success: function(respone) {
-                            if (respone.code == 200) {
-                                window.location.href = "{{ route('orders.create') }}";
-                            } else {
-                                $("#alert-errors").empty()
-                                $("#alert-errors").append(
-                                    "<span class='text-danger'>" +
-                                    "Email hoặc mật khẩu sai" +
-                                    "</span>" + "<br>"
-                                )
-                                $("#modalConfirmDelete").show()
-                            }
-                        },
-                        error: function(respone) {
-                            console.log(respone.responseJSON.errors.id)
+                // Send token to your backend via HTTPS
+                setToken(access_token)
+                let idToken = access_token;
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('auth.login') }}",
+                    data: {
+                        idToken: idToken,
+                    },
+                    success: function(respone) {
+                        if (respone.code == 200) {
+                            window.location.href = "{{ route('orders.create') }}";
+                        } else {
+                            $("#alert-errors").empty()
+                            $("#alert-errors").append(
+                                "<span class='text-danger'>" +
+                                "Email hoặc mật khẩu sai" +
+                                "</span>" + "<br>"
+                            )
+                            $("#modalConfirmDelete").show()
                         }
-                    })
-                }).catch(function(error) {
-                    swal({
-                        title: error.message,
-                        type: "warning",
-                        icon: "warning",
-                        showCancelButton: false,
-                        confirmButtonColor: "#fca901",
-                        confirmButtonText: "Exit",
-                        closeOnConfirm: true
-                    })
-                });
-                // ...
+                    },
+                    error: function(respone) {
+                        console.log(respone.responseJSON.errors.id)
+                    }
+                })
             }).catch((error) => {
                 // Handle Errors here.
                 var errorCode = error.code;
@@ -713,31 +738,6 @@
                 return false;
             }
             sendPasswordReset()
-            // toggleLoading()
-            // $.ajax({
-            //     type: "POST",
-            //     url: "{{ route('auth.sendLinkResetPassword') }}",
-            //     data: {
-            //         callback_domain: window.location.protocol + "//" + window.location.hostname,
-            //         email: email,
-            //     },
-            //     success: function(response) {
-            //         if (response.code == 204) {
-            //             $("#alert-link-getPassword-success").append(
-            //                 'Thông báo đã được gửi, bạn vui lòng kiểm tra email'
-            //             )
-            //             $("#alert-link-getPassword-success").show()
-            //         } else {
-            //             $("#alert-link-getPassword-fail").append(
-            //                 'Thông báo đã được gửi hoặc email không đúng'
-            //             )
-            //             $("#alert-link-getPassword-fail").show()
-            //         }
-            //     },
-            //     error: function(response) {
-
-            //     }
-            // })
         })
     })
 

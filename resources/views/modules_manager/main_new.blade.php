@@ -987,22 +987,53 @@
             measurementId: "{{ config('services.firebase.measurementId') }}"
         });
         firebase.analytics();
-
-        let id_session = "{{ Session::get('idToken') }}";
-
-        if (id_session == "") {
-            $.removeCookie('idToken', {
-                path: '/'
-            })
-            firebase.auth().signOut().then(() => {
-                // Sign-out successful.
-                window.location.href = "{{ route('auth.logout') }}"
-            }).catch((error) => {
-                // An error happened.
-                window.location.href = "{{ route('auth.logout') }}"
-            });
+        function lifeTimeToken(){
+            let id_session = "{{ Session::has('idToken') }}";
+            if (!id_session ) {
+                $.removeCookie('idToken', {
+                    path: '/'
+                })
+                firebase.auth().signOut().then(() => {
+                    // Sign-out successful.
+                    window.location.href = "{{ route('auth.logout') }}"
+                }).catch((error) => {
+                    // An error happened.
+                    window.location.href = "{{ route('auth.logout') }}"
+                });
+            }else{
+                if(!checkToken()){
+                    firebase.auth().onAuthStateChanged((user) => {
+                        if (user) {
+                            firebase.auth().currentUser.getIdToken( /* forceRefresh */ true).then(
+                                function(token_gg) {
+                                    setToken(token_gg)
+                                    $.ajax({
+                                        headers:{
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                        },
+                                        type: "POST",
+                                        url: "{{ route('auth.login') }}",
+                                        data: {
+                                            idToken: token_gg,
+                                        },
+                                        global:false,
+                                        success: function(respone) {
+                                            if (respone.code == 200) {
+                                            }
+                                        },
+                                        error: function(respone) {
+                                            console.log(respone.responseJSON.errors)
+                                        }
+                                    })
+                                }).catch(function(error) {
+                                    console.log(error)
+                            });
+                        }
+                    });
+                }
+            }
         }
-
+        lifeTimeToken();
         $(document).ready(function() {
             //logout
             $("#logout-firebase").click(function(e) {
@@ -1656,6 +1687,7 @@
 
             $("#time_line_tracking").empty()
             if(checkToken()){
+                var idToken = getToken();
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1663,6 +1695,7 @@
                     type: "POST",
                     url: "{{ route('rq_tk.getInforBox') }}",
                     data: {
+                        idToken:idToken,
                         id_box: id_box
                     },
                     success: function(res) {
@@ -1801,24 +1834,6 @@
                                 }
                             }
                         }
-                        // vnpost
-                        // if(vnpost){
-                        //     $("#body-table-firt-vnpost").empty()
-                        //     $("#body-table-firt-vnpost").append(
-                        //         '<tr>' +
-                        //         '<td>' + vnpost.MaDichVu +
-                        //         '</td>' +
-                        //         '<td>' + vnpost.PhuongThucVC +
-                        //         '</td>' +
-                        //         '<td>' + vnpost.CuocCOD +
-                        //         '</td>' +
-                        //         '<td>' + vnpost.TongCuocSauVAT +
-                        //         '</td>' +
-                        //         '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
-                        //         '</tr>'
-                        //     )
-                        //     $("#table-firt-vnpost").show()
-                        // }
 
                     },
                     error: function(res) {
@@ -1838,6 +1853,7 @@
                                 type: "POST",
                                 url: "{{ route('rq_tk.getInforBox') }}",
                                 data: {
+                                    idToken:idToken,
                                     id_box: id_box
                                 },
                                 success: function(res) {
@@ -1976,24 +1992,6 @@
                                             }
                                         }
                                     }
-                                    // vnpost
-                                    // if(vnpost){
-                                    //     $("#body-table-firt-vnpost").empty()
-                                    //     $("#body-table-firt-vnpost").append(
-                                    //         '<tr>' +
-                                    //         '<td>' + vnpost.MaDichVu +
-                                    //         '</td>' +
-                                    //         '<td>' + vnpost.PhuongThucVC +
-                                    //         '</td>' +
-                                    //         '<td>' + vnpost.CuocCOD +
-                                    //         '</td>' +
-                                    //         '<td>' + vnpost.TongCuocSauVAT +
-                                    //         '</td>' +
-                                    //         '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
-                                    //         '</tr>'
-                                    //     )
-                                    //     $("#table-firt-vnpost").show()
-                                    // }
 
                                 },
                                 error: function(res) {
@@ -2154,24 +2152,6 @@
                                                 }
                                             }
                                         }
-                                        // vnpost
-                                        // if(vnpost){
-                                        //     $("#body-table-firt-vnpost").empty()
-                                        //     $("#body-table-firt-vnpost").append(
-                                        //         '<tr>' +
-                                        //         '<td>' + vnpost.MaDichVu +
-                                        //         '</td>' +
-                                        //         '<td>' + vnpost.PhuongThucVC +
-                                        //         '</td>' +
-                                        //         '<td>' + vnpost.CuocCOD +
-                                        //         '</td>' +
-                                        //         '<td>' + vnpost.TongCuocSauVAT +
-                                        //         '</td>' +
-                                        //         '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
-                                        //         '</tr>'
-                                        //     )
-                                        //     $("#table-firt-vnpost").show()
-                                        // }
 
                                     },
                                     error: function(res) {
@@ -2215,7 +2195,7 @@
         function setToken(token_gg) {
             var name = 'idToken';
             var now = new Date();
-            now.setTime(now.getTime() + 60 * 60 * 1000);
+            now.setTime(now.getTime() + 57 * 60 * 1000);
             $.cookie(name, token_gg, {
                 expires: now,
                 path: "/"

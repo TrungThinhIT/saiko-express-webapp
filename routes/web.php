@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\transactions\TransactionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,6 +68,7 @@ Route::prefix('auth')->namespace('auth')->name('auth.')->group(function () {
     Route::get('me', 'AuthController@info')->middleware('cookie')->name('info');
     Route::put('update', 'AuthController@updateUser')->middleware('cookie')->name('updateUser');
     Route::post('reset-password', 'AuthController@resetPassword')->name('web.resetPassword');
+    Route::post('session', 'AuthController@setSessionSK')->name('session');
 });
 
 Route::prefix('shipment')->middleware('cookie')->name('shipment.')->namespace('shipments')->group(function () {
