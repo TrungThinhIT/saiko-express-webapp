@@ -2,7 +2,7 @@ name: Production deploy
 
 on:
   push:
-    branches: [dev.deloy]
+    branches: [master]
 env:
   SERVICE_AUTH_HOST: https://prod-auth.tomonisolution.com
   SERVICE_ACCOUNTING_HOST: https://prod-accounting.tomonisolution.com
@@ -23,7 +23,7 @@ env:
 
 jobs:
   build:
-    runs-on: [self-hosted, prod]
+    runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v2
       - name: Set permission
@@ -49,7 +49,6 @@ jobs:
           echo -e "\nSAIKO_PASSWORD=$SAIKO_PASSWORD" >> .env
           echo -e "\n" >> .env
       - name: Building
-        working-directory: /home/boy2k/Projects/saikoexpress
         run: |
           composer install --prefer-dist --no-progress
           php artisan key:generate
