@@ -1,0 +1,56 @@
+name: Production deploy
+
+on:
+  push:
+    branches: [dev.deloy]
+env:
+  SERVICE_AUTH_HOST: https://prod-auth.tomonisolution.com
+  SERVICE_ACCOUNTING_HOST: https://prod-accounting.tomonisolution.com
+  SERVICE_ORDER_HOST: https://prod-order.tomonisolution.com
+  SERVICE_PRODUCT_HOST: https://prod-product.tomonisolution.com
+  SERVICE_NOTIFICATION_HOST: https://prod-notification.tomonisolution.com
+  SERVICE_WAREHOUSE_HOST: https://prod-warehouse.tomonisolution.com
+  APP_ENV: production-saiko
+  APP_URL: https://saikoexpress.com
+  FIREBASE_API: AIzaSyD4Rw2ZxKnjhBxE9Fa69NCnOnKk8jb8ph0
+  FIREBASE_AUTH_DOMAIN: tomoniglobal-prod.firebaseapp.com
+  FIREBASE_PROJECT_ID: tomoniglobal-prod
+  FIREBASE_STORAGE_BUCKET: tomoniglobal-prod.appspot.com
+  FIREBASE_MESSAGING_SENDER_ID: 212392899744
+  FIREBASE_APP_ID: 1:212392899744:web:8b386d6937d286640205c5
+  FIREBASE_MEASUREMENT_ID: G-DNBSQYVPSE
+  SAIKO_PASSWORD: anh:M:v:-7?6?98
+
+jobs:
+  build:
+    runs-on: [self-hosted, prod]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set permission
+        run: |
+          touch storage/logs/laravel.log
+          chmod -R 777 storage
+      - name: Setup env
+        run: |
+          cp .env.example .env
+          echo -e "\nAPP_ENV=$APP_ENV" >> .env
+          echo -e "\nAPP_URL=$APP_URL" >> .env
+          echo -e "\nSERVICE_AUTH_HOST=$SERVICE_AUTH_HOST" >> .env
+          echo -e "\nSERVICE_ORDER_HOST=$SERVICE_ORDER_HOST" >> .env
+          echo -e "\nSERVICE_PRODUCT_HOST=$SERVICE_PRODUCT_HOST" >> .env
+          echo -e "\nSERVICE_ACCOUNTING_HOST=$SERVICE_ACCOUNTING_HOST" >> .env
+          echo -e "\nSERVICE_NOTIFICATION_HOST=$SERVICE_NOTIFICATION_HOST" >> .env
+          echo -e "\nSERVICE_WAREHOUSE_HOST=$SERVICE_WAREHOUSE_HOST" >> .env
+          echo -e "\nFIREBASE_API=$FIREBASE_API" >> .env
+          echo -e "\nFIREBASE_AUTH_DOMAIN=$FIREBASE_AUTH_DOMAIN" >> .env
+          echo -e "\nFIREBASE_PROJECT_ID=$FIREBASE_PROJECT_ID" >> .env
+          echo -e "\nFIREBASE_STORAGE_BUCKET=$FIREBASE_STORAGE_BUCKET" >> .env
+          echo -e "\nFIREBASE_MESSAGING_SENDER_ID=$FIREBASE_MESSAGING_SENDER_ID" >> .env
+          echo -e "\nSAIKO_PASSWORD=$SAIKO_PASSWORD" >> .env
+          echo -e "\n" >> .env
+      - name: Building
+        working-directory: /home/boy2k/Projects/saikoexpress
+        run: |
+          composer install --prefer-dist --no-progress
+          php artisan key:generate
+          php artisan storage:link
