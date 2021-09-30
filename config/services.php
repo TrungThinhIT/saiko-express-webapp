@@ -31,17 +31,17 @@ return [
     ],
 
     'firebase' => [
-        'apiKey' => env('firebase_api'),
-        'authDomain' => env('firebase_authDomain'),
-        'projectId' => env('firebase_projectId'),
-        'storageBucket' => env('firebase_storageBucket'),
-        'messagingSenderId' => env('firebase_messagingSenderId'),
-        'appId' => env('firebase_appId'),
-        'measurementId' => env('firebase_measurementId')
+        'apiKey' => env('FIREBASE_API', 'AIzaSyD4Rw2ZxKnjhBxE9Fa69NCnOnKk8jb8ph0'),
+        'authDomain' => env('FIREBASE_AUTH_DOMAIN', 'tomoniglobal-prod.firebaseapp.com'),
+        'projectId' => env('FIREBASE_PROJECT_ID', 'tomoniglobal-prod'),
+        'storageBucket' => env('FIREBASE_STORAGE_BUCKET', 'tomoniglobal-prod.appspot.com'),
+        'messagingSenderId' => env('FIREBASE_MESSAGING_SENDER_ID', 212392899744),
+        'appId' => env('FIREBASE_APP_ID', '1:212392899744:web:8b386d6937d286640205c5'),
+        'measurementId' => env('FIREBASE_MEASUREMENT_ID', 'G-DNBSQYVPSE')
     ],
 
     'saiko' => [
-        'password' => env('saiko_password', 'anh:M:v:-7?6?98')
+        'password' => env('SAIKO_PASSWORD', 'anh:M:v:-7?6?98')
     ],
 
 
