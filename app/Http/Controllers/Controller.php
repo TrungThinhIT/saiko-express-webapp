@@ -13,6 +13,28 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public static $auth_host,
+        $accounting_host,
+        $product_host,
+        $order_host,
+        $warehouse_host,
+        $notification_host;
+
+    public function __construct()
+    {
+        $this->boot();
+    }
+
+    public function boot()
+    {
+        self::$auth_host = config('services.tomonisolution.auth.host');
+        self::$accounting_host = config('services.tomonisolution.accounting.host');
+        self::$product_host = config('services.tomonisolution.product.host');
+        self::$order_host = config('services.tomonisolution.order.host');
+        self::$warehouse_host = config('services.tomonisolution.warehouse.host');
+        self::$notification_host = config('services.tomonisolution.notification.host');
+    }
+
     public function deleteCheckSession()
     {
         session()->forget('checkToken');
@@ -93,7 +115,7 @@ class Controller extends BaseController
                 'Accept' => 'application/json',
                 'X-Firebase-IdToken' => $request->idToken ? $request->idToken : $token_checkSession,
             ]
-        )->get('https://dev-auth.tomonisolution.com/api/me');
+        )->get(self::$auth_host . '/api/me');
 
         $id = 'sale.se';
 

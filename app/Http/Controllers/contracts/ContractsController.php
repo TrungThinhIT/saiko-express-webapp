@@ -56,7 +56,7 @@ class ContractsController extends Controller
             'page' => $request->page ?? 1,
         ];
 
-        $send = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/contracts', $params);
+        $send = Http::withHeaders($header)->get(self::$order_host . '/api/contracts', $params);
         $data = json_decode($send->body(), true);
 
         if ($request->wantsJson()) {
@@ -121,7 +121,7 @@ class ContractsController extends Controller
             'with' => 'orders.trackings;orders.shipmentInfo',
         ];
 
-        $send = Http::withHeaders($header)->get('https://dev-order.tomonisolution.com/api/contracts/' . $id, $params);
+        $send = Http::withHeaders($header)->get(self::$order_host . '/api/contracts/' . $id, $params);
 
         if ($send->status() == 401) {
             $this->deleteCookie();
@@ -188,7 +188,7 @@ class ContractsController extends Controller
             'with' => 'owners;sfa'
         ];
 
-        $get_boxes = Http::withHeaders($header_box)->get('https://dev-warehouse.tomonisolution.com/api/boxes', $params_box);
+        $get_boxes = Http::withHeaders($header_box)->get(self::$warehouse_host . '/api/boxes', $params_box);
 
         if ($get_boxes->status() == 401) {
             $this->deleteCookie();

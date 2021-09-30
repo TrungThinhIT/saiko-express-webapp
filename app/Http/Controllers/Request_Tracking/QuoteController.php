@@ -69,7 +69,7 @@ class QuoteController extends Controller
             'Accept' => 'application/json',
             'X-Firebase-IDToken' => $request->idToken ? $request->idToken : $this->cookie_token($request),
         ]);
-        $create_shipment = $create_shipment->post('https://dev-order.tomonisolution.com/api/orders/shipment/create-with-trackings', [
+        $create_shipment = $create_shipment->post(self::$order_host . '/api/orders/shipment/create-with-trackings', [
             'shipment_method_id' => $shipping, //đường vận chuyển
             'type' => 'shipment',
             'trackings' => $tracking, //danh sách tracking

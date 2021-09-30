@@ -19,7 +19,7 @@ class AuthController extends Controller
     {
         $data = Http::withHeaders([
             'Accept' => 'application/json'
-        ])->post('https://auth.tomonisolution.com/api/register', $request->all());
+        ])->post(self::$auth_host . '/api/register', $request->all());
 
 
         return response()->json(['code' => $data->status(), 'data' => $data->body()]);
@@ -32,7 +32,7 @@ class AuthController extends Controller
                 'Accept' => 'application/json',
                 'X-Firebase-IdToken' => $request->idToken,
             ]
-        )->get('https://dev-auth.tomonisolution.com/api/me');
+        )->get(self::$auth_host . '/api/me');
 
         if ($user->status() == 200) {
             $user = json_decode($user->body(), true);
@@ -53,7 +53,7 @@ class AuthController extends Controller
                 'Accept' => 'application/json',
                 'X-Firebase-IdToken' => $request->idToken,
             ]
-        )->get('https://dev-auth.tomonisolution.com/api/me');
+        )->get(self::$auth_host . '/api/me');
 
         if ($user->status() == 200) {
             $user = json_decode($user->body(), true);
@@ -90,7 +90,7 @@ class AuthController extends Controller
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
             'X-Firebase-IdToken' => $token,
-        ])->get('https://dev-accounting.tomonisolution.com/api/accounts', $param_search_account);
+        ])->get(self::$accounting_host . '/api/accounts', $param_search_account);
         if ($account->status() == 401) {
             $this->deleteSession();
             $this->deleteCookie();
@@ -109,7 +109,7 @@ class AuthController extends Controller
         $resultUpdate = Http::withHeaders([
             'Accept' => 'application/json',
             'X-Firebase-IdToken' => $token,
-        ])->put('https://dev-auth.tomonisolution.com/api/me/password', $request->all());
+        ])->put(self::$auth_host . '/api/me/password', $request->all());
 
         return response()->json(['code' => $resultUpdate->status(), 'data' => $resultUpdate->body()]);
     }
