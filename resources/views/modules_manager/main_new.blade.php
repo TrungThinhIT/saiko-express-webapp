@@ -415,13 +415,6 @@
                                 <span class="caret"></span>
                             </a>
                         </li> --}}
-
-                        <li class="nav-section">
-                            <span class="sidebar-mini-icon">
-                                <i class="fa fa-ellipsis-h"></i>
-                            </span>
-                            <h4 class="text-section">Components</h4>
-                        </li>
                         <li class="nav-item" id="fix-bg-menu-info">
                             <a href="{{ route('auth.info') }}">
                                 <i class="fa fa-user"></i>
