@@ -695,6 +695,7 @@
                                     idToken:idToken,
                                     shipment: true,
                                     page_shipment: page,
+                                    with: 'user',
                                 },
                                 success: function(data) {
                                     if (data.code == 401) {
@@ -712,9 +713,12 @@
                                                 window.location.reload();
                                             }
                                         });
-                                    } else {
+                                    } else {                                                                       
                                         if (data.list_address.data.length) {
-                                            $("#list-address").empty()
+                                            if(!data.list_address.data[0]['user']['name'] || !data.list_address.data[0]['user']['tel']) {
+                                                swal_action('Vui lòng cập nhật thông tin người gửi tại sổ địa chỉ.');
+                                            }else{
+                                                $("#list-address").empty()
                                             $.each(data.list_address.data, function(
                                                 index,
                                                 value) {
@@ -754,7 +758,7 @@
                                                     '<i class="fa fa-user-circle-o fix-font-size-icon text-info" aria-hidden="true"></i>' +
                                                     '</div>' +
                                                     '<div class="col-md-10 fit-content">' +
-                                                    value.sender_name +
+                                                    value.user.name +
                                                     '</div>' +
                                                     '</div>' +
                                                     '<div class="row pl-3 unset-bs-gutter-x">' +
@@ -762,7 +766,7 @@
                                                     '<i class="fa fa-volume-control-phone fix-font-size-icon text-success" aria-hidden="true"></i>' +
                                                     '</div>' +
                                                     '<div class="col-md-10  fit-content">' +
-                                                    value.sender_tel +
+                                                    value.user.tel +
                                                     '</div>' +
                                                     '</div>' +
                                                     '</div>' +
@@ -771,6 +775,7 @@
                                             })
                                             $('#modal-addressbook').css('display',
                                                 'block')
+                                            }
 
                                         } else {
                                             swal_action('Chưa có địa chỉ')

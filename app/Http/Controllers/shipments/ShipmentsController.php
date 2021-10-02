@@ -29,6 +29,7 @@ class ShipmentsController extends Controller
             'search' => 'user_id:' . $data['id'],
             'searchFields' => 'user_id:=',
             'page' => $request->page_shipment ?? 1,
+            'with' => $request->with,
         ];
 
         $shipment_info = Http::withHeaders([
@@ -37,12 +38,19 @@ class ShipmentsController extends Controller
             'X-Firebase-IdToken' => $token,
         ])->get(self::$auth_host . '/api/addresses', $param_search_shipment);
 
+        $user = Http::withHeaders([
+            'Accept-Language' => 'vi',
+            'Accept' => 'application/json',
+            'X-Firebase-IdToken' => $token,
+        ])->get(self::$auth_host . '/api/me');
+
         if ($shipment_info->status() == 401 && !$request->shipment) {
             $this->deleteCookie();
             return redirect()->route('auth.logout');
         }
 
         $list_shipment = json_decode($shipment_info->body(), true);
+        $user = json_decode($user->body(), true);
 
         if ($request->shipment) {
             if ($shipment_info->status() == 401) {
@@ -52,7 +60,7 @@ class ShipmentsController extends Controller
             return response()->json(['list_address' => $list_shipment]);
         }
 
-        $data = array_merge($data, ['list_address' => $list_shipment]);
+        $data = array_merge($data, ['list_address' => $list_shipment, 'user' => $user]);
         return view('manager.address', compact('data'));
     }
 
