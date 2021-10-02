@@ -67,6 +67,7 @@ Route::prefix('auth')->namespace('auth')->name('auth.')->group(function () {
     Route::post('sendLinkResetPassword', 'AuthController@sendLinkResetPassword')->name('sendLinkResetPassword');
     Route::get('me', 'AuthController@info')->middleware('cookie')->name('info');
     Route::put('update', 'AuthController@updateUser')->middleware('cookie')->name('updateUser');
+    Route::put('update-info', 'AuthController@updateInfo')->middleware('cookie')->name('updateInfo');
     Route::post('reset-password', 'AuthController@resetPassword')->name('web.resetPassword');
     Route::post('session', 'AuthController@setSessionSK')->name('session');
 });

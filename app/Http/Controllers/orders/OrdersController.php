@@ -149,8 +149,8 @@ class OrdersController extends Controller
                 'tel' => $data['info']['tel'],
                 'address' => $data['info']['address'],
                 'ward_id' =>  $data['info']['ward_id'],
-                'sender_name' => $data['info']['sender_name'],
-                'sender_tel' => $data['info']['sender_tel']
+                'sender_name' => $data['info']['sender_name'] ?? null,
+                'sender_tel' => $data['info']['sender_tel'] ?? null,
             ]
         ]);
         if ($create_shipment->status() == 401) {

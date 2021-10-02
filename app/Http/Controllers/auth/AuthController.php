@@ -113,4 +113,17 @@ class AuthController extends Controller
 
         return response()->json(['code' => $resultUpdate->status(), 'data' => $resultUpdate->body()]);
     }
+
+    public function updateInfo(Request $request)
+    {
+        $data = $request->session()->get('idToken');
+        $data = unserialize($data);
+        $token = $data['idToken'];
+        $resultUpdate = Http::withHeaders([
+            'Accept' => 'application/json',
+            'X-Firebase-IdToken' => $token,
+        ])->put(self::$auth_host . '/api/users/' . $data['id'], $request->all());
+
+        return response()->json(['code' => $resultUpdate->status(), 'data' => $resultUpdate->body()]);
+    }
 }
