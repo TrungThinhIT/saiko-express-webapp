@@ -500,7 +500,7 @@
                     $("#statusData_tracking").append('<h4>' +
                         res?.message + '</h4>')
                 } else {
-                    if (res.data[0].boxes.length == 0 & res.data[0].orders
+                    if (res.data[0].boxes.length == 0 & res.data[0].reference
                         .length == 0) {
                         $("#statusData_tracking").empty();
                         $(".table").hide();
@@ -537,13 +537,13 @@
                                 var special_result;
                                 var insurance_result_fee = 0;
                                 var special_result_fee = 0;
-                                if (value.orders.length != 0) {
+                                if (value.reference.length != 0) {
 
-                                    if (!value.orders[0].shipment_info
+                                    if (!value.reference.shipment_info
                                         .sender_name) {
-                                        if (isValidJSONString(value.orders[0]
+                                        if (isValidJSONString(value.reference
                                                 .note)) {
-                                            var parse_note = JSON.parse(value.orders[0].note);
+                                            var parse_note = JSON.parse(value.reference.note);
                                             if (parse_note) {
                                                 if (typeof parse_note == "object") {
                                                     if (parse_note.send_name == undefined) {
@@ -557,34 +557,32 @@
                                             name_send = ""
                                         }
                                     } else {
-                                        name_send = value.orders[0]
+                                        name_send = value.reference
                                             .shipment_info.sender_name;
                                     }
-                                    tel_rev = value.orders[0].shipment_info.tel;
-                                    name_rev = value.orders[0].shipment_info
+                                    tel_rev = value.reference.shipment_info.tel;
+                                    name_rev = value.reference.shipment_info
                                         .consignee;
-                                    add_rev = value.orders[0].shipment_info
+                                    add_rev = value.reference.shipment_info
                                         .full_address;
-                                    created_at = value.orders[0].created_at;
-                                    method_ship = value.orders[0]
+                                    created_at = value.reference.created_at;
+                                    method_ship = value.reference
                                         .shipment_method_id;
-                                    if (value.orders[0].pay_money !=
+                                    if (value.reference.pay_money !=
                                         undefined) {
-                                        pay_money = value.orders[0].total_fee;
+                                        pay_money = value.reference.total_fee;
                                     }
-                                    insurance_result = value.orders[0]
+                                    insurance_result = value.reference
                                         .insurance_declaration //tiền bảo hiểm
-                                    special_result = value.orders[0]
+                                    special_result = value.reference
                                         .special_declaration //tiền hàng đặc biệt
                                     $("#declaration_price_footer").show()
                                     $("#insurance_result_footer").text(formatNumber(
                                         insurance_result))
                                     $("#special_result_footer").text(formatNumber(special_result))
                                     $("#insurance_result_fee_footer").text(formatNumber(value
-                                        .orders[
-                                            0].insurance_result_fee))
-                                    $("#special_result_fee_footer").text(formatNumber(value.orders[
-                                        0].special_result_fee))
+                                        .reference.insurance_result_fee))
+                                    $("#special_result_fee_footer").text(formatNumber(value.reference.special_result_fee))
                                     if (value.sfa != null) {
                                         $("#fee_shipping_inside_jp_footer").text(formatNumber(value
                                             .sfa.shipping_inside))
@@ -597,14 +595,13 @@
                                         $("#table_body_price_shipping_footer").empty()
                                         $("#table_body_price_shipping_footer").append(
                                             '<tr>' +
-                                            '<td>' + value.orders[0].pivot
-                                            .tracking_id + '</td>' +
-                                            '<td>' + value.orders[0]
+                                            '<td>' + value.id + '</td>' +
+                                            '<td>' + value.reference
                                             .total_weight + '</td>' +
-                                            '<td>' + value.orders[0]
+                                            '<td>' + value.reference
                                             .fee_ship + '</td>' +
                                             '<td>' + method_ship + '</td>' +
-                                            '<td>' + formatNumber(value.orders[0].total_fee) +
+                                            '<td>' + formatNumber(value.reference.total_fee) +
                                             ' VNĐ</td>' +
                                             +'</tr>'
                                         )
@@ -718,13 +715,13 @@
                                             '</tr>'
                                         )
                                         if (value.boxes.length == 1) {
-                                            if (value.orders.length != 0) {
+                                            if (value.reference.length != 0) {
                                                 $("#alert_footer").show()
                                                 $("#id_order_footer").empty()
                                                 $("#money_footer").empty()
                                                 $("#id_order_footer").text(value.id)
                                                 $("#money_footer").text(formatNumber(
-                                                        value.orders[0].total_fee) +
+                                                        value.reference.total_fee) +
                                                     " VNĐ")
                                             }
                                             //fee_shipping
@@ -819,7 +816,7 @@
                                                     if (pay_money != undefined) {
                                                         if (total_pay >= pay_money - 1000) {
                                                             $("#alert_footer").hide()
-                                                            if (value.orders.length) {
+                                                            if (value.reference.length) {
                                                                 $("#paid_footer").show()
                                                             } else {
                                                                 $("#paid_footer").hide()
@@ -834,11 +831,10 @@
                                                     value.boxes[0].height + "cm )"
                                                 $("#id_order_footer").empty()
                                                 $("#money_footer").empty()
-                                                if (value.orders.length != 0) {
+                                                if (value.reference.length != 0) {
                                                     $("#id_order_footer").text(value.id)
                                                     $("#money_footer").text(formatNumber(
-                                                        value.orders[value.orders
-                                                            .length - 1].total_fee
+                                                        value.reference.total_fee
                                                     ) + " VNĐ")
                                                 }
                                                 $.each(value.boxes[0].logs, function(index,
@@ -1020,7 +1016,7 @@
                                                     if (pay_money != undefined) {
                                                         if (total_pay >= pay_money - 1000) {
                                                             $("#alert_footer").hide()
-                                                            if (value.orders.length) {
+                                                            if (value.reference.length) {
                                                                 $("#paid_footer").show()
                                                             } else {
                                                                 $("#paid_footer").hide()
@@ -1031,13 +1027,13 @@
                                             }
                                         } else {
                                             $("#table_price_shipping_footer_2").show()
-                                            if (value.orders.length != 0) {
+                                            if (value.reference.length != 0) {
                                                 $("#alert_footer").show()
                                                 $("#id_order_footer").empty()
                                                 $("#money_footer").empty()
                                                 $("#id_order_footer").text(value.id)
                                                 $("#money_footer").text(formatNumber(
-                                                        value.orders[0].total_fee) +
+                                                        value.reference.total_fee) +
                                                     " VNĐ")
                                                 if (value.logs.length) {
                                                     var total_pay = 0
@@ -1078,7 +1074,7 @@
                                                     if (pay_money != undefined) {
                                                         if (total_pay >= pay_money - 1000) {
                                                             $("#alert_footer").hide()
-                                                            if (value.orders.length) {
+                                                            if (value.reference.length) {
                                                                 $("#paid_footer").show()
                                                             } else {
                                                                 $("#paid_footer").hide()
@@ -1113,11 +1109,11 @@
                                         }
                                     })
                                 }
-                                if(value.orders.length!=0){
-                                    if(value.orders[0].contract_id){
+                                if(value.reference.length!=0){
+                                    if(value.reference.contract_id){
                                         $(".check-contract-footer").hide()
                                         $("#alert-contract-footer").show()
-                                        $("#id_contract_footer").text(value.orders[0].contract_id)
+                                        $("#id_contract_footer").text(value.reference.contract_id)
                                     }
                                 }
                             })
@@ -1280,7 +1276,7 @@
                         if (pay_money != undefined) {
                             if (total_pay >= pay_money - 1000) {
                                 $("#alert_footer").hide()
-                                if (value.orders.length) {
+                                if (value.reference.length) {
                                     $("#paid_footer").show()
                                 } else {
                                     $("#paid_footer").hide()
@@ -1456,7 +1452,7 @@
                                     if (pay_money != undefined) {
                                         if (total_pay >= pay_money - 1000) {
                                             $("#alert_footer").hide()
-                                            if (value.orders.length) {
+                                            if (value.reference.length) {
                                                 $("#paid_footer").show()
                                             } else {
                                                 $("#paid_footer").hide()
@@ -1637,7 +1633,7 @@
                                         if (pay_money != undefined) {
                                             if (total_pay >= pay_money - 1000) {
                                                 $("#alert_footer").hide()
-                                                if (value.orders.length) {
+                                                if (value.reference.length) {
                                                     $("#paid_footer").show()
                                                 } else {
                                                     $("#paid_footer").hide()
