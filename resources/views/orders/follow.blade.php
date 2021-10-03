@@ -329,7 +329,7 @@
                             $("#statusData").append('<h4 class="text-danger">' +
                                 res?.message + '</h4>')
                         } else {
-                            if (res.data[0].boxes.length == 0 & res.data[0].orders.length == 0) {
+                            if (res.data[0].boxes.length == 0 & res.data[0].reference.length == 0) {
                                 $(".table").hide();
                                 // $("#table-firt").show();
                                 $("#body-table-firt").empty()
@@ -364,12 +364,12 @@
                                         var special_result;
                                         var insurance_result_fee = 0;
                                         var special_result_fee = 0;
-                                        if (value.orders.length != 0) {
-                                            if (!value.orders[0].shipment_info
+                                        if (value.reference.length != 0) {
+                                            if (!value.reference.shipment_info
                                                 .sender_name) {
-                                                if (isValidJSONString(value.orders[0].note)) {
+                                                if (isValidJSONString(value.reference.note)) {
                                                     var parse_note = JSON.parse(value
-                                                        .orders[0].note);
+                                                        .reference.note);
                                                     if (parse_note) {
                                                         if (typeof parse_note =="object") {
                                                             if (parse_note.send_name ==undefined) {
@@ -383,24 +383,24 @@
                                                     name_send = ""
                                                 }
                                             } else {
-                                                name_send = value.orders[0]
+                                                name_send = value.reference
                                                     .shipment_info.sender_name;
                                             }
-                                            tel_rev = value.orders[0].shipment_info.tel;
-                                            name_rev = value.orders[0].shipment_info
+                                            tel_rev = value.reference.shipment_info.tel;
+                                            name_rev = value.reference.shipment_info
                                                 .consignee;
-                                            add_rev = value.orders[0].shipment_info
+                                            add_rev = value.reference.shipment_info
                                                 .full_address;
-                                            created_at = value.orders[0].created_at;
-                                            method_ship = value.orders[0]
+                                            created_at = value.reference.created_at;
+                                            method_ship = value.reference
                                                 .shipment_method_id;
-                                            if (value.orders[0].pay_money !=
+                                            if (value.reference.pay_money !=
                                                 undefined) {
-                                                pay_money = value.orders[0].total_fee;
+                                                pay_money = value.reference.total_fee;
                                             }
-                                            insurance_result = value.orders[0]
+                                            insurance_result = value.reference
                                                 .insurance_declaration //tiền bảo hiểm
-                                            special_result = value.orders[0]
+                                            special_result = value.reference
                                                 .special_declaration //tiền hàng đặc biệt
                                             $("#declaration_price").show()
                                             $("#insurance_result").text(formatNumber(
@@ -408,11 +408,11 @@
                                             $("#special_result").text(formatNumber(
                                                 special_result))
                                             $("#insurance_result_fee").text(
-                                                formatNumber(value.orders[0]
+                                                formatNumber(value.reference
                                                     .insurance_result_fee))
 
                                             $("#special_result_fee").text(formatNumber(
-                                                value.orders[0]
+                                                value.reference
                                                 .special_result_fee))
 
                                             if (value.sfa != null) {
@@ -429,15 +429,14 @@
                                                 $("#table_body_price_shipping").empty()
                                                 $("#table_body_price_shipping").append(
                                                     '<tr>' +
-                                                    '<td>' + value.orders[0].pivot
-                                                    .tracking_id + '</td>' +
-                                                    '<td>' + value.orders[0]
+                                                    '<td>' + value.id + '</td>' +
+                                                    '<td>' + value.reference
                                                     .total_weight + '</td>' +
-                                                    '<td>' + value.orders[0]
+                                                    '<td>' + value.reference
                                                     .fee_ship + '</td>' +
                                                     '<td>' + method_ship + '</td>' +
                                                     '<td>' + formatNumber(value
-                                                        .orders[0].total_fee) +
+                                                        .reference.total_fee) +
                                                     ' VNĐ</td>' +
                                                     +'</tr>'
                                                 )
@@ -588,7 +587,7 @@
                                                     '</tr>'
                                                 )
                                                 if (value.boxes.length == 1) {
-                                                    if (value.orders.length !=
+                                                    if (value.reference.length !=
                                                         0) {
                                                         $("#alert").show()
                                                         $("#id_order").empty()
@@ -598,7 +597,7 @@
                                                         $("#money").text(
                                                             formatNumber(
                                                                 value
-                                                                .orders[0]
+                                                                .reference
                                                                 .total_fee
                                                             ) + " VNĐ")
                                                     }
@@ -708,7 +707,7 @@
                                                                     $("#alert")
                                                                         .show()
                                                                     if (value
-                                                                        .orders
+                                                                        .reference
                                                                         .length
                                                                     ) {
                                                                         $("#paid")
@@ -731,15 +730,14 @@
                                                             .height + "cm )"
                                                         $("#id_order").empty()
                                                         $("#money").empty()
-                                                        if (value.orders
+                                                        if (value.reference
                                                             .length != 0) {
                                                             $("#id_order").text(
                                                                 value.id)
                                                             $("#money").text(
                                                                 formatNumber(
                                                                     value
-                                                                    .orders[
-                                                                        0]
+                                                                    .reference
                                                                     .total_fee
                                                                 ) +
                                                                 " VNĐ")
@@ -1031,7 +1029,7 @@
                                                                     $("#alert")
                                                                         .hide()
                                                                     if (value
-                                                                        .orders
+                                                                        .reference
                                                                         .length
                                                                     ) {
                                                                         $("#paid")
@@ -1046,7 +1044,7 @@
                                                     }
 
                                                 } else {
-                                                    if (value.orders.length !=
+                                                    if (value.reference.length !=
                                                         0) {
                                                         $("#alert").show()
                                                         $("#id_order").empty()
@@ -1056,7 +1054,7 @@
                                                         $("#money").text(
                                                             formatNumber(
                                                                 value
-                                                                .orders[0]
+                                                                .reference
                                                                 .total_fee
                                                             ) + " VNĐ")
                                                         if (value.logs.length) {
@@ -1128,7 +1126,7 @@
                                                                     $("#alert")
                                                                         .hide()
                                                                     if (value
-                                                                        .orders
+                                                                        .reference
                                                                         .length
                                                                     ) {
                                                                         $("#paid")
@@ -1194,11 +1192,11 @@
                                                 }
                                             })
                                         }
-                                        if(value.orders.length!=0){
-                                            if(value.orders[0].contract_id){
+                                        if(value.reference.length!=0){
+                                            if(value.reference.contract_id){
                                                 $(".check-contract-order").hide()
                                                 $("#alert-contract-order").show()
-                                                $("#id_contract_order").text(value.orders[0].contract_id)
+                                                $("#id_contract_order").text(value.reference.contract_id)
                                             }
                                         }
                                     })
@@ -1360,7 +1358,7 @@
                         if (pay_money != undefined) {
                             if (total_pay >= pay_money - 1000) {
                                 $("#alert").hide()
-                                if (length_order.orders.length) {
+                                if (length_order.reference.length) {
                                     $("#paid").show()
                                 } else {
                                     $("#paid").hide()
