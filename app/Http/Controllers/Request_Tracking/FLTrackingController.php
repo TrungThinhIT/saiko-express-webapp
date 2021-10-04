@@ -57,6 +57,10 @@ class FLTrackingController extends Controller
                 return response()->json($mess);
             } else {
                 $results = json_decode($apiShow->body(), true); //results of tomoni
+                if (empty($results['reference'])) {
+                    $mess = ['code' => 404, 'message' => 'Tracking chưa đăng kí đơn hàng.'];
+                    return response()->json($mess);
+                }
                 if (!empty($results['reference'])) {
                     $results['reference']['insurance_result_fee'] = round($results['reference']['insurance_declaration'] * 0.03, 0); //tính phí bảo hiểm
                     $results['reference']['special_result_fee'] = round($results['reference']['special_declaration'] * 0.02, 0); // tính phí đặc biệt
