@@ -6,93 +6,95 @@
 
 <!--header end -->
 <style>
-    .color-arrow{
+    .color-arrow {
         font-size: 18px;
         color: #fca901;
     }
-      .modal-confirm .modal-content {
-            padding: 20px;
-            border-radius: 5px;
-            border: none;
-        }
-        .background-contract{
-            padding: 15px;
-            background-color: #fad792;
-        }
 
-        .modal-confirm .modal-header {
-            border-bottom: none;
-            position: relative;
-        }
+    .modal-confirm .modal-content {
+        padding: 20px;
+        border-radius: 5px;
+        border: none;
+    }
 
-        .modal-confirm h4 {
-            text-align: center;
-            font-size: 26px;
-            margin: 30px 0 -15px;
-        }
+    .background-contract {
+        padding: 15px;
+        background-color: #fad792;
+    }
 
-        .modal-confirm .form-control,
-        .modal-confirm .btn {
-            min-height: 40px;
-            border-radius: 3px;
-        }
+    .modal-confirm .modal-header {
+        border-bottom: none;
+        position: relative;
+    }
 
-        .modal-confirm .close {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-        }
+    .modal-confirm h4 {
+        text-align: center;
+        font-size: 26px;
+        margin: 30px 0 -15px;
+    }
 
-        .modal-confirm .modal-footer {
-            border: none;
-            text-align: center;
-            border-radius: 5px;
-            font-size: 13px;
-        }
+    .modal-confirm .form-control,
+    .modal-confirm .btn {
+        min-height: 40px;
+        border-radius: 3px;
+    }
 
-        .modal-confirm .icon-box {
-            color: #fff;
-            position: absolute;
-            margin: 0 auto;
-            left: 0;
-            right: 0;
-            top: -70px;
-            width: 95px;
-            height: 95px;
-            border-radius: 50%;
-            z-index: 9;
-            background: #ef513a;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-        }
+    .modal-confirm .close {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+    }
+
+    .modal-confirm .modal-footer {
+        border: none;
+        text-align: center;
+        border-radius: 5px;
+        font-size: 13px;
+    }
+
+    .modal-confirm .icon-box {
+        color: #fff;
+        position: absolute;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        top: -70px;
+        width: 95px;
+        height: 95px;
+        border-radius: 50%;
+        z-index: 9;
+        background: #ef513a;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    }
 
 
-        .modal-confirm .icon-box i {
-            font-size: 56px;
-            position: relative;
-            top: 4px;
-        }
+    .modal-confirm .icon-box i {
+        font-size: 56px;
+        position: relative;
+        top: 4px;
+    }
 
-        .modal-confirm.modal-dialog {
-            margin-top: 80px;
-        }
+    .modal-confirm.modal-dialog {
+        margin-top: 80px;
+    }
 
-        .modal-confirm .btn {
-            color: #fff;
-            border-radius: 4px;
-            background: #ef513a;
-            text-decoration: none;
-            transition: all 0.4s;
-            line-height: normal;
-            border: none;
-        }
+    .modal-confirm .btn {
+        color: #fff;
+        border-radius: 4px;
+        background: #ef513a;
+        text-decoration: none;
+        transition: all 0.4s;
+        line-height: normal;
+        border: none;
+    }
 
-        .modal-confirm .btn:hover,
-        .modal-confirm .btn:focus {
-            background: #da2c12;
-            outline: none;
-        }
+    .modal-confirm .btn:hover,
+    .modal-confirm .btn:focus {
+        background: #da2c12;
+        outline: none;
+    }
 
     .table-striped>tbody>tr:nth-child(odd)>td,
     .table-striped>tbody>tr:nth-child(odd)>th {
@@ -152,60 +154,62 @@
         border-radius: 6%;
         list-style: none;
     }
+
     .loader {
-            position: absolute;
-            display: block;
-            width: 100%;
-            height: 100%;
-            top: 50%;
-            left: 50%;
-            border: 16px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 16px solid #fca901;
-            width: 120px;
-            height: 120px;
-            -webkit-animation: spin 2s linear infinite;
-            /* Safari */
-            animation: spin 2s linear infinite;
-        }
-
-        .tmn-custom-mask {
-            z-index: 99;
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: rgba(0, 0, 0, .5);
-        }
-
-        .d-none {
-            display: none;
-        }
-
-        */ */
-
+        position: absolute;
+        display: block;
+        width: 100%;
+        height: 100%;
+        top: 50%;
+        left: 50%;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #fca901;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
         /* Safari */
-        @-webkit-keyframes spin {
-            0% {
-                -webkit-transform: rotate(0deg);
-            }
+        animation: spin 2s linear infinite;
+    }
 
-            100% {
-                -webkit-transform: rotate(360deg);
-            }
+    .tmn-custom-mask {
+        z-index: 99;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 0, 0, .5);
+    }
+
+    .d-none {
+        display: none;
+    }
+
+    */ */
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
         }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
+        100% {
+            -webkit-transform: rotate(360deg);
         }
-        /* set background color */
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* set background color */
     /* .nav_main_url {
   display: flex;
   justify-content: center;
@@ -433,23 +437,27 @@
         color: white;
         text-align: center;
     }
-    .fix-style-content{
+
+    .fix-style-content {
         padding: 6px;
         text-shadow: 2px 1px #fca901;
-        font-size:22px !important;
+        font-size: 22px !important;
     }
-    .text-color{
+
+    .text-color {
         text-decoration: underline;
         font-weight: bold;
         color: white !important;
     }
-    .fix-time{
+
+    .fix-time {
         opacity: 85%;
-        border-radius:20px;
+        border-radius: 20px;
         background-color: #fca901;
     }
-    .text-color:hover{
-        color:darkgreen !important;
+
+    .text-color:hover {
+        color: darkgreen !important;
     }
 </style>
 
@@ -458,21 +466,21 @@
     <div class="slider-content">
         <div class="slider-content-wrapper">
             <div class="slider-content__item image-1 image-height-mobile">
-                <img src="../assets/images/update_index.png" >
+                <img src="../assets/images/update_index.png">
 
                 <div class="content-slide fix-time d-none">
-                    <p class="title-slide fix-style-content" >Mọi thông tin liên hệ số hotline 1900 2149</p>
-                    <p class="title-slide fix-style-content" >hoặc nhắn tin fanpage Facebook  <span ><a class="text-color" target="_blank" href="https://www.facebook.com/SaikoExpress/"> Saiko Express</a> </span></p>
+                    <p class="title-slide fix-style-content">Mọi thông tin liên hệ số hotline 1900 2149</p>
+                    <p class="title-slide fix-style-content">hoặc nhắn tin fanpage Facebook <span><a class="text-color" target="_blank" href="https://www.facebook.com/SaikoExpress/"> Saiko Express</a> </span></p>
                     {{-- <a href="{{route('blog.index')}}"><button onclick="openQuote()" class="btn ed_btn ed_orange">Xem thêm</button></a> --}}
                 </div>
 
             </div>
             <div class="slider-content__item image-1 image-height-mobile">
-                <img src="../assets/images/air_index.jpg" >
+                <img src="../assets/images/air_index.jpg">
 
                 <div class="content-slide">
-                    <p class="title-slide" >VẬN CHUYỂN ĐƯỜNG BAY</p>
-                    <p class="text-slide" > Vận chuyển hàng hoá từ Nhật về Việt
+                    <p class="title-slide">VẬN CHUYỂN ĐƯỜNG BAY</p>
+                    <p class="text-slide"> Vận chuyển hàng hoá từ Nhật về Việt
                         Nam <br />bằng máy bay nhận hàng chỉ từ 5 - 7 ngày</p>
                     <button onclick="openQuote()" class="btn ed_btn ed_orange">GỬI HÀNG NGAY</button>
                 </div>
@@ -483,7 +491,7 @@
 
                 <div class="content-slide">
                     <p class="title-slide">VẬN CHUYỂN ĐƯỜNG BIỂN</p>
-                    <p class="text-slide" >
+                    <p class="text-slide">
                         Vận chuyển hàng hoá từ Nhật về Việt Nam<br />bằng tàu nhận hàng từ 24-36 ngày</p>
                     <button onclick="openQuote()" class="btn ed_btn ed_orange">GỬI HÀNG NGAY</button>
                 </div>
@@ -493,7 +501,7 @@
 
                 <div class="content-slide">
                     <p class="title-slide">CUNG CẤP GIẢI PHÁP HIỆU QUẢ</p>
-                    <p class="text-slide" >
+                    <p class="text-slide">
                         Hệ thống tracking thông minh hiện đại hỗ trợ khách hàng <br />kiểm soát chi phí vận chuyển nhận
                         hàng tại nhà
                     </p>
@@ -512,188 +520,70 @@
     <section class="ed_mainslider">
         <article class="content">
             <div class="rev_slider_wrapper">
-                <div id="rev_slider_1061_1_wrapper" class="rev_slider_wrapper fullscreen-container"
-                    data-alias="creative-freedom" data-source="gallery" style="padding:0px;">
+                <div id="rev_slider_1061_1_wrapper" class="rev_slider_wrapper fullscreen-container" data-alias="creative-freedom" data-source="gallery" style="padding:0px;">
                     <!-- START REVOLUTION SLIDER 5.3.0.2 fullscreen mode -->
-                    <div id="rev_slider_1061_1" class="rev_slider fullscreenbanner" style="display:none;"
-                        data-version="5.3.0.2">
+                    <div id="rev_slider_1061_1" class="rev_slider fullscreenbanner" style="display:none;" data-version="5.3.0.2">
                         <ul>
                             <!-- SLIDE  -->
-                            <li data-index="rs-2978" data-transition="fadethroughdark" data-slotamount="default"
-                                data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default"
-                                data-easeout="default" data-masterspeed="0" data-thumb="" data-rotate="0"
-                                data-saveperformance="off" data-title="" data-param1="01" data-param2="" data-param3=""
-                                data-param4="" data-param5="" data-param6="" data-param7="" data-param8=""
-                                data-param9="" data-param10="" data-description="">
+                            <li data-index="rs-2978" data-transition="fadethroughdark" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="0" data-thumb="" data-rotate="0" data-saveperformance="off" data-title="" data-param1="01" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
                                 <!-- MAIN IMAGE -->
-                                <img src="" alt="" data-bgposition="center center" data-bgfit="cover"
-                                    data-bgparallax="3" class="rev-slidebg" data-no-retina>
+                                <img src="" alt="" data-bgposition="center center" data-bgfit="cover" data-bgparallax="3" class="rev-slidebg" data-no-retina>
                                 <!-- LAYERS -->
 
                                 <!-- LAYER NR. 1 -->
-                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-tobggroup"
-                                    id="slide-2978-layer-1" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['0','0','0','0']" data-fontweight="['100','100','400','400']"
-                                    data-width="full" data-height="full" data-whitespace="nowrap" data-type="shape"
-                                    data-basealign="slide" data-responsive_offset="off" data-responsive="off"
-                                    data-frames='[{"from":"opacity:0;","speed":1500,"to":"o:1;","delay":0,"ease":"Power2.easeInOut"},{"delay":"none","speed":0,"to":"opacity:0;","ease":"Power2.easeInOut"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 5;text-transform:left;border-color:rgba(0, 0, 0, 0);border-width:0px;background-color: rgba(135, 132, 132, 0.46);">
+                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-tobggroup" id="slide-2978-layer-1" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['0','0','0','0']" data-fontweight="['100','100','400','400']" data-width="full" data-height="full" data-whitespace="nowrap" data-type="shape" data-basealign="slide" data-responsive_offset="off" data-responsive="off" data-frames='[{"from":"opacity:0;","speed":1500,"to":"o:1;","delay":0,"ease":"Power2.easeInOut"},{"delay":"none","speed":0,"to":"opacity:0;","ease":"Power2.easeInOut"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 5;text-transform:left;border-color:rgba(0, 0, 0, 0);border-width:0px;background-color: rgba(135, 132, 132, 0.46);">
                                 </div>
 
                                 <!-- LAYER NR. 2 -->
-                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3"
-                                    id="slide-2978-layer-4" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['-178','-178','-168','-141']" data-width="1" data-height="100"
-                                    data-whitespace="nowrap" data-type="shape" data-responsive_offset="on"
-                                    data-responsive="off"
-                                    data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":0,"to":"o:1;","delay":0,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 6;text-transform:left;background-color: rgba(255, 255, 255, 0.46);border-color:rgba(0, 0, 0, 0);border-width:0px;background: rgb(252, 169, 1);">
+                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3" id="slide-2978-layer-4" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['-178','-178','-168','-141']" data-width="1" data-height="100" data-whitespace="nowrap" data-type="shape" data-responsive_offset="on" data-responsive="off" data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":0,"to":"o:1;","delay":0,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 6;text-transform:left;background-color: rgba(255, 255, 255, 0.46);border-color:rgba(0, 0, 0, 0);border-width:0px;background: rgb(252, 169, 1);">
                                 </div>
 
                                 <!-- LAYER NR. 3 -->
-                                <div class="tp-caption Creative-SubTitle   tp-resizeme rs-parallaxlevel-2"
-                                    id="slide-2978-layer-3" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['-91','-91','-81','-64']" data-fontsize="['14','14','14','12']"
-                                    data-lineheight="['14','14','14','12']" data-width="none" data-height="none"
-                                    data-whitespace="nowrap" data-type="text" data-responsive_offset="on"
-                                    data-frames='[{"from":"y:50px;opacity:0;","speed":0,"to":"o:1;","delay":2350,"ease":"Power3.easeOut"},{"delay":"0","speed":0,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]'
-                                    data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 7; white-space: nowrap;text-transform:left;  font-family: 'Trirong', serif;font-size: 30px !important;">
+                                <div class="tp-caption Creative-SubTitle   tp-resizeme rs-parallaxlevel-2" id="slide-2978-layer-3" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['-91','-91','-81','-64']" data-fontsize="['14','14','14','12']" data-lineheight="['14','14','14','12']" data-width="none" data-height="none" data-whitespace="nowrap" data-type="text" data-responsive_offset="on" data-frames='[{"from":"y:50px;opacity:0;","speed":0,"to":"o:1;","delay":2350,"ease":"Power3.easeOut"},{"delay":"0","speed":0,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]' data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 7; white-space: nowrap;text-transform:left;  font-family: 'Trirong', serif;font-size: 30px !important;">
                                     <!-- <p>VẬN CHUYỂN ĐƯỜNG BAY</p><br/> -->
 
                                 </div>
 
                                 <!-- LAYER NR. 4 -->
-                                <div class="tp-caption Creative-Title   tp-resizeme rs-parallaxlevel-1"
-                                    id="slide-2978-layer-2" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['-10','-10','-10','-10']" data-fontsize="['70','70','50','40']"
-                                    data-lineheight="['70','70','55','45']" data-width="['none','none','none','320']"
-                                    data-height="none" data-whitespace="nowrap" data-type="text"
-                                    data-responsive_offset="on"
-                                    data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":0,"ease":"Power3.easeOut"},{"delay":"wait","speed":0,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]'
-                                    data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 14; white-space: nowrap;text-transform:left; font-family: 'Roboto', sans-serif;font-size: 10px !important;">
+                                <div class="tp-caption Creative-Title   tp-resizeme rs-parallaxlevel-1" id="slide-2978-layer-2" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['-10','-10','-10','-10']" data-fontsize="['70','70','50','40']" data-lineheight="['70','70','55','45']" data-width="['none','none','none','320']" data-height="none" data-whitespace="nowrap" data-type="text" data-responsive_offset="on" data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":0,"ease":"Power3.easeOut"},{"delay":"wait","speed":0,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]' data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 14; white-space: nowrap;text-transform:left; font-family: 'Roboto', sans-serif;font-size: 10px !important;">
                                     <p class="title-slide">VẬN CHUYỂN ĐƯỜNG BAY</p>
                                     <p class="text-slide"> Vận chuyển hàng hoá từ Nhật về Việt Nam <br />bằng máy bay
                                         nhận hàng chỉ từ 5 - 7 ngày</p>
                                 </div>
 
                                 <!-- LAYER NR. 5 -->
-                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3"
-                                    id="slide-2978-layer-5" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['137','137','119','100']" data-width="1" data-height="100"
-                                    data-whitespace="nowrap" data-type="shape" data-responsive_offset="on"
-                                    data-responsive="off"
-                                    data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":2900,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[-100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 9;text-transform:left;background-color: rgba(255, 255, 255, 0.46);border-color:rgba(0, 0, 0, 0);border-width:0px;background: rgb(252, 169, 1);">
+                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3" id="slide-2978-layer-5" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['137','137','119','100']" data-width="1" data-height="100" data-whitespace="nowrap" data-type="shape" data-responsive_offset="on" data-responsive="off" data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":2900,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[-100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 9;text-transform:left;background-color: rgba(255, 255, 255, 0.46);border-color:rgba(0, 0, 0, 0);border-width:0px;background: rgb(252, 169, 1);">
                                 </div>
 
                                 <!-- LAYER NR. 6 -->
-                                <div class="sendEvent tp-caption Creative-Button rev-btn  rs-parallaxlevel-15 "
-                                    id="slide-2978-layer-6" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['top','top','top','top']"
-                                    data-voffset="['694','611','689','540']" data-fontweight="['400','500','500','500']"
-                                    data-width="none" data-height="none" data-whitespace="nowrap" data-type="button"
-                                    data-actions='[{"event":"click","action":"jumptoslide","slide":"next","delay":""}]'
-                                    data-responsive_offset="on" data-responsive="off"
-                                    data-frames='[{"from":"z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","speed":1500,"to":"o:1;","delay":3850,"ease":"Power2.easeOut"},{"delay":"wait","speed":500,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.75;sY:0.75;skX:0;skY:0;opacity:0;","ease":"Power1.easeIn"},{"frame":"hover","speed":"300","ease":"Power1.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(252, 169, 1);bc:rgb(252, 169, 1);bw:1px 1px 1px 1px;"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[15,15,15,15]"
-                                    data-paddingright="[50,50,50,50]" data-paddingbottom="[15,15,15,15]"
-                                    data-paddingleft="[50,50,50,50]"
-                                    style="z-index: 10; white-space: nowrap;text-transform:left;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; font-family: 'Trirong', serif;font-size: 16px !important;">
+                                <div class="sendEvent tp-caption Creative-Button rev-btn  rs-parallaxlevel-15 " id="slide-2978-layer-6" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['top','top','top','top']" data-voffset="['694','611','689','540']" data-fontweight="['400','500','500','500']" data-width="none" data-height="none" data-whitespace="nowrap" data-type="button" data-actions='[{"event":"click","action":"jumptoslide","slide":"next","delay":""}]' data-responsive_offset="on" data-responsive="off" data-frames='[{"from":"z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","speed":1500,"to":"o:1;","delay":3850,"ease":"Power2.easeOut"},{"delay":"wait","speed":500,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.75;sY:0.75;skX:0;skY:0;opacity:0;","ease":"Power1.easeIn"},{"frame":"hover","speed":"300","ease":"Power1.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(252, 169, 1);bc:rgb(252, 169, 1);bw:1px 1px 1px 1px;"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[15,15,15,15]" data-paddingright="[50,50,50,50]" data-paddingbottom="[15,15,15,15]" data-paddingleft="[50,50,50,50]" style="z-index: 10; white-space: nowrap;text-transform:left;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; font-family: 'Trirong', serif;font-size: 16px !important;">
                                     <a href="" style="color:aliceblue;font-weight: bold;font-size: 18px !important;">GỬI
                                         HÀNG
                                         NGAY</a>
                                 </div>
                             </li>
                             <!-- SLIDE  -->
-                            <li data-index="rs-2979" data-transition="fadethroughdark" data-slotamount="default"
-                                data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default"
-                                data-easeout="default" data-masterspeed="2000"
-                                data-thumb="http://placehold.it/1920X1080" data-rotate="0" data-saveperformance="off"
-                                data-title="" data-param1="02" data-param2="" data-param3="" data-param4=""
-                                data-param5="" data-param6="" data-param7="" data-param8="" data-param9=""
-                                data-param10="" data-description="">
+                            <li data-index="rs-2979" data-transition="fadethroughdark" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="2000" data-thumb="http://placehold.it/1920X1080" data-rotate="0" data-saveperformance="off" data-title="" data-param1="02" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
                                 <!-- MAIN IMAGE -->
-                                <img src="" alt="" data-bgposition="center center" data-bgfit="cover"
-                                    data-bgrepeat="no-repeat" data-bgparallax="3" class="rev-slidebg" data-no-retina>
+                                <img src="" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="3" class="rev-slidebg" data-no-retina>
                                 <!-- LAYERS -->
 
                                 <!-- LAYER NR. 7 -->
-                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-tobggroup"
-                                    id="slide-2979-layer-1" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['0','0','0','0']" data-width="full" data-height="full"
-                                    data-whitespace="nowrap" data-type="shape" data-basealign="slide"
-                                    data-responsive_offset="off" data-responsive="off"
-                                    data-frames='[{"from":"opacity:0;","speed":1500,"to":"o:1;","delay":150,"ease":"Power2.easeInOut"},{"delay":"wait","speed":1500,"to":"opacity:0;","ease":"Power2.easeInOut"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 11;text-transform:left;border-color:rgba(0, 0, 0, 0);border-width:0px;background-color: rgba(135, 132, 132, 0.46);">
+                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-tobggroup" id="slide-2979-layer-1" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['0','0','0','0']" data-width="full" data-height="full" data-whitespace="nowrap" data-type="shape" data-basealign="slide" data-responsive_offset="off" data-responsive="off" data-frames='[{"from":"opacity:0;","speed":1500,"to":"o:1;","delay":150,"ease":"Power2.easeInOut"},{"delay":"wait","speed":1500,"to":"opacity:0;","ease":"Power2.easeInOut"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 11;text-transform:left;border-color:rgba(0, 0, 0, 0);border-width:0px;background-color: rgba(135, 132, 132, 0.46);">
                                 </div>
 
                                 <!-- LAYER NR. 8 -->
-                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3"
-                                    id="slide-2979-layer-4" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['-178','-178','-168','-141']" data-width="1" data-height="100"
-                                    data-whitespace="nowrap" data-type="shape" data-responsive_offset="on"
-                                    data-responsive="off"
-                                    data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1500,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 12;text-transform:left;background-color:rgb(252, 169, 1);border-color:rgba(0, 0, 0, 0);border-width:0px;">
+                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3" id="slide-2979-layer-4" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['-178','-178','-168','-141']" data-width="1" data-height="100" data-whitespace="nowrap" data-type="shape" data-responsive_offset="on" data-responsive="off" data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1500,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 12;text-transform:left;background-color:rgb(252, 169, 1);border-color:rgba(0, 0, 0, 0);border-width:0px;">
                                 </div>
 
                                 <!-- LAYER NR. 9 -->
-                                <div class="tp-caption Creative-SubTitle   tp-resizeme rs-parallaxlevel-2"
-                                    id="slide-2979-layer-3" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['-91','-91','-81','-64']" data-fontsize="['14','14','14','12']"
-                                    data-lineheight="['14','14','14','12']" data-width="none" data-height="none"
-                                    data-whitespace="nowrap" data-type="text" data-responsive_offset="on"
-                                    data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":2350,"ease":"Power3.easeOut"},{"delay":"wait","speed":1000,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]'
-                                    data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 13; white-space: nowrap;text-transform:left; font-family: 'Trirong', serif;">
+                                <div class="tp-caption Creative-SubTitle   tp-resizeme rs-parallaxlevel-2" id="slide-2979-layer-3" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['-91','-91','-81','-64']" data-fontsize="['14','14','14','12']" data-lineheight="['14','14','14','12']" data-width="none" data-height="none" data-whitespace="nowrap" data-type="text" data-responsive_offset="on" data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":2350,"ease":"Power3.easeOut"},{"delay":"wait","speed":1000,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]' data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 13; white-space: nowrap;text-transform:left; font-family: 'Trirong', serif;">
                                     <!-- sea -->
                                 </div>
 
 
                                 <!-- LAYER NR. 10 -->
-                                <div class="tp-caption Creative-Title   tp-resizeme rs-parallaxlevel-1"
-                                    id="slide-2979-layer-2" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['-10','-10','-10','-10']" data-fontsize="['70','70','50','40']"
-                                    data-lineheight="['70','70','55','45']" data-width="['none','none','none','320']"
-                                    data-height="none" data-whitespace="nowrap" data-type="text"
-                                    data-responsive_offset="on"
-                                    data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":2550,"ease":"Power3.easeOut"},{"delay":"wait","speed":1000,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]'
-                                    data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 14; white-space: nowrap;text-transform:left; font-family:'Roboto', sans-serif;font-size: 10px !important;">
+                                <div class="tp-caption Creative-Title   tp-resizeme rs-parallaxlevel-1" id="slide-2979-layer-2" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['-10','-10','-10','-10']" data-fontsize="['70','70','50','40']" data-lineheight="['70','70','55','45']" data-width="['none','none','none','320']" data-height="none" data-whitespace="nowrap" data-type="text" data-responsive_offset="on" data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":2550,"ease":"Power3.easeOut"},{"delay":"wait","speed":1000,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]' data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 14; white-space: nowrap;text-transform:left; font-family:'Roboto', sans-serif;font-size: 10px !important;">
                                     <p class="title-slide">VẬN CHUYỂN ĐƯỜNG BIỂN</p>
                                     <p class="text-slide">
                                         Vận chuyển hàng hoá từ Nhật về Việt Nam<br />bằng tàu nhận hàng từ 24-36 ngày
@@ -701,105 +591,36 @@
                                 </div>
 
                                 <!-- LAYER NR. 11 -->
-                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3"
-                                    id="slide-2979-layer-5" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['137','137','119','100']" data-width="1" data-height="100"
-                                    data-whitespace="nowrap" data-type="shape" data-responsive_offset="on"
-                                    data-responsive="off"
-                                    data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":2900,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[-100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 15;text-transform:left;background-color:rgb(252, 169, 1);border-color:rgba(0, 0, 0, 0);border-width:0px;">
+                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3" id="slide-2979-layer-5" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['137','137','119','100']" data-width="1" data-height="100" data-whitespace="nowrap" data-type="shape" data-responsive_offset="on" data-responsive="off" data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":2900,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[-100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 15;text-transform:left;background-color:rgb(252, 169, 1);border-color:rgba(0, 0, 0, 0);border-width:0px;">
                                 </div>
 
                                 <!-- LAYER NR. 12 -->
-                                <div class="tp-caption Creative-Button rev-btn  rs-parallaxlevel-15"
-                                    id="slide-2979-layer-6" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['top','top','top','top']"
-                                    data-voffset="['694','611','689','540']" data-fontweight="['400','500','500','500']"
-                                    data-width="none" data-height="none" data-whitespace="nowrap" data-type="button"
-                                    data-actions='[{"event":"click","action":"jumptoslide","slide":"next","delay":""}]'
-                                    data-responsive_offset="on" data-responsive="off"
-                                    data-frames='[{"from":"z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","speed":1500,"to":"o:1;","delay":3850,"ease":"Power2.easeOut"},{"delay":"wait","speed":500,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.75;sY:0.75;skX:0;skY:0;opacity:0;","ease":"Power1.easeIn"},{"frame":"hover","speed":"300","ease":"Power1.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(252, 169, 1);bc:rgb(252, 169, 1);bw:1px 1px 1px 1px;"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[15,15,15,15]"
-                                    data-paddingright="[50,50,50,50]" data-paddingbottom="[15,15,15,15]"
-                                    data-paddingleft="[50,50,50,50]"
-                                    style="z-index: 16; white-space: nowrap;text-transform:left;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; font-family: 'Trirong', serif;font-size: 16px !important;">
+                                <div class="tp-caption Creative-Button rev-btn  rs-parallaxlevel-15" id="slide-2979-layer-6" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['top','top','top','top']" data-voffset="['694','611','689','540']" data-fontweight="['400','500','500','500']" data-width="none" data-height="none" data-whitespace="nowrap" data-type="button" data-actions='[{"event":"click","action":"jumptoslide","slide":"next","delay":""}]' data-responsive_offset="on" data-responsive="off" data-frames='[{"from":"z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","speed":1500,"to":"o:1;","delay":3850,"ease":"Power2.easeOut"},{"delay":"wait","speed":500,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.75;sY:0.75;skX:0;skY:0;opacity:0;","ease":"Power1.easeIn"},{"frame":"hover","speed":"300","ease":"Power1.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(252, 169, 1);bc:rgb(252, 169, 1);bw:1px 1px 1px 1px;"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[15,15,15,15]" data-paddingright="[50,50,50,50]" data-paddingbottom="[15,15,15,15]" data-paddingleft="[50,50,50,50]" style="z-index: 16; white-space: nowrap;text-transform:left;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; font-family: 'Trirong', serif;font-size: 16px !important;">
                                     <a href="" style="color:aliceblue;font-weight: bold;font-size: 18px !important">GỬI
                                         HÀNG
                                         NGAY</a>
                                 </div>
                             </li>
                             <!-- SLIDE  -->
-                            <li data-index="rs-2980" data-transition="fadethroughdark" data-slotamount="default"
-                                data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default"
-                                data-easeout="default" data-masterspeed="2000"
-                                data-thumb="http://placehold.it/1920X1080" data-rotate="0" data-saveperformance="off"
-                                data-title="" data-param1="03" data-param2="" data-param3="" data-param4=""
-                                data-param5="" data-param6="" data-param7="" data-param8="" data-param9=""
-                                data-param10="" data-description="">
+                            <li data-index="rs-2980" data-transition="fadethroughdark" data-slotamount="default" data-hideafterloop="0" data-hideslideonmobile="off" data-easein="default" data-easeout="default" data-masterspeed="2000" data-thumb="http://placehold.it/1920X1080" data-rotate="0" data-saveperformance="off" data-title="" data-param1="03" data-param2="" data-param3="" data-param4="" data-param5="" data-param6="" data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
                                 <!-- MAIN IMAGE -->
-                                <img src="" alt="" data-bgposition="center center" data-bgfit="cover"
-                                    data-bgrepeat="no-repeat" data-bgparallax="3" class="rev-slidebg" data-no-retina>
+                                <img src="" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="3" class="rev-slidebg" data-no-retina>
                                 <!-- LAYERS -->
                                 <!-- LAYER NR. 13 -->
-                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-tobggroup"
-                                    id="slide-2980-layer-1" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['0','0','0','0']" data-width="full" data-height="full"
-                                    data-whitespace="nowrap" data-type="shape" data-basealign="slide"
-                                    data-responsive_offset="off" data-responsive="off"
-                                    data-frames='[{"from":"opacity:0;","speed":1500,"to":"o:1;","delay":150,"ease":"Power2.easeInOut"},{"delay":"wait","speed":1500,"to":"opacity:0;","ease":"Power2.easeInOut"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 17;text-transform:left;border-color:rgba(0, 0, 0, 0);border-width:0px;background-color: rgba(135, 132, 132, 0.46);">
+                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-tobggroup" id="slide-2980-layer-1" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['0','0','0','0']" data-width="full" data-height="full" data-whitespace="nowrap" data-type="shape" data-basealign="slide" data-responsive_offset="off" data-responsive="off" data-frames='[{"from":"opacity:0;","speed":1500,"to":"o:1;","delay":150,"ease":"Power2.easeInOut"},{"delay":"wait","speed":1500,"to":"opacity:0;","ease":"Power2.easeInOut"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 17;text-transform:left;border-color:rgba(0, 0, 0, 0);border-width:0px;background-color: rgba(135, 132, 132, 0.46);">
                                 </div>
 
                                 <!-- LAYER NR. 14 -->
-                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3"
-                                    id="slide-2980-layer-4" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['-178','-178','-168','-141']" data-width="1" data-height="100"
-                                    data-whitespace="nowrap" data-type="shape" data-responsive_offset="on"
-                                    data-responsive="off"
-                                    data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1500,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 18;text-transform:left;background-color:rgb(252, 169, 1);border-color:rgba(0, 0, 0, 0);border-width:0px;">
+                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3" id="slide-2980-layer-4" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['-178','-178','-168','-141']" data-width="1" data-height="100" data-whitespace="nowrap" data-type="shape" data-responsive_offset="on" data-responsive="off" data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":1500,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 18;text-transform:left;background-color:rgb(252, 169, 1);border-color:rgba(0, 0, 0, 0);border-width:0px;">
                                 </div>
 
                                 <!-- LAYER NR. 15 -->
-                                <div class="tp-caption Creative-SubTitle   tp-resizeme rs-parallaxlevel-2"
-                                    id="slide-2980-layer-3" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['-91','-91','-81','-64']" data-fontsize="['14','14','14','12']"
-                                    data-lineheight="['14','14','14','12']" data-width="none" data-height="none"
-                                    data-whitespace="nowrap" data-type="text" data-responsive_offset="on"
-                                    data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":2350,"ease":"Power3.easeOut"},{"delay":"wait","speed":1000,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]'
-                                    data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 19; white-space: nowrap;text-transform:left; font-family: 'Trirong', serif;">
+                                <div class="tp-caption Creative-SubTitle   tp-resizeme rs-parallaxlevel-2" id="slide-2980-layer-3" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['-91','-91','-81','-64']" data-fontsize="['14','14','14','12']" data-lineheight="['14','14','14','12']" data-width="none" data-height="none" data-whitespace="nowrap" data-type="text" data-responsive_offset="on" data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":2350,"ease":"Power3.easeOut"},{"delay":"wait","speed":1000,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]' data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 19; white-space: nowrap;text-transform:left; font-family: 'Trirong', serif;">
                                     <!-- CUNG CẤP GIẢI PHÁP CHI PHÍ HIỂU QUẢ -->
                                 </div>
 
                                 <!-- LAYER NR. 16 -->
-                                <div class="tp-caption Creative-Title   tp-resizeme rs-parallaxlevel-1"
-                                    id="slide-2980-layer-2" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['-10','-10','-10','-10']" data-fontsize="['40','40','30','30']"
-                                    data-lineheight="['70','70','55','45']" data-width="['none','none','none','320']"
-                                    data-height="none" data-whitespace="nowrap" data-type="text"
-                                    data-responsive_offset="on"
-                                    data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":2550,"ease":"Power3.easeOut"},{"delay":"wait","speed":1000,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]'
-                                    data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 20; white-space: nowrap;text-transform:left; font-family: 'Roboto', sans-serif;font-size: 10px !important">
+                                <div class="tp-caption Creative-Title   tp-resizeme rs-parallaxlevel-1" id="slide-2980-layer-2" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['-10','-10','-10','-10']" data-fontsize="['40','40','30','30']" data-lineheight="['70','70','55','45']" data-width="['none','none','none','320']" data-height="none" data-whitespace="nowrap" data-type="text" data-responsive_offset="on" data-frames='[{"from":"y:50px;opacity:0;","speed":1500,"to":"o:1;","delay":2550,"ease":"Power3.easeOut"},{"delay":"wait","speed":1000,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","ease":"Power3.easeInOut"}]' data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 20; white-space: nowrap;text-transform:left; font-family: 'Roboto', sans-serif;font-size: 10px !important">
                                     <p class="title-slide">CUNG CẤP GIẢI PHÁP HIỆU QUẢ</p>
                                     <p class="text-slide text-slide-font">
                                         Hệ thống tracking thông minh hiện đại hỗ trợ khách hàng <br />kiểm soát chi phí
@@ -808,32 +629,11 @@
                                 </div>
 
                                 <!-- LAYER NR. 17 -->
-                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3"
-                                    id="slide-2980-layer-5" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']"
-                                    data-voffset="['137','137','119','100']" data-width="1" data-height="100"
-                                    data-whitespace="nowrap" data-type="shape" data-responsive_offset="on"
-                                    data-responsive="off"
-                                    data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":2900,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[-100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]"
-                                    data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]"
-                                    data-paddingleft="[0,0,0,0]"
-                                    style="z-index: 21;text-transform:left;background-color:rgb(252, 169, 1);border-color:rgba(0, 0, 0, 0);border-width:0px;">
+                                <div class="tp-caption tp-shape tp-shapewrapper  rs-parallaxlevel-3" id="slide-2980-layer-5" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['middle','middle','middle','middle']" data-voffset="['137','137','119','100']" data-width="1" data-height="100" data-whitespace="nowrap" data-type="shape" data-responsive_offset="on" data-responsive="off" data-frames='[{"from":"y:[-100%];z:0;rX:0deg;rY:0;rZ:0;sX:1;sY:1;skX:0;skY:0;","mask":"x:0px;y:0px;s:inherit;e:inherit;","speed":1500,"to":"o:1;","delay":2900,"ease":"Power3.easeInOut"},{"delay":"wait","speed":500,"to":"y:[-100%];","mask":"x:inherit;y:inherit;s:inherit;e:inherit;","ease":"Power1.easeIn"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[0,0,0,0]" data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]" style="z-index: 21;text-transform:left;background-color:rgb(252, 169, 1);border-color:rgba(0, 0, 0, 0);border-width:0px;">
                                 </div>
 
                                 <!-- LAYER NR. 18 -->
-                                <div class="tp-caption Creative-Button rev-btn  rs-parallaxlevel-15"
-                                    id="slide-2980-layer-6" data-x="['center','center','center','center']"
-                                    data-hoffset="['0','0','0','0']" data-y="['top','top','top','top']"
-                                    data-voffset="['694','611','689','540']" data-fontweight="['400','500','500','500']"
-                                    data-width="none" data-height="none" data-whitespace="nowrap" data-type="button"
-                                    data-actions='[{"event":"click","action":"jumptoslide","slide":"next","delay":""}]'
-                                    data-responsive_offset="on" data-responsive="off"
-                                    data-frames='[{"from":"z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","speed":1500,"to":"o:1;","delay":3850,"ease":"Power2.easeOut"},{"delay":"wait","speed":500,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.75;sY:0.75;skX:0;skY:0;opacity:0;","ease":"Power1.easeIn"},{"frame":"hover","speed":"300","ease":"Power1.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(252, 169, 1);bc:rgb(252, 169, 1);bw:1px 1px 1px 1px;"}]'
-                                    data-textAlign="['left','left','left','left']" data-paddingtop="[15,15,15,15]"
-                                    data-paddingright="[50,50,50,50]" data-paddingbottom="[15,15,15,15]"
-                                    data-paddingleft="[50,50,50,50]"
-                                    style="z-index: 22; white-space: nowrap;text-transform:left;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; font-family: 'Trirong', serif;font-size: 16px !important;">
+                                <div class="tp-caption Creative-Button rev-btn  rs-parallaxlevel-15" id="slide-2980-layer-6" data-x="['center','center','center','center']" data-hoffset="['0','0','0','0']" data-y="['top','top','top','top']" data-voffset="['694','611','689','540']" data-fontweight="['400','500','500','500']" data-width="none" data-height="none" data-whitespace="nowrap" data-type="button" data-actions='[{"event":"click","action":"jumptoslide","slide":"next","delay":""}]' data-responsive_offset="on" data-responsive="off" data-frames='[{"from":"z:0;rX:0;rY:0;rZ:0;sX:0.9;sY:0.9;skX:0;skY:0;opacity:0;","speed":1500,"to":"o:1;","delay":3850,"ease":"Power2.easeOut"},{"delay":"wait","speed":500,"to":"x:0;y:0;z:0;rX:0;rY:0;rZ:0;sX:0.75;sY:0.75;skX:0;skY:0;opacity:0;","ease":"Power1.easeIn"},{"frame":"hover","speed":"300","ease":"Power1.easeInOut","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(252, 169, 1);bc:rgb(252, 169, 1);bw:1px 1px 1px 1px;"}]' data-textAlign="['left','left','left','left']" data-paddingtop="[15,15,15,15]" data-paddingright="[50,50,50,50]" data-paddingbottom="[15,15,15,15]" data-paddingleft="[50,50,50,50]" style="z-index: 22; white-space: nowrap;text-transform:left;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer; font-family: 'Trirong', serif;font-size: 16px !important;">
                                     <a href="" style="color:aliceblue;font-weight: bold;font-size: 18px !important">GỬI
                                         HÀNG
                                         NGAY</a>
@@ -868,13 +668,13 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 m-custom-tracking">
                 <div class="row">
                     <div class="col-md-11 col-sm-11" style="float:right">
-                        <p class="text-tracking"><i class="fa fa-arrow-circle-right color-arrow" ></i> Kiện
+                        <p class="text-tracking"><i class="fa fa-arrow-circle-right color-arrow"></i> Kiện
                             hàng của tôi cân nặng bao nhiêu?</p>
                         <p class="text-tracking" style="margin-left: 30px">
-                            <i class="fa fa-arrow-circle-right color-arrow" ></i> Tình trạng hàng hóa đang ở
+                            <i class="fa fa-arrow-circle-right color-arrow"></i> Tình trạng hàng hóa đang ở
                             đâu?
                         </p>
-                        <p class="text-tracking"><i class="fa fa-arrow-circle-right color-arrow" ></i> Làm
+                        <p class="text-tracking"><i class="fa fa-arrow-circle-right color-arrow"></i> Làm
                             thế nào để tự mình kiểm tra?</p>
                     </div>
                 </div>
@@ -916,7 +716,7 @@
 
         </div>
 
-        <div class="row" style="margin: 6px;" >
+        <div class="row" style="margin: 6px;">
             <div class="col-sm-12 col-md-12">
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered" style="display:none;text-align: center;" id="table-index">
@@ -945,11 +745,12 @@
                             <table class="table table-striped table-bordered check-contract" id="table_price_shipping" style="display:none">
                                 <thead>
                                     <tr>
-                                    <th style="text-align: center">Mã Tracking</th>
-                                    <th style='width:100px;text-align:center'>Tổng khối lượng tính phí</th>
-                                    <th>Đơn giá</th>
-                                    <th>Đường vận chuyển</th>
-                                    <th>Phí vận chuyển (Nhật - Kho Việt)</th>
+                                        <th style="text-align: center">Mã Tracking</th>
+                                        <th style='width:100px;text-align:center'>Tổng khối lượng tính phí</th>
+                                        <th>Đơn giá</th>
+                                        <th>Đường vận chuyển</th>
+                                        <th>Phí vận chuyển (Nhật - Kho Việt)</th>
+                                        <th>Phí vận chuyển đã thanh toán</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table_body_price_shipping">
@@ -962,39 +763,40 @@
                 <div class="row d-none check-contract" id="declaration_price" style="margin:4px">
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <div class="col-md-6 " style="padding-left: unset">
-                            <p class="" ><label for="" >Giá trị gói bảo hiểm</label>: <span id="insurance_result"></span> </p>
+                            <p class=""><label for="">Giá trị gói bảo hiểm</label>: <span id="insurance_result"></span> </p>
                         </div>
                         <div class="col-md-6">
-                            <p class="" ><label for="" >Phí bảo hiểm (3%)</label>: <span id="insurance_result_fee"></span> </p>
+                            <p class=""><label for="">Phí bảo hiểm (3%)</label>: <span id="insurance_result_fee"></span> </p>
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <div class="col-md-6" style="padding-left: unset">
-                            <p class="" ><label for="" id="special">Giá trị hàng hoá đặc biệt</label>: <span id="special_result"></span> </p>
+                            <p class=""><label for="" id="special">Giá trị hàng hoá đặc biệt</label>: <span id="special_result"></span> </p>
                         </div>
                         <div class="col-md-6">
-                            <p class="" ><label for="" id="special">Phí hàng hoá đặc biệt (2%)</label>: <span id="special_result_fee"></span> </p>
+                            <p class=""><label for="" id="special">Phí hàng hoá đặc biệt (2%)</label>: <span id="special_result_fee"></span> </p>
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <div class="col-md-6" style="padding-left: unset">
-                            <p class="" ><label for="" id="shipping_inside_jp">Phí vận chuyển nội địa Nhật(Yên)</label>: <span id="fee_shipping_inside_jp"></span> </p>
+                            <p class=""><label for="" id="shipping_inside_jp">Phí vận chuyển nội địa Nhật(Yên)</label>: <span id="fee_shipping_inside_jp"></span> </p>
                         </div>
-                        <div class="col-md-6" >
-                            <p class="" ><label for="" id="shipping_inside_vn">Phí vận chuyển nội địa Nhật(VNĐ)</label>: <span id="fee_shipping_inside_vn"></span> </p>
+                        <div class="col-md-6">
+                            <p class=""><label for="" id="shipping_inside_vn">Phí vận chuyển nội địa Nhật(VNĐ)</label>: <span id="fee_shipping_inside_vn"></span> </p>
                         </div>
 
                     </div>
                 </div>
-                <div class="row d-none check-contract"  id="alert" style="margin:4px"  >
+                <div class="row d-none check-contract" id="alert" style="margin:4px">
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <h2 class="text-center text-danger font-weight-bold"> <b> PHIẾU YÊU CẦU THANH TOÁN </b></h2>
-                        <p class="text-danger" >Xin quý khách vui lòng thanh toán đến STK : <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png" alt="" width="100px"></p>
-                        <p class="text-danger font-weight-bold" style="font-weight: bold"> Nội dung thanh toán : <span class="text-danger" style="font-size: 25px" id="id_order"></span><p>
+                        <p class="text-danger">Xin quý khách vui lòng thanh toán đến STK : <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png" alt="" width="100px"></p>
+                        <p class="text-danger font-weight-bold" style="font-weight: bold"> Nội dung thanh toán : <span class="text-danger" style="font-size: 25px" id="id_order"></span>
+                        <p>
                         <p class="text-danger text-uppercase font-weight-bold" style="font-weight: bold">Số tiền thanh toán: <span id="money" style="font-size: 25px"></span> <span style="font-weight: normal !important;">( Đã bao gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
                     </div>
                 </div>
-                <div class="row d-none check-contract"  id="paid" style="margin:4px"  >
+                <div class="row d-none check-contract" id="paid" style="margin:4px">
                     <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                         <h2 class="text-center text-danger font-weight-bold"> <b> Đã Thanh Toán </b></h2>
                         <h2 class="text-center text-danger">Cảm Ơn Quý Khách</h2>
@@ -1020,9 +822,9 @@
                             <table class="table table-striped table-bordered" id="table_item" style="display:none">
                                 <thead>
                                     <tr>
-                                    <th>STT</th>
-                                    <th style='width:100px'>Số Lượng</th>
-                                    <th>Tên Sản Phẩm</th>
+                                        <th>STT</th>
+                                        <th style='width:100px'>Số Lượng</th>
+                                        <th>Tên Sản Phẩm</th>
                                     </tr>
                                 </thead>
                                 <tbody id="load_item">
@@ -1053,24 +855,21 @@
         <div class="tmn-custom-mask d-none" id="loader">
             <div class="loader"></div>
         </div>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                style="z-index: 9999">
-                <div class="modal-dialog modal-sm  modal-confirm" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <div class="icon-box" id="color-success"><i class="fa fa-times"></i></div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 9999">
+            <div class="modal-dialog modal-sm  modal-confirm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="icon-box" id="color-success"><i class="fa fa-times"></i></div>
 
-                        </div>
-                        <h5 class="modal-confirm" id="message"></h5>
-                        <div class="modal-footer">
-                            <button class="btn btn-err btn-danger btn-block" data-dismiss="modal"
-                                id="exitForm">Thoát</button>
-                            <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
-                                id="exitSuccess" style="display:none">Thoát</button>
-                        </div>
+                    </div>
+                    <h5 class="modal-confirm" id="message"></h5>
+                    <div class="modal-footer">
+                        <button class="btn btn-err btn-danger btn-block" data-dismiss="modal" id="exitForm">Thoát</button>
+                        <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()" id="exitSuccess" style="display:none">Thoát</button>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 </div>
 <!--Slider form end-->
@@ -1090,13 +889,13 @@
                 </div>
                 {{-- <div style="margin-top:10px">
                     <a href="{{ route('service.procedure') }}" class="btn ed_btn ed_orange">Xem thêm</a>
-                </div> --}}
-
-            </div>
-
+            </div> --}}
 
         </div>
+
+
     </div>
+</div>
 </div>
 <!-- chart Section end -->
 <!-- Services start -->
@@ -1516,8 +1315,7 @@
                             <h4>GỬI MAIL NGAY ĐỂ ĐƯỢC TƯ VẤN</h4>
                         </div>
                     </div>
-                    <div
-                        class="col-lg-6 col-md-6 col-sm-8 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-xs-offset-0">
+                    <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 col-lg-offset-3 col-md-offset-3 col-sm-offset-2 col-xs-offset-0">
                         <div class="row">
                             <div class="ed_newsletter_section_form">
 
@@ -1557,7 +1355,6 @@
 
 
     // }
-
 </script>
 <!--Newsletter Section six end-->
 <!--Scroll to top-->
@@ -1574,10 +1371,10 @@
         }
         return true;
     }
-    $(document).ready(function(){
-        setTimeout(function(){
+    $(document).ready(function() {
+        setTimeout(function() {
             $(".fix-time").removeClass('d-none');
-        },1000)
+        }, 1000)
         $(document).ajaxStart(function() {
             $("#loader").show();
         });
@@ -1605,7 +1402,7 @@
         $("#fee_shipping_inside_vn").text(0)
         $("#alert-contract").hide()
         var tracking = $("#utrack").val();
-        if(tracking.length<=5){
+        if (tracking.length <= 5) {
             alert('Tracking chưa đúng')
             return
         }
@@ -1617,7 +1414,7 @@
             type: 'POST',
             url: "{{ route('rq_tk.getStatus') }}",
             data: {
-                idToken:idToken,
+                idToken: idToken,
                 tracking: tracking
             },
             success: function(res) {
@@ -1668,22 +1465,24 @@
                                 var pay_money = 0;
                                 var insurance_result;
                                 var special_result;
+                                var service_fee = value.reference.service_fee;
+                                var service_fee_paid = value.reference.service_fee_paid;
+                                var service_fee_outstanding = value.reference.service_fee_outstanding;
                                 if (value.reference.length != 0) {
                                     if (!value.reference.shipment_info.sender_name) {
-                                        if(isValidJSONString(value.reference.note)){
+                                        if (isValidJSONString(value.reference.note)) {
                                             var parse_note = JSON.parse(value.reference.note);
-                                            if(parse_note){
-                                                if(typeof parse_note == "object"){
-                                                    if(parse_note.send_name == undefined){
-                                                        name_send=""
-                                                    }
-                                                    else{
+                                            if (parse_note) {
+                                                if (typeof parse_note == "object") {
+                                                    if (parse_note.send_name == undefined) {
+                                                        name_send = ""
+                                                    } else {
                                                         name_send = parse_note.send_name;
                                                     }
                                                 }
                                             }
-                                        }else{
-                                            name_send=""
+                                        } else {
+                                            name_send = ""
                                         }
                                     } else {
                                         name_send = value.reference.shipment_info.sender_name;
@@ -1693,7 +1492,7 @@
                                     add_rev = value.reference.shipment_info.full_address;
                                     created_at = value.reference.created_at;
                                     method_ship = value.reference.shipment_method_id;
-                                    if(value.reference.pay_money != undefined){
+                                    if (value.reference.pay_money != undefined) {
                                         pay_money = value.reference.total_fee;
                                     }
                                     insurance_result = value.reference.insurance_declaration
@@ -1703,26 +1502,28 @@
                                     $("#special_result").text(formatNumber(special_result))
                                     $("#insurance_result_fee").text(formatNumber(value.reference.insurance_result_fee))
                                     $("#special_result_fee").text(formatNumber(value.reference.special_result_fee))
-                                    if(value.sfa != null){
+                                    if (value.sfa != null) {
                                         $("#fee_shipping_inside_jp").text(formatNumber(value.sfa.shipping_inside))
-                                        $("#fee_shipping_inside_vn").text(formatNumber(value.sfa.shipping_inside*215))
+                                        $("#fee_shipping_inside_vn").text(formatNumber(value.sfa.shipping_inside * 215))
                                     }
 
-                                    if (value.boxes.length ){
+                                    if (value.boxes.length) {
                                         $("#table_price_shipping").show()
                                         $("#table_body_price_shipping").empty()
                                         $("#table_body_price_shipping").append(
-                                            '<tr>'+
-                                                '<td>'+value.id+'</td>'+
-                                                '<td>'+value.reference.total_weight+'</td>'+
-                                                '<td>'+value.reference.fee_ship+'</td>'+
-                                                '<td>'+method_ship+'</td>'+
-                                                '<td>'+formatNumber(value.reference.total_fee)+' VNĐ</td>'+
+                                            '<tr>' +
+                                            '<td>' + value.id + '</td>' +
+                                            '<td>' + value.reference.total_weight + '</td>' +
+                                            '<td>' + value.reference.fee_ship + '</td>' +
+                                            '<td>' + method_ship + '</td>' +
+                                            '<td>' + formatNumber(value.reference.total_fee) + ' VNĐ</td>' +
+                                            '<td>' + formatNumber(Math.round(service_fee_paid)) + ' VND</td>'
                                             +'</tr>'
                                         )
                                     }
                                 }
-                                if (tel_rev == '' |name_rev == '' | add_rev == '') {
+
+                                if (tel_rev == '' | name_rev == '' | add_rev == '') {
                                     $('#message').html(
                                         'Khách chưa đăng kí đầy đủ thông tin tracking'
                                     );
@@ -1730,6 +1531,12 @@
                                     $('#exitSuccess').show();
                                     $('#myModal').modal('show');
                                 }
+
+                                if (service_fee_paid >= value.reference.total_fee) {
+                                    $("#alert").hide()
+                                    $("#paid").show();
+                                }
+
                                 //length box = 0
                                 if (value.boxes.length == 0) {
                                     $("#body-table-firt-vnpost").empty()
@@ -1745,34 +1552,34 @@
                                         '</p>' +
                                         '</li>'
                                     )
-                                    if(value.logs.length){
-                                        var total_pay = 0;
-                                        var matchedLogIdx = value.logs.findIndex((log) => {return !!log?.content?.transaction});
-                                        $.each(value.logs,function(logs_index,logs_value){
-                                            let keyObjectLogMerge = Object.keys(logs_value.content)
-                                            var statusLogMerge;
-                                            if(matchedLogIdx === -1){
-                                                if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                                    total_pay += logs_value.content.service_fee_paid
-                                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                                }
-                                            }else{
-                                                if(keyObjectLogMerge=="transaction"){
-                                                    total_pay += logs_value.content.transaction.amount
-                                                    statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                                }
-                                            }
+                                    // if(value.logs.length){
+                                    //     var total_pay = 0;
+                                    //     var matchedLogIdx = value.logs.findIndex((log) => {return !!log?.content?.transaction});
+                                    //     $.each(value.logs,function(logs_index,logs_value){
+                                    //         let keyObjectLogMerge = Object.keys(logs_value.content)
+                                    //         var statusLogMerge;
+                                    //         if(matchedLogIdx === -1){
+                                    //             if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                    //                 total_pay += logs_value.content.service_fee_paid
+                                    //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                    //             }
+                                    //         }else{
+                                    //             if(keyObjectLogMerge=="transaction"){
+                                    //                 total_pay += logs_value.content.transaction.amount
+                                    //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                    //             }
+                                    //         }
 
-                                            if(statusLogMerge != undefined){
-                                                $("#time_line_index").append(
-                                                    '<li>' +
-                                                    '<a>' + statusLogMerge + '</a>' +
-                                                    '<p>' + logs_value.created_at + '</p>' +
-                                                    '</li>'
-                                                )
-                                            }
-                                        })
-                                    }
+                                    //         if(statusLogMerge != undefined){
+                                    //             $("#time_line_index").append(
+                                    //                 '<li>' +
+                                    //                 '<a>' + statusLogMerge + '</a>' +
+                                    //                 '<p>' + logs_value.created_at + '</p>' +
+                                    //                 '</li>'
+                                    //             )
+                                    //         }
+                                    //     })
+                                    // }
                                     $("#body-table-index")
                                         .append(
                                             `<tr>` +
@@ -1782,8 +1589,8 @@
                                             '</td>' +
                                             '<td>' +
                                             '</td>' +
-                                            '<td>'+
-                                            '</td>'+
+                                            '<td>' +
+                                            '</td>' +
                                             '<td>' + name_send +
                                             '</td>' +
                                             '<td>' + name_rev +
@@ -1799,287 +1606,284 @@
                                 } else { //lengbox !=0
                                     $("#body-table-index").empty()
                                     $("#time_line_index").empty()
-                                    $.each(value.boxes, function(index,value2) {
+                                    $.each(value.boxes, function(index, value2) {
                                         $("#body-table-index").append(
-                                                `<tr id="sku-row-${value2.id}" data-id="${value2.id}">` +
-                                                '<td>' + value2.id +
-                                                '</td>' +
-                                                '<td>' + value2.weight +
-                                                '</td>' +
-                                                '<td>' + value2.volume_weight_box +
-                                                '</td>' +
-                                                '<td class="text-center">'+value2.duplicate+
-                                                '</td>'+
-                                                '<td>' +name_send +
-                                                '</td>' +
-                                                '<td>' +name_rev +
-                                                '</td>' +
-                                                '<td>' +tel_rev +
-                                                '</td>' +
-                                                '<td>' + add_rev +
-                                                '</td>' +
-                                                '<td>' +method_ship +
-                                                '</td>' +
-                                                '</tr>'
-                                            )
+                                            `<tr id="sku-row-${value2.id}" data-id="${value2.id}">` +
+                                            '<td>' + value2.id +
+                                            '</td>' +
+                                            '<td>' + value2.weight +
+                                            '</td>' +
+                                            '<td>' + value2.volume_weight_box +
+                                            '</td>' +
+                                            '<td class="text-center">' + value2.duplicate +
+                                            '</td>' +
+                                            '<td>' + name_send +
+                                            '</td>' +
+                                            '<td>' + name_rev +
+                                            '</td>' +
+                                            '<td>' + tel_rev +
+                                            '</td>' +
+                                            '<td>' + add_rev +
+                                            '</td>' +
+                                            '<td>' + method_ship +
+                                            '</td>' +
+                                            '</tr>'
+                                        )
                                         if (value.boxes.length == 1) {
-                                            if(value.reference.length!=0){
+                                            if (value.reference.length != 0) {
                                                 $("#alert").show()
                                                 $("#id_order").empty()
                                                 $("#money").empty()
                                                 $("#id_order").text(value.id)
-                                                $("#money").text(value.reference.total_fee+ " VNĐ")
+                                                $("#money").text(value.reference.total_fee + " VNĐ")
                                             }
 
                                             //log
                                             $("#time_line_index").empty()
-                                            if (value.boxes[0].logs.length ==0) {
+                                            if (value.boxes[0].logs.length == 0) {
                                                 $("#time_line_index").append(
-                                                        '<li>' +
-                                                        '<a>' +'Đang tới kho' +
-                                                        '</a>' +
-                                                        '<p>' +created_at +
-                                                        '</p>' +
-                                                        '</li>'
-                                                    )
-                                                if(value.logs.length){
-                                                    var total_pay = 0;
-                                                    var matchedLogIdx = value.logs.findIndex((log) => {return !!log?.content?.transaction});
-                                                    $.each(value.logs,function(logs_index,logs_value){
-                                                        let keyObjectLogMerge = Object.keys(logs_value.content)
-                                                        var statusLogMerge;
-                                                        if(matchedLogIdx === -1){
-                                                            if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                                                total_pay += logs_value.content.service_fee_paid
-                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                                            }
-                                                        }else{
-                                                            if(keyObjectLogMerge=="transaction"){
-                                                                total_pay += logs_value.content.transaction.amount
-                                                                statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                                            }
-                                                        }
+                                                    '<li>' +
+                                                    '<a>' + 'Đang tới kho' +
+                                                    '</a>' +
+                                                    '<p>' + created_at +
+                                                    '</p>' +
+                                                    '</li>'
+                                                )
+                                                if (value.logs.length) {
+                                                    // var total_pay = 0;
+                                                    // var matchedLogIdx = value.logs.findIndex((log) => {return !!log?.content?.transaction});
+                                                    // $.each(value.logs,function(logs_index,logs_value){
+                                                    //     let keyObjectLogMerge = Object.keys(logs_value.content)
+                                                    //     var statusLogMerge;
+                                                    //     if(matchedLogIdx === -1){
+                                                    //         if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                    //             total_pay += logs_value.content.service_fee_paid
+                                                    //             statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                    //         }
+                                                    //     }else{
+                                                    //         if(keyObjectLogMerge=="transaction"){
+                                                    //             total_pay += logs_value.content.transaction.amount
+                                                    //             statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                    //         }
+                                                    //     }
 
-                                                        if(statusLogMerge != undefined){
-                                                            $("#time_line_index").append(
-                                                                '<li>' +
-                                                                '<a>' + statusLogMerge + '</a>' +
-                                                                '<p>' + logs_value.created_at + '</p>' +
-                                                                '</li>'
-                                                            )
-                                                        }
-                                                    })
-                                                    if(pay_money != undefined){
-                                                        if( total_pay >= pay_money - 1000 ){
-                                                            $("#alert").hide()
-                                                            if(value.reference.length){
-                                                                $("#paid").show()
-                                                            }else{
-                                                                $("#paid").hide()
-                                                            }
-                                                        }
-                                                    }
+                                                    //     if(statusLogMerge != undefined){
+                                                    //         $("#time_line_index").append(
+                                                    //             '<li>' +
+                                                    //             '<a>' + statusLogMerge + '</a>' +
+                                                    //             '<p>' + logs_value.created_at + '</p>' +
+                                                    //             '</li>'
+                                                    //         )
+                                                    //     }
+                                                    // })
+                                                    // if(service_fee_paid >= service_fee){
+                                                    //     $("#alert").hide()
+                                                    //     if(value.reference.length){
+                                                    //         $("#paid").show()
+                                                    //     }else{
+                                                    //         $("#paid").hide()
+                                                    //     }
+                                                    // }
                                                 }
                                             } else {
-                                                var size = "( Dài : "+value.boxes[0].length+"cm"+",Rộng: "+value.boxes[0].width+"cm"+",Cao: "+value.boxes[0].height+"cm )"
+                                                var size = "( Dài : " + value.boxes[0].length + "cm" + ",Rộng: " + value.boxes[0].width + "cm" + ",Cao: " + value.boxes[0].height + "cm )"
                                                 $("#id_order").empty()
                                                 $("#money").empty()
-                                                if(value.reference.length!=0){
+                                                if (value.reference.length != 0) {
                                                     $("#id_order").text(value.id)
-                                                    $("#money").text(formatNumber(value.reference.total_fee)+ " VNĐ")
+                                                    $("#money").text(formatNumber(value.reference.total_fee) + " VNĐ")
                                                 }
-                                                $.each(value.boxes[0].logs,function(index,value) {
-                                                        // let a =JSON.parse(value.content );
-                                                        let keyObject =Object.keys(value.content)
-                                                        let valueObject = Object.values(value.content);
-                                                        var status;
-                                                        if (keyObject =="id") {
-                                                            status="Đã nhập kho Nhật"
-                                                        }
-                                                        if (keyObject =="in_pallet") {
-                                                            status ="Đã kiểm hàng" + size
-                                                        }
-                                                        if (keyObject == "set_user_id,set_order_id") {
-                                                            status = "Lên đơn hàng"
-                                                        }
-                                                        if (keyObject == "set_user_id") {
-                                                            status = "Lên đơn hàng"
-                                                        }
-                                                        if (keyObject =="set_owner_id,set_owner_type") {
-                                                            status="Lên đơn hàng"
-                                                        }
-                                                        if (keyObject == "set_user_id") {
-                                                            status = "Lên đơn hàng"
-                                                        }
-                                                        if (keyObject =="in_container" || keyObject == "in_container,from,to") {
-                                                            // var parts = value.created_at.split('-')
-                                                            // var year = parts[2].split(' ')
-                                                            // var getDate = new Date(year[0],parts[1]-1,parts[0])
-                                                            // var now = new Date()
-                                                            // var date_arv = getDate-now;
-                                                            // var add_date;
-                                                            // var check_method = method_ship.charAt(0).toUpperCase() + method_ship.slice(1);
-                                                            // if(check_method =="Air"){
-                                                            //     add_date=6;
-                                                            // }else{
-                                                            //     add_date = 30;
-                                                            // }
-                                                            // var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+ add_date
-                                                            // if(expected_date > 0) {
-                                                            //     status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
-                                                            // }else{
-                                                                status = "Xuất kho Nhật"
-                                                            // }
-                                                            // status ="Xuất kho Nhật"
+                                                $.each(value.boxes[0].logs, function(index, value) {
+                                                    // let a =JSON.parse(value.content );
+                                                    let keyObject = Object.keys(value.content)
+                                                    let valueObject = Object.values(value.content);
+                                                    var status;
+                                                    if (keyObject == "id") {
+                                                        status = "Đã nhập kho Nhật"
+                                                    }
+                                                    if (keyObject == "in_pallet") {
+                                                        status = "Đã kiểm hàng" + size
+                                                    }
+                                                    if (keyObject == "set_user_id,set_order_id") {
+                                                        status = "Lên đơn hàng"
+                                                    }
+                                                    if (keyObject == "set_user_id") {
+                                                        status = "Lên đơn hàng"
+                                                    }
+                                                    if (keyObject == "set_owner_id,set_owner_type") {
+                                                        status = "Lên đơn hàng"
+                                                    }
+                                                    if (keyObject == "set_user_id") {
+                                                        status = "Lên đơn hàng"
+                                                    }
+                                                    if (keyObject == "in_container" || keyObject == "in_container,from,to") {
+                                                        // var parts = value.created_at.split('-')
+                                                        // var year = parts[2].split(' ')
+                                                        // var getDate = new Date(year[0],parts[1]-1,parts[0])
+                                                        // var now = new Date()
+                                                        // var date_arv = getDate-now;
+                                                        // var add_date;
+                                                        // var check_method = method_ship.charAt(0).toUpperCase() + method_ship.slice(1);
+                                                        // if(check_method =="Air"){
+                                                        //     add_date=6;
+                                                        // }else{
+                                                        //     add_date = 30;
+                                                        // }
+                                                        // var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+ add_date
+                                                        // if(expected_date > 0) {
+                                                        //     status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
+                                                        // }else{
+                                                        status = "Xuất kho Nhật"
+                                                        // }
+                                                        // status ="Xuất kho Nhật"
 
-                                                        }
-                                                        if (keyObject == "shipping_code" && value.type_id == "created") {
-                                                            status = "Mã giao hàng: " + value.content.shipping_code
-                                                        }
-                                                        if (keyObject == "shipping_code" && value.type_id == "updated") {
-                                                            status = "Cập nhật mã giao hàng: " + value.content.shipping_code
-                                                        }
-                                                        if (keyObject == "shipping_code" && value.type_id == "deleted") {
-                                                            status = "Huỷ mã giao hàng: " + value.content.shipping_code
-                                                        }
-                                                        if (keyObject =="out_container" || keyObject =="out_container,from,to") {
-                                                            status= "Nhập kho Việt Nam"
-                                                        }
-                                                        if (keyObject =="outbound_warehouse") {
-                                                            status= "Xuất kho Việt Nam"
-                                                        }
-                                                        if (keyObject =="delivery_status" ) {
-                                                            if (valueObject == "shipping") {
-                                                                status="Đang giao hàng"
-                                                            }
-                                                        }
-                                                        if (keyObject =="delivery_status") {
-                                                            if (valueObject =="cancelled"
-                                                            ) {
-                                                                status ="Hủy box"
-                                                            }
-                                                        }
-                                                        if (keyObject =="delivery_status") {
-                                                            if (valueObject =="received") {
-                                                                status= "Đã nhận hàng"
-                                                            }
-                                                        }
-                                                        if (keyObject =="delivery_status") {
-                                                            if (valueObject =="refunded") {
-                                                                status="Trả lại hàng"
-                                                            }
-                                                        }
-                                                        if (keyObject =="delivery_status" ) {
-                                                            if (valueObject =="waiting_shipment") {
-                                                                status="Đợi giao hàng"
-                                                            }
-                                                        }
-                                                        if(status  != undefined){
-                                                            $("#time_line_index").append(
-                                                                '<li>' +
-                                                                '<a>' +status +
-                                                                '</a>' +'<p>' +value.created_at +
-                                                                '</p>' +
-                                                                '</li>'
-                                                            )
-                                                        }
-
-                                                })
-                                                if(value.logs.length){
-                                                    var total_pay = 0;
-                                                    var matchedLogIdx = value.logs.findIndex((log) => {
-                                                            return !!log?.content?.transaction
-                                                        });
-                                                    $.each(value.logs,function(logs_index,logs_value){
-                                                        let keyObjectLogMerge = Object.keys(logs_value.content)
-                                                        var statusLogMerge;
-                                                        if(matchedLogIdx === -1) {
-                                                            if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                                                total_pay += logs_value.content.service_fee_paid
-                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                                            }
-                                                        }  else {
-                                                            if(keyObjectLogMerge=="transaction"){
-                                                                total_pay += logs_value.content.transaction.amount
-                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                                            }
-                                                        }
-
-                                                        if(statusLogMerge != undefined){
-                                                            $("#time_line_index").append(
-                                                                '<li>' +
-                                                                '<a>' + statusLogMerge + '</a>' +
-                                                                '<p>' + logs_value.created_at + '</p>' +
-                                                                '</li>'
-                                                            )
-                                                        }
-                                                    })
-                                                    if(pay_money != undefined){
-                                                        if( total_pay >= pay_money - 1000 ){
-                                                            $("#alert").hide()
-                                                            if(value.reference.length){
-                                                                $("#paid").show()
-                                                            }else{
-                                                                $("#paid").hide()
-                                                            }
+                                                    }
+                                                    if (keyObject == "shipping_code" && value.type_id == "created") {
+                                                        status = "Mã giao hàng: " + value.content.shipping_code
+                                                    }
+                                                    if (keyObject == "shipping_code" && value.type_id == "updated") {
+                                                        status = "Cập nhật mã giao hàng: " + value.content.shipping_code
+                                                    }
+                                                    if (keyObject == "shipping_code" && value.type_id == "deleted") {
+                                                        status = "Huỷ mã giao hàng: " + value.content.shipping_code
+                                                    }
+                                                    if (keyObject == "out_container" || keyObject == "out_container,from,to") {
+                                                        status = "Nhập kho Việt Nam"
+                                                    }
+                                                    if (keyObject == "outbound_warehouse") {
+                                                        status = "Xuất kho Việt Nam"
+                                                    }
+                                                    if (keyObject == "delivery_status") {
+                                                        if (valueObject == "shipping") {
+                                                            status = "Đang giao hàng"
                                                         }
                                                     }
+                                                    if (keyObject == "delivery_status") {
+                                                        if (valueObject == "cancelled") {
+                                                            status = "Hủy box"
+                                                        }
+                                                    }
+                                                    if (keyObject == "delivery_status") {
+                                                        if (valueObject == "received") {
+                                                            status = "Đã nhận hàng"
+                                                        }
+                                                    }
+                                                    if (keyObject == "delivery_status") {
+                                                        if (valueObject == "refunded") {
+                                                            status = "Trả lại hàng"
+                                                        }
+                                                    }
+                                                    if (keyObject == "delivery_status") {
+                                                        if (valueObject == "waiting_shipment") {
+                                                            status = "Đợi giao hàng"
+                                                        }
+                                                    }
+                                                    if (status != undefined) {
+                                                        $("#time_line_index").append(
+                                                            '<li>' +
+                                                            '<a>' + status +
+                                                            '</a>' + '<p>' + value.created_at +
+                                                            '</p>' +
+                                                            '</li>'
+                                                        )
+                                                    }
+
+                                                })
+                                                if (value.logs.length) {
+                                                    // var total_pay = 0;
+                                                    // var matchedLogIdx = value.logs.findIndex((log) => {
+                                                    //         return !!log?.content?.transaction
+                                                    //     });
+                                                    // $.each(value.logs,function(logs_index,logs_value){
+                                                    //     let keyObjectLogMerge = Object.keys(logs_value.content)
+                                                    //     var statusLogMerge;
+                                                    //     if(matchedLogIdx === -1) {
+                                                    //         if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                    //             total_pay += logs_value.content.service_fee_paid
+                                                    //             statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                    //         }
+                                                    //     }  else {
+                                                    //         if(keyObjectLogMerge=="transaction"){
+                                                    //             total_pay += logs_value.content.transaction.amount
+                                                    //             statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                    //         }
+                                                    //     }
+
+                                                    //     if(statusLogMerge != undefined){
+                                                    //         $("#time_line_index").append(
+                                                    //             '<li>' +
+                                                    //             '<a>' + statusLogMerge + '</a>' +
+                                                    //             '<p>' + logs_value.created_at + '</p>' +
+                                                    //             '</li>'
+                                                    //         )
+                                                    //     }
+                                                    // })
+                                                    // if(pay_money != undefined){
+                                                    // if(service_fee_paid >= service_fee){
+                                                    //     $("#alert").hide()
+                                                    //     if(value.reference.length){
+                                                    //         $("#paid").show()
+                                                    //     }else{
+                                                    //         $("#paid").hide()
+                                                    //     }
+                                                    // }
+                                                    // }
                                                 }
                                             }
 
                                         } else {
 
-                                            if(value.reference.length!=0){
+                                            if (value.reference.length != 0) {
                                                 $("#alert").show()
                                                 $("#id_order").empty()
                                                 $("#money").empty()
                                                 $("#id_order").text(value.id)
-                                                $("#money").text(formatNumber(value.reference.total_fee)+ " VNĐ")
-                                                if(value.logs.length){
-                                                    var total_pay = 0;
-                                                    var matchedLogIdx = value.logs.findIndex((log) => {return !!log?.content?.transaction });
-                                                    $.each(value.logs,function(logs_index,logs_value){
-                                                        let keyObjectLogMerge = Object.keys(logs_value.content)
-                                                        // let valueObjectkeyLogMerge = Object.values(logs_value.content);
-                                                        var statusLogMerge;
-                                                        if(matchedLogIdx === -1){
-                                                            if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                                                total_pay += logs_value.content.service_fee_paid
-                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                                            }
-                                                        }else{
-                                                            if(keyObjectLogMerge=="transaction"){
-                                                                total_pay += logs_value.content.transaction.amount
-                                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                                            }
-                                                        }
-                                                    })
-                                                    if(pay_money != undefined){
-                                                        if( total_pay >= pay_money - 1000 ){
-                                                            $("#alert").hide()
-                                                            if(value.reference.length){
-                                                                $("#paid").show()
-                                                            }else{
-                                                                $("#paid").hide()
-                                                            }
-                                                        }
-                                                    }
+                                                $("#money").text(formatNumber(value.reference.total_fee) + " VNĐ")
+                                                if (value.logs.length) {
+                                                    // var total_pay = 0;
+                                                    // var matchedLogIdx = value.logs.findIndex((log) => {return !!log?.content?.transaction });
+                                                    // $.each(value.logs,function(logs_index,logs_value){
+                                                    //     let keyObjectLogMerge = Object.keys(logs_value.content)
+                                                    //     // let valueObjectkeyLogMerge = Object.values(logs_value.content);
+                                                    //     var statusLogMerge;
+                                                    //     if(matchedLogIdx === -1){
+                                                    //         if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                                    //             total_pay += logs_value.content.service_fee_paid
+                                                    //             statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                                    //         }
+                                                    //     }else{
+                                                    //         if(keyObjectLogMerge=="transaction"){
+                                                    //             total_pay += logs_value.content.transaction.amount
+                                                    //             statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                                    //         }
+                                                    //     }
+                                                    // })
+                                                    // if(pay_money != undefined){
+                                                    // if(service_fee_paid >= service_fee){
+                                                    //     $("#alert").hide()
+                                                    //     if(value.reference.length){
+                                                    //         $("#paid").show()
+                                                    //     }else{
+                                                    //         $("#paid").hide()
+                                                    //     }
+                                                    // }
+                                                    // }
                                                 }
                                             }
-                                            $(`#sku-row-${value2.id}`).hover(function(){
+                                            $(`#sku-row-${value2.id}`).hover(function() {
                                                 $(this).addClass("tr-color addHover");
-                                            },function(){
+                                            }, function() {
                                                 $(this).removeClass("tr-color addHover");
                                             });
-                                            $(`#sku-row-${value2.id}`).on('click',function() {
-                                                    var vnpost=0;
-                                                    if(value2.vnpost!=undefined){
-                                                        vnpost = value2.vnpost;
-                                                    }else{
-                                                        vnpost = 0;
-                                                    }
-                                                        check(value2.id,vnpost,created_at,value2.use_weight,value2.fee_ship,method_ship,value2.total_money,value.logs,pay_money,value)
-                                                    })
+                                            $(`#sku-row-${value2.id}`).on('click', function() {
+                                                var vnpost = 0;
+                                                if (value2.vnpost != undefined) {
+                                                    vnpost = value2.vnpost;
+                                                } else {
+                                                    vnpost = 0;
+                                                }
+                                                check(value2.id, vnpost, created_at, value2.use_weight, value2.fee_ship, method_ship, value2.total_money, value.logs, pay_money, value)
+                                            })
                                         }
                                     })
                                 }
@@ -2096,7 +1900,7 @@
                 }
             },
             error: function(res) {
-                if(res.status ==419){
+                if (res.status == 419) {
                     swal({
                         title: "Mã xác thực hết hạn vui lòng tải lại trang",
                         type: "warning",
@@ -2105,36 +1909,37 @@
                         confirmButtonColor: "#fca901",
                         confirmButtonText: "Exit",
                         closeOnConfirm: true
-                    }).then(()=>{
+                    }).then(() => {
                         location.reload()
                     })
-                }else{
+                } else {
                     console.log(res)
                 }
 
             }
         })
     })
-        //show log by id
-    function check(id_box,vnpost,created_at,weight,fee,method,money,logs_merge,pay_money,length_order) {
+    //show log by id
+    function check(id_box, vnpost, created_at, weight, fee, method, money, logs_merge, pay_money, length_order) {
         var email = "sale@saikoexpress.com";
         var password = "{{config('services.saiko.password')}}";
         let box = id_box;
-        const checkSession  = "{{ Session::has('idToken') }}"
+        const checkSession = "{{ Session::has('idToken') }}"
         $("#time_line_index").empty()
-        if(checkToken()){
+        if (checkToken()) {
             let idToken = getToken();
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                type:"POST",
-                url:"{{route('rq_tk.getInforBox')}}",
-                data:{
-                    idToken:idToken,
-                    id_box:box
-                },success:function(res){
-                    if(res?.code==401){
+                type: "POST",
+                url: "{{route('rq_tk.getInforBox')}}",
+                data: {
+                    idToken: idToken,
+                    id_box: box
+                },
+                success: function(res) {
+                    if (res?.code == 401) {
                         refreshToken(res?.code);
                     }
                     if (res.logs.length == 0) {
@@ -2145,7 +1950,7 @@
                             '</li>'
                         )
                     } else {
-                        var size = "( Dài : "+res.length+"cm"+",Rộng: "+res.width+"cm"+",Cao: "+res.height+"cm )"
+                        var size = "( Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res.height + "cm )"
                         $.each(res.logs, function(index, value) {
                             let keyObject = Object.keys(value.content)
                             let valueObject = Object.values(value.content);
@@ -2168,7 +1973,7 @@
                             if (keyObject == "set_user_id") {
                                 status = "Lên đơn hàng"
                             }
-                            if (keyObject == "in_container"||keyObject == "in_container,from,to") {
+                            if (keyObject == "in_container" || keyObject == "in_container,from,to") {
                                 // var parts = value.created_at.split('-')
                                 // var year = parts[2].split(' ')
                                 // var getDate = new Date(year[0],parts[1]-1,parts[0])
@@ -2184,7 +1989,7 @@
                                 // if(expected_date > 0) {
                                 //     status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
                                 // }else{
-                                    status = "Xuất kho Nhật"
+                                status = "Xuất kho Nhật"
                                 // }
                             }
                             if (keyObject == "shipping_code" && value.type_id == "created") {
@@ -2196,11 +2001,11 @@
                             if (keyObject == "shipping_code" && value.type_id == "deleted") {
                                 status = "Huỷ mã giao hàng: " + value.content.shipping_code
                             }
-                            if (keyObject == "out_container"|| keyObject =="out_container,from,to") {
+                            if (keyObject == "out_container" || keyObject == "out_container,from,to") {
                                 status = "Nhập kho Việt Nam"
                             }
-                            if (keyObject =="outbound_warehouse") {
-                                status= "Xuất kho Việt Nam"
+                            if (keyObject == "outbound_warehouse") {
+                                status = "Xuất kho Việt Nam"
                             }
                             if (keyObject == "delivery_status") {
                                 if (valueObject == "shipping") {
@@ -2227,7 +2032,7 @@
                                     status = "Đợi giao hàng"
                                 }
                             }
-                            if(status != undefined){
+                            if (status != undefined) {
                                 $("#time_line_index").append(
                                     '<li>' +
                                     '<a>' + status + '</a>' +
@@ -2238,49 +2043,50 @@
 
                         })
                     }
-                    if(logs_merge.length){
-                        var total_pay = 0;
-                        var matchedLogIdx = logs_merge.findIndex((log) => {
-                                return !!log?.content?.transaction
-                            });
-                        $.each(logs_merge,function(logs_index,logs_value){
-                            let keyObjectLogMerge = Object.keys(logs_value.content)
-                            var statusLogMerge;
-                            var created_at_log;
-                            if(matchedLogIdx === -1) {
-                                if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                    total_pay += logs_value.content.service_fee_paid
-                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                }
-                            }else{
-                                if(keyObjectLogMerge=="transaction"){
-                                    total_pay += logs_value.content.transaction.amount
-                                    statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                }
-                            }
+                    if (logs_merge.length) {
+                        // var total_pay = 0;
+                        // var matchedLogIdx = logs_merge.findIndex((log) => {
+                        //         return !!log?.content?.transaction
+                        //     });
+                        // $.each(logs_merge,function(logs_index,logs_value){
+                        //     let keyObjectLogMerge = Object.keys(logs_value.content)
+                        //     var statusLogMerge;
+                        //     var created_at_log;
+                        //     if(matchedLogIdx === -1) {
+                        //         if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                        //             total_pay += logs_value.content.service_fee_paid
+                        //             statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                        //         }
+                        //     }else{
+                        //         if(keyObjectLogMerge=="transaction"){
+                        //             total_pay += logs_value.content.transaction.amount
+                        //             statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                        //         }
+                        //     }
 
-                            if(statusLogMerge != undefined){
-                                $("#time_line_index").append(
-                                    '<li>' +
-                                    '<a>' + statusLogMerge + '</a>' +
-                                    '<p>' + logs_value.created_at + '</p>' +
-                                    '</li>'
-                                )
-                            }
-                        })
-                        if(pay_money != undefined){
-                            if( total_pay >= pay_money - 1000 ){
-                                $("#alert").hide()
-                                if(length_order.reference.length){
-                                    $("#paid").show()
-                                }else{
-                                    $("#paid").hide()
-                                }
-                            }
-                        }
+                        //     if(statusLogMerge != undefined){
+                        //         $("#time_line_index").append(
+                        //             '<li>' +
+                        //             '<a>' + statusLogMerge + '</a>' +
+                        //             '<p>' + logs_value.created_at + '</p>' +
+                        //             '</li>'
+                        //         )
+                        //     }
+                        // })
+                        // if(pay_money != undefined){
+                        // if(service_fee_paid >= service_fee){
+                        //                                 $("#alert").hide()
+                        //                                 if(value.reference.length){
+                        //                                     $("#paid").show()
+                        //                                 }else{
+                        //                                     $("#paid").hide()
+                        //                                 }
+                        //                             }
+                        // }
                     }
-                },error:function(res){
-                    if(res.status ==419){
+                },
+                error: function(res) {
+                    if (res.status == 419) {
                         swal({
                             title: "Mã xác thực hết hạn vui lòng tải lại trang",
                             type: "warning",
@@ -2289,31 +2095,32 @@
                             confirmButtonColor: "#fca901",
                             confirmButtonText: "Exit",
                             closeOnConfirm: true
-                        }).then(()=>{
+                        }).then(() => {
                             location.reload()
                         })
-                    }else{
+                    } else {
                         console.log(res)
                     }
                 }
             })
-        }else{
+        } else {
             firebase.auth().onAuthStateChanged((user) => {
-                if(user && checkSession && !checkToken()){
-                    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(token_gg) {
+                if (user && checkSession && !checkToken()) {
+                    firebase.auth().currentUser.getIdToken( /* forceRefresh */ true).then(function(token_gg) {
                         setToken(token_gg)
                         $.ajax({
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
-                            type:"POST",
-                            url:"{{route('rq_tk.getInforBox')}}",
-                            data:{
-                                idToken:token_gg,
-                                id_box:box
-                            },success:function(res){
+                            type: "POST",
+                            url: "{{route('rq_tk.getInforBox')}}",
+                            data: {
+                                idToken: token_gg,
+                                id_box: box
+                            },
+                            success: function(res) {
                                 $("#time_line_index").empty()
-                                if(res?.code==401){
+                                if (res?.code == 401) {
                                     refreshToken(res?.code);
                                     swal({
                                         title: "Mã xác thực hết hạn vui lòng tải lại trang",
@@ -2323,7 +2130,7 @@
                                         confirmButtonColor: "#fca901",
                                         confirmButtonText: "Exit",
                                         closeOnConfirm: true
-                                    }).then(()=>{
+                                    }).then(() => {
                                         location.reload()
                                     })
                                 }
@@ -2335,7 +2142,7 @@
                                         '</li>'
                                     )
                                 } else {
-                                    var size = "( Dài : "+res.length+"cm"+",Rộng: "+res.width+"cm"+",Cao: "+res.height+"cm )"
+                                    var size = "( Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res.height + "cm )"
                                     $.each(res.logs, function(index, value) {
                                         let keyObject = Object.keys(value.content)
                                         let valueObject = Object.values(value.content);
@@ -2358,7 +2165,7 @@
                                         if (keyObject == "set_user_id") {
                                             status = "Lên đơn hàng"
                                         }
-                                        if (keyObject == "in_container"||keyObject == "in_container,from,to") {
+                                        if (keyObject == "in_container" || keyObject == "in_container,from,to") {
                                             status = "Xuất kho Nhật"
                                         }
                                         if (keyObject == "shipping_code" && value.type_id == "created") {
@@ -2370,11 +2177,11 @@
                                         if (keyObject == "shipping_code" && value.type_id == "deleted") {
                                             status = "Huỷ mã giao hàng: " + value.content.shipping_code
                                         }
-                                        if (keyObject == "out_container"|| keyObject =="out_container,from,to") {
+                                        if (keyObject == "out_container" || keyObject == "out_container,from,to") {
                                             status = "Nhập kho Việt Nam"
                                         }
-                                        if (keyObject =="outbound_warehouse") {
-                                            status= "Xuất kho Việt Nam"
+                                        if (keyObject == "outbound_warehouse") {
+                                            status = "Xuất kho Việt Nam"
                                         }
                                         if (keyObject == "delivery_status") {
                                             if (valueObject == "shipping") {
@@ -2401,7 +2208,7 @@
                                                 status = "Đợi giao hàng"
                                             }
                                         }
-                                        if(status != undefined){
+                                        if (status != undefined) {
                                             $("#time_line_index").append(
                                                 '<li>' +
                                                 '<a>' + status + '</a>' +
@@ -2412,49 +2219,50 @@
 
                                     })
                                 }
-                                if(logs_merge.length){
-                                    var total_pay = 0;
-                                    var matchedLogIdx = logs_merge.findIndex((log) => {
-                                            return !!log?.content?.transaction
-                                        });
-                                    $.each(logs_merge,function(logs_index,logs_value){
-                                        let keyObjectLogMerge = Object.keys(logs_value.content)
-                                        var statusLogMerge;
-                                        var created_at_log;
-                                        if(matchedLogIdx === -1) {
-                                            if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                                total_pay += logs_value.content.service_fee_paid
-                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                            }
-                                        }else{
-                                            if(keyObjectLogMerge=="transaction"){
-                                                total_pay += logs_value.content.transaction.amount
-                                                statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                            }
-                                        }
+                                if (logs_merge.length) {
+                                    // var total_pay = 0;
+                                    // var matchedLogIdx = logs_merge.findIndex((log) => {
+                                    //         return !!log?.content?.transaction
+                                    //     });
+                                    // $.each(logs_merge,function(logs_index,logs_value){
+                                    //     let keyObjectLogMerge = Object.keys(logs_value.content)
+                                    //     var statusLogMerge;
+                                    //     var created_at_log;
+                                    //     if(matchedLogIdx === -1) {
+                                    //         if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                    //             total_pay += logs_value.content.service_fee_paid
+                                    //             statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                    //         }
+                                    //     }else{
+                                    //         if(keyObjectLogMerge=="transaction"){
+                                    //             total_pay += logs_value.content.transaction.amount
+                                    //             statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                    //         }
+                                    //     }
 
-                                        if(statusLogMerge != undefined){
-                                            $("#time_line_index").append(
-                                                '<li>' +
-                                                '<a>' + statusLogMerge + '</a>' +
-                                                '<p>' + logs_value.created_at + '</p>' +
-                                                '</li>'
-                                            )
-                                        }
-                                    })
-                                    if(pay_money != undefined){
-                                        if( total_pay >= pay_money - 1000 ){
-                                            $("#alert").hide()
-                                            if(length_order.reference.length){
-                                                $("#paid").show()
-                                            }else{
-                                                $("#paid").hide()
-                                            }
-                                        }
-                                    }
+                                    //     if(statusLogMerge != undefined){
+                                    //         $("#time_line_index").append(
+                                    //             '<li>' +
+                                    //             '<a>' + statusLogMerge + '</a>' +
+                                    //             '<p>' + logs_value.created_at + '</p>' +
+                                    //             '</li>'
+                                    //         )
+                                    //     }
+                                    // })
+                                    // if(pay_money != undefined){
+                                    // if(service_fee_paid >= service_fee){
+                                    //                     $("#alert").hide()
+                                    //                     if(value.reference.length){
+                                    //                         $("#paid").show()
+                                    //                     }else{
+                                    //                         $("#paid").hide()
+                                    //                     }
+                                    //                 }
+                                    // }
                                 }
-                            },error:function(res){
-                                if(res.status ==419){
+                            },
+                            error: function(res) {
+                                if (res.status == 419) {
                                     swal({
                                         title: "Mã xác thực hết hạn vui lòng tải lại trang",
                                         type: "warning",
@@ -2463,31 +2271,31 @@
                                         confirmButtonColor: "#fca901",
                                         confirmButtonText: "Exit",
                                         closeOnConfirm: true
-                                    }).then(()=>{
+                                    }).then(() => {
                                         location.reload()
                                     })
-                                }else{
+                                } else {
                                     console.log(res)
                                 }
                             }
                         })
                     }).catch(function(error) {
-                        swal("warning",error.message)
+                        swal("warning", error.message)
                     });
-                }
-                else{
+                } else {
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        type:"POST",
-                        url:"{{route('rq_tk.getInforBox')}}",
-                        data:{
+                        type: "POST",
+                        url: "{{route('rq_tk.getInforBox')}}",
+                        data: {
                             // idToken:token_gg,
-                            id_box:box
-                        },success:function(res){
+                            id_box: box
+                        },
+                        success: function(res) {
                             $("#time_line_index").empty()
-                            if(res?.code==401){
+                            if (res?.code == 401) {
                                 refreshToken(res?.code);
                             }
                             if (res.logs.length == 0) {
@@ -2498,7 +2306,7 @@
                                     '</li>'
                                 )
                             } else {
-                                var size = "( Dài : "+res.length+"cm"+",Rộng: "+res.width+"cm"+",Cao: "+res.height+"cm )"
+                                var size = "( Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res.height + "cm )"
                                 $.each(res.logs, function(index, value) {
                                     let keyObject = Object.keys(value.content)
                                     let valueObject = Object.values(value.content);
@@ -2521,7 +2329,7 @@
                                     if (keyObject == "set_user_id") {
                                         status = "Lên đơn hàng"
                                     }
-                                    if (keyObject == "in_container"||keyObject == "in_container,from,to") {
+                                    if (keyObject == "in_container" || keyObject == "in_container,from,to") {
                                         status = "Xuất kho Nhật"
                                     }
                                     if (keyObject == "shipping_code" && value.type_id == "created") {
@@ -2533,11 +2341,11 @@
                                     if (keyObject == "shipping_code" && value.type_id == "deleted") {
                                         status = "Huỷ mã giao hàng: " + value.content.shipping_code
                                     }
-                                    if (keyObject == "out_container"|| keyObject =="out_container,from,to") {
+                                    if (keyObject == "out_container" || keyObject == "out_container,from,to") {
                                         status = "Nhập kho Việt Nam"
                                     }
-                                    if (keyObject =="outbound_warehouse") {
-                                        status= "Xuất kho Việt Nam"
+                                    if (keyObject == "outbound_warehouse") {
+                                        status = "Xuất kho Việt Nam"
                                     }
                                     if (keyObject == "delivery_status") {
                                         if (valueObject == "shipping") {
@@ -2564,7 +2372,7 @@
                                             status = "Đợi giao hàng"
                                         }
                                     }
-                                    if(status != undefined){
+                                    if (status != undefined) {
                                         $("#time_line_index").append(
                                             '<li>' +
                                             '<a>' + status + '</a>' +
@@ -2575,49 +2383,50 @@
 
                                 })
                             }
-                            if(logs_merge.length){
-                                var total_pay = 0;
-                                var matchedLogIdx = logs_merge.findIndex((log) => {
-                                        return !!log?.content?.transaction
-                                    });
-                                $.each(logs_merge,function(logs_index,logs_value){
-                                    let keyObjectLogMerge = Object.keys(logs_value.content)
-                                    var statusLogMerge;
-                                    var created_at_log;
-                                    if(matchedLogIdx === -1) {
-                                        if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                            total_pay += logs_value.content.service_fee_paid
-                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                        }
-                                    }else{
-                                        if(keyObjectLogMerge=="transaction"){
-                                            total_pay += logs_value.content.transaction.amount
-                                            statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                        }
-                                    }
+                            if (logs_merge.length) {
+                                // var total_pay = 0;
+                                // var matchedLogIdx = logs_merge.findIndex((log) => {
+                                //         return !!log?.content?.transaction
+                                //     });
+                                // $.each(logs_merge,function(logs_index,logs_value){
+                                //     let keyObjectLogMerge = Object.keys(logs_value.content)
+                                //     var statusLogMerge;
+                                //     var created_at_log;
+                                //     if(matchedLogIdx === -1) {
+                                //         if(keyObjectLogMerge=="updated_at,service_fee_paid"){
+                                //             total_pay += logs_value.content.service_fee_paid
+                                //             statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
+                                //         }
+                                //     }else{
+                                //         if(keyObjectLogMerge=="transaction"){
+                                //             total_pay += logs_value.content.transaction.amount
+                                //             statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
+                                //         }
+                                //     }
 
-                                    if(statusLogMerge != undefined){
-                                        $("#time_line_index").append(
-                                            '<li>' +
-                                            '<a>' + statusLogMerge + '</a>' +
-                                            '<p>' + logs_value.created_at + '</p>' +
-                                            '</li>'
-                                        )
-                                    }
-                                })
-                                if(pay_money != undefined){
-                                    if( total_pay >= pay_money - 1000 ){
-                                        $("#alert").hide()
-                                        if(length_order.reference.length){
-                                            $("#paid").show()
-                                        }else{
-                                            $("#paid").hide()
-                                        }
-                                    }
-                                }
+                                //     if(statusLogMerge != undefined){
+                                //         $("#time_line_index").append(
+                                //             '<li>' +
+                                //             '<a>' + statusLogMerge + '</a>' +
+                                //             '<p>' + logs_value.created_at + '</p>' +
+                                //             '</li>'
+                                //         )
+                                //     }
+                                // })
+                                // if(pay_money != undefined){
+                                // if(service_fee_paid >= service_fee){
+                                //                         $("#alert").hide()
+                                //                         if(value.reference.length){
+                                //                             $("#paid").show()
+                                //                         }else{
+                                //                             $("#paid").hide()
+                                //                         }
+                                //                     }
+                                // }
                             }
-                        },error:function(res){
-                            if(res.status ==419){
+                        },
+                        error: function(res) {
+                            if (res.status == 419) {
                                 swal({
                                     title: "Mã xác thực hết hạn vui lòng tải lại trang",
                                     type: "warning",
@@ -2626,10 +2435,10 @@
                                     confirmButtonColor: "#fca901",
                                     confirmButtonText: "Exit",
                                     closeOnConfirm: true
-                                }).then(()=>{
+                                }).then(() => {
                                     location.reload()
                                 })
-                            }else{
+                            } else {
                                 console.log(res)
                             }
                         }
@@ -2942,9 +2751,10 @@
         buttons: true,
         dots: true
     });
-    function clearAll(){
 
-        }
+    function clearAll() {
+
+    }
 </script>
 </body>
 
