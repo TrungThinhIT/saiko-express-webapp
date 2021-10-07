@@ -43,7 +43,7 @@ class FLTrackingController extends Controller
         //apishow
         $dataShow = [
             // 'search' => 'orders.customer_id:' . $customer_id['customer_id'],
-            'with' => 'reference.shipmentInfo',
+            'with' => 'reference.shipmentInfo;reference.contract',
             'appends' => 'boxes.owners;logs;sfa',
         ];
         //check status code

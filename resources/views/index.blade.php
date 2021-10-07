@@ -802,10 +802,17 @@
                         <h2 class="text-center text-danger">Cảm Ơn Quý Khách</h2>
                     </div>
                 </div>
-                <div class="col-md-12 d-none" id="alert-contract">
-                    <div class="background-contract row p-2">
-                        <span class="text-danger text-xl-left">Chi phí của tracking được tính trong lô hàng:</span>
-                        <span class="text-danger font-weight-bold" id="id_contract"></span>
+                <div class="row d-none" id="alert-contract">
+                    <div class="col-md-6">
+                        <div class="background-contract row p-2">
+                            <span class="text-danger text-xl-left">Chi phí của tracking được tính trong lô hàng:
+                                <span class="text-danger font-weight-bold" id="id_contract"></span></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="background-contract row p-2">
+                            <span class="text-danger font-weight-bold" id="status_contract"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -1517,8 +1524,8 @@
                                             '<td>' + value.reference.fee_ship + '</td>' +
                                             '<td>' + method_ship + '</td>' +
                                             '<td>' + formatNumber(value.reference.total_fee) + ' VNĐ</td>' +
-                                            '<td>' + formatNumber(Math.round(service_fee_paid)) + ' VND</td>'
-                                            +'</tr>'
+                                            '<td>' + formatNumber(Math.round(service_fee_paid)) + ' VND</td>' +
+                                            '</tr>'
                                         )
                                     }
                                 }
@@ -1887,12 +1894,14 @@
                                         }
                                     })
                                 }
-                                if (value.reference.length != 0) {
-                                    if (value.reference.contract_id) {
-                                        $(".check-contract").hide()
-                                        $("#alert-contract").show()
-                                        $("#id_contract").text(value.reference.contract_id)
-                                    }
+                                if (value.reference.contract_id) {
+                                    var contract = value.reference.contract;
+                                    var service_fee_outstanding_contract = contract.service_fee_outstanding;
+                                    var status_contract = service_fee_outstanding_contract <= 0 ? 'Lô hàng đã thanh toán.' : 'Lô hàng chưa được thanh toán.';
+                                    $(".check-contract").hide();
+                                    $("#alert-contract").show()
+                                    $("#id_contract").text(contract.id)
+                                    $("#status_contract").text(status_contract)
                                 }
                             })
                         }
