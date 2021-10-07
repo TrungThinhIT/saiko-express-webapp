@@ -211,54 +211,6 @@
                             </div>
                         </div>
                     @endif
-                    @if ($data['shipping_fee_paid'] != 0)
-                        <div class="col-12 p-2">
-                            <label for="" class="font-weight-light">Phí giao hàng đã thanh toán</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control color-custom"
-                                    value="{{ number_format($data['shipping_fee_paid']) }}" readonly>
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    @if ($data['shipping_fee_outstanding'] != 0)
-                        <div class="col-12 p-2">
-                            <label for="" class="font-weight-light">Phí giao hàng cần thanh toán</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control color-custom"
-                                    value="{{ number_format($data['shipping_fee_outstanding']) }}" readonly>
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    @if ($data['shipping_fee_debited'] != 0)
-                        <div class="col-12 p-2">
-                            <label for="" class="font-weight-light">Phí giao hàng đã ghi nợ</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control color-custom"
-                                    value="{{ number_format($data['shipping_fee_debited']) }}" readonly>
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    @if ($data['shipping_fee_unsolved'] != 0)
-                        <div class="col-12 p-2">
-                            <label for="" class="font-weight-light">Phí giao hàng cần ghi nợ</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control color-custom"
-                                    value="{{ number_format($data['shipping_fee_unsolved']) }}" readonly>
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
                     @if ($data['shipping_fee_air'] != 0)
                         <div class="col-12 p-2">
                             <label for="" class="font-weight-light">Phí giao hàng bay</label>

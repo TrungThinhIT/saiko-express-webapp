@@ -483,10 +483,17 @@
                                         <h2 class="text-center text-danger">Cảm Ơn Quý Khách</h2>
                                     </div>
                                 </div>
-                                <div class="col-md-12 d-none" id="alert-contract-follow">
-                                    <div class="background-contract row p-2">
-                                        <span class="text-danger text-xl-left">Chi phí của tracking được tính trong lô hàng:</span>
-                                        <span class="text-danger font-weight-bold" id="id_contract_footer"></span>
+                                <div class="row d-none" id="alert-contract-follow" style="margin:4px">
+                                    <div class="col-md-6">
+                                        <div class="background-contract row p-2">
+                                            <span class="text-danger text-xl-left">Chi phí của tracking được tính trong lô hàng:</span>
+                                            <span class="text-danger font-weight-bold" id="id_contract_footer"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="background-contract row p-2">
+                                            <span class="text-danger font-weight-bold" id="status_contract_footer"></span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -1081,13 +1088,15 @@
                                                     }
                                                 })
                                             }
-                                            if (value.reference.length) {
-                                                if (value.reference.contract_id) {
-                                                    $(".check-contract-follow").hide()
-                                                    $("#alert-contract-follow").show()
-                                                    $("#id_contract_footer").text(value.reference.contract_id)
+                                            if (value.reference.contract_id) {
+                                                var contract = value.reference.contract;
+                                                var service_fee_outstanding_contract = contract.service_fee_outstanding;
+                                                var status_contract = service_fee_outstanding_contract <= 0 ? 'Lô hàng đã thanh toán.' : 'Lô hàng chưa được thanh toán.';
+                                                $(".check-contract-follow").hide()
+                                                $("#alert-contract-follow").show()
+                                                $("#id_contract_footer").text(contract.id)
+                                                $("#status_contract_footer").text(status_contract)
 
-                                                }
                                             }
                                         })
                                     }

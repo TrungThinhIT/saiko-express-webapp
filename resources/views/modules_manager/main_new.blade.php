@@ -646,10 +646,17 @@
                                     <h2 class="text-center text-danger">Cảm Ơn Quý Khách</h2>
                                 </div>
                             </div>
-                            <div class="col-md-12 " id="alert-contract-order-header" style="display: none">
-                                <div class="background-contract p-2">
-                                    <span class="text-danger text-xl-left">Chi phí của tracking được tính trong lô hàng:</span>
-                                    <span class="text-danger font-weight-bold" id="id_contract_order_header"></span>
+                            <div class="row" id="alert-contract-order-header" style="display: none">
+                                <div class="col-md-6">
+                                    <div class="background-contract row p-2">
+                                        <span class="text-danger text-xl-left">Chi phí của tracking được tính trong lô hàng:
+                                            <span class="text-danger font-weight-bold" id="id_contract_order_header"></span></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="background-contract row p-2">
+                                        <span class="text-danger font-weight-bold" id="status_contract_order_header"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -1186,7 +1193,8 @@
                                         }
 
                                         if (service_fee_paid >= value.reference.total_fee) {
-                                            $("#paid_footer").removeClass('d-none')
+                                            $("#alert_footer").addClass('d-none');
+                                            $("#paid_footer").removeClass('d-none');
                                         }
 
                                         if (value.boxes.length == 0) {
@@ -1647,13 +1655,14 @@
                                                 }
                                             })
                                         }
-
-                                        if (value.reference.length) {
-                                            if (value.reference.contract_id) {
-                                                $(".check-contract-order-header").hide();
-                                                $("#alert-contract-order-header").show()
-                                                $("#id_contract_order_header").text(value.reference.contract_id)
-                                            }
+                                        if (value.reference.contract_id) {
+                                            var contract = value.reference.contract;
+                                            var service_fee_outstanding_contract = contract.service_fee_outstanding;
+                                            var status_contract = service_fee_outstanding_contract <= 0 ? 'Lô hàng đã thanh toán.' : 'Lô hàng chưa được thanh toán.';
+                                            $(".check-contract-order-header").hide();
+                                            $("#alert-contract-order-header").show()
+                                            $("#id_contract_order_header").text(contract.id)
+                                            $("#status_contract_order_header").text(status_contract)
                                         }
                                     })
                                 }
