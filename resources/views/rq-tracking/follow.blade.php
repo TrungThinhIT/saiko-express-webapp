@@ -1090,8 +1090,10 @@
                                             }
                                             if (value.reference.contract_id) {
                                                 var contract = value.reference.contract;
-                                                var service_fee_outstanding_contract = contract.service_fee_outstanding;
-                                                var status_contract = service_fee_outstanding_contract <= 0 ? 'Lô hàng đã thanh toán.' : 'Lô hàng chưa được thanh toán.';
+                                                var service_fee = contract.service_fee;
+                                                var service_fee_paid = contract.service_fee_paid;
+                                                var service_fee_debited = contract.service_fee_debited;
+                                                var status_contract = (service_fee <= service_fee_paid && $service_fee_debited > 0) ? 'Lô hàng đã thanh toán.' : 'Lô hàng chưa được thanh toán.';
                                                 $(".check-contract-follow").hide()
                                                 $("#alert-contract-follow").show()
                                                 $("#id_contract_footer").text(contract.id)
