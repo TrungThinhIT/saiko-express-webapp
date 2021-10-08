@@ -1510,8 +1510,8 @@
                                     $("#insurance_result_fee").text(formatNumber(value.reference.insurance_result_fee))
                                     $("#special_result_fee").text(formatNumber(value.reference.special_result_fee))
                                     if (value.sfa != null) {
-                                        $("#fee_shipping_inside_jp").text(formatNumber(value.sfa.shipping_inside))
-                                        $("#fee_shipping_inside_vn").text(formatNumber(value.sfa.shipping_inside * 215))
+                                        $("#fee_shipping_inside_jp").text(formatNumber(0))
+                                        $("#fee_shipping_inside_vn").text(formatNumber(value.sfa.shipping_inside))
                                     }
 
                                     if (value.boxes.length) {
