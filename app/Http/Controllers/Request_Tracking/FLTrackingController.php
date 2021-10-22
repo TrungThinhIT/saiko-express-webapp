@@ -43,7 +43,7 @@ class FLTrackingController extends Controller
         //apishow
         $dataShow = [
             // 'search' => 'orders.customer_id:' . $customer_id['customer_id'],
-            'with' => 'reference.shipmentInfo;reference.contract',
+            'with' => 'orders.shipmentInfo;orders.contract',
             'appends' => 'boxes.owners;logs;sfa',
         ];
         //check status code
@@ -57,6 +57,7 @@ class FLTrackingController extends Controller
                 return response()->json($mess);
             } else {
                 $results = json_decode($apiShow->body(), true); //results of tomoni
+                $results['reference'] = $results['orders'][0] ?? [];
                 if (empty($results['reference'])) {
                     $mess = ['code' => 404, 'message' => 'Tracking chưa đăng kí đơn hàng.'];
                     return response()->json($mess);
