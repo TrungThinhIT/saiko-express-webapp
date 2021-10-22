@@ -1192,11 +1192,6 @@
                                             $('#myModal_tracking').modal('show');
                                         }
 
-                                        if (service_fee_paid >= value.reference.total_fee) {
-                                            $("#alert_footer").addClass('d-none');
-                                            $("#paid_footer").removeClass('d-none');
-                                        }
-
                                         if (value.boxes.length == 0) {
                                             $("#body-table-tracking").empty()
                                             $("#time_line_tracking").empty()
@@ -1654,6 +1649,10 @@
                                                         })
                                                 }
                                             })
+                                        }
+                                        if (service_fee_paid + 5000 >= value.reference.total_fee) {
+                                            $("#alert_footer").addClass('d-none');
+                                            $("#paid_footer").removeClass('d-none');
                                         }
                                         if (value.reference.contract_id) {
                                             var contract = value.reference.contract;

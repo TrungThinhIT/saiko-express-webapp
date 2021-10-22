@@ -43,7 +43,7 @@ class FLTrackingController extends Controller
         //apishow
         $dataShow = [
             // 'search' => 'orders.customer_id:' . $customer_id['customer_id'],
-            'with' => 'reference.shipmentInfo;reference.contract',
+            'with' => 'orders.shipmentInfo;orders.contract',
             'appends' => 'boxes.owners;logs;sfa',
         ];
         //check status code
@@ -57,6 +57,7 @@ class FLTrackingController extends Controller
                 return response()->json($mess);
             } else {
                 $results = json_decode($apiShow->body(), true); //results of tomoni
+                $results['reference'] = $results['orders'][0] ?? [];
                 if (empty($results['reference'])) {
                     $mess = ['code' => 404, 'message' => 'Tracking chưa đăng kí đơn hàng.'];
                     return response()->json($mess);
@@ -64,7 +65,7 @@ class FLTrackingController extends Controller
                 if (!empty($results['reference'])) {
                     $results['reference']['insurance_result_fee'] = round($results['reference']['insurance_declaration'] * 0.03, 0); //tính phí bảo hiểm
                     $results['reference']['special_result_fee'] = round($results['reference']['special_declaration'] * 0.02, 0); // tính phí đặc biệt
-                    if ($results['reference']['customer_id'] != $customer_id['customer_id'] && $customer_id['customer_id'] != 'boy-2k') {
+                    if ($results['reference']['customer_id'] != $customer_id['customer_id'] && $results['reference']['customer_id'] != 'sale.se' && $customer_id['customer_id'] != 'boy-2k') {
                         $mess = ['code' => 404, 'message' => 'Vui lòng đăng nhập tài khoản sở hữu tracking này.'];
                         return response()->json($mess);
                     }

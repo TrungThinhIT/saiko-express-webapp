@@ -465,10 +465,6 @@
                                         // $('#exitSuccess').show();
                                         // $('#myModal').modal('show');
                                     }
-                                    if (service_fee_paid >= value.reference.total_fee) {
-                                        $("#alert").hide();
-                                        $("#paid").show();
-                                    }
                                     if (value.boxes.length == 0) {
                                         $("#body-table-firt-vnpost").empty()
                                         $("#table-firt-vnpost").hide()
@@ -1199,6 +1195,10 @@
                                                         })
                                             }
                                         })
+                                    }
+                                    if (service_fee_paid + 5000 >= value.reference.total_fee) {
+                                        $("#alert").hide();
+                                        $("#paid").show();
                                     }
                                     if (value.reference.contract_id) {
                                         var contract = value.reference.contract;
