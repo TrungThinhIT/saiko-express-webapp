@@ -65,7 +65,7 @@ class FLTrackingController extends Controller
                 if (!empty($results['reference'])) {
                     $results['reference']['insurance_result_fee'] = round($results['reference']['insurance_declaration'] * 0.03, 0); //tính phí bảo hiểm
                     $results['reference']['special_result_fee'] = round($results['reference']['special_declaration'] * 0.02, 0); // tính phí đặc biệt
-                    if ($results['reference']['customer_id'] != $customer_id['customer_id'] && $customer_id['customer_id'] != 'boy-2k') {
+                    if ($results['reference']['customer_id'] != $customer_id['customer_id'] && $results['reference']['customer_id'] != 'sale.se' && $customer_id['customer_id'] != 'boy-2k') {
                         $mess = ['code' => 404, 'message' => 'Vui lòng đăng nhập tài khoản sở hữu tracking này.'];
                         return response()->json($mess);
                     }
