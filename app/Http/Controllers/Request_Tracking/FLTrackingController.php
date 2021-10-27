@@ -195,70 +195,17 @@ class FLTrackingController extends Controller
             'Accept' => 'application/json',
         ])->get(self::$warehouse_host . '/api/amount-with-conditions', $data);
         $amount = (intval($call->body()));
-        $parse_int = strtotime($sfa['created_at']);
-        if ($weight < 1) {
+
+        if ($method_shipment == 'Sea' && $weight < 10) {
+            $weight = 10;
+        }
+        if ($method_shipment == 'Air' && $weight < 1) {
             $weight = 1;
         }
-        if ($method_shipment == "Air") {
-            // check date_box < 15-5-2021
-            if ($parse_int < $date_default) {
-                if ($weight >= 0 && $weight < 100) {
-                    $checkProvince = "price1";
-                }
-                if ($weight >= 100) {
-                    $checkProvince = "price2";
-                }
-                if ($province <= 53) {
-                    if ($checkProvince == "price1") {
-                        $money = $weight * 200000;
-                        $total_money = $weight * 200000;
-                        $fee_ship = number_format(200000);
-                    }
-                    if ($checkProvince == "price2") {
-                        $money = $weight * 190000;
-                        $total_money = $weight * 190000;
-                        $fee_ship = number_format(190000);
-                    }
-                }
-                if ($province > 53) {
-                    if ($checkProvince == "price1") {
-                        $money = $weight * 210000;
-                        $total_money = $weight * 210000;
-                        $fee_ship = number_format(210000);
-                    }
-                    if ($checkProvince == "price2") {
-                        $money = $weight * 200000;
-                        $total_money = $weight * 200000;
-                        $fee_ship = number_format(200000);
-                    }
-                }
-            } else {
-                $money = $weight * $amount;
-                $total_money = $weight * $amount;
-                $fee_ship = number_format($amount);
-            }
-        } else {
-            if ($weight < 10) {
-                $weight = 10;
-            }
-            //check date_box < 15-5-2021
-            if ($parse_int < $date_default) {
-                if ($weight < 150) {
-                    $price = 65000;
-                } else {
-                    $price = 60000;
-                }
-            } else {
-                if ($weight < 150) {
-                    $price = $amount;
-                } else {
-                    $price = $amount;
-                }
-            }
-            $money = $weight * $price;
-            $total_money = $weight * $price;
-            $fee_ship = number_format($price);
-        }
+
+        $money = $weight * $amount;
+        $total_money = $weight * $amount;
+        $fee_ship = number_format($amount);
         // map fee tomoni
         //get price insurance
         $get_price_insurance = [
