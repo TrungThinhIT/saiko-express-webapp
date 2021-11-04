@@ -220,12 +220,14 @@
                                 <select class="form-select " id="utypeadd" name="hinhthuc" onchange="onChange()">
                                     <option value="blank" id="first_option">Địa chỉ cụ thể</option>
 
-                                    {{-- <option value="Nhận tại VP Sóc Sơn">Nhận tại VP Sóc Sơn, Hà Nội</option> --}}
-                                    {{-- <option value="Nhận tại VP Đào Tấn">Nhận tại VP Đào Tấn, Hà Nội </option> --}}
-                                    {{-- <option value="Nhận tại VP Tân Bình HCM" id="trip_sea" style="display: none">Nhận tại VP Tân Bình HCM</option> --}}
+                                    <option value="vp-ba-dinh">Nhận tại Văn Phòng Ba Đình, Hà Nội</option>
                                 </select>
                             </div>
-                            <div class="form-group col-md-4 ">
+                        </div>
+                        
+                        <div id="type-ship" >
+                        <div class="row">
+                            <div class="form-group col-md-4 hidden-input">
                                 <label>Tỉnh/Thành Phố<span class="require">*</span></label>
                                 <select class="form-select" id="Utinh" name="tinh" onchange="Select_Tinh(this)">
                                     <option value="">Vui lòng chọn</option>
@@ -237,8 +239,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
-                        <div id="type-ship" class="row">
                             <div class="form-group col-md-4 hidden-input">
                                 <label>Quận Huyện<span class="require">*</span></label>
                                 <select class="form-select" id="Uhuyen" name="huyen" onchange="Select_Huyen(this)">
@@ -249,7 +249,22 @@
                                 <select class="form-select" id="UPhuongXa" name="xa">
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                        </div>
+                        <div class="row hidden-input">
+                            <div class="form-group col-md-12">
+                                <label>Thông tin số nhà tên đường<span class="require">*</span></label>
+                                <input class="form-control" placeholder="Nhập số nhà của bạn" value="{{ old('duong') }}"
+                                    name="duong" id="UaddNumber" type="text">
+                                @error('duong')
+                                    <div class="alert alert-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+                        </div>
+
+                        <div class="col-md-4">
                                 <div class="row">
                                     <div class="form-group" id="trip">
                                         <label class="">Hình thức vận chuyển <span class="require">*</span></label>
@@ -293,19 +308,6 @@
 
                                 </div>
                             </div>
-                        </div>
-                        <div class="row hidden-input">
-                            <div class="form-group col-md-12">
-                                <label>Thông tin số nhà tên đường<span class="require">*</span></label>
-                                <input class="form-control" placeholder="Nhập số nhà của bạn" value="{{ old('duong') }}"
-                                    name="duong" id="UaddNumber" type="text">
-                                @error('duong')
-                                    <div class="alert alert-danger">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
                         <div class="row text-center mt-2">
                             <p class="field submit">
                                 <button class="btn fh-btn" name="push-tracking" onclick="push_tracking()" type="submit">Nhập
@@ -1081,9 +1083,9 @@
         function onChange() {
             var utype = document.getElementById("utypeadd").value;
             if (utype != 'blank') {
-                document.getElementById("type-ship").style.display = "none";
+                $( "#type-ship" ).hide();
             } else {
-                document.getElementById("type-ship").style.display = "block";
+                $( "#type-ship" ).show();
             }
         }
 
@@ -1181,7 +1183,8 @@
                 var UaddNumber = $("#UaddNumber").val();
                 var uphone = $("#uphone").val();
                 var utypeadd = $("#utypeadd").val();
-                if (OptionAdd.length <= 5) {
+                if(utypeadd == 'blank') {
+                    if (OptionAdd.length <= 5) {
                     if (Upx == null || Upx == "") {
                         swal_action("Xin vui lòng chọn Thành Phố Quận/Huyện")
                         return
@@ -1190,6 +1193,10 @@
                         swal_action("Nhập thiếu số nhà tên đường")
                         return
                     }
+                    if (AddRev.length < 4) {
+                    swal_action("Nhập thiếu địa chỉ!")
+                    }
+                }
                 }
                 if (Name_Send.length < 3) {
                     swal_action("Nhập thiếu tên người gửi!")
@@ -1201,8 +1208,6 @@
                     swal_action("Nhập thiếu tên người nhận!")
                 } else if (Name_Rev.length < 3) {
                     swal_action("Tên người nhận quá ngắn!")
-                } else if (AddRev.length < 4) {
-                    swal_action("Nhập thiếu địa chỉ!")
                 } else if (Phone == '') {
                     swal_action("Chưa nhập số điện thoại người nhận!")
                 } else if (Phone.length <= 8) {

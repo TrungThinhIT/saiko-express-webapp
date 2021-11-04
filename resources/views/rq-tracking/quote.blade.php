@@ -168,7 +168,6 @@
             transform: rotate(360deg);
         }
     }
-
 </style>
 <script>
     function Select_Tinh(obj) {
@@ -227,7 +226,6 @@
             }
         });
     }
-
 </script>
 @include('modules.header')
 
@@ -280,39 +278,30 @@
                         <div class="row">
                             <div class="field col-md-4">
                                 <label>Nhập mã Tracking<span class="require">*</span></label>
-                                <input placeholder="Nhập số tracking" name="tracking" id="utracking"
-                                    value="{{ old('tracking') }}" type="text" required>
+                                <input placeholder="Nhập số tracking" name="tracking" id="utracking" value="{{ old('tracking') }}" type="text" required>
                             </div>
                             <div class="field col-md-4">
                                 <label>Tên người gửi<span class="require">*</span></label>
-                                <input placeholder="Tên Facebook hoặc người làm việc với SAIKO"
-                                    value="{{ old('name') }}" name="name" id="uname_send" type="text" required>
+                                <input placeholder="Tên Facebook hoặc người làm việc với SAIKO" value="{{ old('name') }}" name="name" id="uname_send" type="text" required>
                             </div>
                             <div class="field col-md-4">
                                 <label>Số điện thoại người gửi<span class="require">*</span></label>
-                                <input placeholder="SĐT để nhận thông báo từ Saiko" id="number_send" name="phone"
-                                    value="{{ old('phone') }}" type="text" required>
+                                <input placeholder="SĐT để nhận thông báo từ Saiko" id="number_send" name="phone" value="{{ old('phone') }}" type="text" required>
                             </div>
                             <div class="col-md-8">
                                 <div class="col-md-4">
                                     <label>Tên người nhận<span class="require">*</span></label>
-                                    <input placeholder="Nhập tên người nhận" id="uname_rev"
-                                        value="{{ old('name_arr') }}" name="name_arr" type="text" required>
+                                    <input placeholder="Nhập tên người nhận" id="uname_rev" value="{{ old('name_arr') }}" name="name_arr" type="text" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label>Số điện thoại người nhận<span class="require">*</span></label>
-                                    <input placeholder="Nhập số điện thoại" id="uphone" value="{{ old('phone_arr') }}"
-                                        name="phone_arr" type="text" required>
+                                    <input placeholder="Nhập số điện thoại" id="uphone" value="{{ old('phone_arr') }}" name="phone_arr" type="text" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label>Hình thức nhận hàng</label>
                                     <select id="utypeadd" name="hinhthuc" onchange="onChange()">
-                                        {{-- <option value="Nhận tại VP Sóc Sơn">Nhận tại VP Sóc Sơn, Hà Nội</option> --}}
-                                        {{-- <option value="Nhận tại VP Đào Tấn">Nhận tại VP Đào Tấn, Hà Nội </option> --}}
-                                        {{-- <option value="Nhận tại VP Tân Bình HCM" id="trip_sea" style="display: none">Nhận tại VP Tân Bình HCM</option> --}}
                                         <option value="blank" id="first_option">Địa chỉ cụ thể</option>
-                                        <!--<option value="Nhận tại VP Tây Hồ">Nhận tại VP Tây Hồ</option>-->
-                                        <!-- <option value="FOB">Nhận trực tiếp tại VN</option> -->
+                                        <option value="vp-ba-dinh">Nhận tại Văn phòng Ba Đình, Hà Nội </option>
 
                                     </select>
                                 </div>
@@ -323,14 +312,14 @@
                                             <select id="Utinh" name="tinh" onchange="Select_Tinh(this)">
                                                 <option value="">Vui lòng chọn</option>
                                                 @foreach ($data as $item)
-                                                    <option value={{ $item->id }}>{{ $item->name }}
-                                                    </option>
+                                                <option value={{ $item->id }}>{{ $item->name }}
+                                                </option>
                                                 @endforeach
                                             </select>
                                             @error('tinh')
-                                            <div class="alert alert-danger">
-                                                {{ $message }}
-                                            </div>
+                                        <div class="alert alert-danger">
+                                            {{ $message }}
+                                        </div>
                                         @enderror
                                         </p>
                                     </div>
@@ -340,9 +329,9 @@
                                             <select id="Uhuyen" name="huyen" onchange="Select_Huyen(this)">
                                             </select>
                                             @error('huyen')
-                                            <div class="alert alert-danger">
-                                                {{ $message }}
-                                            </div>
+                                        <div class="alert alert-danger">
+                                            {{ $message }}
+                                        </div>
                                         @enderror
                                         </p>
                                     </div>
@@ -352,22 +341,20 @@
                                             <select id="UPhuongXa" name="xa">
                                             </select>
                                             @error('xa')
-                                            <div class="alert alert-danger">
-                                                {{ $message }}
-                                            </div>
+                                        <div class="alert alert-danger">
+                                            {{ $message }}
+                                        </div>
                                         @enderror
                                         </p>
                                     </div>
 
                                     <p class="field">
-                                        <label style="margin-top:10px">Thông tin số nhà tên đường<span
-                                                class="require">*</span></label>
-                                        <input placeholder="Nhập số nhà của bạn" value="{{ old('duong') }}"
-                                            name="duong" id="UaddNumber" type="text">
+                                        <label style="margin-top:10px">Thông tin số nhà tên đường<span class="require">*</span></label>
+                                        <input placeholder="Nhập số nhà của bạn" value="{{ old('duong') }}" name="duong" id="UaddNumber" type="text">
                                         @error('duong')
-                                        <div class="alert alert-danger">
-                                            {{ $message }}
-                                        </div>
+                                    <div class="alert alert-danger">
+                                        {{ $message }}
+                                    </div>
                                     @enderror
                                     </p>
                                 </div>
@@ -376,33 +363,28 @@
                                 <p class="field check-box">
                                     <label>Hình thức<span class="require">*</span></label>
                                     <span class="checkbox-box">
-                                        <span class="checkbox_item"><label><input name="fh_radio" value="Air" id="uair"
-                                                    type="radio" checked>Vận chuyển đường bay</label></span>
-                                        <span class="checkbox_item"><label><input name="fh_radio" value="Sea" id="usea"
-                                                    type="radio">Vận chuyển đường biển</label></span>
-                                        <span class="checkbox_item " style="display:none"><label><input id="ureparking"
-                                                    name="donggoi" value="Repark" type="checkbox">Đóng gói lại kiện hàng
+                                        <span class="checkbox_item"><label><input name="fh_radio" value="Air" id="uair" type="radio" checked>Vận chuyển đường bay</label></span>
+                                        <span class="checkbox_item"><label><input name="fh_radio" value="Sea" id="usea" type="radio">Vận chuyển đường biển</label></span>
+                                        <span class="checkbox_item " style="display:none"><label><input id="ureparking" name="donggoi" value="Repark" type="checkbox">Đóng gói lại kiện hàng
                                             </label></span>
-                                        <span class="checkbox_item" style="display:none"><label><input id="merge_box"
-                                                    name="merge_box" value="1" type="checkbox">Gộp thùng
+                                        <span class="checkbox_item" style="display:none"><label><input id="merge_box" name="merge_box" value="1" type="checkbox">Gộp thùng
                                             </label></span>
                                     </span>
                                 </p>
                                 <p class="field submit">
-                                    <button class="btn fh-btn" name="push-tracking" onclick="push_tracking()"
-                                        type="submit">Nhập thông tin kiện hàng</button>
+                                    <button class="btn fh-btn" name="push-tracking" onclick="push_tracking()" type="submit">Nhập thông tin kiện hàng</button>
                                 </p>
                                 <p>
                                     @if (session('success'))
-                                        <div class="alert alert-success">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
-                                    @if (session('fail'))
-                                        <div class="alert alert-success">
-                                            {{ session('fail') }}
-                                        </div>
-                                    @endif
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                                @endif
+                                @if (session('fail'))
+                                <div class="alert alert-success">
+                                    {{ session('fail') }}
+                                </div>
+                                @endif
                                 </p>
 
                             </div>
@@ -418,8 +400,7 @@
     </div>
     <div>
         <!-- Modal -->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-            style="z-index: 9999">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 9999">
             <div class="modal-dialog modal-sm  modal-confirm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -429,10 +410,8 @@
                     <div class="modal-footer">
                         <table class="table" style="border: none !important" id="table_showCreatedTrackings">
                         </table>
-                        <button class="btn btn-err btn-danger btn-block" data-dismiss="modal"
-                            id="exitForm">Thoát</button>
-                        <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
-                            id="exitSuccess" style="display:none">Thoát</button>
+                        <button class="btn btn-err btn-danger btn-block" data-dismiss="modal" id="exitForm">Thoát</button>
+                        <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()" id="exitSuccess" style="display:none">Thoát</button>
                     </div>
                 </div>
             </div>
@@ -444,8 +423,7 @@
                 <div class="modal-footer">
                     <table class="table" style="border: none !important" id="table_showResultCreatedTrackings">
                     </table>
-                    <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()"
-                        id="exitSuccess" style="display:block; width:30% !important;margin:auto;">Thoát</button>
+                    <button class="btn btn-danger btn-block" data-dismiss="modal" onclick="exitSuccess()" id="exitSuccess" style="display:block; width:30% !important;margin:auto;">Thoát</button>
                 </div>
             </div>
         </div>
@@ -461,17 +439,6 @@
                 </div>
                 <div class="modal-body">
                     <div class="row" style="background-color: #fca901">
-                        <div style="margin-left:15px">
-                            <div class="text-danger">
-                                <label for="">
-                                    Địa chỉ nhận hàng:
-                                </label>
-                                <span id="address_modal">
-
-                                </span>
-                            </div>
-
-                        </div>
                         <div style="margin-left:15px">
                             <div class="text-danger">
                                 <label for="">
@@ -499,8 +466,7 @@
                             <p class="text">Lưu ý: Chúng tối không nhận bảo hiểm đối với hàng dễ vỡ, hư hỏng như là thuỷ
                                 tinh, máy móc chính xác,...</p>
                             <label for="">Nhập số tiền:</label>
-                            <input class="inpute-insuaran" type="text" pattern="[0-9]" id="insurance_enter" value=""
-                                min="0">
+                            <input class="inpute-insuaran" type="text" pattern="[0-9]" id="insurance_enter" value="" min="0">
                         </div>
                     </div>
                     <div class="row" id="alert_insurance" style="display:none">
@@ -526,8 +492,7 @@
                                 Phụ phí thông quan khi nhập cảng Việt Nam là 2% giá trị hàng đặc biệt
                             </p>
                             <label for="">Nhập số tiền:</label>
-                            <input class="inpute-insuaran" type="text" pattern="[0-9]" id="special_enter" value=""
-                                min="0">
+                            <input class="inpute-insuaran" type="text" pattern="[0-9]" id="special_enter" value="" min="0">
                         </div>
                     </div>
                     <div class="row" id="alert_special" style="display:none">
@@ -542,21 +507,18 @@
                         <label style="margin-top:10px">Ghi chú</label>
                     </p>
                     <p class="field single-field">
-                        <textarea id="unote" name="note" style="height: 100px;width:100%"
-                            placeholder="Nhập ghi chú hoặc mô tả chi tiết hàng hoá đặc biệt ...."></textarea>
+                        <textarea id="unote" name="note" style="height: 100px;width:100%" placeholder="Nhập ghi chú hoặc mô tả chi tiết hàng hoá đặc biệt ...."></textarea>
                     </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn fh-btn" id="send_infor_tracking">Gửi hàng</button>
-                    <button type="button" class="btn fh-btn" style="background-color: silver !important"
-                        data-dismiss="modal" id="close_modal">Close</button>
+                    <button type="button" class="btn fh-btn" style="background-color: silver !important" data-dismiss="modal" id="close_modal">Close</button>
                 </div>
             </div>
         </div>
 </section>
 @include('modules.footer')
 <script>
-
     function toggleLoading() {
         $('.tmn-custom-mask').toggleClass('d-none');
     }
@@ -855,126 +817,126 @@
                     firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
                             firebase.auth().currentUser.getIdToken( /* forceRefresh */ true)
-                            .then(function(token_gg) {
-                                setToken(token_gg)
-                                let idToken = getToken();
-                                $.ajax({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $(
-                                            'meta[name="csrf-token"]').attr(
-                                            'content')
-                                    },
-                                    type: 'POST',
-                                    url: "{{ route('rq_tk.store') }}",
-                                    data: {
-                                        idToken: idToken,
-                                        special_price: special_price,
-                                        insurance: insurance_price,
-                                        utypeadd: utypeadd,
-                                        TrackingSaiko: Tracking,
-                                        Phone: Phone,
-                                        Name_Send: Name_Send,
-                                        Number_Send: Number_Send,
-                                        Name_Rev: Name_Rev,
-                                        Add: AddRev,
-                                        Type: Type,
-                                        Note: Note,
-                                        Reparking: Reparking,
-                                        ShipAir: ShipAir,
-                                        ShipSea: ShipSea,
-                                        Location: '203.205.41.135',
-                                        Code_Add: Code_Add,
-                                        province: province,
-                                        district: district,
-                                        ward: ward,
-                                        checkAir: checkAir,
-                                        checkSea: checkSea,
-                                        merge_box: merge_box,
-                                    },
-                                    success: function(response) {
-                                        $("#table_showResultCreatedTrackings")
-                                            .empty()
-                                        $.each(response, function(index,
-                                            value) {
-                                            if (value.code == 401) {
-                                                refreshToken(value.code);
-                                                swal({
-                                                    title: "Mã xác thực hết hạn vui lòng tải lại trang",
-                                                    type: "warning",
-                                                    icon: "warning",
-                                                    showCancelButton: false,
-                                                    confirmButtonColor: "#fca901",
-                                                    confirmButtonText: "Exit",
-                                                    closeOnConfirm: true
-                                                }).then((check) => {
-                                                    window.location.reload()
-                                                })
-                                            }
-                                            if (value.code == 201) {
-                                                $("#table_showResultCreatedTrackings")
-                                                    .append(
-                                                        "<tr style='border:none'>" +
-                                                        "<td style='color:green;border:none !important;text-align:center'>" +
-                                                        value
-                                                        .message +
-                                                        " " +
-                                                        "<i class='fa fa-check' style='color:green'></i>" +
-                                                        "</td>" +
-                                                        "</tr>"
-                                                    )
-                                                $('#message').html('');
-                                                $('#exitForm').hide();
-                                                $('#exitSuccess').show();
-                                                $('#show_result').show();
-                                            }
-                                            if (value.code == 405) {
-                                                $("#table_showResultCreatedTrackings")
-                                                    .append(
-                                                        "<tr style='border:none'>" +
-                                                        "<td style='color:#fca901;border:none !important;text-align:center'>" +
-                                                        value
-                                                        .message +
-                                                        " " +
-                                                        "<span><i class='fa fa-warning'></i></span>" +
-                                                        "</td>" +
-                                                        "</tr>"
-                                                    )
-                                                $('#message').html('');
-                                                $('#exitForm').hide();
-                                                $('#exitSuccess').show();
-                                                $('#show_result').show();
-                                            }
-                                            if (value.code == 422) {
-                                                $("#table_showResultCreatedTrackings")
-                                                    .append(
-                                                        "<tr style='border:none'>" +
-                                                        "<td style='color:red;border:none !important;text-align:center'>" +
-                                                        value
-                                                        .message +
-                                                        " " +
-                                                        "<span><i class='fa fa-times'></i></span>" +
-                                                        "</td>" +
-                                                        "</tr>"
-                                                    )
-                                                $('#message').html('');
-                                                $('#exitForm').hide();
-                                                $('#exitSuccess').show();
-                                                $('#show_result').show();
-                                            }
-                                        })
+                                .then(function(token_gg) {
+                                    setToken(token_gg)
+                                    let idToken = getToken();
+                                    $.ajax({
+                                        headers: {
+                                            'X-CSRF-TOKEN': $(
+                                                'meta[name="csrf-token"]').attr(
+                                                'content')
+                                        },
+                                        type: 'POST',
+                                        url: "{{ route('rq_tk.store') }}",
+                                        data: {
+                                            idToken: idToken,
+                                            special_price: special_price,
+                                            insurance: insurance_price,
+                                            utypeadd: utypeadd,
+                                            TrackingSaiko: Tracking,
+                                            Phone: Phone,
+                                            Name_Send: Name_Send,
+                                            Number_Send: Number_Send,
+                                            Name_Rev: Name_Rev,
+                                            Add: AddRev,
+                                            Type: Type,
+                                            Note: Note,
+                                            Reparking: Reparking,
+                                            ShipAir: ShipAir,
+                                            ShipSea: ShipSea,
+                                            Location: '203.205.41.135',
+                                            Code_Add: Code_Add,
+                                            province: province,
+                                            district: district,
+                                            ward: ward,
+                                            checkAir: checkAir,
+                                            checkSea: checkSea,
+                                            merge_box: merge_box,
+                                        },
+                                        success: function(response) {
+                                            $("#table_showResultCreatedTrackings")
+                                                .empty()
+                                            $.each(response, function(index,
+                                                value) {
+                                                if (value.code == 401) {
+                                                    refreshToken(value.code);
+                                                    swal({
+                                                        title: "Mã xác thực hết hạn vui lòng tải lại trang",
+                                                        type: "warning",
+                                                        icon: "warning",
+                                                        showCancelButton: false,
+                                                        confirmButtonColor: "#fca901",
+                                                        confirmButtonText: "Exit",
+                                                        closeOnConfirm: true
+                                                    }).then((check) => {
+                                                        window.location.reload()
+                                                    })
+                                                }
+                                                if (value.code == 201) {
+                                                    $("#table_showResultCreatedTrackings")
+                                                        .append(
+                                                            "<tr style='border:none'>" +
+                                                            "<td style='color:green;border:none !important;text-align:center'>" +
+                                                            value
+                                                            .message +
+                                                            " " +
+                                                            "<i class='fa fa-check' style='color:green'></i>" +
+                                                            "</td>" +
+                                                            "</tr>"
+                                                        )
+                                                    $('#message').html('');
+                                                    $('#exitForm').hide();
+                                                    $('#exitSuccess').show();
+                                                    $('#show_result').show();
+                                                }
+                                                if (value.code == 405) {
+                                                    $("#table_showResultCreatedTrackings")
+                                                        .append(
+                                                            "<tr style='border:none'>" +
+                                                            "<td style='color:#fca901;border:none !important;text-align:center'>" +
+                                                            value
+                                                            .message +
+                                                            " " +
+                                                            "<span><i class='fa fa-warning'></i></span>" +
+                                                            "</td>" +
+                                                            "</tr>"
+                                                        )
+                                                    $('#message').html('');
+                                                    $('#exitForm').hide();
+                                                    $('#exitSuccess').show();
+                                                    $('#show_result').show();
+                                                }
+                                                if (value.code == 422) {
+                                                    $("#table_showResultCreatedTrackings")
+                                                        .append(
+                                                            "<tr style='border:none'>" +
+                                                            "<td style='color:red;border:none !important;text-align:center'>" +
+                                                            value
+                                                            .message +
+                                                            " " +
+                                                            "<span><i class='fa fa-times'></i></span>" +
+                                                            "</td>" +
+                                                            "</tr>"
+                                                        )
+                                                    $('#message').html('');
+                                                    $('#exitForm').hide();
+                                                    $('#exitSuccess').show();
+                                                    $('#show_result').show();
+                                                }
+                                            })
 
-                                    },
-                                    error: function(res) {
-                                        if (res.status == 419) {
-                                            window.location.reload()
-                                        } else {
-                                            console.log(res)
+                                        },
+                                        error: function(res) {
+                                            if (res.status == 419) {
+                                                window.location.reload()
+                                            } else {
+                                                console.log(res)
+                                            }
                                         }
-                                    }
-                                });
-                            }).catch((error) => {
-                                swal("warning", error.message)
-                            })
+                                    });
+                                }).catch((error) => {
+                                    swal("warning", error.message)
+                                })
                         }
                     });
                 }
@@ -1078,7 +1040,7 @@
                                 confirmButtonColor: "#fca901",
                                 confirmButtonText: "Exit",
                                 closeOnConfirm: true
-                            }).then(()=>{
+                            }).then(() => {
                                 window.location.reload()
                             })
                         } else {
@@ -1140,7 +1102,7 @@
         var UaddNumber = $("#UaddNumber").val();
         var uphone = $("#uphone").val();
         var utypeadd = $("#utypeadd").val();
-        if (OptionAdd.length <= 5) {
+        if (OptionAdd.length <= 5 && utypeadd == 'blank') {
             if (Upx == null || Upx == "") {
                 $('#message').html('Xin vui lòng chọn Thành Phố Quận/Huyện ');
                 $('#myModal').modal('show');
@@ -1148,6 +1110,11 @@
             }
             if (UaddNumber.length <= 4) {
                 $('#message').html('Nhập thiếu số nhà tên đường');
+                $('#myModal').modal('show');
+            }
+            if (AddRev.length < 4) {
+                document.getElementById("color-success").style.background = '#DF3A01'
+                $('#message').html('Nhập thiếu địa chỉ!');
                 $('#myModal').modal('show');
             }
         }
@@ -1174,10 +1141,6 @@
         } else if (Name_Rev.length < 3) {
             document.getElementById("color-success").style.background = '#DF3A01'
             $('#message').html('Tên người nhận quá ngắn!');
-            $('#myModal').modal('show');
-        } else if (AddRev.length < 4) {
-            document.getElementById("color-success").style.background = '#DF3A01'
-            $('#message').html('Nhập thiếu địa chỉ!');
             $('#myModal').modal('show');
         } else if (Phone == '') {
             document.getElementById("color-success").style.background = '#DF3A01'
@@ -1220,7 +1183,6 @@
             }
         }
     }
-
 </script>
 </body>
 

@@ -49,11 +49,16 @@ class QuoteController extends Controller
     {
         //tạo address
         //lấy access_token
-
+        $note_address = '';
         if ($request->utypeadd == "blank") {
             $ward_id = $request->ward;
+            $address = $request->Add;
         }
-        $address = $request->Add;
+        if ($request->utypeadd == "vp-ba-dinh") {
+            $ward_id = '11850';
+            $address = '80 Phố Sơn Tây';
+            $note_address = 'Nhận tại văn phòng Ba Đình.';
+        }
 
         $tracking = explode(" ", $request->TrackingSaiko);
 
@@ -84,7 +89,8 @@ class QuoteController extends Controller
                 'address' => $address,
                 'ward_id' =>  $ward_id,
                 'sender_name' => $request->Name_Send,
-                'sender_tel' => $request->Number_Send
+                'sender_tel' => $request->Number_Send,
+                'note' => $note_address,
             ]
         ]);
         if ($create_shipment->status() == 401) {
