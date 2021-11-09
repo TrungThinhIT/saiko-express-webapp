@@ -562,6 +562,7 @@
                                                 <th style="text-align: center;">Tên Người Nhận</th>
                                                 <th style="text-align: center;">SĐT</th>
                                                 <th style="text-align: center;">Địa chỉ</th>
+                                                <th style="text-align: center;">Ghi chú</th>
                                                 <th style="text-align: center;">Đường vận chuyển</th>
                                             </tr>
                                         </thead>
@@ -1151,6 +1152,7 @@
                                             tel_rev = value.reference.shipment_info.tel;
                                             name_rev = value.reference.shipment_info.consignee;
                                             add_rev = value.reference.shipment_info.full_address;
+                                            add_note = value.reference.shipment_info.note;
                                             created_at = value.reference.created_at;
                                             method_ship = value.reference.shipment_method_id;
                                             if (value.reference.pay_money != undefined) {
@@ -1251,6 +1253,7 @@
                                                     '<td>' + tel_rev +
                                                     '</td>' +
                                                     '<td>' + add_rev +
+                                                    '<td>' + add_note +
                                                     '</td>' +
                                                     '<td>' + method_ship +
                                                     '</td>' +
@@ -1277,6 +1280,8 @@
                                                     '</td>' +
                                                     '<td>' +
                                                     add_rev +
+                                                    '<td>' +
+                                                    add_note +
                                                     '</td>' +
                                                     '<td>' +
                                                     method_ship +
