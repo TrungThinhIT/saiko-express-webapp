@@ -5,20 +5,15 @@
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="widget text-widget" style="padding-right: 40px;">
-                        <p><a href="index.php"><img style="height:80px" src="assets/images/footersaiko.png"
-                                    alt="Footer Logo" /></a></p>
+                        <p><a href="index.php"><img style="height:80px" src="assets/images/footersaiko.png" alt="Footer Logo" /></a></p>
                         <p style="text-align: justify;">
                             Tự tin là đơn vị cung cấp dịch vụ vận chuyển Nhật Việt chuyên nghiệp, nhanh chóng nhất.
                             Thông báo lịch trình, tiến độ giao hàng kịp thời cho quý khách.</p>
                         <div class="ed_sociallink">
                             <ul>
-                                <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip" data-placement="bottom"
-                                        title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip" data-placement="bottom"
-                                        title="Facebook"><i class="iconify" data-icon="simple-icons:viber"
-                                            data-inline="true"></i></a></li>
-                                <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><img
-                                            src="../assets/images/zalo.png" alt="" width="30px" height="15px"></a></li>
+                                <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="iconify" data-icon="simple-icons:viber" data-inline="true"></i></a></li>
+                                <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Google+"><img src="../assets/images/zalo.png" alt="" width="30px" height="15px"></a></li>
                             </ul>
                         </div>
                     </div>
@@ -84,13 +79,13 @@
                                         <tr>
                                             <th style="text-align: center;">Box_ID</th>
                                             <th>Cân Nặng<span style="display: block">(kg)</span></th>
-                                            <th style="text-align: center;">Thể Tích<span
-                                                    style="display: block">(kg)</span></th>
+                                            <th style="text-align: center;">Thể Tích<span style="display: block">(kg)</span></th>
                                             <th style="text-align: center;">Số lượng</th>
                                             <th style="text-align: center;">Tên Người Gửi</th>
                                             <th style="text-align: center;">Tên Người Nhận</th>
                                             <th style="text-align: center;">SĐT</th>
                                             <th style="text-align: center;">Địa chỉ</th>
+                                            <th style="text-align: center;">Ghi chú</th>
                                             <th style="text-align: center;">Đường vận chuyển</th>
                                         </tr>
                                     </thead>
@@ -103,8 +98,7 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-bordered check-contract-footer" id="table_price_shipping_footer_2"
-                                        style="display:none">
+                                    <table class="table table-striped table-bordered check-contract-footer" id="table_price_shipping_footer_2" style="display:none">
                                         <thead>
                                             <tr>
                                                 <th style="text-align: center">Mã Tracking</th>
@@ -125,12 +119,10 @@
                         <div class="row d-none check-contract-footer" id="declaration_price_footer" style="margin:4px">
                             <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                 <div class="col-md-6 " style="padding-left: unset">
-                                    <p><label for="">Giá trị gói bảo hiểm </label>: <span
-                                            id="insurance_result_footer"></span> </p>
+                                    <p><label for="">Giá trị gói bảo hiểm </label>: <span id="insurance_result_footer"></span> </p>
                                 </div>
                                 <div class="col-md-6">
-                                    <p><label for="">Phí bảo hiểm (3%)</label>: <span
-                                            id="insurance_result_fee_footer"></span> </p>
+                                    <p><label for="">Phí bảo hiểm (3%)</label>: <span id="insurance_result_fee_footer"></span> </p>
                                 </div>
                             </div>
                             <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
@@ -159,15 +151,11 @@
                         <div class="row d-none check-contract-footer" id="alert_footer" style="margin:4px">
                             <div class="col-md-12 col-sm-12 " style="background-color: #fad792">
                                 <p class="text-danger">Xin quý khách vui lòng thanh toán đến STK :
-                                    <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img
-                                        src="images/TCB_icon.png" alt="" width="120px">
+                                    <b>19035902493017</b>. Tên người nhận : Nguyễn Văn Huy - Ngân hàng Techcombank <img src="images/TCB_icon.png" alt="" width="120px">
                                 </p>
-                                <p class="text-danger" style="font-weight: bold">Nội dung thanh toán : <span
-                                        class="text-danger" id="id_order_footer" style="font-size: 25px"></span>
+                                <p class="text-danger" style="font-weight: bold">Nội dung thanh toán : <span class="text-danger" id="id_order_footer" style="font-size: 25px"></span>
                                 <p>
-                                <p class="text-danger" style="font-weight: bold">Số tiền thanh toán: <span
-                                        id="money_footer" style="font-size: 25px"></span><span
-                                        style="font-weight: normal !important;">( Đã bao
+                                <p class="text-danger" style="font-weight: bold">Số tiền thanh toán: <span id="money_footer" style="font-size: 25px"></span><span style="font-weight: normal !important;">( Đã bao
                                         gồm phí bảo hiểm, hàng hoá đặc biệt)</span></p>
                             </div>
                         </div>
@@ -201,8 +189,7 @@
 
         </div>
     </div>
-    <div class="modal fade" id="myModal_tracking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        style="z-index: 9999">
+    <div class="modal fade" id="myModal_tracking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" style="z-index: 9999">
         <div class="modal-dialog modal-sm  modal-confirm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -211,10 +198,8 @@
                 </div>
                 <h5 class="modal-confirm" id="message_tracking"></h5>
                 <div class="modal-footer">
-                    <button class="btn btn-err btn-danger btn-block" data-dismiss="modal"
-                        id="exitForm_tracking">Thoát</button>
-                    <button class="btn btn-danger btn-block" data-dismiss="modal" id="exitSuccess_tracking"
-                        style="display:none">Thoát</button>
+                    <button class="btn btn-err btn-danger btn-block" data-dismiss="modal" id="exitForm_tracking">Thoát</button>
+                    <button class="btn btn-danger btn-block" data-dismiss="modal" id="exitSuccess_tracking" style="display:none">Thoát</button>
                 </div>
             </div>
         </div>
@@ -328,19 +313,16 @@
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
     firebase.auth().languageCode = 'vi';
-
 </script>
 <script>
-    function removeAndLogout(){
+    function removeAndLogout() {
         let id_session = "{{ Session::has('checkToken') }}";
         let user_session = "{{ Session::has('idToken') }}";
         if (!id_session && !user_session) {
             $.removeCookie('idToken', {
                 path: '/'
             })
-            firebase.auth().signOut().then(() => {
-            }).catch((error) => {
-            });
+            firebase.auth().signOut().then(() => {}).catch((error) => {});
         }
     }
     removeAndLogout();
@@ -363,9 +345,9 @@
     }
 
     //ajax
-    function sendSetSession(token){
+    function sendSetSession(token) {
         $.ajax({
-            headers:{
+            headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             type: "POST",
@@ -373,15 +355,15 @@
             data: {
                 idToken: token,
             },
-            global:false,
-            success:function(response){
-            },error:function(response){
+            global: false,
+            success: function(response) {},
+            error: function(response) {
                 console.log(response)
             }
         })
     }
 
-    function setSessionToken(){
+    function setSessionToken() {
         const checkToken = "{{Session::has('checkToken')}}";
         const user_session = "{{Session::has('idToken')}}";
         const cookie = $.cookie('idToken');
@@ -392,7 +374,7 @@
                         function(token_gg) {
                             setToken(token_gg)
                             $.ajax({
-                                headers:{
+                                headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                                 },
                                 type: "POST",
@@ -400,17 +382,16 @@
                                 data: {
                                     idToken: token_gg,
                                 },
-                                global:false,
+                                global: false,
                                 success: function(respone) {
-                                    if (respone.code == 200) {
-                                    }
+                                    if (respone.code == 200) {}
                                 },
                                 error: function(respone) {
                                     console.log(respone.responseJSON.errors)
                                 }
                             })
                         }).catch(function(error) {
-                            console.log(error)
+                        console.log(error)
                     });
                 }
             });
@@ -422,26 +403,24 @@
             var password = "{{config('services.saiko.password')}}";
             firebase.auth().signInWithEmailAndPassword(email, password).then((
                 userCredential) => {
-                    let token_gg = userCredential.user.toJSON().stsTokenManager.accessToken
-                    sendSetSession(token_gg)
-            }).catch((error) => {
-            });
+                let token_gg = userCredential.user.toJSON().stsTokenManager.accessToken
+                sendSetSession(token_gg)
+            }).catch((error) => {});
         }
     }
     setSessionToken();
 
-    function refreshToken(code){
+    function refreshToken(code) {
         const checkToken = "{{Session::has('checkToken')}}";
-        if(code ==401 && checkToken){
+        if (code == 401 && checkToken) {
             removeAndLogout()
             var email = "sale@saikoexpress.com";
             var password = "{{config('services.saiko.password')}}";
             firebase.auth().signInWithEmailAndPassword(email, password).then((
                 userCredential) => {
-                    let token_gg = userCredential.user.toJSON().stsTokenManager.accessToken
-                    sendSetSession(token_gg)
-            }).catch((error) => {
-            });
+                let token_gg = userCredential.user.toJSON().stsTokenManager.accessToken
+                sendSetSession(token_gg)
+            }).catch((error) => {});
         }
     }
     $(document).ready(function() {
@@ -490,7 +469,7 @@
             type: 'POST',
             url: "{{ route('rq_tk.getStatus') }}",
             data: {
-                idToken:idToken,
+                idToken: idToken,
                 tracking: tracking
             },
             success: function(res) {
@@ -569,6 +548,7 @@
                                         .consignee;
                                     add_rev = value.reference.shipment_info
                                         .full_address;
+                                    add_note = value.reference.shipment_info.note;
                                     created_at = value.reference.created_at;
                                     method_ship = value.reference
                                         .shipment_method_id;
@@ -687,6 +667,7 @@
                                             '<td>' + tel_rev +
                                             '</td>' +
                                             '<td>' + add_rev +
+                                            '<td>' + add_note +
                                             '</td>' +
                                             '<td>' + method_ship +
                                             '</td>' +
@@ -713,6 +694,8 @@
                                             '</td>' +
                                             '<td>' +
                                             add_rev +
+                                            '<td>' +
+                                            add_note +
                                             '</td>' +
                                             '<td>' +
                                             method_ship +
@@ -1118,8 +1101,8 @@
                                     $("#alert_footer").hide();
                                     $("#paid_footer").hide();
                                 }
-                                if(value.reference.length!=0){
-                                    if(value.reference.contract_id){
+                                if (value.reference.length != 0) {
+                                    if (value.reference.contract_id) {
                                         $(".check-contract-footer").hide()
                                         $("#alert-contract-footer").show()
                                         $("#id_contract_footer").text(value.reference.contract_id)
@@ -1142,10 +1125,10 @@
 
     function check_footer(id_box, vnpost, created_at, weight, fee, method, money, logs_merge, pay_money) {
         var id_box = id_box;
-        const checkSession  = "{{ Session::has('idToken') }}"
+        const checkSession = "{{ Session::has('idToken') }}"
 
         $("#time_line_tracking").empty()
-        if(checkToken()){
+        if (checkToken()) {
             let idToken = getToken();
             $.ajax({
                 headers: {
@@ -1154,7 +1137,7 @@
                 type: "POST",
                 url: "{{ route('rq_tk.getInforBox') }}",
                 data: {
-                    idToken:idToken,
+                    idToken: idToken,
                     id_box: id_box
                 },
                 success: function(res) {
@@ -1317,10 +1300,10 @@
                     console.log(res)
                 }
             })
-        }else{
+        } else {
             firebase.auth().onAuthStateChanged((user) => {
-                if(user && checkSession){
-                    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(token_gg) {
+                if (user && checkSession) {
+                    firebase.auth().currentUser.getIdToken( /* forceRefresh */ true).then(function(token_gg) {
                         setToken(token_gg)
                         let idToken = getToken();
                         $.ajax({
@@ -1330,7 +1313,7 @@
                             type: "POST",
                             url: "{{ route('rq_tk.getInforBox') }}",
                             data: {
-                                idToken:token_gg,
+                                idToken: token_gg,
                                 id_box: id_box
                             },
                             success: function(res) {
@@ -1492,195 +1475,195 @@
                             error: function(res) {
                                 console.log(res)
                             }
-                         })
+                        })
                     }).catch(function(error) {
-                        swal("warning",error.message)
+                        swal("warning", error.message)
                     });
-                }else{
+                } else {
                     var email = "sale@saikoexpress.com"
                     var password = "{{config('services.saiko.password')}}"
                     firebase.auth().signInWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        firebase.auth().currentUser.getIdToken(/* forceRefresh */ false).then(function(token_gg) {
-                            $.ajax({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                type: "POST",
-                                url: "{{ route('rq_tk.getInforBox') }}",
-                                data: {
-                                    idToken:token_gg,
-                                    id_box: id_box
-                                },
-                                success: function(res) {
-                                    if(res?.code==401){
-                                        refreshToken(res?.code);
-                                    }
-                                    //log box
-                                    $("#time_line_tracking").empty()
-                                    if (res.logs.length == 0) {
-                                        $("#time_line_tracking").append(
-                                            '<li>' +
-                                            '<a>' + 'Đang tới kho' + '</a>' +
-                                            '<p>' + created_at + '</p>' +
-                                            '</li>'
-                                        )
-                                    } else {
-                                        var size = " Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res
-                                            .height + "cm "
-                                        $.each(res.logs, function(index, value) {
-                                            let keyObject = Object.keys(value.content)
-                                            let valueObject = Object.values(value.content);
-                                            var status;
-
-                                            if (keyObject == "id") {
-                                                status = "Đã nhập kho Nhật"
-                                            }
-                                            if (keyObject == "in_pallet") {
-                                                status = "Đã kiểm hàng " + "( " + size + " )"
-                                            }
-                                            if (keyObject == "set_user_id,set_order_id") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "set_user_id") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "set_owner_id,set_owner_type") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "set_user_id,set_order_id") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "set_user_id") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "in_container" || keyObject == "in_container,from,to") {
-                                                status = "Xuất kho Nhật"
-                                            }
-                                            if (keyObject == "out_container" || keyObject == "out_container,from,to") {
-                                                status = "Nhập kho Việt Nam"
-                                            }
-                                            if (keyObject == "outbound_warehouse") {
-                                                status = "Xuất kho Việt Nam"
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "shipping") {
-                                                    status = "Đang giao hàng"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "cancelled") {
-                                                    status = "Hủy box"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "received") {
-                                                    status = "Đã nhận hàng"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "refunded") {
-                                                    status = "Trả lại hàng"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "waiting_shipment") {
-                                                    status = "Đợi giao hàng"
-                                                }
-                                            }
-                                            if (keyObject == "shipping_code" && value.type_id == "created") {
-                                                status = "Mã giao hàng: " + value.content.shipping_code
-                                            }
-                                            if (keyObject == "shipping_code" && value.type_id == "updated") {
-                                                status = "Cập nhật mã giao hàng: " + value.content.shipping_code
-                                            }
-                                            if (keyObject == "shipping_code" && value.type_id == "deleted") {
-                                                status = "Huỷ mã giao hàng: " + value.content.shipping_code
-                                            }
+                        .then((userCredential) => {
+                            firebase.auth().currentUser.getIdToken( /* forceRefresh */ false).then(function(token_gg) {
+                                $.ajax({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    type: "POST",
+                                    url: "{{ route('rq_tk.getInforBox') }}",
+                                    data: {
+                                        idToken: token_gg,
+                                        id_box: id_box
+                                    },
+                                    success: function(res) {
+                                        if (res?.code == 401) {
+                                            refreshToken(res?.code);
+                                        }
+                                        //log box
+                                        $("#time_line_tracking").empty()
+                                        if (res.logs.length == 0) {
                                             $("#time_line_tracking").append(
                                                 '<li>' +
-                                                '<a>' + status + '</a>' +
-                                                '<p>' + value.created_at + '</p>' +
+                                                '<a>' + 'Đang tới kho' + '</a>' +
+                                                '<p>' + created_at + '</p>' +
                                                 '</li>'
                                             )
-                                        })
+                                        } else {
+                                            var size = " Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res
+                                                .height + "cm "
+                                            $.each(res.logs, function(index, value) {
+                                                let keyObject = Object.keys(value.content)
+                                                let valueObject = Object.values(value.content);
+                                                var status;
+
+                                                if (keyObject == "id") {
+                                                    status = "Đã nhập kho Nhật"
+                                                }
+                                                if (keyObject == "in_pallet") {
+                                                    status = "Đã kiểm hàng " + "( " + size + " )"
+                                                }
+                                                if (keyObject == "set_user_id,set_order_id") {
+                                                    status = "Lên đơn hàng"
+                                                }
+                                                if (keyObject == "set_user_id") {
+                                                    status = "Lên đơn hàng"
+                                                }
+                                                if (keyObject == "set_owner_id,set_owner_type") {
+                                                    status = "Lên đơn hàng"
+                                                }
+                                                if (keyObject == "set_user_id,set_order_id") {
+                                                    status = "Lên đơn hàng"
+                                                }
+                                                if (keyObject == "set_user_id") {
+                                                    status = "Lên đơn hàng"
+                                                }
+                                                if (keyObject == "in_container" || keyObject == "in_container,from,to") {
+                                                    status = "Xuất kho Nhật"
+                                                }
+                                                if (keyObject == "out_container" || keyObject == "out_container,from,to") {
+                                                    status = "Nhập kho Việt Nam"
+                                                }
+                                                if (keyObject == "outbound_warehouse") {
+                                                    status = "Xuất kho Việt Nam"
+                                                }
+                                                if (keyObject == "delivery_status") {
+                                                    if (valueObject == "shipping") {
+                                                        status = "Đang giao hàng"
+                                                    }
+                                                }
+                                                if (keyObject == "delivery_status") {
+                                                    if (valueObject == "cancelled") {
+                                                        status = "Hủy box"
+                                                    }
+                                                }
+                                                if (keyObject == "delivery_status") {
+                                                    if (valueObject == "received") {
+                                                        status = "Đã nhận hàng"
+                                                    }
+                                                }
+                                                if (keyObject == "delivery_status") {
+                                                    if (valueObject == "refunded") {
+                                                        status = "Trả lại hàng"
+                                                    }
+                                                }
+                                                if (keyObject == "delivery_status") {
+                                                    if (valueObject == "waiting_shipment") {
+                                                        status = "Đợi giao hàng"
+                                                    }
+                                                }
+                                                if (keyObject == "shipping_code" && value.type_id == "created") {
+                                                    status = "Mã giao hàng: " + value.content.shipping_code
+                                                }
+                                                if (keyObject == "shipping_code" && value.type_id == "updated") {
+                                                    status = "Cập nhật mã giao hàng: " + value.content.shipping_code
+                                                }
+                                                if (keyObject == "shipping_code" && value.type_id == "deleted") {
+                                                    status = "Huỷ mã giao hàng: " + value.content.shipping_code
+                                                }
+                                                $("#time_line_tracking").append(
+                                                    '<li>' +
+                                                    '<a>' + status + '</a>' +
+                                                    '<p>' + value.created_at + '</p>' +
+                                                    '</li>'
+                                                )
+                                            })
+                                        }
+                                        //adđ log payment
+                                        // if (logs_merge.length) {
+                                        //     var total_pay = 0;
+                                        //     var matchedLogIdx = logs_merge.findIndex((log) => {
+                                        //         return !!log?.content?.transaction
+                                        //     });
+                                        //     $.each(logs_merge, function(logs_index, logs_value) {
+                                        //         let keyObjectLogMerge = Object.keys(logs_value.content)
+                                        //         var statusLogMerge;
+                                        //         var created_at_log;
+
+                                        //         if (matchedLogIdx === -1) {
+                                        //             if (keyObjectLogMerge == "updated_at,service_fee_paid") {
+                                        //                 total_pay += logs_value.content.service_fee_paid
+                                        //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
+                                        //                     .service_fee_paid)
+                                        //             }
+                                        //         } else {
+                                        //             if (keyObjectLogMerge == "transaction") {
+                                        //                 total_pay += logs_value.content.transaction.amount
+                                        //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
+                                        //                     .transaction.amount)
+                                        //             }
+                                        //         }
+
+                                        //         if (statusLogMerge != undefined) {
+                                        //             $("#time_line_tracking").append(
+                                        //                 '<li>' +
+                                        //                 '<a>' + statusLogMerge + '</a>' +
+                                        //                 '<p>' + logs_value.created_at + '</p>' +
+                                        //                 '</li>'
+                                        //             )
+                                        //         }
+                                        //     })
+                                        //     if (pay_money != undefined) {
+                                        //         if (total_pay >= pay_money - 1000) {
+                                        //             $("#alert_footer").hide()
+                                        //             if (value.reference.length) {
+                                        //                 $("#paid_footer").show()
+                                        //             } else {
+                                        //                 $("#paid_footer").hide()
+                                        //             }
+                                        //         }
+                                        //     }
+                                        // }
+                                        // vnpost
+                                        // if(vnpost){
+                                        //     $("#body-table-firt-vnpost").empty()
+                                        //     $("#body-table-firt-vnpost").append(
+                                        //         '<tr>' +
+                                        //         '<td>' + vnpost.MaDichVu +
+                                        //         '</td>' +
+                                        //         '<td>' + vnpost.PhuongThucVC +
+                                        //         '</td>' +
+                                        //         '<td>' + vnpost.CuocCOD +
+                                        //         '</td>' +
+                                        //         '<td>' + vnpost.TongCuocSauVAT +
+                                        //         '</td>' +
+                                        //         '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
+                                        //         '</tr>'
+                                        //     )
+                                        //     $("#table-firt-vnpost").show()
+                                        // }
+
+                                    },
+                                    error: function(res) {
+                                        console.log(res)
                                     }
-                                    //adđ log payment
-                                    // if (logs_merge.length) {
-                                    //     var total_pay = 0;
-                                    //     var matchedLogIdx = logs_merge.findIndex((log) => {
-                                    //         return !!log?.content?.transaction
-                                    //     });
-                                    //     $.each(logs_merge, function(logs_index, logs_value) {
-                                    //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                                    //         var statusLogMerge;
-                                    //         var created_at_log;
-
-                                    //         if (matchedLogIdx === -1) {
-                                    //             if (keyObjectLogMerge == "updated_at,service_fee_paid") {
-                                    //                 total_pay += logs_value.content.service_fee_paid
-                                    //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
-                                    //                     .service_fee_paid)
-                                    //             }
-                                    //         } else {
-                                    //             if (keyObjectLogMerge == "transaction") {
-                                    //                 total_pay += logs_value.content.transaction.amount
-                                    //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
-                                    //                     .transaction.amount)
-                                    //             }
-                                    //         }
-
-                                    //         if (statusLogMerge != undefined) {
-                                    //             $("#time_line_tracking").append(
-                                    //                 '<li>' +
-                                    //                 '<a>' + statusLogMerge + '</a>' +
-                                    //                 '<p>' + logs_value.created_at + '</p>' +
-                                    //                 '</li>'
-                                    //             )
-                                    //         }
-                                    //     })
-                                    //     if (pay_money != undefined) {
-                                    //         if (total_pay >= pay_money - 1000) {
-                                    //             $("#alert_footer").hide()
-                                    //             if (value.reference.length) {
-                                    //                 $("#paid_footer").show()
-                                    //             } else {
-                                    //                 $("#paid_footer").hide()
-                                    //             }
-                                    //         }
-                                    //     }
-                                    // }
-                                    // vnpost
-                                    // if(vnpost){
-                                    //     $("#body-table-firt-vnpost").empty()
-                                    //     $("#body-table-firt-vnpost").append(
-                                    //         '<tr>' +
-                                    //         '<td>' + vnpost.MaDichVu +
-                                    //         '</td>' +
-                                    //         '<td>' + vnpost.PhuongThucVC +
-                                    //         '</td>' +
-                                    //         '<td>' + vnpost.CuocCOD +
-                                    //         '</td>' +
-                                    //         '<td>' + vnpost.TongCuocSauVAT +
-                                    //         '</td>' +
-                                    //         '<td>' + vnpost.SoTienCodThuNoiNguoiNhan +
-                                    //         '</tr>'
-                                    //     )
-                                    //     $("#table-firt-vnpost").show()
-                                    // }
-
-                                },
-                                error: function(res) {
-                                    console.log(res)
-                                }
-                            })
-                        }).catch(function(error) {
-                            swal("warning",error.message)
+                                })
+                            }).catch(function(error) {
+                                swal("warning", error.message)
+                            });
+                        }).catch((error) => {
+                            var errorMessage = error.message;
+                            swal("warning", errorMessage)
                         });
-                    }).catch((error) => {
-                        var errorMessage = error.message;
-                        swal("warning",errorMessage)
-                    });
                 }
             })
         }
@@ -1701,7 +1684,6 @@
         }
         return idToken;
     }
-
 </script>
 
 </body>
