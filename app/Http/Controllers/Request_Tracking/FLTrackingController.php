@@ -113,7 +113,7 @@ class FLTrackingController extends Controller
                             $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['reference'], $province, $method_shipment, $date_default, $date_defaultNew, $results['reference']['insurance_declaration'], $results['reference']['special_declaration']);
                             $fee_special = $results['reference']['special_declaration'] * $fee['special'];
                             $fee_insurance = $results['reference']['insurance_declaration'] * $fee['insurance'];
-                            $fee_COD_inside = $results['sfa']['shipping_inside'];
+                            $fee_COD_inside = $results['sfa']['shipping_inside'] * 215;
                             $results['reference']['special_result_fee'] = $fee_special;
                             $results['reference']['insurance_result_fee'] = $fee_insurance;
                             $results['reference']['total_fee'] = round($fee['money'] + $fee_insurance + $fee_special + $fee_COD_inside, 0);
@@ -164,7 +164,7 @@ class FLTrackingController extends Controller
                             $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['reference'], $province, $method_shipment, $date_default, $date_defaultNew, $results['reference']['insurance_declaration'], $results['reference']['special_declaration']);
                             $fee_special = $results['reference']['special_declaration'] * $fee['special'];
                             $fee_insurance = $results['reference']['insurance_declaration'] * $fee['insurance'];
-                            $fee_COD_inside = $results['sfa']['shipping_inside'];
+                            $fee_COD_inside = $results['sfa']['shipping_inside'] * 215;
                             $results['reference']['special_result_fee'] = $fee_special;
                             $results['reference']['insurance_result_fee'] = $fee_insurance;
                             $results['reference']['pay_money'] = $fee['total_money'];
