@@ -423,10 +423,11 @@
 
                                         if (value.sfa != null) {
                                             $("#fee_shipping_inside_jp").text(
-                                                formatNumber(0))
-                                            $("#fee_shipping_inside_vn").text(
                                                 formatNumber(value.sfa
                                                     .shipping_inside))
+                                            $("#fee_shipping_inside_vn").text(
+                                                formatNumber(value.sfa
+                                                    .shipping_inside * 215))
                                         }
                                         // BẢNG GIÁ
                                         if (value.boxes.length) {
