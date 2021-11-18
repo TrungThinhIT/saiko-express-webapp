@@ -234,7 +234,7 @@
         }
 
         .image-height-mobile img {
-            height: 300px;
+            height: 400px;
         }
     }
 
@@ -434,30 +434,133 @@
     .content-slide {
         z-index: 1;
         position: absolute;
-        color: white;
+        color: #482401;
         text-align: center;
     }
 
     .fix-style-content {
         padding: 6px;
-        text-shadow: 2px 1px #fca901;
         font-size: 22px !important;
     }
 
     .text-color {
         text-decoration: underline;
         font-weight: bold;
-        color: white !important;
     }
 
     .fix-time {
         opacity: 85%;
         border-radius: 20px;
-        background-color: #fca901;
     }
 
     .text-color:hover {
         color: darkgreen !important;
+    }
+
+    .btn-3d {
+        top: 0;
+        left: 0;
+        transition: all .15s linear 0s;
+        position: relative;
+        display: inline-block;
+        padding: 15px 25px;
+        background-color: #fca901;
+        font-size: 20px;
+        font-weight: bold;
+
+        text-transform: uppercase;
+        color: white;
+        letter-spacing: 1px;
+
+        box-shadow: -6px 6px 0 #404040;
+        text-decoration: none;
+    }
+
+    .btn-3d:hover {
+        top: 3px;
+        left: -3px;
+        box-shadow: -3px 3px 0 #404040;
+    }
+
+    .btn-3d:hover::after {
+        top: 1px;
+        left: -2px;
+        width: 4px;
+        height: 4px;
+    }
+
+    .btn-3d:hover::before {
+        bottom: -2px;
+        right: 1px;
+        width: 4px;
+        height: 4px;
+    }
+
+    .btn-3d::after {
+        transition: all .15s linear 0s;
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: -4px;
+        width: 8px;
+        height: 8px;
+        background-color: #404040;
+        transform: rotate(45deg);
+        z-index: -1;
+
+    }
+
+    .btn-3d::before {
+        transition: all .15s linear 0s;
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        right: 2px;
+        width: 8px;
+        height: 8px;
+        background-color: #404040;
+        transform: rotate(45deg);
+        z-index: -1;
+    }
+
+    a.btn {
+        position: relative;
+    }
+
+    a:active.btn-3d {
+        top: 6px;
+        left: -6px;
+        box-shadow: none;
+    }
+
+    a:active.btn-3d:before {
+        bottom: 1px;
+        right: 1px;
+    }
+
+    a:active.btn-3d:after {
+        top: 1px;
+        left: 1px;
+    }
+    @media screen and (max-width: 768px)
+     {
+        .content-slide.fix-time.button {
+            top: 15%;
+        }
+
+        .content-slide.fix-time.hotline {
+            top: 57%;
+        }
+    }
+
+    @media screen and (min-width: 768px)
+     {
+        .content-slide.fix-time.button {
+            top: 25%;
+        }
+        .content-slide.fix-time.hotline {
+            top: 57%;
+        }
     }
 </style>
 
@@ -467,11 +570,12 @@
         <div class="slider-content-wrapper">
             <div class="slider-content__item image-1 image-height-mobile">
                 <img src="../assets/images/update_index.png">
-
-                <div class="content-slide fix-time d-none">
-                    <p class="title-slide fix-style-content">Mọi thông tin liên hệ số hotline 1900 2149</p>
-                    <p class="title-slide fix-style-content">hoặc nhắn tin fanpage Facebook <span><a class="text-color" target="_blank" href="https://www.facebook.com/SaikoExpress/"> Saiko Express</a> </span></p>
-                    {{-- <a href="{{route('blog.index')}}"><button onclick="openQuote()" class="btn ed_btn ed_orange">Xem thêm</button></a> --}}
+                <div class="content-slide fix-time button">
+                    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet"><a href="{{route('rq_tk.quote')}}" class="btn-3d">Đăng ký kiện hàng ngay</a>
+                </div>
+                <div class="content-slide fix-time hotline" style="background-color: white;">
+                    <p class="title-slide fix-style-content" style="text-shadow: 2px 1px white;">Mọi thông tin liên hệ số hotline 1900 2149</p>
+                    <p class="title-slide fix-style-content" style="text-shadow: 2px 1px white;">hoặc nhắn tin fanpage Facebook <span><a class="text-color" style="color: #482401 !important;text-decoration: none;" target="_blank" href="https://www.facebook.com/SaikoExpress/"> Saiko Express</a> </span></p>
                 </div>
 
             </div>
