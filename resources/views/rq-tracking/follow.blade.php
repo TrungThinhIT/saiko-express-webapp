@@ -709,7 +709,7 @@
 
                                                 if (value.sfa != null) {
                                                     $("#fee_shipping_inside_jp").text(formatNumber(value.sfa.shipping_inside))
-                                                    $("#fee_shipping_inside_vn").text(formatNumber(value.sfa.shipping_inside * 215))
+                                                    $("#fee_shipping_inside_vn").text(formatNumber(value.sfa.shipping_inside_vnd))
                                                 }
                                                 // BẢNG GIÁ
                                                 if (value.boxes.length) {
