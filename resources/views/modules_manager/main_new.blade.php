@@ -1167,7 +1167,7 @@
                                             $("#special_result_fee_footer").text(formatNumber(value.reference.special_result_fee))
                                             if (value.sfa != null) {
                                                 $("#fee_shipping_inside_jp_footer").text(formatNumber(value.sfa.shipping_inside))
-                                                $("#fee_shipping_inside_vn_footer").text(formatNumber(value.sfa.shipping_inside * 215))
+                                                $("#fee_shipping_inside_vn_footer").text(formatNumber(value.sfa.shipping_inside_vnd))
                                             }
 
                                             if (value.boxes.length) {

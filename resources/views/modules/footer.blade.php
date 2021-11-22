@@ -571,7 +571,7 @@
                                         $("#fee_shipping_inside_jp_footer").text(formatNumber(value
                                             .sfa.shipping_inside))
                                         $("#fee_shipping_inside_vn_footer").text(formatNumber(value
-                                            .sfa.shipping_inside * 215))
+                                            .sfa.shipping_inside_vnd))
                                     }
 
                                     if (value.boxes.length) {

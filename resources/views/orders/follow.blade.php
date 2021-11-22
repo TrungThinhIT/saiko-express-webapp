@@ -427,7 +427,7 @@
                                                     .shipping_inside))
                                             $("#fee_shipping_inside_vn").text(
                                                 formatNumber(value.sfa
-                                                    .shipping_inside * 215))
+                                                    .shipping_inside_vnd))
                                         }
                                         // BẢNG GIÁ
                                         if (value.boxes.length) {
