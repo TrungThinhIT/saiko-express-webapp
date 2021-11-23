@@ -118,7 +118,7 @@ class ContractsController extends Controller
         ];
 
         $params = [
-            'appends' => 'transactions.type;logs;service_fee;service_fee_outstanding;service_fee_unsolved;shipping_fee;shipping_fee_air;shipping_fee_sea;compensation_debited;compensation_unsolved',
+            'appends' => 'transactions.type;logs;service_fee;service_fee_outstanding;service_fee_unsolved;shipping_fee;shipping_fee_air;shipping_fee_sea;compensation_debited;compensation_unsolved;shipping_inside_fee',
             'with' => 'orders.trackings;orders.shipmentInfo',
         ];
 

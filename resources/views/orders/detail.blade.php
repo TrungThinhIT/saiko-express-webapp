@@ -337,6 +337,20 @@
                                     @endif
                                     @if ($value['service_fee_boxes'] != 0)
                                         <div class="form-group row align-items-center">
+                                            <label for="" class="col-sm-4 col-form-label">Phí vận chuyển nội địa</label>
+                                            <div class="col-sm-8 d-flex">
+                                                <input type="text" readonly class="form-control" id="service_fee_boxes"
+                                                    value="{{ number_format($value['shipping_inside_fee']) }}">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text font-weight-bold currency-corlor-custom">
+                                                        VND
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if ($value['service_fee_boxes'] != 0)
+                                        <div class="form-group row align-items-center">
                                             <label for="" class="col-sm-4 col-form-label">Phí dịch vụ hàng hóa</label>
                                             <div class="col-sm-8 d-flex">
                                                 <input type="text" readonly class="form-control" id="service_fee_boxes"
