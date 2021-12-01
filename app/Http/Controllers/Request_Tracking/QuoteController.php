@@ -59,11 +59,6 @@ class QuoteController extends Controller
             $address = '80 Phố Sơn Tây';
             $note_address = 'Nhận tại văn phòng Ba Đình.';
         }
-        if ($request->utypeadd == "vp-soc-son") {
-            $ward_id = '13970';
-            $address = 'Quốc lộ 2 - Cầu Đen';
-            $note_address = 'Nhận tại văn phòng Sóc Sơn.';
-        }
 
         $tracking = explode(" ", $request->TrackingSaiko);
 

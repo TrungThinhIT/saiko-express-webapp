@@ -1,147 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <style>
-    .form-control {
-        width: 30% !important;
-        margin-left: 10px !important;
-        margin-right: 10px !important;
-    }
-
-    input[type="submit"] {
-        text-transform: capitalize;
-        font-size: 15px;
-        font-weight: 400;
-        width: 60%;
-        border-radius: 17px;
-        margin-top: 5px;
-    }
-
-    .content-track {
-        margin-left: 30px;
-    }
-
-    .mobile-w150 {
-        width: 150px;
-    }
-
-    @media (max-width: 576px) {
-
-        .content-track {
-            margin-left: 0px;
-        }
-
-        .mobile-track {
-            display: block;
-        }
-
-        .mobile-w150 {
-            width: auto;
-        }
-
-        .d-none {
-            display: none;
-        }
-
-        .mobile-block {
-            display: block !important;
-        }
-
-        .mobile-block-f {
-            margin-left: 10px;
-        }
-    }
-
-    .unset-border {
-        border: unset !important;
-        box-shadow: unset !important;
-    }
-
-    .width-custom {
-        width: 100% !important;
-    }
-
-    .width-price {
-        width: unset !important;
-    }
-
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-    }
-
-    .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    input:checked+.slider {
-        background-color: #2196F3;
-    }
-
-    .slider.round {
-        border-radius: 34px;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    input:checked+.slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
-
-    .slider.round:before {
-        border-radius: 50%;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    .custom-row-inline {
-        display: flex;
-        align-items: center;
-        justify-content: space-between
-    }
-
-    .set-ml {
-        margin-left: auto !important;
-    }
-
-    .set-width-lb {
-        width: 37px;
-    }
-    .ed_pagetitle{
-        background-image: url(../assets/images/calulate.jpg) !important;
-    }
-
-    @media (max-width: 1260px) {
-        .col-md-7 {
-            margin-top: 0 !important;
-        }
-    }
-    }
 
 </style>
 
@@ -171,462 +30,240 @@
         <div class="row quote1top">
             <div class="col-sm-12">
                 <div class="fh-section-title clearfix f30  text-left version-dark paddbtm40">
-                    <h2>BÁO GIÁ CHI TIẾT</h2>
+                    <h2>BÁO GIÁ DỰ KIẾN</h2>
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            {{-- <div class="col-md-5">
-                <img src="assets/images/calulate.jpeg" alt="Tính phí chi tiết vận chuyển" height="500px">
-            </div> --}}
-            <div class="col-md-12" >
+        <div class="col-md-8">
+            <div class="info_shipping">
                 <div class="fee-pro-title">
                     <span class="fee-pro-number">1</span>
-                    <span class="fee-pro-name">Thông tin kiện hàng</span>
+                    <span class="fee-pro-name">Thông tin vận chuyển</span>
                     <i class="fa fa-angle-down"></i>
                 </div>
-                <div class="content-track">
-                    <div>
-                        <label style="margin-right: 10px;" class="mobile-track">Hình thức vận chuyển: </label>
-                        <label class="radio-inline"><input type="radio" name="tran" checked id="air"
-                                onchange="onResult()">Đường bay<a href="assets/images/services/air.png"
-                                title='Xem bảng giá'> <i class="fa fa-eye"
-                                    style="    color: burlywood;"></i></a></label>
-                        <label class="radio-inline"><input type="radio" name="tran" id="sea" onchange="onResult()">Đường
-                            biển<a href="assets/images/services/sea.png" title='Xem bảng giá'> <i class="fa fa-eye"
-                                    style="    color: burlywood;"></i></a></label>
-                    </div>
-                    <div>
-                        <label style="margin-right: 10px;" class="mobile-track">Phí bảo hiểm: </label>
-                        {{-- <label class="radio-inline mobile-block mobile-block-f"><input type="radio" name="check" checked
-                                id="sbuy">(5% giá trị khai báo) </label> --}}
-                        <label class="radio-inline mobile-block"><input type="radio" name="check" checked id="buy">3%
-                            giá trị khai báo </label>
-                        <label class="radio-inline mobile-block"><input type="radio" name="check" id="noBuy">Không
-                            mua</label>
-                    </div>
-                    <div>
-                        <label class="mobile-track d-flex">Hàng đặc biệt: </label>
-                        {{-- <label class="radio-inline mobile-block mobile-block-f"><input type="radio" name="check" checked
-                                id="sbuy">(5% giá trị khai báo) </label> --}}
-                        <label class="radio-inline mobile-block">Loa/ Ampli/ Điện thoại di động/ Ipad/ Laptop/ Rượu/ Đồng hồ đeo tay/ Đồ cổ (tính thêm 2% giá trị khai báo)</label>
-                    </div>
-                </div>
-                <div class="fee-pro-title">
-                    <span class="fee-pro-number">2</span>
-                    <span class="fee-pro-name">Công cụ tính trọng lượng kiện hàng: <span class="d-none">( đơn vị đo cm
-                            )</span></span>
-                    <i class="fa fa-angle-down"></i>
-                </div>
-                <div class="content-track">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="unset-border">
-                                <div class="form-group">
-                                    <div style="display: inline-flex;">
-                                        <label class="control-label font-weight-bold" style="width:100px">Chiều
-                                            cao:</label>
-                                        <input type="number" onchange="domesticShipping()" class="form-control set-ml"
-                                            value="0" id="height" onkeyup="onResult()">
-                                        <label class="set-width-lb">cm</label>
 
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="unset-border">
-                                <div class="form-group">
-                                    <div style="display: inline-flex;">
-                                        <label class="control-label" style="width:100px">Chiều dài:</label>
-                                        <input type="number" onchange="domesticShipping()" class="form-control set-ml"
-                                            value="0" id="long" onkeyup="onResult()">
-                                        <label class="set-width-lb">cm</label>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <div style="display: inline-flex;">
-                                    <label class="control-label" style="width:100px">Chiều rộng:</label>
-                                    <input type="number" onchange="domesticShipping()" class="form-control set-ml"
-                                        value="0" id="width" onkeyup="onResult()">
-                                    <label class="set-width-lb">cm</label>
-                                </div>
-                            </div>
-
-                        </div>
-                        {{-- column2 --}}
-                        <div class="col-lg-6">
-                            <div class="form-group ">
-                                <div style="display: inline-flex;">
-                                    <label class="control-label font-weight-bold mobile-w150">Trọng lượng
-                                        thực:</label>
-                                    <input type="number" onchange="domesticShipping()" class="form-control set-ml"
-                                        value="0" id="wei" onkeyup="weightChange()">
-                                    <label class="set-width-lb">kg</label>
-                                </div>
-                            </div>
-                            <div class="unset-border">
-                                <div class="form-group">
-                                    <div style="display: inline-flex;">
-                                        <label class="control-label"> Trọng lượng thể
-                                            tích:</label>
-                                        <span style="width:80px;font-weight: bold; margin-left: 10px;"
-                                            id="weight">0</span>
-
-                                        <label class="set-width-lb">kg</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div style="display: inline-flex;">
-                                    <label class="control-label mobile-w150 width-price">Đơn giá:</label>
-                                    <input type="number" onchange="domesticShipping()" class="form-control set-ml"
-                                        value="0" id="price" readonly="">
-                                    <label class="set-width-lb">VNĐ</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group text-center">
-                            <input value="Tính toán" class="fh-btn" type="submit" placeholder="" onclick="cacula()">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="fee-pro-title">
-                    <span class="fee-pro-number">3</span>
-                    <span class="fee-pro-name">Phí vận chuyển Nhật - Việt: </span>
-                    <i class="fa fa-angle-down"></i>
-                </div>
-                <div>
-                    <label class="control-label">Giá cước vận chuyển Nhật về Việt là : <span
-                            id="result">0</span>VNĐ</label>
-                </div>
-                <h5 style="color: #fca901;
-                font-style: italic;">Khách hàng hạng Business vui lòng liên hệ Hotline của Saiko để nhận được báo giá tốt nhất</h5>
-
-                <div class="fee-pro-title">
-                    <span class="fee-pro-number">4</span>
-                    <span class="fee-pro-name">Giao hàng nội địa Việt Nam</span>
-                    <i class="fa fa-angle-down"></i>
-                </div>
-                <div class="unset-border custom-row-inline">
-                    <select name="province" class="form-control width-custom" id="Utinh" onchange="Select_Tinh(this)">
-                        <option value="">Chọn Tỉnh</option>
-                        @foreach ($data as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
-                    </select>
-                    <select name="District" class="form-control width-custom" onchange="domesticShipping()" id="Uhuyen">
+                <div class="col">
+                    <label for="shipment_method">&#9658; Phương thức vận chuyển: </label>
+                    <select id="shipment_method" class="custom-select custom-select-sm">
+                        <option value='air' selected>Đường bay</option>
+                        <option value='sea'>Đường biển</option>
                     </select>
                 </div>
-                <div class="unset-border custom-row-inline">
-                    <label for="" class="form-control unset-border width-custom">Dịch vụ:</label>
-                    <select name="service" onchange="changeStyle();domesticShipping();"
-                        class="form-control width-custom" id="service">
-                        <option value="1">Chọn dịch vụ</option>
-                        <option value="BD">Bưu điện</option>
-                        <option value="VT">Viettel</option>
-                        <option value="GHTK">Giao hàng tiết kiệm</option>
-                    </select>
-                </div>
-                <div id="componentService" style="display: none">
-                    <div class="unset-border custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Code:</label>
-                        <label for="" class="form-control unset-border width-custom">
-                            <label class="switch">
-                                <input type="checkbox" id="check_code" value="0" onchange="domesticShipping()">
-                                <span class="slider round"></span>
-                            </label>
-                        </label>
-                    </div>
-                    <div class="unset-border custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Khai giá:</label>
-                        <input type="text" class="form-control width-custom" onchange="domesticShipping()" name="price"
-                            id="price2">
-                    </div>
-                    <div class="unset-border custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Phí Code:</label>
-                        <label for="" class="form-control unset-border width-custom"
-                            id="code_fee"></label><span>VNĐ</span>
-                    </div>
 
-                    <div class="custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Thuế VAT:</label>
-                        <label for="" class="form-control unset-border width-custom" id="vat"></label><span>VNĐ</span>
-                    </div>
-                    <div class="custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Tổng chi phí:</label>
-                        <label for="" class="form-control unset-border width-custom" id="money"></label><span>VNĐ</span>
-                    </div>
-                </div>
-                <div id="componentServiceGHTK" style="display: none">
-                    {{-- <div class="unset-border custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Code:</label>
-                        <label for="" class="form-control unset-border width-custom">
-                            <label class="switch">
-                                <input type="checkbox" id="check_code" value="0" onchange="domesticShipping()">
-                                <span class="slider round"></span>
-                            </label>
-                        </label>
-                    </div> --}}
-                    <div class="unset-border custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Khai giá:</label>
-                        <input type="text" class="form-control width-custom" onchange="domesticShipping()" name="price"
-                            id="priceGHTK">
-                    </div>
-                    <div class="unset-border custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Chọn hình thức vận chuyển:</label>
-                        <select class="form-control width-custom" name="" onchange="domesticShipping()" id="transport">
-                            <option value="fly">Đường bay</option>
-                            <option value="road">Đường bộ</option>
-                        </select>
-                    </div>
-                    <div class="unset-border custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Chọn phương thức giao</label>
-                        <select class="form-control width-custom" name="" onchange="domesticShipping()" id="methodGHTK">
-                            <option value="xteam">Xteam</option>
-                            <option value="none">None</option>
-                        </select>
-                    </div>
+                <label for="special">&#9658; Kiện hàng của bạn có chứa các loại hàng đặc biệt dưới đây hay không: </label>
+                <select id="special" class="custom-select custom-select-sm">
+                    <option value=false selected>Không</option>
+                    <option value=true>Có</option>
+                </select>
+                <p class="text-justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Loa, Ampli, Điện thoại di động, Máy tính bảng, Laptop, Rượu, Đồng hồ đeo tay, Đồ cổ.</p>
 
-                    {{-- <div class="custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Thuế VAT:</label>
-                        <label for="" class="form-control unset-border width-custom" id="vat"></label><span>VNĐ</span>
-                    </div> --}}
-                    <div class="custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Tổng chi phí:</label>
-                        <label for="" class="form-control unset-border width-custom"
-                            id="moneyGHTK"></label><span>VNĐ</span>
+                <div class="row div-special">
+                    <div class="form-group col-md-6">
+                        <label for="weight">Tổng giá trị hàng hoá (GTHH) đặc biệt là (VNĐ)</label>
+                        <input type="number" style="text-align: right;" class="form-control" value='0' id="special_declaration">
                     </div>
+                    <div class="form-group col-md-6">
+                        <label for="length">Phí hàng hoá đặc biệt là (VNĐ)</label>
+                        <input type="number" style="text-align: right;" class="form-control" readonly value='0' id="special_goods_fee">
+                    </div>
+                    <p class="text-justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Lưu ý phí hàng hoá đặc biệt là phụ phí bắt buộc để thông quan và tính phí 2% GTHH.)</p>
                 </div>
-                <div id="componentServiceViettel" style="display: none">
-                    {{-- <div class="unset-border custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Code:</label>
-                        <label for="" class="form-control unset-border width-custom">
-                            <label class="switch">
-                                <input type="checkbox" id="check_code" value="0" onchange="domesticShipping()">
-                                <span class="slider round"></span>
-                            </label>
-                        </label>
-                    </div>
-                    <div class="unset-border custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Khai giá:</label>
-                        <input type="text" class="form-control width-custom" onchange="domesticShipping()" name="price"
-                            id="price2">
-                    </div>
-                    <div class="unset-border custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Phí Code:</label>
-                        <label for="" class="form-control unset-border width-custom"
-                            id="code_fee"></label><span>VNĐ</span>
-                    </div>
+                <br />
+                <label for="insurance">&#9658; Bạn có đăng ký bảo hiểm kiện hàng không? (Lưu ý phí bảo hiểm là 3%): </label>
+                <select id="insurance" class="custom-select custom-select-sm">
+                    <option value=false selected>Không</option>
+                    <option value=true>Có</option>
+                </select>
 
-                    <div class="custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Thuế VAT:</label>
-                        <label for="" class="form-control unset-border width-custom" id="vat"></label><span>VNĐ</span>
+                <div class="row div-insurance">
+                    <div class="form-group col-md-6">
+                        <label for="weight">Giá trị bảo hiểm là (VNĐ)</label>
+                        <input type="number" style="text-align: right;" class="form-control" value='0' id="insurance_declaration">
                     </div>
-                    <div class="custom-row-inline">
-                        <label for="" class="form-control unset-border width-custom">Tổng chi phí:</label>
-                        <label for="" class="form-control unset-border width-custom" id="money"></label><span>VNĐ</span>
-                    </div> --}}
-                </div>
-
-                <div class="form-group text-center">
-                    <input value="Gửi hàng ngay" class="fh-btn" type="submit" placeholder="" onclick="send()">
+                    <div class="form-group col-md-6">
+                        <label for="length">Phí hàng hoá đặc biệt là (VNĐ)</label>
+                        <input type="number" style="text-align: right;" class="form-control" readonly value='0' id="insurance_fee">
+                    </div>
                 </div>
 
             </div>
+
+            <br />
+
+            <div class="info">
+                <div class="fee-pro-title">
+                    <span class="fee-pro-number">2</span>
+                    <span class="fee-pro-name">Thông tin kiện hàng: <span class="d-none">
+                            <i class="fa fa-angle-down"></i>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-md-7">
+                        <img src="{{ asset('images/boxmeasure.png')}}" alt="">
+
+                        <p class="text-justify" style="font-size: 14px;">&#9658; Với hàng bay: Khối lượng thể tích = (L * W * H) / 6000.</p>
+                        <p class="text-justify" style="font-size: 14px;">&#9658; Với hàng biển: Khối lượng thể tích = (L * W * H) / 3500.</p>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="weight">Khối lượng (Kg)</label>
+                            <input type="number" style="text-align: right;" class="form-control" value='0' id="weight">
+                        </div>
+                        <div class="form-group">
+                            <label for="length">Chiều dài (Cm)</label>
+                            <input type="number" style="text-align: right;" class="form-control" value='0' id="length">
+                        </div>
+                        <div class="form-group">
+                            <label for="width">Chiều rộng (Cm)</label>
+                            <input type="number" style="text-align: right;" class="form-control" value='0' id="width">
+                        </div>
+                        <div class="form-group">
+                            <label for="height">Chiều cao (Cm)</label>
+                            <input type="number" style="text-align: right;" class="form-control" value='0' id="height">
+                        </div>
+
+                        <div class="input-group">
+                            <span class="input-group-addon" style="font-weight: bold;">Khối lượng thể tích</span>
+                            <input type="text" style="text-align: right;" class="form-control" readonly value="0" id="volumetric_weight">
+                            <span class="input-group-addon" style="font-weight: bold;">Kg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <div class="fee-pro-title">
+                <span class="fee-pro-number">3</span>
+                <span class="fee-pro-name">Báo giá phí vận chuyển Nhật - Việt dự kiến: </span>
+                <i class="fa fa-angle-down"></i>
+            </div>
+            <div class="row">
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-success" onclick="calculatePriceWithConditions()">Báo giá</button>
+                </div>
+                <div class="col-lg-4">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="font-weight: bold;">Đơn giá (VNĐ/Kg)</span>
+                        <input type="text" style="text-align: right;" class="form-control" readonly value="0" id="price_with_condition">
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                </div>
+                <div class="col-lg-5">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="font-weight: bold;">Thành tiền (VNĐ)</span>
+                        <input type="text" style="text-align: right;" class="form-control" readonly value="0" id="total_price">
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <p class="text-justify" style="font-size: 14px;">&#9658; Với hàng bay: số kg tối thiểu là 1. Với hàng biển: số kg tối thiểu là 10.</p>
+            <br />
         </div>
-    </div>
-
-    <!-- Modal -->
-
-
-
-
 </section>
 
 @include('modules.footer')
 <script>
-    var weight = 0;
+    var warehouse_host = "<?php echo (env('SERVICE_WAREHOUSE_HOST')) ?>";
+    var special_goods_fee = 0;
+    var insurance_fee = 0;
+    $(".div-special").hide();
+    $(".div-insurance").hide();
+
     $(document).ready(function() {
-        $("#check_code").click(function() {
-            if ($("#check_code").val() == 0) {
-                $("#check_code").val(1)
+        $("#special").change(function($e) {
+            $status = $("#special").val();
+            if ($status == 'true') {
+                $(".div-special").show();
             } else {
-                $("#check_code").val(0)
+                $(".div-special").hide();
             }
+        });
 
-        })
-    })
-
-    function onResult() {
-        var air = document.getElementById("air");
-        var sea = document.getElementById("sea");
-        var buy = document.getElementById("buy");
-        var noBuy = document.getElementById("noBuy");
-        var height = document.getElementById("height").value;
-        var width = document.getElementById("width").value;
-        var long = document.getElementById("long").value;
-        var result = 0;
-        if (air.checked) {
-            result = (Number(height) * Number(width) * Number(long)) / 6000;
-            if (result > 100) {
-                document.getElementById("price").value = 180000;
+        $("#insurance").change(function($e) {
+            $status = $("#insurance").val();
+            if ($status == 'true') {
+                $(".div-insurance").show();
             } else {
-                document.getElementById("price").value = 185000;
+                $(".div-insurance").hide();
             }
-        }
-        if (sea.checked) {
-            result = (Number(height) * Number(width) * Number(long)) / 3500;
-            document.getElementById("price").value = 55000;
+        });
 
-        }
-        weight = result;
-        document.getElementById("weight").innerHTML = result.toLocaleString();
+        $("#special_declaration").keyup(function($e) {
+            $price = $("#special_declaration").val() * 0.02;
+            special_goods_fee = $price;
+            $("#special_goods_fee").val($price.toFixed());
+        });
 
+        $("#insurance_declaration").keyup(function($e) {
+            $price = $("#insurance_declaration").val() * 0.003;
+            insurance_fee = $price;
+            $("#insurance_fee").val($price.toFixed());
+        });
 
+        $("#shipment_method").change(function() {
+            calculateVolumetricWeight();
+        });
+
+        $("#height").keyup(function() {
+            calculateVolumetricWeight();
+        });
+
+        $("#width").keyup(function() {
+            calculateVolumetricWeight();
+        });
+
+        $("#length").keyup(function() {
+            calculateVolumetricWeight();
+        });
+    });
+
+    function calculateVolumetricWeight() {
+        $height = $("#height").val();
+        $width = $("#width").val();
+        $length = $("#length").val();
+        $shipment_method = $("#shipment_method").val();
+
+        $volumetric_weight = ($height * $width * $length / ($shipment_method == 'air' ? 6000 : 3500));
+        $("#volumetric_weight").val($volumetric_weight.toFixed());
     }
 
-    function weightChange() {
-        var wei = document.getElementById("wei").value;
-        var price = document.getElementById("price").value;
-        if (Number(wei) > weight) {
-            if (wei > 100) {
-                document.getElementById("price").value = 180000;
-            } else {
-                document.getElementById("price").value = 185000;
-            }
-        } else {
-            if (weight > 100) {
-                document.getElementById("price").value = 180000;
-            } else {
-                document.getElementById("price").value = 185000;
-            }
-        }
-    }
+    function calculatePriceWithConditions() {
+        $shipment_method = $("#shipment_method").val();
+        $weight = $("#weight").val();
+        $volumetric_weight = $("#volumetric_weight").val();
+        $range = $weight >= $volumetric_weight ? $weight : $volumetric_weight;
+        $range = minWeightToFeeWithShipmentMethod($range, $shipment_method);
 
-
-    function cacula() {
-
-        var wei = document.getElementById("wei").value;
-        var price = document.getElementById("price").value;
-        var result = 0;
-        if (Number(wei) > weight) {
-            result = (Number(wei) * price).toLocaleString();
-        } else {
-            result = (weight * price).toLocaleString();
-        }
-        document.getElementById("result").innerHTML = result;
-
-    }
-
-    function send() {
-        window.location.href = "{{ route('rq_tk.quote') }}";
-    }
-
-    function Select_Tinh(obj) {
-        var Tinh_ThanhPho = $(obj).val();
         $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            type: "GET",
+            url: warehouse_host + "/api/amount-with-conditions?conditions[type]=shipping-fee&conditions[shipment-method]=" + $shipment_method + "&conditions[from]=tochigi-jp&conditions[to]=vn-hn&range=" + $range + "&timeline=" + new Date().toISOString().slice(0, 10),
+            dataType: "json",
+            success: function(data) {
+                $("#price_with_condition").val(data);
+                $special_goods_fee = $("#special").val() == 'true' ? special_goods_fee : 0;
+                $insurance_fee = $("#insurance").val() == 'true' ? insurance_fee : 0;
+                $total_price = $special_goods_fee + $insurance_fee + ($range * data);
+                $("#total_price").val($total_price.toFixed());
             },
-            type: "POST",
-            url: "{{ route('rq_tk.quanhuyen') }}",
-            data: {
-                province: Tinh_ThanhPho,
-            },
-            success: function(res) {
-                $("#Uhuyen").empty()
-                $("#UPhuongXa").empty()
-                $("#Uhuyen").append(new Option('Vui lòng chọn', ''))
-                $.each(res, function(index, value) {
-                    $("#Uhuyen").append(new Option(value.name, value.id))
-                })
-            },
-            error: function(res) {
-                console.log(res)
+            error: function(xhr, status, error) {
+                alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
             }
         });
     }
 
-    function domesticShipping() {
-        var id_district = $("#Uhuyen").val();
-        var code = $("#check_code").val();
-        var id_province = $("#Utinh").val();
-        var height = $("#height").val();
-        var width = $("#width").val();
-        var long = $("#long").val();
-        var wei = $("#wei").val();
-        var price = $("#price2").val();
-        var service = $("#service").val();
-        var priceGHTK = $("#priceGHTK").val();
-        var methodGHTK = $("#methodGHTK").val();
-        var provinceText = $("#Utinh option:selected").text();
-        var districtText = $("#Uhuyen option:selected").text()
-        var transport = $("#transport").val();
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            type: "POST",
-            url: "{{ route('rq_tk.getApiVNP') }}",
-            data: {
-                id_district: id_district,
-                id_province: id_province,
-                code: code,
-                height: height,
-                width: width,
-                long: long,
-                wei: wei,
-                price: price,
-                service: service,
-                priceGHTK: priceGHTK,
-                methodGHTK: methodGHTK,
-                provinceText: provinceText,
-                districtText: districtText,
-                transport: transport
-            },
-            success: function(respone) {
-                if (respone.type.type == "BD") {
-                    $("#code_fee").text(respone.CuocCOD)
-                    $("#vat").text(respone.TongCuocSauVAT)
-                    $("#money").text(respone.SoTienCodThuNoiNguoiNhan)
-                }
-                if (respone.type.type == "GHTK") {
-                    $("#moneyGHTK").text(respone.fee.fee)
+    function minWeightToFeeWithShipmentMethod($weight, $shipment_method) {
+        const min_weight_shipment_method = [];
+        min_weight_shipment_method['air'] = 1;
+        min_weight_shipment_method['sea'] = 10;
 
-                }
+        if ($weight > 0 && $weight < min_weight_shipment_method[$shipment_method]) {
+            $weight = min_weight_shipment_method[$shipment_method];
+        }
 
-            },
-            error: function(respone) {
-                console.log(respone)
-            }
-        })
+        return $weight;
     }
-
-    function changeStyle() {
-        // domesticShipping();
-
-        if ($("#service").val() == "BD") {
-            $("#componentService").css("display", "block")
-            $("#componentServiceViettel").css("display", "none")
-            $("#componentServiceGHTK").css("display", "none")
-        }
-        if ($("#service").val() == "VT") {
-            $("#componentServiceViettel").css("display", "block")
-            $("#componentService").css("display", "none")
-            $("#componentServiceGHTK").css("display", "none")
-        }
-        if ($("#service").val() == "GHTK") {
-            $("#componentServiceGHTK").css("display", "block")
-            $("#componentService").css("display", "none")
-            $("#componentServiceViettel").css("display", "none")
-        }
-    }
-
 </script>
 </body>
 
