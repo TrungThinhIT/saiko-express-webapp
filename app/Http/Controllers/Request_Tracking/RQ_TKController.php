@@ -23,8 +23,7 @@ class RQ_TKController extends Controller
         $provinces = Http::withHeaders($header)->get(self::$notification_host . '/api/provinces', $param);
 
         $data = collect(json_decode($provinces->body()));
-        $config = \Config::get('my.config.file.value');
-        return view('rq-tracking.price', compact('config'));
+        return view('rq-tracking.price', compact('data'));
     }
     public function quote(Request $request)
     {
