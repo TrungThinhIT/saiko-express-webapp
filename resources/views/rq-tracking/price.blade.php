@@ -168,6 +168,7 @@
     var warehouse_host = "<?php echo (env('SERVICE_WAREHOUSE_HOST')) ?>";
     var special_goods_fee = 0;
     var insurance_fee = 0;
+    var volumetric_weight = 0;
     $(".div-special").hide();
     $(".div-insurance").hide();
 
@@ -193,13 +194,13 @@
         $("#special_declaration").keyup(function($e) {
             $price = $("#special_declaration").val() * 0.02;
             special_goods_fee = $price;
-            $("#special_goods_fee").val($price.toFixed());
+            $("#special_goods_fee").val($price.toFixed(2));
         });
 
         $("#insurance_declaration").keyup(function($e) {
             $price = $("#insurance_declaration").val() * 0.003;
             insurance_fee = $price;
-            $("#insurance_fee").val($price.toFixed());
+            $("#insurance_fee").val($price.toFixed(2));
         });
 
         $("#shipment_method").change(function() {
@@ -226,14 +227,14 @@
         $shipment_method = $("#shipment_method").val();
 
         $volumetric_weight = ($height * $width * $length / ($shipment_method == 'air' ? 6000 : 3500));
-        $("#volumetric_weight").val($volumetric_weight.toFixed());
+        $("#volumetric_weight").val($volumetric_weight.toFixed(2));
+        volumetric_weight = $volumetric_weight;
     }
 
     function calculatePriceWithConditions() {
         $shipment_method = $("#shipment_method").val();
         $weight = $("#weight").val();
-        $volumetric_weight = $("#volumetric_weight").val();
-        $range = $weight >= $volumetric_weight ? $weight : $volumetric_weight;
+        $range = $weight >= volumetric_weight ? $weight : volumetric_weight;
         $range = minWeightToFeeWithShipmentMethod($range, $shipment_method);
 
         $.ajax({
@@ -245,7 +246,7 @@
                 $special_goods_fee = $("#special").val() == 'true' ? special_goods_fee : 0;
                 $insurance_fee = $("#insurance").val() == 'true' ? insurance_fee : 0;
                 $total_price = $special_goods_fee + $insurance_fee + ($range * data);
-                $("#total_price").val($total_price.toFixed());
+                $("#total_price").val($total_price.toFixed(2));
             },
             error: function(xhr, status, error) {
                 alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
