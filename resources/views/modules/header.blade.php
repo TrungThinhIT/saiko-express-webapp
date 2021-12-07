@@ -280,7 +280,7 @@
                                     <li><a href="javascript:;">Request &
                                             Tracking</a>
                                         <ul class="sub-menu">
-                                            <li><a href="{{ route('rq_tk.price') }}">Báo giá chi tiết</a></li>
+                                            <li><a href="{{ route('rq_tk.price') }}">Báo giá dự kiến</a></li>
                                             <li><a href="{{ route('rq_tk.quote') }}">Thông tin kiện hàng</a></li>
                                             <li><a href="{{ route('rq_tk.shipment') }}">Theo
                                                     dõi kiện hàng</a></li>

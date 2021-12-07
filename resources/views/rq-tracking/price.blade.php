@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="page_title">
-                    <h2>BÁO GIÁ CHI TIẾT</h2>
+                    <h2>BÁO GIÁ DỰ KIẾN</h2>
                 </div>
             </div>
 
@@ -61,11 +61,11 @@
                 <div class="row div-special">
                     <div class="form-group col-md-6">
                         <label for="weight">Tổng giá trị hàng hoá (GTHH) đặc biệt là (VNĐ)</label>
-                        <input type="number" style="text-align: right;" class="form-control" value='0' id="special_declaration">
+                        <input type="text" style="text-align: right;" class="form-control" value='0' id="special_declaration">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="length">Phí hàng hoá đặc biệt là (VNĐ)</label>
-                        <input type="number" style="text-align: right;" class="form-control" readonly value='0' id="special_goods_fee">
+                        <input type="text" style="text-align: right;" class="form-control" readonly value='0' id="special_goods_fee">
                     </div>
                     <p class="text-justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (Lưu ý phí hàng hoá đặc biệt là phụ phí bắt buộc để thông quan và tính phí 2% GTHH.)</p>
                 </div>
@@ -78,12 +78,12 @@
 
                 <div class="row div-insurance">
                     <div class="form-group col-md-6">
-                        <label for="weight">Giá trị bảo hiểm là (VNĐ)</label>
-                        <input type="number" style="text-align: right;" class="form-control" value='0' id="insurance_declaration">
+                        <label for="weight">Giá trị kiện hàng là (VNĐ)</label>
+                        <input type="text" style="text-align: right;" class="form-control" value='0' id="insurance_declaration">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="length">Phí hàng hoá đặc biệt là (VNĐ)</label>
-                        <input type="number" style="text-align: right;" class="form-control" readonly value='0' id="insurance_fee">
+                        <input type="text" style="text-align: right;" class="form-control" readonly value='0' id="insurance_fee">
                     </div>
                 </div>
 
@@ -104,23 +104,24 @@
 
                         <p class="text-justify" style="font-size: 14px;">&#9658; Với hàng bay: Khối lượng thể tích = (L * W * H) / 6000.</p>
                         <p class="text-justify" style="font-size: 14px;">&#9658; Với hàng biển: Khối lượng thể tích = (L * W * H) / 3500.</p>
+                        <p class="text-justify" style="font-size: 14px;">&#9658; So sánh giữa 2 khối lượng và khối lượng thể tích, khối lượng nào lớn hơn thì đó là khối lượng tính phí. Do hàng hóa chiếm nhiều diện tích trong khoang chứa vận chuyển.</p>
                     </div>
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="weight">Khối lượng (Kg)</label>
-                            <input type="number" style="text-align: right;" class="form-control" value='0' id="weight">
+                            <input type="text" style="text-align: right;" class="form-control" value='0' id="weight">
                         </div>
                         <div class="form-group">
                             <label for="length">Chiều dài (Cm)</label>
-                            <input type="number" style="text-align: right;" class="form-control" value='0' id="length">
+                            <input type="text" style="text-align: right;" class="form-control" value='0' id="length">
                         </div>
                         <div class="form-group">
                             <label for="width">Chiều rộng (Cm)</label>
-                            <input type="number" style="text-align: right;" class="form-control" value='0' id="width">
+                            <input type="text" style="text-align: right;" class="form-control" value='0' id="width">
                         </div>
                         <div class="form-group">
                             <label for="height">Chiều cao (Cm)</label>
-                            <input type="number" style="text-align: right;" class="form-control" value='0' id="height">
+                            <input type="text" style="text-align: right;" class="form-control" value='0' id="height">
                         </div>
 
                         <div class="input-group">
@@ -157,8 +158,8 @@
                     </div>
                 </div>
             </div>
-            <br/>
-            <p class="text-justify" style="font-size: 14px;">&#9658; Với hàng bay: số kg tối thiểu là 1. Với hàng biển: số kg tối thiểu là 10.</p>
+            <br />
+            <p class="text-justify" style="font-size: 14px;">&#9658; Khối lượng tính phí tối thiểu của kiện hàng đi bay là 1kg và đi biển là 10kg.</p>
             <br />
         </div>
 </section>
@@ -192,15 +193,17 @@
         });
 
         $("#special_declaration").keyup(function($e) {
-            $price = $("#special_declaration").val() * 0.02;
+            $price = cleanPrice($("#special_declaration").val()) * 0.02;
             special_goods_fee = $price;
-            $("#special_goods_fee").val($price.toFixed(2));
+            $("#special_goods_fee").val(formatPrice($price.toFixed()));
+            autoFormatNumber('#special_declaration');
         });
 
         $("#insurance_declaration").keyup(function($e) {
-            $price = $("#insurance_declaration").val() * 0.003;
+            $price = cleanPrice($("#insurance_declaration").val()) * 0.03;
             insurance_fee = $price;
-            $("#insurance_fee").val($price.toFixed(2));
+            $("#insurance_fee").val(formatPrice($price.toFixed()));
+            autoFormatNumber('#insurance_declaration')
         });
 
         $("#shipment_method").change(function() {
@@ -218,22 +221,29 @@
         $("#length").keyup(function() {
             calculateVolumetricWeight();
         });
+
+        $("#weight").change(function() {
+            autoFormatNumber('#weight');
+        });
     });
 
     function calculateVolumetricWeight() {
-        $height = $("#height").val();
-        $width = $("#width").val();
-        $length = $("#length").val();
+        $height = cleanPrice($("#height").val());
+        autoFormatNumber('#height');
+        $width = cleanPrice($("#width").val());
+        autoFormatNumber('#width');
+        $length = cleanPrice($("#length").val());
+        autoFormatNumber('#length');
         $shipment_method = $("#shipment_method").val();
 
         $volumetric_weight = ($height * $width * $length / ($shipment_method == 'air' ? 6000 : 3500));
-        $("#volumetric_weight").val($volumetric_weight.toFixed(2));
+        $("#volumetric_weight").val(formatPrice($volumetric_weight.toFixed()));
         volumetric_weight = $volumetric_weight;
     }
 
     function calculatePriceWithConditions() {
         $shipment_method = $("#shipment_method").val();
-        $weight = $("#weight").val();
+        $weight = cleanPrice($("#weight").val());
         $range = $weight >= volumetric_weight ? $weight : volumetric_weight;
         $range = minWeightToFeeWithShipmentMethod($range, $shipment_method);
 
@@ -242,11 +252,11 @@
             url: warehouse_host + "/api/amount-with-conditions?conditions[type]=shipping-fee&conditions[shipment-method]=" + $shipment_method + "&conditions[from]=tochigi-jp&conditions[to]=vn-hn&range=" + $range + "&timeline=" + new Date().toISOString().slice(0, 10),
             dataType: "json",
             success: function(data) {
-                $("#price_with_condition").val(data);
+                $("#price_with_condition").val(formatPrice(data.toFixed()));
                 $special_goods_fee = $("#special").val() == 'true' ? special_goods_fee : 0;
                 $insurance_fee = $("#insurance").val() == 'true' ? insurance_fee : 0;
                 $total_price = $special_goods_fee + $insurance_fee + ($range * data);
-                $("#total_price").val($total_price.toFixed(2));
+                $("#total_price").val(formatPrice($total_price.toFixed()));
             },
             error: function(xhr, status, error) {
                 alert("Result: " + status + " " + error + " " + xhr.status + " " + xhr.statusText)
@@ -264,6 +274,22 @@
         }
 
         return $weight;
+    }
+
+    function autoFormatNumber(id) {
+        $(id).on('change click keyup input paste', (function(event) {
+            $(this).val(function(index, value) {
+                return formatPrice(value);
+            });
+        }));
+    }
+
+    function formatPrice(price) {
+        return price.replace(/(?!\.)\D/g, "").replace(/(?<=\..*)\./g, "").replace(/(?<=\.\d\d).*/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function cleanPrice(price) {
+        return price.replace(/,/, "").replace(/(?!\.)\D/g, "").replace(/(?<=\..*)\./g, "").replace(/(?<=\.\d\d).*/g, "");
     }
 </script>
 </body>
