@@ -302,7 +302,6 @@
                                     <select id="utypeadd" name="hinhthuc" onchange="onChange()">
                                         <option value="blank" id="first_option">Địa chỉ cụ thể</option>
                                         <option value="vp-ba-dinh">Nhận tại Văn phòng Ba Đình, Hà Nội </option>
-                                        <option value="vp-soc-son">Nhận tại Văn phòng Sóc Sơn, Hà Nội </option>
                                     </select>
                                 </div>
                                 <div id="type-ship" class="d-block">
