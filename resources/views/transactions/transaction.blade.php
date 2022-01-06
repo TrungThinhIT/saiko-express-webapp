@@ -147,7 +147,7 @@
                 size: 2,
                 prev: "&lt;",
                 next: "&gt;",
-                click: function(e, current) {
+                click: async function(e, current) {
                     var page = $(this)[0].current;
                     var type_transaction = $("#type_transaction").val();
                     var type_money = $("#type_money").val();
@@ -159,18 +159,19 @@
                 $("#type_money").val('all').change()
             })
 
-            $("#filter").click(function() {
+            $("#filter").click(async function() {
                 var type_transaction = $("#type_transaction").val();
                 var type_money = $("#type_money").val();
-                findByField(type_transaction, type_money)
+                await findByField(type_transaction, type_money);
             })
         })
 
         //done
-        function findByField(type_transaction, type_money) {
+        async function findByField(type_transaction, type_money) {
             $("#fix-paginate-transaction").pagination({
-                ajax: function(options, refresh, $target) {
+                ajax: async function(options, refresh, $target) {
                     var page = $(this)[0].current;
+                    await verifyToken();
                     $.ajax({
                         type: "GET",
                         url: "{{ route('transaction.index') }}",
@@ -179,10 +180,11 @@
                             transaction: true,
                             type_transaction: type_transaction,
                             type_money: type_money,
+                            user_id: localStorage.getItem('user_id'),
+                            idToken: localStorage.getItem('firebase_token'),
                         },
                         success: function(data) {
                             if (data.code == 401) {
-                                removeToken()
                                 swal({
                                     title: "Vui lòng đăng nhập lại",
                                     type: "warning",
@@ -239,9 +241,10 @@
         }
 
         //done
-        function fetch_data_transaction(page) {
+        async function fetch_data_transaction(page) {
             var type_transaction = $("#type_transaction").val();
             var type_money = $("#type_money").val();
+            await verifyToken();
             $.ajax({
                 type: "GET",
                 url: "{{ route('transaction.index') }}",
@@ -250,10 +253,11 @@
                     page_transaction: page,
                     type_transaction: type_transaction,
                     type_money: type_money,
+                    user_id: localStorage.getItem('user_id'),
+                    idToken: localStorage.getItem('firebase_token'),
                 },
                 success: function(data) {
                     if (data.code == 401) {
-                        removeToken()
                         location.reload()
                     } else {
                         $("#history-transactions").empty()

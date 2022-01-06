@@ -123,12 +123,10 @@
         .display-result {
             display: none;
         }
-
     </style>
 
     <!--Modal: modalConfirmDelete-->
-    <div class="modal" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md modal-notify modal-danger" role="document">
             <!--Content-->
             <div class="modal-content text-center">
@@ -149,8 +147,7 @@
             <!--/.Content-->
         </div>
     </div>
-    <div class="modal" id="modalReload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal" id="modalReload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md modal-notify modal-danger" role="document">
             <!--Content-->
             <div class="modal-content text-center">
@@ -183,9 +180,9 @@
                     <!-- login box-->
                     <div class="panel panel-info">
                         @if (session('login'))
-                            <div class="alert alert-danger">
-                                <span>{{ session('login') }}</span>
-                            </div>
+                        <div class="alert alert-danger">
+                            <span>{{ session('login') }}</span>
+                        </div>
                         @endif
                         <div class="panel-heading">
                             <div class="panel-title">Đăng nhập</div>
@@ -198,32 +195,27 @@
 
                                 <div style="margin-bottom: 25px" class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input id="login-email" type="email" class="form-control" name="email" value=""
-                                        placeholder="Vui lòng nhập email">
+                                    <input id="login-email" type="email" required class="form-control" name="email" value="" placeholder="Vui lòng nhập email">
                                 </div>
 
                                 <div style="margin-bottom: 25px" class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                    <input id="login-password" type="password" class="form-control" name="password"
-                                        placeholder="password">
+                                    <input id="login-password" type="password" required class="form-control" name="password" placeholder="password">
                                 </div>
 
                                 <div style="margin-top:10px" class="form-group">
                                     <div class="col-md-12 ">
                                         <div class="row fix-max-with">
-                                            <input id="btn-login" type="submit" class="form-control btn btn-success"
-                                                value="Đăng nhập" />
+                                            <input id="btn-login" type="submit" class="form-control btn btn-success" value="Đăng nhập" />
                                         </div>
                                         <div class="row fix-max-with">
-                                            <button class="btn btn-danger form-control" onclick="googleSignInPopup()"
-                                                type="button">
+                                            <button class="btn btn-danger form-control" onclick="googleSignInPopup()" type="button">
                                                 <i class="fa fa-google-plus" aria-hidden="true"></i>
                                                 <span>| Đăng nhập bằng Google</span>
                                             </button>
                                         </div>
                                         <div class="row fix-max-with">
-                                            <button class="btn btn-primary form-control" onclick="facebookSiginUp()"
-                                                type="button">
+                                            <button class="btn btn-primary form-control" onclick="facebookSiginUp()" type="button">
                                                 <i class="fa fa-facebook-official" aria-hidden="true"></i>
                                                 <span>| Đăng nhập bằng Facebook</span>
                                             </button>
@@ -233,17 +225,12 @@
 
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
-                                        <div id="border-color-regis"
-                                            style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
+                                        <div id="border-color-regis" style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
                                             Chưa có tài khoản?
-                                            <a href="javascript:"
-                                                onClick="$('#loginbox').hide(); $('#signupbox').show();$('#sendEmailGetPassword').hide()"
-                                                id="regis">
+                                            <a href="javascript:" onClick="$('#loginbox').hide(); $('#signupbox').show();$('#sendEmailGetPassword').hide()" id="regis">
                                                 Đăng ký
                                             </a>
-                                            <div><a style="color:#fca901 !important;font-size:95%" href="javascript:"
-                                                    id='forgot-password'
-                                                    onclick="$('#loginbox').hide(); $('#signupbox').hide();$('#sendEmailGetPassword').show()">Lấy
+                                            <div><a style="color:#fca901 !important;font-size:95%" href="javascript:" id='forgot-password' onclick="$('#loginbox').hide(); $('#signupbox').hide();$('#sendEmailGetPassword').show()">Lấy
                                                     lại mật khẩu</a></div>
                                         </div>
                                     </div>
@@ -253,44 +240,38 @@
                     </div>
                 </div>
                 <!-- signup box-->
-                <div id="signupbox" style="display:none; margin-top:50px"
-                    class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+                <div id="signupbox" style="display:none; margin-top:50px" class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             <div class="panel-title">Đăng ký</div>
                         </div>
                         <div class="panel-body">
                             <!-- signup form -->
-                            <form id="signupform" method="post" action="{{ route('auth.register') }}"
-                                class="form-horizontal" role="form">
+                            <form id="signupform" method="post" action="{{ route('auth.register') }}" class="form-horizontal" role="form">
                                 @csrf
                                 <div class="form-group">
                                     <label for="email" class="col-md-3 control-label">Email</label>
                                     <div class="col-md-9">
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            placeholder="Nhập email" value=''>
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email" value=''>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="password" class="col-md-3 control-label">Password</label>
                                     <div class="col-md-9">
-                                        <input type="password" required id="password" class="form-control"
-                                            name="password" placeholder="Nhập mật khẩu" value=''>
+                                        <input type="password" required id="password" class="form-control" name="password" placeholder="Nhập mật khẩu" value=''>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="col-md-3 control-label">Password Confirm</label>
                                     <div class="col-md-9">
-                                        <input type="password" required id="repassword" class="form-control"
-                                            name="repassword" placeholder="Nhập lại mật khẩu" value=''>
+                                        <input type="password" required id="repassword" class="form-control" name="repassword" placeholder="Nhập lại mật khẩu" value=''>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
-                                        <button id="btn-signup" type="submit" name="reg_user"
-                                            class="btn btn-success "><i class="icon-hand-right"></i> &nbsp Đăng
+                                        <button id="btn-signup" type="submit" name="reg_user" class="btn btn-success "><i class="icon-hand-right"></i> &nbsp Đăng
                                             ký</button>
 
                                     </div>
@@ -298,14 +279,10 @@
                                 <hr>
                                 <div class="form-group">
                                     <div class="col-md-12 text-center">
-                                        <span>Đã có tài khoản? <a style="color:#fca901 !important;font-size:95%"
-                                                href="javascript:"
-                                                onclick="$('#signupbox').hide(); $('#loginbox').show();$('#sendEmailGetPassword').hide()">Đăng
+                                        <span>Đã có tài khoản? <a style="color:#fca901 !important;font-size:95%" href="javascript:" onclick="$('#signupbox').hide(); $('#loginbox').show();$('#sendEmailGetPassword').hide()">Đăng
                                                 nhập</a></span>
                                         <div>
-                                            <a style="color:#fca901 !important;font-size:95%" href="javascript:"
-                                                id='forgot-password'
-                                                onclick="$('#loginbox').hide(); $('#signupbox').hide();$('#sendEmailGetPassword').show()">Lấy
+                                            <a style="color:#fca901 !important;font-size:95%" href="javascript:" id='forgot-password' onclick="$('#loginbox').hide(); $('#signupbox').hide();$('#sendEmailGetPassword').show()">Lấy
                                                 lại mật khẩu</a>
                                         </div>
                                     </div>
@@ -316,26 +293,22 @@
                     </div>
                 </div>
                 {{-- get password --}}
-                <div id="sendEmailGetPassword" style="display:none; margin-top:50px;margin-bottom: 100px"
-                    class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
+                <div id="sendEmailGetPassword" style="display:none; margin-top:50px;margin-bottom: 100px" class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
                     <div class="panel panel-info">
                         <div class="panel-heading">
                             <div class="panel-title">Lấy lại mật khẩu</div>
                         </div>
                         <div class="panel-body">
                             <!-- send link  form -->
-                            <form id="getPassword" method="post" action="{{ route('auth.sendLinkResetPassword') }}"
-                                class="form-horizontal" role="form">
+                            <form id="getPassword" method="post" action="{{ route('auth.sendLinkResetPassword') }}" class="form-horizontal" role="form">
                                 @csrf
 
                                 <div class="form-group">
                                     <div class="col-md-9 d-flex">
-                                        <input type="email" class="form-control" id="id-send-link-password" name="id"
-                                            placeholder="Vui lòng nhập email" value=''>
+                                        <input type="email" class="form-control" id="id-send-link-password" name="id" placeholder="Vui lòng nhập email" value=''>
                                     </div>
                                     <div class="col-md-3">
-                                        <button id="btn-link-password" type="submit" name="sned-link-password"
-                                            class="btn btn-success"><i class="icon-hand-right"></i> &nbsp
+                                        <button id="btn-link-password" type="submit" name="sned-link-password" class="btn btn-success"><i class="icon-hand-right"></i> &nbsp
                                             Gửi</button>
                                     </div>
                                 </div>
@@ -349,15 +322,11 @@
                                 <hr>
                                 <div class="form-group text-center">
                                     <div class="co-md-12" style="font-size: 85%">
-                                        <span>Đã có tài khoản? <a style="color:#fca901 !important;font-size:90%"
-                                                href="javascript:"
-                                                onclick="$('#signupbox').hide(); $('#loginbox').show();$('#sendEmailGetPassword').hide()">Đăng
+                                        <span>Đã có tài khoản? <a style="color:#fca901 !important;font-size:90%" href="javascript:" onclick="$('#signupbox').hide(); $('#loginbox').show();$('#sendEmailGetPassword').hide()">Đăng
                                                 nhập</a>
                                         </span>
                                         <br>
-                                        <span>Chưa có tài khoản? <a style="color:#fca901 !important;font-size:90%"
-                                                href="javascript:"
-                                                onclick="$('#signupbox').show(); $('#loginbox').hide();$('#sendEmailGetPassword').hide()">Đăng
+                                        <span>Chưa có tài khoản? <a style="color:#fca901 !important;font-size:90%" href="javascript:" onclick="$('#signupbox').show(); $('#loginbox').hide();$('#sendEmailGetPassword').hide()">Đăng
                                                 ký</a>
                                         </span>
                                     </div>
@@ -376,34 +345,26 @@
 </body>
 <script>
     function validateEmail(email) {
-        const re =/^([a-z0-9]+)(\.[a-z0-9]+)*@([a-z0-9]+\.)+[a-z]{2,6}$/i;
+        const re = /^([a-z0-9]+)(\.[a-z0-9]+)*@([a-z0-9]+\.)+[a-z]{2,6}$/i;
         return re.test(email);
     }
     //login
     function signInWithEmailPassword() {
-        firebase.auth().signOut().then(() => {
-            // Sign-out successful.
-
-        }).catch((error) => {
-            // An error happened.
-        });
         var email = $("#login-email").val();;
         var password = $("#login-password").val();
         // [START auth_signin_password]
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 let access_token = userCredential.user.toJSON().stsTokenManager.accessToken;
-                // Send token to your backend via HTTPS
-                setToken(access_token)
-                let idToken = access_token;
                 $.ajax({
                     type: "POST",
                     url: "{{ route('auth.login') }}",
                     data: {
-                        idToken: idToken,
+                        idToken: access_token,
                     },
                     success: function(respone) {
                         if (respone.code == 200) {
+                            loginLocal(access_token, respone.data.id);
                             window.location.href = "{{ route('orders.create') }}";
                         } else {
                             $("#alert-errors").append(
@@ -440,7 +401,7 @@
         var email = $("#email").val();
         var password = $("#password").val();
         var repassword = $("#repassword").val();
-        if(!validateEmail(email)){
+        if (!validateEmail(email)) {
             swal({
                 title: "Không đúng định dạng email",
                 type: "warning",
@@ -471,7 +432,6 @@
             .then((userCredential) => {
                 let user = userCredential.user
                 let idToken = user.toJSON().stsTokenManager.accessToken;
-
                 firebase.auth().currentUser.sendEmailVerification()
                     .then(() => {
                         swal({
@@ -493,8 +453,8 @@
                                 },
                                 success: function(respone) {
                                     if (respone.code == 200) {
-                                        window.location.href =
-                                            "{{ route('orders.create') }}";
+                                        loginLocal(idToken, respone.data.id);
+                                        window.location.href = "{{ route('orders.create') }}";
                                     } else {
                                         $("#alert-errors").empty()
                                         $("#alert-errors").append(
@@ -595,17 +555,15 @@
                             swal("warning", error.message)
                         });
                 }
-                // Send token to your backend via HTTPS
-                setToken(access_token)
-                let idToken = access_token;
                 $.ajax({
                     type: "POST",
                     url: "{{ route('auth.login') }}",
                     data: {
-                        idToken: idToken,
+                        idToken: access_token,
                     },
                     success: function(respone) {
                         if (respone.code == 200) {
+                            loginLocal(access_token, respone.data.id);
                             window.location.href = "{{ route('orders.create') }}";
                         } else {
                             $("#alert-errors").empty()
@@ -645,20 +603,16 @@
 
                 // The signed-in user info.
                 var user = result.user;
-                var access_token = result.user.toJSON().stsTokenManager.accessToken
-
-                // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-                // Send token to your backend via HTTPS
-                setToken(access_token)
-                let idToken = access_token;
+                var access_token = result.user.toJSON().stsTokenManager.accessToken;
                 $.ajax({
                     type: "POST",
                     url: "{{ route('auth.login') }}",
                     data: {
-                        idToken: idToken,
+                        idToken: access_token,
                     },
                     success: function(respone) {
                         if (respone.code == 200) {
+                            loginLocal(access_token, respone.data.id);
                             window.location.href = "{{ route('orders.create') }}";
                         } else {
                             $("#alert-errors").empty()
@@ -740,7 +694,6 @@
             sendPasswordReset()
         })
     })
-
 </script>
 
 </html>

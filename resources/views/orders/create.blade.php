@@ -519,7 +519,7 @@
             })
 
             //done
-            $('#send_infor_tracking-address-book').click(function() {
+            $('#send_infor_tracking-address-book').click(async function() {
                 var tracking = $('#utracking').val();
                 var trip = $('input[name="fh_radio"]:checked', '#trip').val();
                 var shipment_id = $("#choosed-address .remove-bg").data('id');
@@ -573,7 +573,8 @@
                     return
                 }
                 $('#modal_qoute').hide()
-                const idToken = getToken();
+                await verifyToken();
+                var idToken = localStorage.getItem('firebase_token');
                 $.ajax({
                     type: 'POST',
                     url: "{{ route('orders.store') }}",
@@ -686,8 +687,9 @@
                 var check = $('#list-address .bg-white')
                 if (!check.length) {
                     $("#paginate-address-book").pagination({
-                        ajax: function(options, refresh, $target) {
-                            const idToken = getToken();
+                        ajax: async function(options, refresh, $target) {
+                            await verifyToken();
+                            var idToken = localStorage.getItem('firebase_token');
                             var page = $(this)[0].current;
                             $.ajax({
                                 type: "GET",
@@ -876,11 +878,10 @@
                 $("#loader").hide();
             });
             //done
-            $("#send_infor_tracking").click(function() {
+            $("#send_infor_tracking").click(async function() {
                 var check_address = $("#choosed-address .remove-bg").data('id');
 
                 if (check_address == undefined) {
-                    const idToken = getToken();
                     var OptionAdd = $('#utypeadd').val();
                     var AddRev = $("#UaddNumber").val();
                     if (OptionAdd.length > 5) {
@@ -960,6 +961,8 @@
                     $("#modal_qoute").hide()
                     $("#table_showCreatedTrackings").empty()
 
+                    await verifyToken();
+                    var idToken = localStorage.getItem('firebase_token');
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1265,8 +1268,9 @@
             }
         }
 
-        function fetch_data(page) {
-            const idToken = getToken();
+        async function fetch_data(page) {
+            await verifyToken();
+            var idToken = localStorage.getItem('firebase_token');
             $.ajax({
                 type: "GET",
                 url: "{{ route('shipment.index') }}",

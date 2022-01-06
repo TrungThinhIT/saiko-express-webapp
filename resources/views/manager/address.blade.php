@@ -124,11 +124,11 @@
                     <form class="form-inline">
                         <span id="header_address">Thông tin người gửi</span>
                         <div class="form-group mx-sm-3 mb-2">
-                            <label for="name" class="">Tên:	&nbsp;</label>
+                            <label for="name" class="">Tên: &nbsp;</label>
                             <input type="text" required class="form-control" id="name" placeholder="Tên" value="{{$data['user']['name'] ?? null}}">
                         </div>
                         <div class="form-group mx-sm-3 mb-2">
-                            <label for="tel" class="">Số điện thoại:	&nbsp;</label>
+                            <label for="tel" class="">Số điện thoại: &nbsp;</label>
                             <input type="text" required class="form-control" id="tel" placeholder="Số điện thoại" value="{{$data['user']['tel'] ?? null}}">
                         </div>
                         <button type="button" class="custom-icon p-1" onclick="updateSenderInfo(this)">Cập nhật</button>
@@ -387,13 +387,16 @@
 
     })
 
-    function fetch_data(page) {
+    async function fetch_data(page) {
+        await verifyToken();
         $.ajax({
             type: "GET",
             url: "{{ route('shipment.index') }}",
             data: {
                 shipment: true,
-                page_shipment: page
+                page_shipment: page,
+                user_id: localStorage.getItem('user_id'),
+                idToken: localStorage.getItem('firebase_token'),
             },
             success: function(data) {
                 if (data.code == 401) {
@@ -458,7 +461,7 @@
         })
     }
     //created Address
-    function CreateAddress() {
+    async function CreateAddress() {
         var consignee = $("#consignee").val();
         var consignee_tel = $("#consignee-tel").val();
         var province = $("#province").val();
@@ -491,6 +494,7 @@
             alert('Vui lòng nhập số nhà tên đường')
             return;
         }
+        await verifyToken();
         $.ajax({
             type: "POST",
             url: "{{ route('shipment.store') }}",
@@ -500,6 +504,8 @@
                 tel: consignee_tel,
                 ward_id: ward,
                 address: address,
+                user_id: localStorage.getItem('user_id'),
+                idToken: localStorage.getItem('firebase_token'),
             },
             success: function(response) {
                 $("#alert-errors").empty()
@@ -570,6 +576,10 @@
                 $.ajax({
                     type: "DELETE",
                     url: "../shipment/" + id_shipment,
+                    data: {
+                        user_id: localStorage.getItem('user_id'),
+                        idToken: localStorage.getItem('firebase_token'),
+                    },
                     success: function(response) {
                         if (response.code == 401) {
                             swal({
@@ -599,15 +609,20 @@
     }
 
     //update ADdress
-    function updateAddress(obj) {
+    async function updateAddress(obj) {
         $(".empty-input-select").empty();
         $(".empty-input").val('');
         $("#modal-update-address").show()
         var id_shipment = $(obj).data('id');
         $("#btn-send-update-add").attr("data-id_address", id_shipment)
+        await verifyToken();
         $.ajax({
             type: "GET",
             url: "../shipment/" + id_shipment + "/edit",
+            data: {
+                user_id: localStorage.getItem('user_id'),
+                idToken: localStorage.getItem('firebase_token'),
+            },
             success: function(response) {
                 if (response.code == 401) {
                     swal({
@@ -660,7 +675,7 @@
         })
     }
     //send info update address
-    function sendUpdate(obj) {
+    async function sendUpdate(obj) {
         var id_shipment = $(obj).attr("data-id_address")
         var consignee = $("#consignee-update").val();
         var consignee_tel = $("#consignee-tel-update").val();
@@ -694,7 +709,7 @@
             alert('Vui lòng nhập số nhà tên đường')
             return;
         }
-
+        await verifyToken();
         $.ajax({
             type: "PUT",
             url: "../shipment/" + id_shipment,
@@ -704,6 +719,8 @@
                 tel: consignee_tel,
                 ward_id: ward,
                 address: address,
+                user_id: localStorage.getItem('user_id'),
+                idToken: localStorage.getItem('firebase_token'),
             },
             success: function(response) {
                 $("#alert-errors").empty()
@@ -753,7 +770,7 @@
         })
     }
 
-    function updateSenderInfo(obj) {
+    async function updateSenderInfo(obj) {
         var name = $("#name").val();
         var tel = $("#tel").val();
 
@@ -774,13 +791,15 @@
             alert('Số điện thoại không được quá 15 ký tự')
             return;
         }
-
+        await verifyToken();
         $.ajax({
             type: "PUT",
             url: "{{ route('auth.updateInfo') }}",
             data: {
                 name: name,
                 tel: tel,
+                user_id: localStorage.getItem('user_id'),
+                idToken: localStorage.getItem('firebase_token'),
             },
             success: function(response) {
                 swal({
@@ -792,8 +811,8 @@
                     confirmButtonText: "Exit",
                     closeOnConfirm: true
                 }).then(() => {
-                        window.location.reload()
-                    })
+                    redirectAddress();
+                })
             },
             error: function(response) {}
         })

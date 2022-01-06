@@ -19,6 +19,8 @@ class RQ_TKController extends Controller
         ];
         $param = [
             'search' => 'country_id:vn',
+            'orderBy' => 'name',
+            'sortedBy' => 'asc',
         ];
         $provinces = Http::withHeaders($header)->get(self::$notification_host . '/api/provinces', $param);
 
@@ -32,6 +34,8 @@ class RQ_TKController extends Controller
         ];
         $param = [
             'search' => 'country_id:vn',
+            'orderBy' => 'name',
+            'sortedBy' => 'asc',
         ];
         $provinces = Http::withHeaders($header)->get(self::$notification_host . '/api/provinces', $param);
 
@@ -52,6 +56,8 @@ class RQ_TKController extends Controller
         ];
         $param = [
             'search' => 'province_id:' . $request->province,
+            'orderBy' => 'name',
+            'sortedBy' => 'asc',
         ];
         $provinces = Http::withHeaders($header)->get(self::$notification_host . '/api/districts', $param);
 
@@ -65,6 +71,8 @@ class RQ_TKController extends Controller
         ];
         $param = [
             'search' => 'district_id:' . $request->district,
+            'orderBy' => 'name',
+            'sortedBy' => 'asc',
         ];
         $provinces = Http::withHeaders($header)->get(self::$notification_host . '/api/wards', $param);
 

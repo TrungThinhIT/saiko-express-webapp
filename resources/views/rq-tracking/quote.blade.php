@@ -609,27 +609,7 @@
         $(document).ajaxStop(function() {
             $("#loader").hide();
         });
-        // $("#uair").on("click",function(){
-        //     $("#uair").one("change",function(){
-        //         if($("#uair").prop('checked')){
-        //             $("#trip_sea").css('display','none')
-        //             $("#first_option").attr('selected')
-        //             // $("#utypeadd").val($("#utypeadd option:selected"))
-        //             $("#utypeadd").val("Nhận tại VP Sóc Sơn").change();
-        //         }
-        //     })
-        // })
-        // $("#usea").on("click",function(){
-        //     $("#usea").one("change",function(){
-        //         if($("#usea").prop('checked')){
-        //             $("#trip_sea").css('display','unset')
-        //             $("#first_option").attr('selected')
-        //             $("#utypeadd").val("Nhận tại VP Sóc Sơn").change();
-        //         }
-        //     })
-        // })
-        $("#send_infor_tracking").click(function() {
-            const id_session = "{{Session::has('idToken')}}";
+        $("#send_infor_tracking").click(async function() {
             let OptionAdd = $('#utypeadd').val();
             let AddRev = $("#UaddNumber").val();
             if (OptionAdd.length > 5) {
@@ -706,331 +686,43 @@
             $("#modal_qoute").hide()
             $("#table_showCreatedTrackings").empty()
 
-            if (id_session) {
-                if (checkToken()) {
-                    let idToken = getToken();
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type: 'POST',
-                        url: "{{ route('rq_tk.store') }}",
-                        data: {
-                            idToken: idToken,
-                            special_price: special_price,
-                            insurance: insurance_price,
-                            utypeadd: utypeadd,
-                            TrackingSaiko: Tracking,
-                            Phone: Phone,
-                            Name_Send: Name_Send,
-                            Number_Send: Number_Send,
-                            Name_Rev: Name_Rev,
-                            Add: AddRev,
-                            Type: Type,
-                            Note: Note,
-                            Reparking: Reparking,
-                            ShipAir: ShipAir,
-                            ShipSea: ShipSea,
-                            Location: '203.205.41.135',
-                            Code_Add: Code_Add,
-                            province: province,
-                            district: district,
-                            ward: ward,
-                            checkAir: checkAir,
-                            checkSea: checkSea,
-                            merge_box: merge_box,
-                        },
-                        success: function(response) {
-                            $("#table_showResultCreatedTrackings").empty()
-                            $.each(response, function(index, value) {
-                                if (value.code == 401) {
-                                    refreshToken(value.code);
-                                    swal({
-                                        title: "Mã xác thực hết hạn vui lòng tải lại trang",
-                                        type: "warning",
-                                        icon: "warning",
-                                        showCancelButton: false,
-                                        confirmButtonColor: "#fca901",
-                                        confirmButtonText: "Exit",
-                                        closeOnConfirm: true
-                                    }).then((check) => {
-                                        window.location.reload()
-                                    })
-                                }
-                                if (value.code == 201) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:green;border:none !important;text-align:center'>" +
-                                        value
-                                        .message + " " +
-                                        "<i class='fa fa-check' style='color:green'></i>" +
-                                        "</td>" +
-                                        "</tr>"
-                                    )
-                                    $('#message').html('');
-                                    $('#exitForm').hide();
-                                    $('#exitSuccess').show();
-                                    $('#show_result').show();
-                                }
-                                if (value.code == 405) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:#fca901;border:none !important;text-align:center'>" +
-                                        value
-                                        .message + " " +
-                                        "<span><i class='fa fa-warning'></i></span>" +
-                                        "</td>" + "</tr>"
-                                    )
-                                    $('#message').html('');
-                                    $('#exitForm').hide();
-                                    $('#exitSuccess').show();
-                                    $('#show_result').show();
-                                }
-                                if (value.code == 422) {
-                                    $("#table_showResultCreatedTrackings").append(
-                                        "<tr style='border:none'>" +
-                                        "<td style='color:red;border:none !important;text-align:center'>" +
-                                        value
-                                        .message + " " +
-                                        "<span><i class='fa fa-times'></i></span>" +
-                                        "</td>" +
-                                        "</tr>"
-                                    )
-                                    $('#message').html('');
-                                    $('#exitForm').hide();
-                                    $('#exitSuccess').show();
-                                    $('#show_result').show();
-                                }
-                            })
-
-                        },
-                        error: function(res) {
-                            if (res.status == 419) {
-                                window.location.reload()
-                            } else {
-                                console.log(res)
-                            }
-                        }
-                    });
-                } else {
-                    firebase.auth().onAuthStateChanged((user) => {
-                        if (user) {
-                            firebase.auth().currentUser.getIdToken( /* forceRefresh */ true)
-                                .then(function(token_gg) {
-                                    setToken(token_gg)
-                                    let idToken = getToken();
-                                    $.ajax({
-                                        headers: {
-                                            'X-CSRF-TOKEN': $(
-                                                'meta[name="csrf-token"]').attr(
-                                                'content')
-                                        },
-                                        type: 'POST',
-                                        url: "{{ route('rq_tk.store') }}",
-                                        data: {
-                                            idToken: idToken,
-                                            special_price: special_price,
-                                            insurance: insurance_price,
-                                            utypeadd: utypeadd,
-                                            TrackingSaiko: Tracking,
-                                            Phone: Phone,
-                                            Name_Send: Name_Send,
-                                            Number_Send: Number_Send,
-                                            Name_Rev: Name_Rev,
-                                            Add: AddRev,
-                                            Type: Type,
-                                            Note: Note,
-                                            Reparking: Reparking,
-                                            ShipAir: ShipAir,
-                                            ShipSea: ShipSea,
-                                            Location: '203.205.41.135',
-                                            Code_Add: Code_Add,
-                                            province: province,
-                                            district: district,
-                                            ward: ward,
-                                            checkAir: checkAir,
-                                            checkSea: checkSea,
-                                            merge_box: merge_box,
-                                        },
-                                        success: function(response) {
-                                            $("#table_showResultCreatedTrackings")
-                                                .empty()
-                                            $.each(response, function(index,
-                                                value) {
-                                                if (value.code == 401) {
-                                                    refreshToken(value.code);
-                                                    swal({
-                                                        title: "Mã xác thực hết hạn vui lòng tải lại trang",
-                                                        type: "warning",
-                                                        icon: "warning",
-                                                        showCancelButton: false,
-                                                        confirmButtonColor: "#fca901",
-                                                        confirmButtonText: "Exit",
-                                                        closeOnConfirm: true
-                                                    }).then((check) => {
-                                                        window.location.reload()
-                                                    })
-                                                }
-                                                if (value.code == 201) {
-                                                    $("#table_showResultCreatedTrackings")
-                                                        .append(
-                                                            "<tr style='border:none'>" +
-                                                            "<td style='color:green;border:none !important;text-align:center'>" +
-                                                            value
-                                                            .message +
-                                                            " " +
-                                                            "<i class='fa fa-check' style='color:green'></i>" +
-                                                            "</td>" +
-                                                            "</tr>"
-                                                        )
-                                                    $('#message').html('');
-                                                    $('#exitForm').hide();
-                                                    $('#exitSuccess').show();
-                                                    $('#show_result').show();
-                                                }
-                                                if (value.code == 405) {
-                                                    $("#table_showResultCreatedTrackings")
-                                                        .append(
-                                                            "<tr style='border:none'>" +
-                                                            "<td style='color:#fca901;border:none !important;text-align:center'>" +
-                                                            value
-                                                            .message +
-                                                            " " +
-                                                            "<span><i class='fa fa-warning'></i></span>" +
-                                                            "</td>" +
-                                                            "</tr>"
-                                                        )
-                                                    $('#message').html('');
-                                                    $('#exitForm').hide();
-                                                    $('#exitSuccess').show();
-                                                    $('#show_result').show();
-                                                }
-                                                if (value.code == 422) {
-                                                    $("#table_showResultCreatedTrackings")
-                                                        .append(
-                                                            "<tr style='border:none'>" +
-                                                            "<td style='color:red;border:none !important;text-align:center'>" +
-                                                            value
-                                                            .message +
-                                                            " " +
-                                                            "<span><i class='fa fa-times'></i></span>" +
-                                                            "</td>" +
-                                                            "</tr>"
-                                                        )
-                                                    $('#message').html('');
-                                                    $('#exitForm').hide();
-                                                    $('#exitSuccess').show();
-                                                    $('#show_result').show();
-                                                }
-                                            })
-
-                                        },
-                                        error: function(res) {
-                                            if (res.status == 419) {
-                                                window.location.reload()
-                                            } else {
-                                                console.log(res)
-                                            }
-                                        }
-                                    });
-                                }).catch((error) => {
-                                    swal("warning", error.message)
-                                })
-                        }
-                    });
-                }
-            } else {
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $(
-                            'meta[name="csrf-token"]'
-                        ).attr('content')
-                    },
-                    type: 'POST',
-                    url: "{{ route('rq_tk.store') }}",
-                    data: {
-                        special_price: special_price,
-                        insurance: insurance_price,
-                        utypeadd: utypeadd,
-                        TrackingSaiko: Tracking,
-                        Phone: Phone,
-                        Name_Send: Name_Send,
-                        Number_Send: Number_Send,
-                        Name_Rev: Name_Rev,
-                        Add: AddRev,
-                        Type: Type,
-                        Note: Note,
-                        Reparking: Reparking,
-                        ShipAir: ShipAir,
-                        ShipSea: ShipSea,
-                        Location: '203.205.41.135',
-                        Code_Add: Code_Add,
-                        province: province,
-                        district: district,
-                        ward: ward,
-                        checkAir: checkAir,
-                        checkSea: checkSea,
-                        merge_box: merge_box,
-                    },
-                    success: function(response) {
-                        $("#table_showResultCreatedTrackings").empty()
-                        $.each(response, function(index, value) {
-                            if (value.code == 401) {
-                                refreshToken(value.code);
-                                swal({
-                                    title: "Mã xác thực hết hạn vui lòng tải lại trang",
-                                    type: "warning",
-                                    icon: "warning",
-                                    showCancelButton: false,
-                                    confirmButtonColor: "#fca901",
-                                    confirmButtonText: "Exit",
-                                    closeOnConfirm: true
-                                }).then((check) => {
-                                    window.location.reload()
-                                })
-                            }
-                            if (value.code == 201) {
-                                $("#table_showResultCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:green;border:none !important;text-align:center'>" +
-                                    value
-                                    .message +
-                                    " " +
-                                    "<i class='fa fa-check' style='color:green'></i>" +
-                                    "</td>" +
-                                    "</tr>"
-                                )
-                            }
-                            if (value.code == 405) {
-                                $("#table_showResultCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:#fca901;border:none !important;text-align:center'>" +
-                                    value.message +
-                                    " " +
-                                    "<span><i class='fa fa-warning'></i></span>" +
-                                    "</td>" +
-                                    "</tr>"
-                                )
-                            }
-                            if (value.code == 422) {
-                                $("#table_showResultCreatedTrackings").append(
-                                    "<tr style='border:none'>" +
-                                    "<td style='color:red;border:none !important;text-align:center'>" +
-                                    value.message +
-                                    " " +
-                                    "<span><i class='fa fa-times'></i></span>" +
-                                    "</td>" +
-                                    "</tr>"
-                                )
-                            }
-                        })
-                        $('#message').html('');
-                        $('#exitForm').hide();
-                        $('#exitSuccess').show();
-                        $('#show_result').show();
-                    },
-                    error: function(res) {
-                        if (res.status == 419) {
+            await verifyToken();
+            let idToken = localStorage.getItem('firebase_token');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: "{{ route('rq_tk.store') }}",
+                data: {
+                    idToken: idToken,
+                    special_price: special_price,
+                    insurance: insurance_price,
+                    utypeadd: utypeadd,
+                    TrackingSaiko: Tracking,
+                    Phone: Phone,
+                    Name_Send: Name_Send,
+                    Number_Send: Number_Send,
+                    Name_Rev: Name_Rev,
+                    Add: AddRev,
+                    Type: Type,
+                    Note: Note,
+                    Reparking: Reparking,
+                    ShipAir: ShipAir,
+                    ShipSea: ShipSea,
+                    Location: '203.205.41.135',
+                    Code_Add: Code_Add,
+                    province: province,
+                    district: district,
+                    ward: ward,
+                    checkAir: checkAir,
+                    checkSea: checkSea,
+                    merge_box: merge_box,
+                },
+                success: function(response) {
+                    $("#table_showResultCreatedTrackings").empty()
+                    $.each(response, function(index, value) {
+                        if (value.code == 401) {
                             swal({
                                 title: "Mã xác thực hết hạn vui lòng tải lại trang",
                                 type: "warning",
@@ -1039,15 +731,65 @@
                                 confirmButtonColor: "#fca901",
                                 confirmButtonText: "Exit",
                                 closeOnConfirm: true
-                            }).then(() => {
+                            }).then((check) => {
                                 window.location.reload()
                             })
-                        } else {
-                            console.log(res)
                         }
+                        if (value.code == 201) {
+                            $("#table_showResultCreatedTrackings").append(
+                                "<tr style='border:none'>" +
+                                "<td style='color:green;border:none !important;text-align:center'>" +
+                                value
+                                .message + " " +
+                                "<i class='fa fa-check' style='color:green'></i>" +
+                                "</td>" +
+                                "</tr>"
+                            )
+                            $('#message').html('');
+                            $('#exitForm').hide();
+                            $('#exitSuccess').show();
+                            $('#show_result').show();
+                        }
+                        if (value.code == 405) {
+                            $("#table_showResultCreatedTrackings").append(
+                                "<tr style='border:none'>" +
+                                "<td style='color:#fca901;border:none !important;text-align:center'>" +
+                                value
+                                .message + " " +
+                                "<span><i class='fa fa-warning'></i></span>" +
+                                "</td>" + "</tr>"
+                            )
+                            $('#message').html('');
+                            $('#exitForm').hide();
+                            $('#exitSuccess').show();
+                            $('#show_result').show();
+                        }
+                        if (value.code == 422) {
+                            $("#table_showResultCreatedTrackings").append(
+                                "<tr style='border:none'>" +
+                                "<td style='color:red;border:none !important;text-align:center'>" +
+                                value
+                                .message + " " +
+                                "<span><i class='fa fa-times'></i></span>" +
+                                "</td>" +
+                                "</tr>"
+                            )
+                            $('#message').html('');
+                            $('#exitForm').hide();
+                            $('#exitSuccess').show();
+                            $('#show_result').show();
+                        }
+                    })
+
+                },
+                error: function(res) {
+                    if (res.status == 419) {
+                        window.location.reload()
+                    } else {
+                        console.log(res)
                     }
-                });
-            }
+                }
+            });
         })
     });
 

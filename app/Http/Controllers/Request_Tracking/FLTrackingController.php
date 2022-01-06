@@ -32,14 +32,8 @@ class FLTrackingController extends Controller
             return response()->json(['code' => 404, 'message' => 'Không tìm thấy tracking này.']);
         }
 
-        $customer_id = $this->IdUserByToken($request);
+        $customer_id = $request->user_id;
 
-        if ($customer_id['code'] == 401) {
-            $this->deleteCookie();
-            $this->deleteCheckSession();
-            $mess = ['code' => $customer_id['code'], 'message' => 'Mã xác thực hết hạn vui lòng tải lại trang.'];
-            return response()->json($mess);
-        }
         //apishow
         $dataShow = [
             // 'search' => 'orders.customer_id:' . $customer_id['customer_id'],
@@ -65,7 +59,7 @@ class FLTrackingController extends Controller
                 if (!empty($results['reference'])) {
                     $results['reference']['insurance_result_fee'] = round($results['reference']['insurance_declaration'] * 0.03, 0); //tính phí bảo hiểm
                     $results['reference']['special_result_fee'] = round($results['reference']['special_declaration'] * 0.02, 0); // tính phí đặc biệt
-                    if ($results['reference']['customer_id'] != $customer_id['customer_id'] && $results['reference']['customer_id'] != 'sale.se' && $customer_id['customer_id'] != 'boy-2k') {
+                    if ($results['reference']['customer_id'] != $customer_id && $results['reference']['customer_id'] != 'sale.se' && $customer_id != 'boy-2k') {
                         $mess = ['code' => 404, 'message' => 'Vui lòng đăng nhập tài khoản sở hữu tracking này.'];
                         return response()->json($mess);
                     }
@@ -232,19 +226,14 @@ class FLTrackingController extends Controller
     }
     public function getInforBox(Request $req)
     {
-        $token_checkSession = $this->getTokenSession($req);
-        // return $token_checkSession;
-        //get infor box
         $header = [
             'Accept' => 'application/json',
-            'X-Firebase-IDToken' => $req->idToken ? $req->idToken : $token_checkSession,
+            'X-Firebase-IDToken' => $req->idToken
         ];
 
         $item_box = Http::withHeaders($header)->get(self::$warehouse_host . '/api/boxes/' . $req->id_box . '?appends=logs');
 
         if ($item_box->status() == 401) {
-            $this->deleteCheckSession();
-            $this->deleteCookie();
             $mess = ['code'=> 401,'mesage'=>'Mã xác thực hết hạn vui lòng tải lại trang'];
             return response()->json($mess);
         }

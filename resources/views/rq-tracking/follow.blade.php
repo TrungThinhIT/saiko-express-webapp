@@ -580,9 +580,9 @@
                 $(document).ajaxStop(function() {
                     $("#loader").hide();
                 });
-                $('#tracking_form').submit(function(e) {
+                $('#tracking_form').submit(async function(e) {
                     e.preventDefault();
-                    let idToken = getToken();
+                    let idToken = localStorage.getItem('firebase_token');
                     $("#declaration_price").hide()
                     $("#alert").hide()
                     $("#table_price_shipping").hide()
@@ -606,6 +606,7 @@
                         return
                     }
                     toggleLoading()
+                    await verifyToken();
                     $.ajax({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -613,7 +614,8 @@
                         type: 'POST',
                         url: "{{ route('rq_tk.getStatus') }}",
                         data: {
-                            idToken: idToken,
+                            idToken: localStorage.getItem('firebase_token'),
+                            user_id: localStorage.getItem('user_id'),
                             tracking: tracking
                         },
                         success: function(res) {
@@ -621,7 +623,6 @@
                             $("#table-firt-vnpost").hide()
                             $("#alert").hide()
                             if (res?.code == 404 || res?.code == 401) {
-                                refreshToken(res?.code);
                                 $("#table").hide();
                                 $("#body-table-firt").empty()
                                 $("#time_line").empty()
@@ -750,34 +751,6 @@
                                                     '</p>' +
                                                     '</li>'
                                                 )
-                                                //log order//
-                                                // if(value.logs.length){
-                                                //     var total_pay = 0;
-                                                //     var matchedLogIdx = value.logs.findIndex((log) => {return !!log?.content?.transaction});
-                                                //     $.each(value.logs,function(logs_index,logs_value){
-                                                //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                                                //         var statusLogMerge;
-                                                //         if(matchedLogIdx === -1){
-                                                //             if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                                //                 total_pay += logs_value.content.service_fee_paid
-                                                //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                                //             }
-                                                //         }else{
-                                                //             if(keyObjectLogMerge=="transaction"){
-                                                //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                                //             }
-                                                //         }
-
-                                                //         if(statusLogMerge != undefined){
-                                                //             $("#time_line").append(
-                                                //                 '<li>' +
-                                                //                 '<a>' + statusLogMerge + '</a>' +
-                                                //                 '<p>' + logs_value.created_at + '</p>' +
-                                                //                 '</li>'
-                                                //             )
-                                                //         }
-                                                //     })
-                                                // }
                                                 $("#body-table-firt")
                                                     .append(
                                                         `<tr>` +
@@ -848,47 +821,6 @@
                                                                 '</p>' +
                                                                 '</li>'
                                                             )
-                                                            // if(value.logs.length){
-                                                            //     var total_pay = 0;
-                                                            //     var matchedLogIdx = value.logs.findIndex((log) => {
-                                                            //             return !!log?.content?.transaction
-                                                            //         });
-                                                            //     $.each(value.logs,function(logs_index,logs_value){
-                                                            //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                                                            //         var statusLogMerge;
-                                                            //         if(matchedLogIdx === -1){
-                                                            //             if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                                            //                 total_pay += logs_value.content.service_fee_paid
-                                                            //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                                            //             }
-                                                            //         }else{
-                                                            //             if(keyObjectLogMerge=="transaction"){
-                                                            //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                                            //                 total_pay += logs_value.content.transaction.amount
-                                                            //             }
-                                                            //         }
-
-                                                            //         if(statusLogMerge!=undefined){
-                                                            //             $("#time_line").append(
-                                                            //                 '<li>' +
-                                                            //                 '<a>' + statusLogMerge + '</a>' +
-                                                            //                 '<p>' + logs_value.created_at + '</p>' +
-                                                            //                 '</li>'
-                                                            //             )
-                                                            //         }
-                                                            //     })
-                                                            //     if(pay_money != undefined){
-                                                            //         if( total_pay >= pay_money - 1000){
-                                                            //             $("#alert").hide()
-                                                            //             if(value.reference.length){
-                                                            //                 $("#paid").show()
-                                                            //             }else{
-                                                            //                 $("#paid").hide()
-                                                            //             }
-                                                            //         }
-
-                                                            //     }
-                                                            // }
                                                         } else {
                                                             var size = "( Dài : " + value.boxes[0].length + "cm" + ",Rộng: " + value.boxes[0].width + "cm" + ",Cao: " + value.boxes[0].height + "cm )"
                                                             $("#id_order").empty()
@@ -917,24 +849,7 @@
                                                                     status = "Lên đơn hàng"
                                                                 }
                                                                 if (keyObject == "in_container" || keyObject == "in_container,from,to") {
-                                                                    // var parts = value.created_at.split('-')
-                                                                    // var year = parts[2].split(' ')
-                                                                    // var getDate = new Date(year[0],parts[1]-1,parts[0])
-                                                                    // var now = new Date()
-                                                                    // var date_arv = getDate-now;
-                                                                    // var add_date;
-                                                                    // var check_method = method_ship.charAt(0).toUpperCase() + method_ship.slice(1);
-                                                                    // if(check_method=="Air"){
-                                                                    //     add_date = 6;
-                                                                    // }else{
-                                                                    //     add_date = 30;
-                                                                    // }
-                                                                    // var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+ add_date
-                                                                    // if(expected_date > 0) {
-                                                                    //     status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
-                                                                    // }else{
                                                                     status = "Xuất kho Nhật"
-                                                                    // }
                                                                 }
 
                                                                 if (keyObject == "shipping_code" && value.type_id == "created") {
@@ -987,46 +902,6 @@
                                                                     )
                                                                 }
                                                             })
-                                                            // if(value.logs.length){
-                                                            //     var total_pay = 0;
-                                                            //     var matchedLogIdx = value.logs.findIndex((log) => {
-                                                            //             return !!log?.content?.transaction
-                                                            //         });
-                                                            //     $.each(value.logs,function(logs_index,logs_value){
-                                                            //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                                                            //         var statusLogMerge;
-                                                            //         if(matchedLogIdx === -1){
-                                                            //             if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                                            //                 total_pay += logs_value.content.service_fee_paid
-                                                            //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                                            //             }
-                                                            //         }else{
-                                                            //             if(keyObjectLogMerge=="transaction"){
-                                                            //                 total_pay += logs_value.content.transaction.amount
-                                                            //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                                            //             }
-                                                            //         }
-
-                                                            //         if(statusLogMerge != undefined){
-                                                            //             $("#time_line").append(
-                                                            //                 '<li>' +
-                                                            //                 '<a>' + statusLogMerge + '</a>' +
-                                                            //                 '<p>' + logs_value.created_at + '</p>' +
-                                                            //                 '</li>'
-                                                            //             )
-                                                            //         }
-                                                            //     })
-                                                            //     if(pay_money != undefined){
-                                                            //         if(total_pay  >= pay_money - 1000 ){
-                                                            //             $("#alert").hide()
-                                                            //             if(value.reference.length){
-                                                            //                 $("#paid").show()
-                                                            //             }else{
-                                                            //                 $("#paid").hide()
-                                                            //             }
-                                                            //         }
-                                                            //     }
-                                                            // }
                                                         }
 
                                                     } else {
@@ -1036,38 +911,6 @@
                                                             $("#money").empty()
                                                             $("#id_order").text(value.id)
                                                             $("#money").text(formatNumber(value.reference.total_fee) + " VNĐ")
-                                                            // if(value.logs.length){
-                                                            //     var total_pay = 0
-                                                            //     var matchedLogIdx = value.logs.findIndex((log) => {
-                                                            //             return !!log?.content?.transaction
-                                                            //         });
-                                                            //     $.each(value.logs,function(logs_index,logs_value){
-                                                            //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                                                            //         var statusLogMerge;
-                                                            //         var created_at_log;
-                                                            //         if(matchedLogIdx === -1){
-                                                            //             if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                                            //                 total_pay += logs_value.content.service_fee_paid
-                                                            //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                                            //             }
-                                                            //         }else{
-                                                            //             if(keyObjectLogMerge=="transaction"){
-                                                            //                 total_pay += logs_value.content.transaction.amount
-                                                            //             }
-                                                            //         }
-
-                                                            //     })
-                                                            //     if(pay_money != undefined){
-                                                            //         if(total_pay >= pay_money - 1000){
-                                                            //             $("#alert").hide()
-                                                            //             if(value.reference.length){
-                                                            //                 $("#paid").show()
-                                                            //             }else{
-                                                            //                 $("#paid").hide()
-                                                            //             }
-                                                            //         }
-                                                            //     }
-                                                            // }
                                                         }
                                                         $(`#sku-row-${value2.id}`).hover(function() {
                                                             $(this).addClass("tr-color addHover");
@@ -1121,515 +964,114 @@
                 })
             })
             //show log by id
-            function check(id_box, vnpost, created_at, fee, method, logs_merge, pay_money, length_order) {
-                var email = "sale@saikoexpress.com";
-                var password = "{{config('services.saiko.password')}}";
+            async function check(id_box, vnpost, created_at, fee, method, logs_merge, pay_money, length_order) {
+                await verifyToken();
                 let box = id_box;
-                const checkSession = "{{ Session::has('idToken') }}"
-                if (checkToken()) {
-                    let idToken = getToken();
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        type: "POST",
-                        url: "{{route('rq_tk.getInforBox')}}",
-                        data: {
-                            idToken: idToken,
-                            id_box: box
-                        },
-                        success: function(res) {
-                            if (res?.code == 401) {
-                                refreshToken(res?.code);
-                            }
-                            $("#time_line").empty()
-                            if (res.logs.length == 0) {
-                                $("#time_line").append(
-                                    '<li>' +
-                                    '<a>' + 'Đang tới kho' + '</a>' +
-                                    '<p>' + created_at + '</p>' +
-                                    '</li>'
-                                )
-                            } else {
-                                var size = " Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res.height + "cm "
-                                $.each(res.logs, function(index, value) {
-                                    let keyObject = Object.keys(value.content)
-                                    let valueObject = Object.values(value.content);
-                                    var status;
-
-                                    if (keyObject == "id") {
-                                        status = "Đã nhập kho Nhật"
-                                    }
-                                    if (keyObject == "in_pallet") {
-                                        status = "Đã kiểm hàng " + "( " + size + " )"
-                                    }
-                                    if (keyObject == "set_owner_id,set_owner_type") {
-                                        status = "Lên đơn hàng"
-                                    }
-                                    if (keyObject == "set_user_id,set_order_id") {
-                                        status = "Lên đơn hàng"
-                                    }
-                                    if (keyObject == "set_user_id") {
-                                        status = "Lên đơn hàng"
-                                    }
-                                    if (keyObject == "in_container" || keyObject == "in_container,from,to") {
-                                        // var parts = value.created_at.split('-')
-                                        // var year = parts[2].split(' ')
-                                        // var getDate = new Date(year[0],parts[1]-1,parts[0])
-                                        // var now = new Date()
-                                        // var date_arv = getDate-now;
-                                        // var add_date;
-                                        // var check_method = method.charAt(0).toUpperCase() + method.slice(1);
-                                        // if(check_method =="Air"){
-                                        //     add_date=6;
-                                        // }else{
-                                        //     add_date = 30;
-                                        // }
-                                        // var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+add_date
-                                        // if(expected_date > 0) {
-                                        //     status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
-                                        // }else{
-                                        status = "Xuất kho Nhật"
-                                        // }
-                                    }
-                                    if (keyObject == "out_container") {
-                                        status = "Nhập kho Việt Nam"
-                                    }
-                                    if (keyObject == "outbound_warehouse") {
-                                        status = "Xuất kho Việt Nam"
-                                    }
-                                    if (keyObject == "delivery_status") {
-                                        if (valueObject == "shipping") {
-                                            status = "Đang giao hàng"
-                                        }
-                                    }
-                                    if (keyObject == "delivery_status") {
-                                        if (valueObject == "cancelled") {
-                                            status = "Hủy box"
-                                        }
-                                    }
-                                    if (keyObject == "delivery_status") {
-                                        if (valueObject == "received") {
-                                            status = "Đã nhận hàng"
-                                        }
-                                    }
-                                    if (keyObject == "delivery_status") {
-                                        if (valueObject == "refunded") {
-                                            status = "Trả lại hàng"
-                                        }
-                                    }
-                                    if (keyObject == "delivery_status") {
-                                        if (valueObject == "waiting_shipment") {
-                                            status = "Đợi giao hàng"
-                                        }
-                                    }
-                                    if (keyObject == "shipping_code" && value.type_id == "created") {
-                                        status = "Mã giao hàng: " + value.content.shipping_code
-                                    }
-                                    if (keyObject == "shipping_code" && value.type_id == "updated") {
-                                        status = "Cập nhật mã giao hàng: " + value.content.shipping_code
-                                    }
-                                    if (keyObject == "shipping_code" && value.type_id == "deleted") {
-                                        status = "Huỷ mã giao hàng: " + value.content.shipping_code
-                                    }
-                                    if (status != undefined) {
-                                        $("#time_line").append(
-                                            '<li>' +
-                                            '<a>' + status + '</a>' +
-                                            '<p>' + value.created_at + '</p>' +
-                                            '</li>'
-                                        )
-                                    }
-                                })
-                            }
-                            //adđ log payment
-                            // if(logs_merge.length){
-                            //     var total_pay = 0;
-                            //     var matchedLogIdx = logs_merge.findIndex((log) => {
-                            //         return !!log?.content?.transaction
-                            //     });
-                            //     $.each(logs_merge,function(logs_index,logs_value){
-                            //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                            //         var statusLogMerge;
-                            //         var created_at_log;
-                            //         if(matchedLogIdx === -1){
-                            //             if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                            //                 total_pay += logs_value.content.service_fee_paid
-                            //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                            //             }
-                            //         }else{
-                            //             if(keyObjectLogMerge=="transaction"){
-                            //                 total_pay += logs_value.content.transaction.amount
-                            //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                            //             }
-                            //         }
-
-                            //         if(statusLogMerge != undefined){
-                            //             $("#time_line").append(
-                            //                 '<li>' +
-                            //                 '<a>' + statusLogMerge + '</a>' +
-                            //                 '<p>' + logs_value.created_at + '</p>' +
-                            //                 '</li>'
-                            //             )
-                            //         }
-                            //     })
-                            //     if(pay_money != undefined){
-                            //         if(total_pay >= pay_money - 1000 ){
-                            //             $("#alert").hide()
-                            //             if(length_order.reference.length){
-                            //                 $("#paid").show()
-                            //             }else{
-                            //                 $("#paid").hide()
-                            //             }
-                            //         }
-                            //     }
-                            // }
-
-                        },
-                        error: function(res) {
-                            if (res.status == 419) {
-                                window.location.reload()
-                            } else {
-                                console.log(res)
-                            }
-                        }
-                    })
-                } else {
-                    firebase.auth().onAuthStateChanged((user) => {
-                        if (user && checkSession) {
-                            firebase.auth().currentUser.getIdToken( /* forceRefresh */ true).then(function(token_gg) {
-                                setToken(token_gg)
-                                let idToken = getToken();
-                                $.ajax({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    type: "POST",
-                                    url: "{{route('rq_tk.getInforBox')}}",
-                                    data: {
-                                        idToken: idToken,
-                                        id_box: box
-                                    },
-                                    success: function(res) {
-                                        if (res?.code == 401) {}
-                                        $("#time_line").empty()
-                                        if (res.logs.length == 0) {
-                                            $("#time_line").append(
-                                                '<li>' +
-                                                '<a>' + 'Đang tới kho' + '</a>' +
-                                                '<p>' + created_at + '</p>' +
-                                                '</li>'
-                                            )
-                                        } else {
-                                            var size = " Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res.height + "cm "
-                                            $.each(res.logs, function(index, value) {
-                                                let keyObject = Object.keys(value.content)
-                                                let valueObject = Object.values(value.content);
-                                                var status;
-
-                                                if (keyObject == "id") {
-                                                    status = "Đã nhập kho Nhật"
-                                                }
-                                                if (keyObject == "in_pallet") {
-                                                    status = "Đã kiểm hàng " + "( " + size + " )"
-                                                }
-                                                if (keyObject == "set_owner_id,set_owner_type") {
-                                                    status = "Lên đơn hàng"
-                                                }
-                                                if (keyObject == "set_user_id,set_order_id") {
-                                                    status = "Lên đơn hàng"
-                                                }
-                                                if (keyObject == "set_user_id") {
-                                                    status = "Lên đơn hàng"
-                                                }
-                                                if (keyObject == "in_container" || keyObject == "in_container,from,to") {
-                                                    // var parts = value.created_at.split('-')
-                                                    // var year = parts[2].split(' ')
-                                                    // var getDate = new Date(year[0],parts[1]-1,parts[0])
-                                                    // var now = new Date()
-                                                    // var date_arv = getDate-now;
-                                                    // var add_date;
-                                                    // var check_method = method.charAt(0).toUpperCase() + method.slice(1);
-                                                    // if(check_method =="Air"){
-                                                    //     add_date=6;
-                                                    // }else{
-                                                    //     add_date = 30;
-                                                    // }
-                                                    // var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+add_date
-                                                    // if(expected_date > 0) {
-                                                    //     status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
-                                                    // }else{
-                                                    status = "Xuất kho Nhật"
-                                                    // }
-                                                }
-                                                if (keyObject == "out_container") {
-                                                    status = "Nhập kho Việt Nam"
-                                                }
-                                                if (keyObject == "outbound_warehouse") {
-                                                    status = "Xuất kho Việt Nam"
-                                                }
-                                                if (keyObject == "delivery_status") {
-                                                    if (valueObject == "shipping") {
-                                                        status = "Đang giao hàng"
-                                                    }
-                                                }
-                                                if (keyObject == "delivery_status") {
-                                                    if (valueObject == "cancelled") {
-                                                        status = "Hủy box"
-                                                    }
-                                                }
-                                                if (keyObject == "delivery_status") {
-                                                    if (valueObject == "received") {
-                                                        status = "Đã nhận hàng"
-                                                    }
-                                                }
-                                                if (keyObject == "delivery_status") {
-                                                    if (valueObject == "refunded") {
-                                                        status = "Trả lại hàng"
-                                                    }
-                                                }
-                                                if (keyObject == "delivery_status") {
-                                                    if (valueObject == "waiting_shipment") {
-                                                        status = "Đợi giao hàng"
-                                                    }
-                                                }
-                                                if (keyObject == "shipping_code" && value.type_id == "created") {
-                                                    status = "Mã giao hàng: " + value.content.shipping_code
-                                                }
-                                                if (keyObject == "shipping_code" && value.type_id == "updated") {
-                                                    status = "Cập nhật mã giao hàng: " + value.content.shipping_code
-                                                }
-                                                if (keyObject == "shipping_code" && value.type_id == "deleted") {
-                                                    status = "Huỷ mã giao hàng: " + value.content.shipping_code
-                                                }
-                                                if (status != undefined) {
-                                                    $("#time_line").append(
-                                                        '<li>' +
-                                                        '<a>' + status + '</a>' +
-                                                        '<p>' + value.created_at + '</p>' +
-                                                        '</li>'
-                                                    )
-                                                }
-                                            })
-                                        }
-                                        //adđ log payment
-                                        // if(logs_merge.length){
-                                        //     var total_pay = 0;
-                                        //     var matchedLogIdx = logs_merge.findIndex((log) => {
-                                        //         return !!log?.content?.transaction
-                                        //     });
-                                        //     $.each(logs_merge,function(logs_index,logs_value){
-                                        //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                                        //         var statusLogMerge;
-                                        //         var created_at_log;
-                                        //         if(matchedLogIdx === -1){
-                                        //             if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                        //                 total_pay += logs_value.content.service_fee_paid
-                                        //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                        //             }
-                                        //         }else{
-                                        //             if(keyObjectLogMerge=="transaction"){
-                                        //                 total_pay += logs_value.content.transaction.amount
-                                        //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                        //             }
-                                        //         }
-
-                                        //         if(statusLogMerge != undefined){
-                                        //             $("#time_line").append(
-                                        //                 '<li>' +
-                                        //                 '<a>' + statusLogMerge + '</a>' +
-                                        //                 '<p>' + logs_value.created_at + '</p>' +
-                                        //                 '</li>'
-                                        //             )
-                                        //         }
-                                        //     })
-                                        //     if(pay_money != undefined){
-                                        //         if(total_pay >= pay_money - 1000 ){
-                                        //             $("#alert").hide()
-                                        //             if(length_order.reference.length){
-                                        //                 $("#paid").show()
-                                        //             }else{
-                                        //                 $("#paid").hide()
-                                        //             }
-                                        //         }
-                                        //     }
-                                        // }
-
-                                    },
-                                    error: function(res) {
-                                        if (res.status == 419) {
-                                            window.location.reload()
-                                        } else {
-                                            console.log(res)
-                                        }
-                                    }
-                                })
-                            }).catch((error) => {
-
-                            })
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "POST",
+                    url: "{{route('rq_tk.getInforBox')}}",
+                    data: {
+                        idToken: localStorage.getItem('firebase_token'),
+                        user_id: localStorage.getItem('user_id'),
+                        id_box: box
+                    },
+                    success: function(res) {
+                        $("#time_line").empty()
+                        if (res.logs.length == 0) {
+                            $("#time_line").append(
+                                '<li>' +
+                                '<a>' + 'Đang tới kho' + '</a>' +
+                                '<p>' + created_at + '</p>' +
+                                '</li>'
+                            )
                         } else {
-                            $.ajax({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                type: "POST",
-                                url: "{{route('rq_tk.getInforBox')}}",
-                                data: {
-                                    id_box: box
-                                },
-                                success: function(res) {
-                                    if (res?.code == 401) {
-                                        refreshToken(res?.code);
-                                        swal({
-                                            title: res?.message,
-                                            type: "warning",
-                                            icon: "warning",
-                                            showCancelButton: false,
-                                            confirmButtonColor: "#fca901",
-                                            confirmButtonText: "Exit",
-                                            closeOnConfirm: true
-                                        }).then((check) => {
-                                            window.location.reload()
-                                        })
-                                    }
-                                    $("#time_line").empty()
-                                    if (res.logs.length == 0) {
-                                        $("#time_line").append(
-                                            '<li>' +
-                                            '<a>' + 'Đang tới kho' + '</a>' +
-                                            '<p>' + created_at + '</p>' +
-                                            '</li>'
-                                        )
-                                    } else {
-                                        var size = " Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res.height + "cm "
-                                        $.each(res.logs, function(index, value) {
-                                            let keyObject = Object.keys(value.content)
-                                            let valueObject = Object.values(value.content);
-                                            var status;
+                            var size = " Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res.height + "cm "
+                            $.each(res.logs, function(index, value) {
+                                let keyObject = Object.keys(value.content)
+                                let valueObject = Object.values(value.content);
+                                var status;
 
-                                            if (keyObject == "id") {
-                                                status = "Đã nhập kho Nhật"
-                                            }
-                                            if (keyObject == "in_pallet") {
-                                                status = "Đã kiểm hàng " + "( " + size + " )"
-                                            }
-                                            if (keyObject == "set_owner_id,set_owner_type") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "set_user_id,set_order_id") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "set_user_id") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "in_container" || keyObject == "in_container,from,to") {
-                                                status = "Xuất kho Nhật"
-                                            }
-                                            if (keyObject == "out_container") {
-                                                status = "Nhập kho Việt Nam"
-                                            }
-                                            if (keyObject == "outbound_warehouse") {
-                                                status = "Xuất kho Việt Nam"
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "shipping") {
-                                                    status = "Đang giao hàng"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "cancelled") {
-                                                    status = "Hủy box"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "received") {
-                                                    status = "Đã nhận hàng"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "refunded") {
-                                                    status = "Trả lại hàng"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "waiting_shipment") {
-                                                    status = "Đợi giao hàng"
-                                                }
-                                            }
-                                            if (keyObject == "shipping_code" && value.type_id == "created") {
-                                                status = "Mã giao hàng: " + value.content.shipping_code
-                                            }
-                                            if (keyObject == "shipping_code" && value.type_id == "updated") {
-                                                status = "Cập nhật mã giao hàng: " + value.content.shipping_code
-                                            }
-                                            if (keyObject == "shipping_code" && value.type_id == "deleted") {
-                                                status = "Huỷ mã giao hàng: " + value.content.shipping_code
-                                            }
-                                            if (status != undefined) {
-                                                $("#time_line").append(
-                                                    '<li>' +
-                                                    '<a>' + status + '</a>' +
-                                                    '<p>' + value.created_at + '</p>' +
-                                                    '</li>'
-                                                )
-                                            }
-                                        })
+                                if (keyObject == "id") {
+                                    status = "Đã nhập kho Nhật"
+                                }
+                                if (keyObject == "in_pallet") {
+                                    status = "Đã kiểm hàng " + "( " + size + " )"
+                                }
+                                if (keyObject == "set_owner_id,set_owner_type") {
+                                    status = "Lên đơn hàng"
+                                }
+                                if (keyObject == "set_user_id,set_order_id") {
+                                    status = "Lên đơn hàng"
+                                }
+                                if (keyObject == "set_user_id") {
+                                    status = "Lên đơn hàng"
+                                }
+                                if (keyObject == "in_container" || keyObject == "in_container,from,to") {
+                                    status = "Xuất kho Nhật"
+                                }
+                                if (keyObject == "out_container") {
+                                    status = "Nhập kho Việt Nam"
+                                }
+                                if (keyObject == "outbound_warehouse") {
+                                    status = "Xuất kho Việt Nam"
+                                }
+                                if (keyObject == "delivery_status") {
+                                    if (valueObject == "shipping") {
+                                        status = "Đang giao hàng"
                                     }
-                                    //adđ log payment
-                                    // if(logs_merge.length){
-                                    //     var total_pay = 0;
-                                    //     var matchedLogIdx = logs_merge.findIndex((log) => {
-                                    //         return !!log?.content?.transaction
-                                    //     });
-                                    //     $.each(logs_merge,function(logs_index,logs_value){
-                                    //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                                    //         var statusLogMerge;
-                                    //         var created_at_log;
-                                    //         if(matchedLogIdx === -1){
-                                    //             if(keyObjectLogMerge=="updated_at,service_fee_paid"){
-                                    //                 total_pay += logs_value.content.service_fee_paid
-                                    //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.service_fee_paid)
-                                    //             }
-                                    //         }else{
-                                    //             if(keyObjectLogMerge=="transaction"){
-                                    //                 total_pay += logs_value.content.transaction.amount
-                                    //                 statusLogMerge= "Đã thanh toán " + formatNumber(logs_value.content.transaction.amount)
-                                    //             }
-                                    //         }
-
-                                    //         if(statusLogMerge != undefined){
-                                    //             $("#time_line").append(
-                                    //                 '<li>' +
-                                    //                 '<a>' + statusLogMerge + '</a>' +
-                                    //                 '<p>' + logs_value.created_at + '</p>' +
-                                    //                 '</li>'
-                                    //             )
-                                    //         }
-                                    //     })
-                                    //     if(pay_money != undefined){
-                                    //         if(total_pay >= pay_money - 1000 ){
-                                    //             $("#alert").hide()
-                                    //             if(length_order.reference.length){
-                                    //                 $("#paid").show()
-                                    //             }else{
-                                    //                 $("#paid").hide()
-                                    //             }
-                                    //         }
-                                    //     }
-                                    // }
-
-                                },
-                                error: function(res) {
-                                    if (res.status == 419) {
-                                        window.location.reload()
-                                    } else {
-                                        console.log(res)
+                                }
+                                if (keyObject == "delivery_status") {
+                                    if (valueObject == "cancelled") {
+                                        status = "Hủy box"
                                     }
+                                }
+                                if (keyObject == "delivery_status") {
+                                    if (valueObject == "received") {
+                                        status = "Đã nhận hàng"
+                                    }
+                                }
+                                if (keyObject == "delivery_status") {
+                                    if (valueObject == "refunded") {
+                                        status = "Trả lại hàng"
+                                    }
+                                }
+                                if (keyObject == "delivery_status") {
+                                    if (valueObject == "waiting_shipment") {
+                                        status = "Đợi giao hàng"
+                                    }
+                                }
+                                if (keyObject == "shipping_code" && value.type_id == "created") {
+                                    status = "Mã giao hàng: " + value.content.shipping_code
+                                }
+                                if (keyObject == "shipping_code" && value.type_id == "updated") {
+                                    status = "Cập nhật mã giao hàng: " + value.content.shipping_code
+                                }
+                                if (keyObject == "shipping_code" && value.type_id == "deleted") {
+                                    status = "Huỷ mã giao hàng: " + value.content.shipping_code
+                                }
+                                if (status != undefined) {
+                                    $("#time_line").append(
+                                        '<li>' +
+                                        '<a>' + status + '</a>' +
+                                        '<p>' + value.created_at + '</p>' +
+                                        '</li>'
+                                    )
                                 }
                             })
                         }
-                    })
-                }
+
+                    },
+                    error: function(res) {
+                        if (res.status == 419) {
+                            window.location.reload()
+                        } else {
+                            console.log(res)
+                        }
+                    }
+                })
 
             }
 

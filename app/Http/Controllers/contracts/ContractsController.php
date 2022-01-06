@@ -15,40 +15,38 @@ class ContractsController extends Controller
      */
     public function index(Request $request)
     {
-        $customer_id = $this->getUserID($request);
-        $token = $this->getToken($request);
         $header = [
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'X-Firebase-IDToken' => $token
+            'X-Firebase-IDToken' => $request->idToken,
         ];
-        $search = 'customer_id:' . $customer_id;
+        $search = 'customer_id:' . $request->user_id;
         $searchField = 'customer_id:=';
 
         if ($request->wantsJson()) {
             if ($request->field_search == "all") {
-                $search = 'customer_id:' . $customer_id;
+                $search = 'customer_id:' . $request->user_id;
                 $searchField = 'customer_id:=';
             }
             if ($request->field_search == "id") {
-                $search = 'customer_id:' . $customer_id . ';' . $request->field_search . ':' . $request->id_contract;
+                $search = 'customer_id:' . $request->user_id . ';' . $request->field_search . ':' . $request->id_contract;
                 $searchField = 'customer_id:=;id:=';
             }
             if ($request->field_search == "closed") {
-                $search = 'customer_id:' . $customer_id . ';' . $request->field_search . ':' . $request->closed;
+                $search = 'customer_id:' . $request->user_id . ';' . $request->field_search . ':' . $request->closed;
                 $searchField = 'customer_id:=;closed:=';
             }
             if ($request->field_search == "start_date") {
-                $search = 'customer_id:' . $customer_id . ';' . $request->field_search . ':' . $request->start_date;
+                $search = 'customer_id:' . $request->user_id . ';' . $request->field_search . ':' . $request->start_date;
                 $searchField = 'customer_id:=;start_date:=';
             }
             if ($request->field_search == "end_date") {
-                $search = 'customer_id:' . $customer_id . ';' . $request->field_search . ':' . $request->end_date;
+                $search = 'customer_id:' . $request->user_id . ';' . $request->field_search . ':' . $request->end_date;
                 $searchField = 'customer_id:=;end_date:=';
             }
         }
         $params = [
-            'appends' => 'service_fee;shipping_fee',
+            'appends' => 'service_fee',
             'search' => $search,
             'searchField' => $searchField,
             'orderBy' => 'created_at',
@@ -61,20 +59,8 @@ class ContractsController extends Controller
         $data = json_decode($send->body(), true);
 
         if ($request->wantsJson()) {
-            if ($send->status() == 401) {
-                $this->deleteCookie();
-                $this->deleteSession();
-                return response()->json(['code' => 401]);
-            }
             return response()->json(['list_contracts' => $data, 'code' => $send->status()]);
         }
-
-        if ($send->status() == 401) {
-            $this->deleteCookie();
-            $this->deleteSession();
-            return redirect()->route('auth.logout');
-        }
-
 
         $data = ['list_contracts' => $data, 'code' => $send->status()];
         return view('contract.index', compact('data'));
@@ -109,33 +95,26 @@ class ContractsController extends Controller
      */
     public function show($id, Request $request)
     {
-        $token = $this->getToken($request);
-
         $header = [
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'X-Firebase-IDToken' => $token
+            'X-Firebase-IDToken' => $request->idToken,
         ];
 
         $params = [
-            'appends' => 'transactions.type;logs;service_fee;service_fee_outstanding;service_fee_unsolved;shipping_fee;shipping_fee_air;shipping_fee_sea;compensation_debited;compensation_unsolved;shipping_inside_fee',
+            'appends' => 'transactions.type;logs;service_fee;service_fee_outstanding;service_fee_unsolved;compensation_debited;compensation_unsolved',
             'with' => 'orders.trackings;orders.shipmentInfo',
         ];
 
         $send = Http::withHeaders($header)->get(self::$order_host . '/api/contracts/' . $id, $params);
 
-        if ($send->status() == 401) {
-            $this->deleteCookie();
-            $this->deleteSession();
-            return redirect()->route('auth.logout');
-        }
         $data = json_decode($send->body(), true);
         // dd($data);
         if (!empty($data['orders'])) {
             $list_orders = collect($data['orders']);
             $orders_key_string = implode(',', $list_orders->pluck('id')->all()); // dd($orders_key_string);
 
-            $data_box = $this->getListBoxes($orders_key_string, $token, $request); //get boxes
+            $data_box = $this->getListBoxes($orders_key_string, $request->idToken, $request); //get boxes
 
             if (isset($data_box['data'])) {
                 $obj_boxes = json_encode($data_box['data']);
@@ -192,9 +171,6 @@ class ContractsController extends Controller
         $get_boxes = Http::withHeaders($header_box)->get(self::$warehouse_host . '/api/boxes', $params_box);
 
         if ($get_boxes->status() == 401) {
-            $this->deleteCookie();
-            $this->deleteSession();
-
             if ($request->wantsJson()) {
                 return ['code' => $get_boxes->status(), 'data' => json_decode($get_boxes->body(), true)];
             }
@@ -209,8 +185,7 @@ class ContractsController extends Controller
 
     public function getBoxes(Request $request)
     {
-        $token = $this->getToken($request);
-        $boxes = $this->getListBoxes($request->order_id, $token, $request);
+        $boxes = $this->getListBoxes($request->order_id, $request->idToken, $request);
         if (!isset($boxes['data']['data'])) {
             return response()->json($boxes);
         }
