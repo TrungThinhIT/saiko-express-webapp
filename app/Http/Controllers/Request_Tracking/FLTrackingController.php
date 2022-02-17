@@ -75,10 +75,13 @@ class FLTrackingController extends Controller
                     //list item & volumne
                     $total_weight = 0;
                     $total_volume = 0;
+                    $is_overload_size = false;
 
                     if (count($results['boxes']) == 1) {
                         for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
-                            // volumne
+                            if (max($results['boxes'][$i]['length'], $results['boxes'][$i]['width'], $results['boxes'][$i]['height']) > 60) {
+                                $is_overload_size = true;
+                            }
                             $weight = $results['boxes'][$i]['weight'];
                             $date_default = strtotime($this->date);
                             $date_defaultNew = strtotime($this->dateDefault);
@@ -110,7 +113,7 @@ class FLTrackingController extends Controller
 
                         }
                         if (!empty($results['reference'])) {
-                            $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['reference'], $province, $method_shipment, $date_default, $date_defaultNew, $results['reference']['insurance_declaration'], $results['reference']['special_declaration']);
+                            $fee = $this->calFeeFollowSFA($is_overload_size ? max($total_weight, $total_volume) : $total_weight, $results['reference'], $province, $method_shipment, $date_default, $date_defaultNew, $results['reference']['insurance_declaration'], $results['reference']['special_declaration']);
                             $fee_special = $results['reference']['special_declaration'] * $fee['special'];
                             $fee_insurance = $results['reference']['insurance_declaration'] * $fee['insurance'];
                             $fee_COD_inside = $results['sfa']['shipping_inside_vnd'];
@@ -123,6 +126,9 @@ class FLTrackingController extends Controller
                         }
                     } else {
                         for ($i = 0; $i <= count($results['boxes']) - 1; $i++) {
+                            if (max($results['boxes'][$i]['length'], $results['boxes'][$i]['width'], $results['boxes'][$i]['height']) > 60) {
+                                $is_overload_size = true;
+                            }
                             $weight = $results['boxes'][$i]['weight'];
                             $date_default = strtotime($this->date);
                             $date_defaultNew = strtotime($this->dateDefault);
@@ -161,7 +167,7 @@ class FLTrackingController extends Controller
                             $results['boxes'][$i]['volume_weight_box'] = $volumne_weight;
                         }
                         if (!empty($results['reference'])) {
-                            $fee = $this->calFeeFollowSFA(max($total_weight, $total_volume), $results['reference'], $province, $method_shipment, $date_default, $date_defaultNew, $results['reference']['insurance_declaration'], $results['reference']['special_declaration']);
+                            $fee = $this->calFeeFollowSFA($is_overload_size ? max($total_weight, $total_volume) : $total_weight, $results['reference'], $province, $method_shipment, $date_default, $date_defaultNew, $results['reference']['insurance_declaration'], $results['reference']['special_declaration']);
                             $fee_special = $results['reference']['special_declaration'] * $fee['special'];
                             $fee_insurance = $results['reference']['insurance_declaration'] * $fee['insurance'];
                             $fee_COD_inside = $results['sfa']['shipping_inside_vnd'];
