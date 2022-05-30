@@ -283,7 +283,7 @@
                                     </li>
                                     <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
 
-                                    <li id="sub-menu-custom is_login">
+                                    <li id="sub-menu-custom" class="is_login">
                                         <a id="user_id"></a>
                                         <ul class="sub-menu">
                                             <li>
@@ -295,7 +295,7 @@
                                         </ul>
                                     </li>
 
-                                    <li id="not_login">
+                                    <li class="not_login">
                                         <a href="auth/index">Đăng nhập</a>
                                     </li>
                                 </ul>

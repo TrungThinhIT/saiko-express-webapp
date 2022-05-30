@@ -298,10 +298,10 @@
 
     $(document).ready(function() {
         if (isLogin() == true) {
-            $('#not_login').addClass("d-none");
+            $('.not_login').css({display:"none"});
             document.getElementById("user_id").innerHTML = localStorage.getItem("user_id");
         } else {
-            $('#is_login').addClass("d-none");
+            $('.is_login').css({display:"none"});
         }
     });
 
