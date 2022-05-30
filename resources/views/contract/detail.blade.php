@@ -194,67 +194,6 @@
                 <div class="car-header border-bottom">
                     <div class="card-title">
                         <div class="card-label mt-3 pl-4">
-                            Phí giao hàng
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    @if ($data['shipping_fee'] != 0)
-                        <div class="col-12 p-2">
-                            <label for="" class="font-weight-light">Phí giao hàng</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control color-custom"
-                                    value="{{ number_format($data['shipping_fee']) }}" readonly>
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    @if ($data['shipping_fee_air'] != 0)
-                        <div class="col-12 p-2">
-                            <label for="" class="font-weight-light">Phí giao hàng bay</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control color-custom"
-                                    value="{{ number_format($data['shipping_fee_air']) }}" readonly>
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    @if ($data['shipping_fee_sea'] != 0)
-                        <div class="col-12 p-2">
-                            <label for="" class="font-weight-light">Phí giao hàng biển</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control color-custom"
-                                    value="{{ number_format($data['shipping_fee_sea']) }}" readonly>
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                    @if ($data['shipping_fee_sea'] != 0)
-                        <div class="col-12 p-2">
-                            <label for="" class="font-weight-light">Phí vận chuyển nội địa</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <input type="text" class="form-control color-custom"
-                                    value="{{ number_format($data['shipping_inside_fee']) }}" readonly>
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text font-weight-bold currency-corlor-custom">VND</div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 ">
-            <div class="card h-100">
-                <div class="car-header border-bottom">
-                    <div class="card-title">
-                        <div class="card-label mt-3 pl-4">
                             Đền bù
                         </div>
                     </div>
@@ -587,13 +526,15 @@
 
         //function
 
-        function showInfoOrder(obj) {
+        async function showInfoOrder(obj) {
             let order_id = $(obj).data('id');
+            await verifyToken();
             $.ajax({
                 type: "POST",
                 url: "{{ route('contract.getBoxes') }}",
                 data: {
                     order_id: order_id,
+                    idToken: localStorage.getItem('firebase_token'),
                 },
                 success: function(response) {
                     if (response.code == 401) {

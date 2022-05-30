@@ -383,45 +383,22 @@
                         </div>
                         <div class="info">
                             <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-                                <span>
-                                    @if (Session::get('idToken') != '')
-                                    @php
-                                    $data = unserialize(Session::get('idToken'));
-                                    @endphp
-                                    {{ $data['id'] }}
-
-                                    @endif
-                                    <span class="user-level">
-                                        @if (Session::get('idToken') != '')
-                                        @php
-                                        $data = unserialize(Session::get('idToken'));
-                                        @endphp
-                                        {{ $data['role_id'] }}
-                                        @endif
-                                    </span>
-                                    {{-- <span class="caret"></span> --}}
+                                <span id="user_id"></span>
                                 </span>
                             </a>
                             <div class="clearfix"></div>
                         </div>
                     </div>
                     <ul class="nav nav-primary">
-                        {{-- <li class="nav-item active">
-                            <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
-                                <i class="fas fa-home"></i>
-                                <p>Dashboard</p>
-                                <span class="caret"></span>
-                            </a>
-                        </li> --}}
                         <li class="nav-item" id="fix-bg-menu-info">
-                            <a href="{{ route('auth.info') }}">
+                            <a href="javascript:redirectInfo()">
                                 <i class="fa fa-user"></i>
                                 <p>Thông tin tài khoản</p>
                                 {{-- <span class="caret"></span> --}}
                             </a>
                         </li>
                         <li class="nav-item" id="fix-bg-menu-address">
-                            <a href="{{ route('shipment.index') }}">
+                            <a href="javascript:redirectAddress()">
                                 <i class="fa fa-address-book-o"></i>
                                 <p>Sổ địa chỉ</p>
                                 {{-- <span class="caret"></span> --}}
@@ -436,13 +413,13 @@
                             <div class="collapse" id="sidebarLayouts-transactions">
                                 <ul class="nav nav-collapse">
                                     <li class="child-menu" id="fix-bg-menu-order-create">
-                                        <a href="{{ route('transaction.show', ['transaction' => $data['id']]) }}">
+                                        <a href="javascript:redirectAccount()">
                                             <span class="sub-item">Chi tiết tài khoản</span>
                                         </a>
 
                                     </li>
                                     <li class="child-menu" id="fix-bg-menu-order-follow">
-                                        <a href=" {{ route('transaction.index') }}">
+                                        <a href="javascript:redirectTransaction()">
                                             <span class="sub-item">Lịch sử giao dịch</span>
                                         </a>
                                     </li>
@@ -468,7 +445,7 @@
                                         </a>
                                     </li>
                                     <li class="child-menu" id="fix-bg-menu-order-index">
-                                        <a href="{{ route('orders.index') }}">
+                                        <a href="javascript:redirectOrder()">
                                             <span class="sub-item">Danh sách đơn hàng</span>
                                         </a>
                                     </li>
@@ -477,17 +454,16 @@
                             </div>
                         </li>
                         <li class="nav-item" id="fix-bg-menu-info">
-                            <a href="{{ route('contract.index') }}">
+                            <a href="javascript:redirectContract()">
                                 <i class="fa fa-user"></i>
                                 <p>Gom hàng theo lô</p>
                                 {{-- <span class="caret"></span> --}}
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('auth.logout') }}" id="logout-firebase">
+                            <a href="javascript:logout();">
                                 <i class="fa fa-sign-out"></i>
                                 <p>Thoát</p>
-                                {{-- <span class="caret"></span> --}}
                             </a>
                         </li>
                     </ul>
@@ -825,12 +801,15 @@
 
     <script src="assets_customer/js/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script src="assets/js/plugins/jquery/jquery.cookie.js"></script>
+    <script src="{{ asset('js/firebase.js')}}"></script>
 
     <script>
         $(document).ready(function() {
             $("#show-search").click(function() {
                 $("#search-nav").show();
-            })
+            });
+
+            $('#user_id').text(localStorage.getItem('user_id'));
         })
         Circles.create({
             id: 'circles-1',
@@ -881,45 +860,6 @@
             return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
         }
 
-        // var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
-
-        // var mytotalIncomeChart = new Chart(totalIncomeChart, {
-        //     type: 'bar',
-        //     data: {
-        //         labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
-        //         datasets: [{
-        //             label: "Total Income",
-        //             backgroundColor: '#ff9e27',
-        //             borderColor: 'rgb(23, 125, 255)',
-        //             data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
-        //         }],
-        //     },
-        //     options: {
-        //         responsive: true,
-        //         maintainAspectRatio: false,
-        //         legend: {
-        //             display: false,
-        //         },
-        //         scales: {
-        //             yAxes: [{
-        //                 ticks: {
-        //                     display: false //this will remove only the label
-        //                 },
-        //                 gridLines: {
-        //                     drawBorder: false,
-        //                     display: false
-        //                 }
-        //             }],
-        //             xAxes: [{
-        //                 gridLines: {
-        //                     drawBorder: false,
-        //                     display: false
-        //                 }
-        //             }]
-        //         },
-        //     }
-        // });
-
         $('#lineChart').sparkline([105, 103, 123, 100, 95, 105, 115], {
             type: 'line',
             height: '70',
@@ -940,27 +880,6 @@
     <!-- TODO: Add SDKs for Firebase products that you want to use
    https://firebase.google.com/docs/web/setup#available-libraries -->
 
-    {{-- <script>
-        // Your web app's Firebase configuration
-        var firebaseConfig = {
-            apiKey: "AIzaSyDGy2NFzP3UlDm-U1XHjl9hgBdG-YJiYH8",
-            authDomain: "saikoexpress-4e48e.firebaseapp.com",
-            projectId: "saikoexpress-4e48e",
-            storageBucket: "saikoexpress-4e48e.appspot.com",
-            messagingSenderId: "232985951792",
-            appId: "1:232985951792:web:6f407fd73072f5846af7f5"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-        var provider = new firebase.auth.GoogleAuthProvider();
-        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-        firebase.auth().languageCode = 'it';
-        provider.setCustomParameters({
-            'login_hint': 'user@example.com'
-        });
-
-    </script> --}}
     <script>
         // Your web app's Firebase configuration
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -977,72 +896,49 @@
         });
         firebase.analytics();
 
-        function lifeTimeToken() {
-            let id_session = "{{ Session::has('idToken') }}";
-            if (!id_session) {
-                $.removeCookie('idToken', {
-                    path: '/'
-                })
-                firebase.auth().signOut().then(() => {
-                    // Sign-out successful.
-                    window.location.href = "{{ route('auth.logout') }}"
-                }).catch((error) => {
-                    // An error happened.
-                    window.location.href = "{{ route('auth.logout') }}"
-                });
-            } else {
-                if (!checkToken()) {
-                    firebase.auth().onAuthStateChanged((user) => {
-                        if (user) {
-                            firebase.auth().currentUser.getIdToken( /* forceRefresh */ true).then(
-                                function(token_gg) {
-                                    setToken(token_gg)
-                                    $.ajax({
-                                        headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                                        },
-                                        type: "POST",
-                                        url: "{{ route('auth.login') }}",
-                                        data: {
-                                            idToken: token_gg,
-                                        },
-                                        global: false,
-                                        success: function(respone) {
-                                            if (respone.code == 200) {}
-                                        },
-                                        error: function(respone) {
-                                            console.log(respone.responseJSON.errors)
-                                        }
-                                    })
-                                }).catch(function(error) {
-                                console.log(error)
-                            });
-                        }
-                    });
-                }
-            }
+        async function redirectInfo() {
+            await verifyToken();
+            var url = "{{ route('auth.info') }}" + '?user_id=' + localStorage.getItem('user_id') + '&idToken=' + localStorage.getItem('firebase_token');
+            await $(location).prop('href', url);
         }
-        lifeTimeToken();
+
+        async function redirectAddress() {
+            await verifyToken();
+            var url = "{{ route('shipment.index') }}" + '?user_id=' + localStorage.getItem('user_id') + '&idToken=' + localStorage.getItem('firebase_token');
+            await $(location).prop('href', url);
+        }
+
+        async function redirectAccount() {
+            await verifyToken();
+            var url = "{{ route('transaction.show', 1) }}" + '?user_id=' + localStorage.getItem('user_id') + '&idToken=' + localStorage.getItem('firebase_token');
+            await $(location).prop('href', url);
+        }
+
+        async function redirectTransaction() {
+            await verifyToken();
+            var url = "{{ route('transaction.index') }}" + '?user_id=' + localStorage.getItem('user_id') + '&idToken=' + localStorage.getItem('firebase_token');
+            await $(location).prop('href', url);
+        }
+
+        async function redirectOrder() {
+            await verifyToken();
+            var url = "{{ route('orders.index') }}" + '?user_id=' + localStorage.getItem('user_id') + '&idToken=' + localStorage.getItem('firebase_token');
+            await $(location).prop('href', url);
+        }
+
+        async function redirectContract() {
+            await verifyToken();
+            var url = "{{ route('contract.index') }}" + '?user_id=' + localStorage.getItem('user_id') + '&idToken=' + localStorage.getItem('firebase_token');
+            await $(location).prop('href', url);
+        }
+
         $(document).ready(function() {
-            //logout
-            $("#logout-firebase").click(function(e) {
-                e.preventDefault()
-                $.removeCookie('idToken', {
-                    path: '/'
-                });
-                firebase.auth().signOut().then(() => {
-                    // Sign-out successful.
-                    window.location.href = "{{ route('auth.logout') }}"
-                }).catch((error) => {
-                    window.location.href = "{{ route('auth.logout') }}"
-                });
-            })
+            if (!isLogin()) {
+                window.location.href = "{{ route('auth.logout') }}";
+            }
 
-            //search tracking header
-
-            $('#form-search-header').submit(function(e) {
+            $('#form-search-header').submit(async function(e) {
                 e.preventDefault()
-                let idToken = getToken()
                 $("#alert_footer").addClass('d-none')
                 $("#paid_footer").addClass('d-none')
                 $("#table_price_shipping_footer_2").hide()
@@ -1069,6 +965,8 @@
                     })
                     return
                 }
+
+                await verifyToken();
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1076,7 +974,8 @@
                     type: 'POST',
                     url: "{{ route('rq_tk.getStatus') }}",
                     data: {
-                        idToken: idToken,
+                        idToken: localStorage.getItem('firebase_token'),
+                        user_id: localStorage.getItem('user_id'),
                         tracking: tracking
                     },
                     success: function(res) {
@@ -1205,36 +1104,6 @@
                                                 '</p>' +
                                                 '</li>'
                                             )
-                                            // if (value.logs.length) { //log thanh toán
-                                            //     var matchedLogIdx = value.logs.findIndex((log) => {
-                                            //         return !!log?.content?.transaction
-                                            //     });
-                                            //     $.each(value.logs, function(logs_index, logs_value) {
-                                            //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                                            //         var statusLogMerge;
-                                            //         if (matchedLogIdx === -1) {
-                                            //             if (keyObjectLogMerge =="updated_at,service_fee_paid") {
-                                            //                 total_pay += logs_value.content.service_fee_paid
-                                            //                 statusLogMerge = "Đã thanh toán " +formatNumber(logs_value.content.service_fee_paid)
-                                            //             }
-                                            //         } else {
-                                            //             if (keyObjectLogMerge == "transaction") {
-                                            //                 total_pay += logs_value.content.transaction.amount
-                                            //                 statusLogMerge = "Đã thanh toán " +formatNumber(logs_value.content.transaction.amount)
-                                            //             }
-                                            //         }
-
-                                            //         if (statusLogMerge != undefined) {
-                                            //             $("#time_line_tracking").append(
-                                            //                 '<li>' +
-                                            //                 '<a>' + statusLogMerge + '</a>' +
-                                            //                 '<p>' + logs_value.created_at +
-                                            //                 '</p>' +
-                                            //                 '</li>'
-                                            //             )
-                                            //         }
-                                            //     })
-                                            // }
                                             $("#body-table-tracking")
                                                 .append(
                                                     `<tr ">` +
@@ -1324,52 +1193,6 @@
                                                             '<p>' + created_at + '</p>' +
                                                             '</li>'
                                                         )
-                                                        // if (value.logs.length) {
-                                                        //     var total_pay = 0;
-                                                        //     var matchedLogIdx = value.logs.findIndex((log) => {
-                                                        //             return !!log?.content?.transaction
-                                                        //         });
-                                                        //     $.each(value.logs, function(logs_index,logs_value) {
-                                                        //         let keyObjectLogMerge =Object.keys(logs_value.content)
-                                                        //         var statusLogMerge;
-                                                        //         if (matchedLogIdx === -1) {
-                                                        //             if (keyObjectLogMerge =="updated_at,service_fee_paid") {
-                                                        //                 total_pay +=logs_value.content.service_fee_paid
-                                                        //                 statusLogMerge ="Đã thanh toán " +formatNumber(logs_value.content.service_fee_paid)
-                                                        //             }
-                                                        //         } else {
-                                                        //             if (keyObjectLogMerge =="transaction") {
-                                                        //                 total_pay +=logs_value.content.transaction.amount
-                                                        //                 statusLogMerge = "Đã thanh toán " +formatNumber(logs_value.content.transaction.amount)
-                                                        //             }
-                                                        //         }
-
-                                                        //         if (statusLogMerge !=undefined) {
-                                                        //             $("#time_line_tracking")
-                                                        //                 .append(
-                                                        //                     '<li>' +
-                                                        //                     '<a>' +
-                                                        //                     statusLogMerge +
-                                                        //                     '</a>' +
-                                                        //                     '<p>' +
-                                                        //                     logs_value
-                                                        //                     .created_at +
-                                                        //                     '</p>' +
-                                                        //                     '</li>'
-                                                        //                 )
-                                                        //         }
-                                                        //     })
-                                                        //     if (pay_money != undefined) {
-                                                        //         if (total_pay >= pay_money - 1000) {
-                                                        //             $("#alert_footer").addClass('d-none')
-                                                        //             if (value.reference.length) {
-                                                        //                 $("#paid_footer").removeClass('d-none')
-                                                        //             } else {
-                                                        //                 $("#paid_footer").addClass('d-none')
-                                                        //             }
-                                                        //         }
-                                                        //     }
-                                                        // }
                                                     } else {
                                                         var size = "( Dài : " + value.boxes[0]
                                                             .length + "cm" + ",Rộng: " + value
@@ -1496,80 +1319,6 @@
                                                                 '</li>'
                                                             )
                                                         })
-                                                        // if (value.logs.length) {
-                                                        //     var total_pay = 0;
-                                                        //     var matchedLogIdx = value.logs
-                                                        //         .findIndex((log) => {
-                                                        //             return !!log?.content
-                                                        //                 ?.transaction
-                                                        //         });
-                                                        //     $.each(value.logs, function(logs_index,
-                                                        //         logs_value) {
-                                                        //         let keyObjectLogMerge =
-                                                        //             Object.keys(logs_value
-                                                        //                 .content)
-                                                        //         var statusLogMerge;
-                                                        //         if (matchedLogIdx === -1) {
-                                                        //             if (keyObjectLogMerge ==
-                                                        //                 "updated_at,service_fee_paid"
-                                                        //             ) {
-                                                        //                 total_pay +=
-                                                        //                     logs_value
-                                                        //                     .content
-                                                        //                     .service_fee_paid
-                                                        //                 statusLogMerge =
-                                                        //                     "Đã thanh toán " +
-                                                        //                     formatNumber(
-                                                        //                         logs_value
-                                                        //                         .content
-                                                        //                         .service_fee_paid
-                                                        //                     )
-                                                        //             }
-                                                        //         } else {
-                                                        //             if (keyObjectLogMerge ==
-                                                        //                 "transaction") {
-                                                        //                 total_pay +=
-                                                        //                     logs_value
-                                                        //                     .content
-                                                        //                     .transaction
-                                                        //                     .amount
-                                                        //                 statusLogMerge =
-                                                        //                     "Đã thanh toán " +
-                                                        //                     formatNumber(
-                                                        //                         logs_value
-                                                        //                         .content
-                                                        //                         .transaction
-                                                        //                         .amount)
-                                                        //             }
-                                                        //         }
-
-                                                        //         if (statusLogMerge !=
-                                                        //             undefined) {
-                                                        //             $("#time_line_tracking")
-                                                        //                 .append(
-                                                        //                     '<li>' +
-                                                        //                     '<a>' +
-                                                        //                     statusLogMerge +
-                                                        //                     '</a>' +
-                                                        //                     '<p>' +
-                                                        //                     logs_value
-                                                        //                     .created_at +
-                                                        //                     '</p>' +
-                                                        //                     '</li>'
-                                                        //                 )
-                                                        //         }
-                                                        //     })
-                                                        //     if (pay_money != undefined) {
-                                                        //         if (total_pay >= pay_money - 1000) {
-                                                        //             $("#alert_footer").addClass('d-none')
-                                                        //             if (value.reference.length) {
-                                                        //                 $("#paid_footer").removeClass('d-none')
-                                                        //             } else {
-                                                        //                 $("#paid_footer").addClass('d-none')
-                                                        //             }
-                                                        //         }
-                                                        //     }
-                                                        // }
                                                     }
                                                 } else {
                                                     $("#table_price_shipping_footer_2").show()
@@ -1581,53 +1330,6 @@
                                                         $("#money_footer").text(formatNumber(
                                                                 value.reference.total_fee) +
                                                             " VNĐ")
-                                                        // if (value.logs.length) {
-                                                        //     var total_pay = 0
-                                                        //     $.each(value.logs, function(logs_index,
-                                                        //         logs_value) {
-                                                        //         let keyObjectLogMerge =
-                                                        //             Object.keys(logs_value
-                                                        //                 .content)
-                                                        //         var statusLogMerge;
-                                                        //         var created_at_log;
-                                                        //         if (keyObjectLogMerge ==
-                                                        //             "transaction") {
-                                                        //             total_pay += logs_value
-                                                        //                 .content.transaction
-                                                        //                 .amount
-                                                        //             statusLogMerge =
-                                                        //                 "Đã thanh toán " +
-                                                        //                 formatNumber(
-                                                        //                     logs_value
-                                                        //                     .content
-                                                        //                     .transaction
-                                                        //                     .amount)
-                                                        //             $("#time_line_tracking")
-                                                        //                 .append(
-                                                        //                     '<li>' +
-                                                        //                     '<a>' +
-                                                        //                     statusLogMerge +
-                                                        //                     '</a>' +
-                                                        //                     '<p>' +
-                                                        //                     logs_value
-                                                        //                     .created_at +
-                                                        //                     '</p>' +
-                                                        //                     '</li>'
-                                                        //                 )
-
-                                                        //         }
-                                                        //     })
-                                                        //     if (pay_money != undefined) {
-                                                        //         if (total_pay >= pay_money - 1000) {
-                                                        //             $("#alert_footer").addClass('d-none')
-                                                        //             if (value.reference.length) {
-                                                        //                 $("#paid_footer").removeClass('d-none')
-                                                        //             } else {
-                                                        //                 $("#paid_footer").addClass('d-none')
-                                                        //             }
-                                                        //         }
-                                                        //     }
-                                                        // }
                                                     }
                                                     $(`#sku-row-header-${value2.id}`).hover(function() {
                                                         $(this).addClass(
@@ -1686,528 +1388,128 @@
 
         })
 
-        function check_footer(id_box, vnpost, created_at, weight, fee, method, money, logs_merge, pay_money) {
+        async function check_footer(id_box, vnpost, created_at, weight, fee, method, money, logs_merge, pay_money) {
             var id_box = id_box;
 
             $("#time_line_tracking").empty()
-            if (checkToken()) {
-                var idToken = getToken();
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    type: "POST",
-                    url: "{{ route('rq_tk.getInforBox') }}",
-                    data: {
-                        idToken: idToken,
-                        id_box: id_box
-                    },
-                    success: function(res) {
+            await verifyToken();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "POST",
+                url: "{{ route('rq_tk.getInforBox') }}",
+                data: {
+                    idToken: localStorage.getItem('firebase_token'),
+                    user_id: localStorage.getItem('user_id'),
+                    id_box: id_box
+                },
+                success: function(res) {
 
-                        //log box
-                        $("#time_line_tracking").empty()
-                        if (res.logs.length == 0) {
+                    //log box
+                    $("#time_line_tracking").empty()
+                    if (res.logs.length == 0) {
+                        $("#time_line_tracking").append(
+                            '<li>' +
+                            '<a>' + 'Đang tới kho' + '</a>' +
+                            '<p>' + created_at + '</p>' +
+                            '</li>'
+                        )
+                    } else {
+                        var size = " Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res
+                            .height + "cm "
+                        $.each(res.logs, function(index, value) {
+                            let keyObject = Object.keys(value.content)
+                            let valueObject = Object.values(value.content);
+                            var status;
+
+                            if (keyObject == "id") {
+                                status = "Đã nhập kho Nhật"
+                            }
+                            if (keyObject == "in_pallet") {
+                                status = "Đã kiểm hàng " + "( " + size + " )"
+                            }
+                            if (keyObject == "set_user_id,set_order_id") {
+                                status = "Lên đơn hàng"
+                            }
+                            if (keyObject == "set_user_id") {
+                                status = "Lên đơn hàng"
+                            }
+                            if (keyObject == "set_owner_id,set_owner_type") {
+                                status = "Lên đơn hàng"
+                            }
+                            if (keyObject == "set_user_id,set_order_id") {
+                                status = "Lên đơn hàng"
+                            }
+                            if (keyObject == "set_user_id") {
+                                status = "Lên đơn hàng"
+                            }
+                            if (keyObject == "in_container" || keyObject == "in_container,from,to") {
+                                status = "Xuất kho Nhật"
+                            }
+                            if (keyObject == "out_container" || keyObject == "out_container,from,to") {
+                                status = "Nhập kho Việt Nam"
+                            }
+                            if (keyObject == "outbound_warehouse") {
+                                status = "Xuất kho Việt Nam"
+                            }
+                            if (keyObject == "delivery_status") {
+                                if (valueObject == "shipping") {
+                                    status = "Đang giao hàng"
+                                }
+                            }
+                            if (keyObject == "delivery_status") {
+                                if (valueObject == "cancelled") {
+                                    status = "Hủy box"
+                                }
+                            }
+                            if (keyObject == "delivery_status") {
+                                if (valueObject == "received") {
+                                    status = "Đã nhận hàng"
+                                }
+                            }
+                            if (keyObject == "delivery_status") {
+                                if (valueObject == "refunded") {
+                                    status = "Trả lại hàng"
+                                }
+                            }
+                            if (keyObject == "delivery_status") {
+                                if (valueObject == "waiting_shipment") {
+                                    status = "Đợi giao hàng"
+                                }
+                            }
+                            if (keyObject == "shipping_code" && value.type_id == "created") {
+                                status = "Mã giao hàng: " + value.content.shipping_code
+                            }
+                            if (keyObject == "shipping_code" && value.type_id == "updated") {
+                                status = "Cập nhật mã giao hàng: " + value.content.shipping_code
+                            }
+                            if (keyObject == "shipping_code" && value.type_id == "deleted") {
+                                status = "Huỷ mã giao hàng: " + value.content.shipping_code
+                            }
                             $("#time_line_tracking").append(
                                 '<li>' +
-                                '<a>' + 'Đang tới kho' + '</a>' +
-                                '<p>' + created_at + '</p>' +
+                                '<a>' + status + '</a>' +
+                                '<p>' + value.created_at + '</p>' +
                                 '</li>'
                             )
-                        } else {
-                            var size = " Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res
-                                .height + "cm "
-                            $.each(res.logs, function(index, value) {
-                                let keyObject = Object.keys(value.content)
-                                let valueObject = Object.values(value.content);
-                                var status;
-
-                                if (keyObject == "id") {
-                                    status = "Đã nhập kho Nhật"
-                                }
-                                if (keyObject == "in_pallet") {
-                                    status = "Đã kiểm hàng " + "( " + size + " )"
-                                }
-                                if (keyObject == "set_user_id,set_order_id") {
-                                    status = "Lên đơn hàng"
-                                }
-                                if (keyObject == "set_user_id") {
-                                    status = "Lên đơn hàng"
-                                }
-                                if (keyObject == "set_owner_id,set_owner_type") {
-                                    status = "Lên đơn hàng"
-                                }
-                                if (keyObject == "set_user_id,set_order_id") {
-                                    status = "Lên đơn hàng"
-                                }
-                                if (keyObject == "set_user_id") {
-                                    status = "Lên đơn hàng"
-                                }
-                                if (keyObject == "in_container" || keyObject == "in_container,from,to") {
-                                    status = "Xuất kho Nhật"
-                                }
-                                if (keyObject == "out_container" || keyObject == "out_container,from,to") {
-                                    status = "Nhập kho Việt Nam"
-                                }
-                                if (keyObject == "outbound_warehouse") {
-                                    status = "Xuất kho Việt Nam"
-                                }
-                                if (keyObject == "delivery_status") {
-                                    if (valueObject == "shipping") {
-                                        status = "Đang giao hàng"
-                                    }
-                                }
-                                if (keyObject == "delivery_status") {
-                                    if (valueObject == "cancelled") {
-                                        status = "Hủy box"
-                                    }
-                                }
-                                if (keyObject == "delivery_status") {
-                                    if (valueObject == "received") {
-                                        status = "Đã nhận hàng"
-                                    }
-                                }
-                                if (keyObject == "delivery_status") {
-                                    if (valueObject == "refunded") {
-                                        status = "Trả lại hàng"
-                                    }
-                                }
-                                if (keyObject == "delivery_status") {
-                                    if (valueObject == "waiting_shipment") {
-                                        status = "Đợi giao hàng"
-                                    }
-                                }
-                                if (keyObject == "shipping_code" && value.type_id == "created") {
-                                    status = "Mã giao hàng: " + value.content.shipping_code
-                                }
-                                if (keyObject == "shipping_code" && value.type_id == "updated") {
-                                    status = "Cập nhật mã giao hàng: " + value.content.shipping_code
-                                }
-                                if (keyObject == "shipping_code" && value.type_id == "deleted") {
-                                    status = "Huỷ mã giao hàng: " + value.content.shipping_code
-                                }
-                                $("#time_line_tracking").append(
-                                    '<li>' +
-                                    '<a>' + status + '</a>' +
-                                    '<p>' + value.created_at + '</p>' +
-                                    '</li>'
-                                )
-                            })
-                        }
-                        //adđ log payment
-                        // if (logs_merge.length) {
-                        //     var total_pay = 0;
-                        //     var matchedLogIdx = logs_merge.findIndex((log) => {
-                        //         return !!log?.content?.transaction
-                        //     });
-                        //     $.each(logs_merge, function(logs_index, logs_value) {
-                        //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                        //         var statusLogMerge;
-                        //         var created_at_log;
-
-                        //         if (matchedLogIdx === -1) {
-                        //             if (keyObjectLogMerge == "updated_at,service_fee_paid") {
-                        //                 total_pay += logs_value.content.service_fee_paid
-                        //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
-                        //                     .service_fee_paid)
-                        //             }
-                        //         } else {
-                        //             if (keyObjectLogMerge == "transaction") {
-                        //                 total_pay += logs_value.content.transaction.amount
-                        //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
-                        //                     .transaction.amount)
-                        //             }
-                        //         }
-
-                        //         if (statusLogMerge != undefined) {
-                        //             $("#time_line_tracking").append(
-                        //                 '<li>' +
-                        //                 '<a>' + statusLogMerge + '</a>' +
-                        //                 '<p>' + logs_value.created_at + '</p>' +
-                        //                 '</li>'
-                        //             )
-                        //         }
-                        //     })
-                        //     if (pay_money != undefined) {
-                        //         if (total_pay >= pay_money - 1000) {
-                        //             $("#alert_footer").addClass('d-none')
-                        //             if (value.reference.length) {
-                        //                 $("#paid_footer").removeClass('d-none')
-                        //             } else {
-                        //                 $("#paid_footer").addClass('d-none')
-                        //             }
-                        //         }
-                        //     }
-                        // }
-
-                    },
-                    error: function(res) {
-                        console.log(res)
+                        })
                     }
-                })
-            } else {
-                firebase.auth().onAuthStateChanged((user) => {
-                    if (user) {
-                        firebase.auth().currentUser.getIdToken( /* forceRefresh */ true).then(function(token_gg) {
-                            setToken(token_gg)
-                            let idToken = getToken();
-                            $.ajax({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                type: "POST",
-                                url: "{{ route('rq_tk.getInforBox') }}",
-                                data: {
-                                    idToken: idToken,
-                                    id_box: id_box
-                                },
-                                success: function(res) {
+                },
+                error: function(res) {
+                    console.log(res)
+                }
+            })
 
-                                    //log box
-                                    $("#time_line_tracking").empty()
-                                    if (res.logs.length == 0) {
-                                        $("#time_line_tracking").append(
-                                            '<li>' +
-                                            '<a>' + 'Đang tới kho' + '</a>' +
-                                            '<p>' + created_at + '</p>' +
-                                            '</li>'
-                                        )
-                                    } else {
-                                        var size = " Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res
-                                            .height + "cm "
-                                        $.each(res.logs, function(index, value) {
-                                            let keyObject = Object.keys(value.content)
-                                            let valueObject = Object.values(value.content);
-                                            var status;
-
-                                            if (keyObject == "id") {
-                                                status = "Đã nhập kho Nhật"
-                                            }
-                                            if (keyObject == "in_pallet") {
-                                                status = "Đã kiểm hàng " + "( " + size + " )"
-                                            }
-                                            if (keyObject == "set_user_id,set_order_id") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "set_user_id") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "set_owner_id,set_owner_type") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "set_user_id,set_order_id") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "set_user_id") {
-                                                status = "Lên đơn hàng"
-                                            }
-                                            if (keyObject == "in_container" || keyObject == "in_container,from,to") {
-                                                status = "Xuất kho Nhật"
-                                            }
-                                            if (keyObject == "out_container" || keyObject == "out_container,from,to") {
-                                                status = "Nhập kho Việt Nam"
-                                            }
-                                            if (keyObject == "outbound_warehouse") {
-                                                status = "Xuất kho Việt Nam"
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "shipping") {
-                                                    status = "Đang giao hàng"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "cancelled") {
-                                                    status = "Hủy box"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "received") {
-                                                    status = "Đã nhận hàng"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "refunded") {
-                                                    status = "Trả lại hàng"
-                                                }
-                                            }
-                                            if (keyObject == "delivery_status") {
-                                                if (valueObject == "waiting_shipment") {
-                                                    status = "Đợi giao hàng"
-                                                }
-                                            }
-                                            if (keyObject == "shipping_code" && value.type_id == "created") {
-                                                status = "Mã giao hàng: " + value.content.shipping_code
-                                            }
-                                            if (keyObject == "shipping_code" && value.type_id == "updated") {
-                                                status = "Cập nhật mã giao hàng: " + value.content.shipping_code
-                                            }
-                                            if (keyObject == "shipping_code" && value.type_id == "deleted") {
-                                                status = "Huỷ mã giao hàng: " + value.content.shipping_code
-                                            }
-                                            $("#time_line_tracking").append(
-                                                '<li>' +
-                                                '<a>' + status + '</a>' +
-                                                '<p>' + value.created_at + '</p>' +
-                                                '</li>'
-                                            )
-                                        })
-                                    }
-                                    //adđ log payment
-                                    // if (logs_merge.length) {
-                                    //     var total_pay = 0;
-                                    //     var matchedLogIdx = logs_merge.findIndex((log) => {
-                                    //         return !!log?.content?.transaction
-                                    //     });
-                                    //     $.each(logs_merge, function(logs_index, logs_value) {
-                                    //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                                    //         var statusLogMerge;
-                                    //         var created_at_log;
-
-                                    //         if (matchedLogIdx === -1) {
-                                    //             if (keyObjectLogMerge == "updated_at,service_fee_paid") {
-                                    //                 total_pay += logs_value.content.service_fee_paid
-                                    //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
-                                    //                     .service_fee_paid)
-                                    //             }
-                                    //         } else {
-                                    //             if (keyObjectLogMerge == "transaction") {
-                                    //                 total_pay += logs_value.content.transaction.amount
-                                    //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
-                                    //                     .transaction.amount)
-                                    //             }
-                                    //         }
-
-                                    //         if (statusLogMerge != undefined) {
-                                    //             $("#time_line_tracking").append(
-                                    //                 '<li>' +
-                                    //                 '<a>' + statusLogMerge + '</a>' +
-                                    //                 '<p>' + logs_value.created_at + '</p>' +
-                                    //                 '</li>'
-                                    //             )
-                                    //         }
-                                    //     })
-                                    //     if (pay_money != undefined) {
-                                    //         if (total_pay >= pay_money - 1000) {
-                                    //             $("#alert_footer").addClass('d-none')
-                                    //             if (value.reference.length) {
-                                    //                 $("#paid_footer").removeClass('d-none')
-                                    //             } else {
-                                    //                 $("#paid_footer").addClass('d-none')
-                                    //             }
-                                    //         }
-                                    //     }
-                                    // }
-
-                                },
-                                error: function(res) {
-                                    console.log(res)
-                                }
-                            })
-                        }).catch(function(error) {
-                            swal("warning", error.message)
-                        });
-                    } else {
-                        firebase.auth().signInWithEmailAndPassword(email, password)
-                            .then((userCredential) => {
-                                firebase.auth().currentUser.getIdToken( /* forceRefresh */ false).then(function(token_gg) {
-                                    setToken(token_gg)
-                                    let idToken = getToken();
-                                    $.ajax({
-                                        headers: {
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                        },
-                                        type: "POST",
-                                        url: "{{ route('rq_tk.getInforBox') }}",
-                                        data: {
-                                            id_box: id_box
-                                        },
-                                        success: function(res) {
-
-                                            //log box
-                                            $("#time_line_tracking").empty()
-                                            if (res.logs.length == 0) {
-                                                $("#time_line_tracking").append(
-                                                    '<li>' +
-                                                    '<a>' + 'Đang tới kho' + '</a>' +
-                                                    '<p>' + created_at + '</p>' +
-                                                    '</li>'
-                                                )
-                                            } else {
-                                                var size = " Dài : " + res.length + "cm" + ",Rộng: " + res.width + "cm" + ",Cao: " + res
-                                                    .height + "cm "
-                                                $.each(res.logs, function(index, value) {
-                                                    let keyObject = Object.keys(value.content)
-                                                    let valueObject = Object.values(value.content);
-                                                    var status;
-
-                                                    if (keyObject == "id") {
-                                                        status = "Đã nhập kho Nhật"
-                                                    }
-                                                    if (keyObject == "in_pallet") {
-                                                        status = "Đã kiểm hàng " + "( " + size + " )"
-                                                    }
-                                                    if (keyObject == "set_user_id,set_order_id") {
-                                                        status = "Lên đơn hàng"
-                                                    }
-                                                    if (keyObject == "set_user_id") {
-                                                        status = "Lên đơn hàng"
-                                                    }
-                                                    if (keyObject == "set_owner_id,set_owner_type") {
-                                                        status = "Lên đơn hàng"
-                                                    }
-                                                    if (keyObject == "set_user_id,set_order_id") {
-                                                        status = "Lên đơn hàng"
-                                                    }
-                                                    if (keyObject == "set_user_id") {
-                                                        status = "Lên đơn hàng"
-                                                    }
-                                                    if (keyObject == "in_container" || keyObject == "in_container,from,to") {
-                                                        status = "Xuất kho Nhật"
-                                                    }
-                                                    if (keyObject == "out_container" || keyObject == "out_container,from,to") {
-                                                        status = "Nhập kho Việt Nam"
-                                                    }
-                                                    if (keyObject == "outbound_warehouse") {
-                                                        status = "Xuất kho Việt Nam"
-                                                    }
-                                                    if (keyObject == "delivery_status") {
-                                                        if (valueObject == "shipping") {
-                                                            status = "Đang giao hàng"
-                                                        }
-                                                    }
-                                                    if (keyObject == "delivery_status") {
-                                                        if (valueObject == "cancelled") {
-                                                            status = "Hủy box"
-                                                        }
-                                                    }
-                                                    if (keyObject == "delivery_status") {
-                                                        if (valueObject == "received") {
-                                                            status = "Đã nhận hàng"
-                                                        }
-                                                    }
-                                                    if (keyObject == "delivery_status") {
-                                                        if (valueObject == "refunded") {
-                                                            status = "Trả lại hàng"
-                                                        }
-                                                    }
-                                                    if (keyObject == "delivery_status") {
-                                                        if (valueObject == "waiting_shipment") {
-                                                            status = "Đợi giao hàng"
-                                                        }
-                                                    }
-                                                    if (keyObject == "shipping_code" && value.type_id == "created") {
-                                                        status = "Mã giao hàng: " + value.content.shipping_code
-                                                    }
-                                                    if (keyObject == "shipping_code" && value.type_id == "updated") {
-                                                        status = "Cập nhật mã giao hàng: " + value.content.shipping_code
-                                                    }
-                                                    if (keyObject == "shipping_code" && value.type_id == "deleted") {
-                                                        status = "Huỷ mã giao hàng: " + value.content.shipping_code
-                                                    }
-                                                    $("#time_line_tracking").append(
-                                                        '<li>' +
-                                                        '<a>' + status + '</a>' +
-                                                        '<p>' + value.created_at + '</p>' +
-                                                        '</li>'
-                                                    )
-                                                })
-                                            }
-                                            //adđ log payment
-                                            // if (logs_merge.length) {
-                                            //     var total_pay = 0;
-                                            //     var matchedLogIdx = logs_merge.findIndex((log) => {
-                                            //         return !!log?.content?.transaction
-                                            //     });
-                                            //     $.each(logs_merge, function(logs_index, logs_value) {
-                                            //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                                            //         var statusLogMerge;
-                                            //         var created_at_log;
-
-                                            //         if (matchedLogIdx === -1) {
-                                            //             if (keyObjectLogMerge == "updated_at,service_fee_paid") {
-                                            //                 total_pay += logs_value.content.service_fee_paid
-                                            //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
-                                            //                     .service_fee_paid)
-                                            //             }
-                                            //         } else {
-                                            //             if (keyObjectLogMerge == "transaction") {
-                                            //                 total_pay += logs_value.content.transaction.amount
-                                            //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
-                                            //                     .transaction.amount)
-                                            //             }
-                                            //         }
-
-                                            //         if (statusLogMerge != undefined) {
-                                            //             $("#time_line_tracking").append(
-                                            //                 '<li>' +
-                                            //                 '<a>' + statusLogMerge + '</a>' +
-                                            //                 '<p>' + logs_value.created_at + '</p>' +
-                                            //                 '</li>'
-                                            //             )
-                                            //         }
-                                            //     })
-                                            //     if (pay_money != undefined) {
-                                            //         if (total_pay >= pay_money - 1000) {
-                                            //             $("#alert_footer").addClass('d-none')
-                                            //             if (value.reference.length) {
-                                            //                 $("#paid_footer").removeClass('d-none')
-                                            //             } else {
-                                            //                 $("#paid_footer").addClass('d-none')
-                                            //             }
-                                            //         }
-                                            //     }
-                                            // }
-
-                                        },
-                                        error: function(res) {
-                                            console.log(res)
-                                        }
-                                    })
-                                }).catch(function(error) {
-                                    swal("warning", error.message)
-                                });
-                            }).catch((error) => {
-                                var errorMessage = error.message;
-                                swal("warning", errorMessage)
-                            });
-                    }
-                })
-            }
-
-        }
-
-        function checkToken() {
-            if ($.cookie('idToken') != undefined) {
-                return true;
-            }
-            return false;
-        }
-
-        function getToken() {
-            var idToken = '';
-            if (checkToken()) {
-                idToken = $.cookie('idToken');
-            }
-            return idToken;
-        }
-
-        function removeToken() {
-            $.removeCookie('idToken', {
-                path: '/'
-            });
-        }
-
-        function setToken(token_gg) {
-            var name = 'idToken';
-            var now = new Date();
-            now.setTime(now.getTime() + 57 * 60 * 1000);
-            $.cookie(name, token_gg, {
-                expires: now,
-                path: "/"
-            });
         }
 
         function hiddenModal() {
             $('#modal_tracking').removeClass('d-block')
+        }
+
+        async function logout() {
+            await logoutLocal();
+            window.location.href = "{{ route('auth.logout') }}";
         }
     </script>
 </body>

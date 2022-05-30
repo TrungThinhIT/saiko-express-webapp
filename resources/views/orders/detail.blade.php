@@ -89,7 +89,7 @@
                             </div>
                             <div class="col-md-2 ">
                                 <button class="btn btn-secondary fix-float-right" id="btn-return"
-                                    onclick="window.history.back()">Trở
+                                    onclick="redirectOrder()">Trở
                                     về</button>
                             </div>
                         </div>

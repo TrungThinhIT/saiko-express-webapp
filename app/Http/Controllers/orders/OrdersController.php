@@ -24,34 +24,32 @@ class OrdersController extends Controller
      */
     public function index(Request $request)
     {
-        $token  = $this->getToken($request);
-        $customer_id = $this->getUserId($request);
         // return $request->all();
         $header = [
             'Accept' => 'application/json',
-            'X-Firebase-IdToken' => $token,
+            'X-Firebase-IdToken' => $request->idToken,
             'Accept-Language' => 'vi',
         ];
 
         $params = [
             'with' => 'trackings;shipmentInfo',
             'page' => $request->page_order ?? 1,
-            'search' => 'customer_id:' . $customer_id,
+            'search' => 'customer_id:' . $request->user_id,
             'orderBy' => 'created_at',
             'sortedBy' => 'desc',
         ];
 
         if ($request->field_search != "all") {
 
-            $params['search'] = 'customer_id:' . $customer_id . ';' . $request->field_search . ':' . $request->value_search;
+            $params['search'] = 'customer_id:' . $request->user_id . ';' . $request->field_search . ':' . $request->value_search;
             //created
             if ($request->field_search == "created_at") {
                 $date_search = Carbon::createFromDate($request->value_search)->format("Y-m-d");
-                $params['search'] = 'customer_id:' . $customer_id . ';' . $request->field_search . ':' . $date_search;
+                $params['search'] = 'customer_id:' . $request->user_id . ';' . $request->field_search . ':' . $date_search;
             }
             //status
             if ($request->field_search == "director.status.id") {
-                $params['search'] = 'customer_id:' . $customer_id . ';' . $request->field_search . ':' . $request->status;
+                $params['search'] = 'customer_id:' . $request->user_id . ';' . $request->field_search . ':' . $request->status;
             }
 
             $params['searchJoin'] = 'and';
@@ -59,17 +57,6 @@ class OrdersController extends Controller
 
         $send = Http::withHeaders($header)->get(self::$order_host . '/api/orders/shipment', $params);
 
-        if ($request->wantsJson()) {
-            if ($send->status() == 401) {
-                $this->deleteCookie();
-                return response()->json(['code' => 401]);
-            }
-        }
-        if ($send->status() == 401) {
-            $this->deleteSession();
-            $this->deleteCookie();
-            return redirect()->route('auth.logout');
-        }
         $data = json_decode($send->body(), true);
         foreach ($data['data'] as $key => $value) {
             if (!$value['note']) {
@@ -121,7 +108,6 @@ class OrdersController extends Controller
         $data = $this->shipmentsController->edit($shipment_id, $request);
         if (!isset($data['info']['consignee'])) {
             session()->flash('login', "Vui lòng đăng nhập lại");
-            $this->deleteCookie();
             return  response()->json(['code' => 401]);
         }
 
@@ -154,7 +140,6 @@ class OrdersController extends Controller
             ]
         ]);
         if ($create_shipment->status() == 401) {
-            $this->deleteCookie();
             return response()->json(['code' => 401]);
         }
         if ($create_shipment->status() == 201) {
@@ -177,11 +162,10 @@ class OrdersController extends Controller
      */
     public function show($id, Request $request)
     {
-        $token = $this->getToken($request);
         $header = [
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'X-Firebase-IdToken' => $token,
+            'X-Firebase-IdToken' => $request->idToken,
         ];
 
         $params = [
@@ -193,8 +177,6 @@ class OrdersController extends Controller
 
         $order = Http::withHeaders($header)->get(self::$order_host . '/api/orders', $params);
         if ($order->status() == 401) {
-            $this->deleteCookie();
-            $this->deleteSession();
             return redirect()->route('auth.logout');
         }
         $data = json_decode($order->body(), true);
@@ -271,11 +253,10 @@ class OrdersController extends Controller
 
     public function listStatus(Request $request)
     {
-        $token = $this->getToken($request);
-
         $header = [
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
+            'X-Firebase-IDToken' => $request->idToken
         ];
         $params = [
             'search' => 'directors.type_id:Shipment',

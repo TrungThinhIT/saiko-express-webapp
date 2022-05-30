@@ -16,11 +16,8 @@ class TransactionsController extends Controller
      */
     public function index(Request $request)
     {
-        $token = $this->getToken($request);
-        $user_id = $this->getUserId($request);
-
         $param_search_transactions = [
-            'search' => 'objectable_id:' . $user_id,
+            'search' => 'objectable_id:' . $request->user_id,
             'searchFields' => 'objectable_id:=',
             'orderBy' => 'created_at',
             'sortedBy' => 'desc',
@@ -32,7 +29,7 @@ class TransactionsController extends Controller
         if ($request->wantsJson()) {
             if ($request->type_transaction != "all" && $request->type_money != "all") {
                 $param_search_transactions = [
-                    'search' => 'objectable_id:' . $user_id . ';currency_id:' . $request->type_money . ';type_id:' . $request->type_transaction,
+                    'search' => 'objectable_id:' . $request->user_id . ';currency_id:' . $request->type_money . ';type_id:' . $request->type_transaction,
                     'searchFields' => 'objectable_id:=;currency_id:=;type_id:=',
                     'searchJoin' => 'and',
                     'orderBy' => 'created_at',
@@ -44,7 +41,7 @@ class TransactionsController extends Controller
 
             if ($request->type_money != "all" && $request->type_transaction == "all") {
                 $param_search_transactions = [
-                    'search' => 'objectable_id:' . $user_id . ';currency_id:' . $request->type_money,
+                    'search' => 'objectable_id:' . $request->user_id . ';currency_id:' . $request->type_money,
                     'searchFields' => 'objectable_id:=;currency_id:=',
                     'searchJoin' => 'and',
                     'orderBy' => 'created_at',
@@ -56,7 +53,7 @@ class TransactionsController extends Controller
 
             if ($request->type_transaction != "all" && $request->type_money == "all") {
                 $param_search_transactions = [
-                    'search' => 'objectable_id:' . $user_id . ';type_id:' . $request->type_transaction,
+                    'search' => 'objectable_id:' . $request->user_id . ';type_id:' . $request->type_transaction,
                     'searchFields' => 'objectable_id:=;type_id:=',
                     'searchJoin' => 'and',
                     'orderBy' => 'created_at',
@@ -70,18 +67,15 @@ class TransactionsController extends Controller
         $transactions = Http::withHeaders([
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'X-Firebase-IdToken' => $token,
+            'X-Firebase-IdToken' => $request->idToken,
         ])->get(self::$accounting_host . '/api/transactions', $param_search_transactions);
 
         if ($request->wantsJson()) {
             if ($transactions->status() == 401) {
-                $this->deleteCookie();
                 return response()->json(['code' => 401]);
             }
         }
         if ($transactions->status() == 401) {
-            $this->deleteCookie();
-            $this->deleteSession();
             return redirect()->route('auth.logout');
         }
 
@@ -121,26 +115,21 @@ class TransactionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, Request $request)
+    public function show($id = null, Request $request)
     {
-        $token  = $this->getToken($request);
-        $user_id = $this->getUserId($request);
-
         $header = [
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'X-Firebase-IdToken' => $token,
+            'X-Firebase-IdToken' => $request->idToken,
         ];
         $param = [
-            'search' => 'objectable_id:' . $id,
+            'search' => 'objectable_id:' . $request->user_id,
             'searchFields' => 'objectable_id:=',
             'with' => 'currency',
         ];
 
         $getAccount = Http::withHeaders($header)->get(self::$accounting_host . '/api/accounts', $param);
         if ($getAccount->status() == 401) {
-            $this->deleteCookie();
-            $this->deleteSession();
             return redirect()->route('auth.logout');
         }
         $data = json_decode($getAccount->body(), true);

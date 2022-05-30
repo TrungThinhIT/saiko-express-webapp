@@ -20,13 +20,8 @@ class ShipmentsController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request);
-        $data = $request->session()->get('idToken');
-        $data = unserialize($data);
-
-        $token = $request->idToken ?? $data['idToken'];
         $param_search_shipment = [
-            'search' => 'user_id:' . $data['id'],
+            'search' => 'user_id:' . $request->user_id,
             'searchFields' => 'user_id:=',
             'page' => $request->page_shipment ?? 1,
             'with' => $request->with,
@@ -35,17 +30,16 @@ class ShipmentsController extends Controller
         $shipment_info = Http::withHeaders([
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'X-Firebase-IdToken' => $token,
+            'X-Firebase-IdToken' => $request->idToken,
         ])->get(self::$auth_host . '/api/addresses', $param_search_shipment);
 
         $user = Http::withHeaders([
             'Accept-Language' => 'vi',
             'Accept' => 'application/json',
-            'X-Firebase-IdToken' => $token,
+            'X-Firebase-IdToken' => $request->idToken,
         ])->get(self::$auth_host . '/api/me');
 
         if ($shipment_info->status() == 401 && !$request->shipment) {
-            $this->deleteCookie();
             return redirect()->route('auth.logout');
         }
 
@@ -54,13 +48,12 @@ class ShipmentsController extends Controller
 
         if ($request->shipment) {
             if ($shipment_info->status() == 401) {
-                $this->deleteCookie();
                 return response()->json(['code' => 401]);
             }
             return response()->json(['list_address' => $list_shipment]);
         }
 
-        $data = array_merge($data, ['list_address' => $list_shipment, 'user' => $user]);
+        $data = array_merge(['id' => $request->user_id], ['list_address' => $list_shipment, 'user' => $user]);
         return view('manager.address', compact('data'));
     }
 
@@ -81,17 +74,11 @@ class ShipmentsController extends Controller
      */
     public function store(Request $request)
     {
-        $user = ['user_id' => $this->getUserID($request)];
-        $token = $this->getToken($request);
-
-        $param = array_merge($request->all(), $user);
+        $param = array_merge($request->all(), ['user_id' => $request->user_id]);
         $create = Http::withHeaders([
             'Accept' => 'application/json',
-            'X-Firebase-IdToken' => $token
+            'X-Firebase-IdToken' => $request->idToken
         ])->post(self::$auth_host . '/api/addresses', $param);
-        if ($create->status() == 401) {
-            $this->deleteCookie();
-        }
         return response()->json(['code' => $create->status(), 'message' => $create->body()]);
     }
 
@@ -114,23 +101,21 @@ class ShipmentsController extends Controller
      */
     public function edit($id, Request $request)
     {
-        $token = $this->getToken($request);
         $send = Http::withHeaders(
             [
                 'Accept' => 'application/json',
-                'X-Firebase-IDToken' => $token
+                'X-Firebase-IDToken' => $request->idToken
             ]
         )->get(self::$auth_host . '/api/addresses/' . $id);
 
         if ($send->status() == 401 && !$request->order) {
-            $this->deleteCookie();
             return response()->json(['code' => 401]);
         }
 
         $info = json_decode($send, true);
 
         if ($request->order) {
-            return ['info' => $info, 'token' => $token];
+            return ['info' => $info, 'token' => $request->idToken];
         }
         $param_get_fulladdress = [
             'with' => 'district.province'
@@ -140,7 +125,6 @@ class ShipmentsController extends Controller
         ])->get(self::$notification_host . '/api/wards/' . $info['ward_id'], $param_get_fulladdress);
 
         if ($full_address->status() == 401) {
-            $this->deleteCookie();
             return response()->json(['code' => 401]);
         }
 
@@ -199,13 +183,8 @@ class ShipmentsController extends Controller
     {
         $send_update = Http::withHeaders([
             'Accept' => 'application/json',
-            'X-Firebase-IdToken' => $this->getToken($request),
+            'X-Firebase-IdToken' => $request->idToken,
         ])->PUT(self::$auth_host . "/api/addresses/" . $id, $request->all());
-
-        if ($send_update->status() == 401) {
-            $this->deleteCookie();
-            $this->deleteSession();
-        }
 
         return response()->json(['code' => $send_update->status(), 'message' => $send_update->body()]);
     }
@@ -219,17 +198,12 @@ class ShipmentsController extends Controller
 
     public function destroy($id, Request $request)
     {
-        $token = $this->getToken($request);
         $send = Http::withHeaders(
             [
                 'Accept' => 'application/json',
-                'X-Firebase-IdToken' => $token
+                'X-Firebase-IdToken' => $request->idToken
             ]
         )->DELETE(self::$auth_host . '/api/addresses/' . $id);
-        if ($send->status() == 401) {
-            $this->deleteSession();
-            $this->deleteCookie();
-        }
         return response(['code' => $send->status(), 'message' => $send->body()]);
     }
 }

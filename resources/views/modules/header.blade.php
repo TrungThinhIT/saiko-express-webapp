@@ -13,8 +13,7 @@
     {{-- <link href="assets/css/font-awesome.css" rel="stylesheet"> --}}
     <link href="assets/css/frontend.css" rel="stylesheet">
     <link href="assets/css/flaticon.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css"
-        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     {{-- <link type="text/css" rel="stylesheet" href="assets/css/font-awesome.min.css" /> --}}
     <meta http-equiv='cache-control' content='no-cache'>
     <meta http-equiv='expires' content='0'>
@@ -41,10 +40,12 @@
             background-color: #fca901 !important;
             cursor: pointer;
         }
-        .background-contract{
+
+        .background-contract {
             padding: 15px;
             background-color: #fad792;
         }
+
         table.table-bordered {
             border: 1px solid #fca901;
             margin-top: 20px;
@@ -192,13 +193,15 @@
                 text-align: left !important;
             }
         }
-        @media screen and (max-width: 767px){
+
+        @media screen and (max-width: 767px) {
             .table-responsive {
                 border: 0px;
             }
         }
-        .input-group .form-control{
-            z-index: unset ;
+
+        .input-group .form-control {
+            z-index: unset;
         }
     </style>
 
@@ -219,14 +222,9 @@
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="fix-float">
                             <div class="ed_info_wrapper">
                                 <ul>
-                                    <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip"
-                                            data-placement="bottom" title="Facebook"><i class="fa fa-facebook"
-                                                aria-hidden="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Viber"><i
-                                                class="iconify" data-icon="simple-icons:viber"
-                                                data-inline="true"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Zalo"><img
-                                                src="../assets/images/zalo.png" alt=""></a></li>
+                                    <li><a href="https://fb.com/saikoexpress" data-toggle="tooltip" data-placement="bottom" title="Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Viber"><i class="iconify" data-icon="simple-icons:viber" data-inline="true"></i></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Zalo"><img src="../assets/images/zalo.png" alt=""></a></li>
 
                                 </ul>
 
@@ -239,21 +237,17 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3" style="padding:10px">
-                            <div class="pro_logo"> <a href="#"><img style="width:95%" src="assets/images/logosaiko.png"
-                                        alt="logo" /></a> </div>
+                            <div class="pro_logo"> <a href="#"><img style="width:95%" src="assets/images/logosaiko.png" alt="logo" /></a> </div>
                         </div>
                         <div class="col-lg-9 col-md-9 col-sm-9">
-                            <div class="pro_menu_toggle navbar-toggle" data-toggle="collapse" data-target="#ed_menu"><i
-                                    class="fa fa-bars"></i>
+                            <div class="pro_menu_toggle navbar-toggle" data-toggle="collapse" data-target="#ed_menu"><i class="fa fa-bars"></i>
                             </div>
                             <div class="pro_menu">
                                 <ul class="collapse navbar-collapse" id="ed_menu">
                                     <li>
                                         <div style="margin:6px;" class="form-track">
-                                            <input type="text" id="track_tracking" class="form-control"
-                                                style="width: 100% !important">
-                                            <button class="btn" style="background: #fca901;margin-left:8px"
-                                                onclick="track()" type="button">Track</button>
+                                            <input type="text" id="track_tracking" class="form-control" style="width: 100% !important">
+                                            <button class="btn" style="background: #fca901;margin-left:8px" onclick="track()" type="button">Track</button>
                                         </div>
                                     </li>
                                     <li><a href="{{ route('index') }}">Trang chủ</a></li>
@@ -282,38 +276,28 @@
                                         <ul class="sub-menu">
                                             <li><a href="{{ route('rq_tk.price') }}">Báo giá dự kiến</a></li>
                                             <li><a href="{{ route('rq_tk.quote') }}">Thông tin kiện hàng</a></li>
-                                            <li><a href="{{ route('rq_tk.shipment') }}">Theo
-                                                    dõi kiện hàng</a></li>
+                                            <li><a href="{{ route('rq_tk.shipment') }}">Theo dõi kiện hàng</a></li>
                                         </ul>
                                     </li>
                                     <li><a href="{{ route('blog.index') }}">Tin tức</a>
                                     </li>
-                                    <li><a href="{{ route('contact.index') }}">Liên
-                                            hệ</a></li>
-                                    <li id="sub-menu-custom">
-                                        @if (Session::get('idToken') != '')
-                                            @php
-                                                $datas = unserialize(Session::get('idToken'));
-                                            @endphp
-                                            <a class="" href="javascript:;">{{ $datas['id'] }}</a>
-                                            <ul class="sub-menu">
-                                                <li>
-                                                    <a class="" href="{{ route('auth.info') }}">Thông tin
-                                                        của
-                                                        tôi</a>
-                                                </li>
-                                                <li>
-                                                    <a class="" href="{{ route('auth.logout') }} " id="logout-firebase">Thoát</a>
-                                                </li>
-                                            </ul>
-                                        @endif
+                                    <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
+
+                                    <li id="sub-menu-custom is_login">
+                                        <a id="user_id"></a>
+                                        <ul class="sub-menu">
+                                            <li>
+                                                <a class="" href="javascript:authInfo()">Thông tin của tôi</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:logout();">Thoát</a>
+                                            </li>
+                                        </ul>
                                     </li>
-                                    @if (Session::get('idToken') == '')
-                                        <li>
-                                            <a href="auth/index">Đăng
-                                                nhập</a>
-                                        </li>
-                                    @endif
+
+                                    <li id="not_login">
+                                        <a href="auth/index">Đăng nhập</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -322,4 +306,4 @@
             </div>
         </header>
     </div>
-    <!--header end -->
+</body>

@@ -19,11 +19,6 @@ use App\Http\Controllers\shipments\ShipmentsController as ShipmentsController;
 
 class QuoteController extends Controller
 {
-    public function cookie_token(Request $request)
-    {
-        return $this->getTokenSession($request);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -72,7 +67,7 @@ class QuoteController extends Controller
         $special_price = str_replace(',', '', $request->special_price);
         $create_shipment = Http::withHeaders([
             'Accept' => 'application/json',
-            'X-Firebase-IDToken' => $request->idToken ? $request->idToken : $this->cookie_token($request),
+            'X-Firebase-IDToken' => $request->idToken,
         ]);
         $create_shipment = $create_shipment->post(self::$order_host . '/api/orders/shipment/create-with-trackings', [
             'shipment_method_id' => $shipping, //đường vận chuyển
@@ -95,8 +90,6 @@ class QuoteController extends Controller
         ]);
         if ($create_shipment->status() == 401) {
             $arr_created[] = ['code' => $create_shipment->status()];
-            $this->deleteCheckSession();
-            $this->deleteCookie();
             return response()->json($arr_created);
         }
         if ($create_shipment->status() == 201) {

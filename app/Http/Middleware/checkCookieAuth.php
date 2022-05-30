@@ -16,13 +16,9 @@ class checkCookieAuth
      */
     public function handle($request, Closure $next)
     {
-        if ($request->session()->get('idToken') == "") {
-            session()->flash('login', 'Vui lòng đăng nhập lại');
-            if ($request->wantsJson()) {
-                return response()->json(['code' => 401]);
-            }
-            return redirect()->route('auth.index');
-        }
+        // if (is_null($request->idToken)) {
+        //     return redirect()->route('auth.index');
+        // }
         return $next($request);
     }
 }

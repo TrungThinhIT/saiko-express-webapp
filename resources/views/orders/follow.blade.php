@@ -269,9 +269,8 @@
         $(document).ajaxStop(function() {
             $("#loader").hide();
         });
-        $('#tracking_form').submit(function(e) {
+        $('#tracking_form').submit(async function(e) {
             e.preventDefault();
-            let idToken = getToken();
             $("#declaration_price").hide()
             $("#alert").hide()
             $("#table_price_shipping").addClass('d-none')
@@ -294,6 +293,8 @@
                 alert('Tracking chưa đúng')
                 return
             }
+
+            await verifyToken();
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -301,7 +302,8 @@
                 type: 'POST',
                 url: "{{ route('rq_tk.getStatus') }}",
                 data: {
-                    idToken: idToken,
+                    idToken: localStorage.getItem('firebase_token'),
+                    user_id: localStorage.getItem('user_id'),
                     tracking: tracking
                 },
                 success: function(res) {
@@ -461,12 +463,6 @@
                                             confirmButtonText: "Exit",
                                             closeOnConfirm: true
                                         })
-                                        // $('#message').html(
-                                        //     'Khách chưa đăng kí đầy đủ thông tin tracking'
-                                        // );
-                                        // $('#exitForm').hide();
-                                        // $('#exitSuccess').show();
-                                        // $('#myModal').modal('show');
                                     }
                                     if (value.boxes.length == 0) {
                                         $("#body-table-firt-vnpost").empty()
@@ -482,65 +478,6 @@
                                             '</p>' +
                                             '</li>'
                                         )
-                                        //log order//
-                                        // if (value.logs.length) {
-                                        //     var total_pay = 0;
-                                        //     var matchedLogIdx = value.logs
-                                        //         .findIndex((log) => {
-                                        //             return !!log?.content
-                                        //                 ?.transaction
-                                        //         });
-                                        //     $.each(value.logs, function(logs_index,
-                                        //         logs_value) {
-                                        //         let keyObjectLogMerge =
-                                        //             Object.keys(logs_value
-                                        //                 .content)
-                                        //         var statusLogMerge;
-                                        //         if (matchedLogIdx === -1) {
-                                        //             if (keyObjectLogMerge ==
-                                        //                 "updated_at,service_fee_paid"
-                                        //             ) {
-                                        //                 total_pay +=
-                                        //                     logs_value
-                                        //                     .content
-                                        //                     .service_fee_paid
-                                        //                 statusLogMerge =
-                                        //                     "Đã thanh toán " +
-                                        //                     formatNumber(
-                                        //                         logs_value
-                                        //                         .content
-                                        //                         .service_fee_paid
-                                        //                     )
-                                        //             }
-                                        //         } else {
-                                        //             if (keyObjectLogMerge ==
-                                        //                 "transaction") {
-                                        //                 statusLogMerge =
-                                        //                     "Đã thanh toán " +
-                                        //                     formatNumber(
-                                        //                         logs_value
-                                        //                         .content
-                                        //                         .transaction
-                                        //                         .amount)
-                                        //             }
-                                        //         }
-
-                                        //         if (statusLogMerge !=
-                                        //             undefined) {
-                                        //             $("#time_line").append(
-                                        //                 '<li>' +
-                                        //                 '<a>' +
-                                        //                 statusLogMerge +
-                                        //                 '</a>' +
-                                        //                 '<p>' +
-                                        //                 logs_value
-                                        //                 .created_at +
-                                        //                 '</p>' +
-                                        //                 '</li>'
-                                        //             )
-                                        //         }
-                                        //     })
-                                        // }
                                         $("#body-table-firt")
                                             .append(
                                                 `<tr>` +
@@ -624,110 +561,6 @@
                                                         '</p>' +
                                                         '</li>'
                                                     )
-                                                    // if (value.logs.length) {
-                                                    //     var total_pay = 0;
-                                                    //     var matchedLogIdx =
-                                                    //         value.logs
-                                                    //         .findIndex((
-                                                    //             log
-                                                    //         ) => {
-                                                    //             return !
-                                                    //                 !log
-                                                    //                 ?.content
-                                                    //                 ?.transaction
-                                                    //         });
-                                                    //     $.each(value.logs,
-                                                    //         function(
-                                                    //             logs_index,
-                                                    //             logs_value
-                                                    //         ) {
-                                                    //             let keyObjectLogMerge =
-                                                    //                 Object
-                                                    //                 .keys(
-                                                    //                     logs_value
-                                                    //                     .content
-                                                    //                 )
-                                                    //             var
-                                                    //                 statusLogMerge;
-                                                    //             if (matchedLogIdx ===
-                                                    //                 -1
-                                                    //             ) {
-                                                    //                 if (keyObjectLogMerge ==
-                                                    //                     "updated_at,service_fee_paid"
-                                                    //                 ) {
-                                                    //                     total_pay
-                                                    //                         +=
-                                                    //                         logs_value
-                                                    //                         .content
-                                                    //                         .service_fee_paid
-                                                    //                     statusLogMerge
-                                                    //                         =
-                                                    //                         "Đã thanh toán " +
-                                                    //                         formatNumber(
-                                                    //                             logs_value
-                                                    //                             .content
-                                                    //                             .service_fee_paid
-                                                    //                         )
-                                                    //                 }
-                                                    //             } else {
-                                                    //                 if (keyObjectLogMerge ==
-                                                    //                     "transaction"
-                                                    //                 ) {
-                                                    //                     statusLogMerge
-                                                    //                         =
-                                                    //                         "Đã thanh toán " +
-                                                    //                         formatNumber(
-                                                    //                             logs_value
-                                                    //                             .content
-                                                    //                             .transaction
-                                                    //                             .amount
-                                                    //                         )
-                                                    //                     total_pay
-                                                    //                         +=
-                                                    //                         logs_value
-                                                    //                         .content
-                                                    //                         .transaction
-                                                    //                         .amount
-                                                    //                 }
-                                                    //             }
-
-                                                    //             if (statusLogMerge !=
-                                                    //                 undefined
-                                                    //             ) {
-                                                    //                 $("#time_line")
-                                                    //                     .append(
-                                                    //                         '<li>' +
-                                                    //                         '<a>' +
-                                                    //                         statusLogMerge +
-                                                    //                         '</a>' +
-                                                    //                         '<p>' +
-                                                    //                         logs_value
-                                                    //                         .created_at +
-                                                    //                         '</p>' +
-                                                    //                         '</li>'
-                                                    //                     )
-                                                    //             }
-                                                    //         })
-                                                    //     if (pay_money !=
-                                                    //         undefined) {
-                                                    //         if (total_pay >=
-                                                    //             pay_money -
-                                                    //             1000) {
-                                                    //             $("#alert")
-                                                    //                 .show()
-                                                    //             if (value
-                                                    //                 .reference
-                                                    //                 .length
-                                                    //             ) {
-                                                    //                 $("#paid")
-                                                    //                     .show()
-                                                    //             } else {
-                                                    //                 $("#paid")
-                                                    //                     .hide()
-                                                    //             }
-                                                    //         }
-                                                    //     }
-                                                    // }
                                                 } else {
                                                     var size = "( Dài : " +
                                                         value.boxes[0]
@@ -803,25 +636,7 @@
                                                                 keyObject ==
                                                                 "in_container,from,to"
                                                             ) {
-                                                                // var parts = value.created_at.split('-')
-                                                                // var year = parts[2].split(' ')
-                                                                // var getDate = new Date(year[0],parts[1]-1,parts[0])
-                                                                // var now = new Date()
-                                                                // var date_arv = getDate-now;
-                                                                // var add_date;
-                                                                // var check_method = method_ship.charAt(0).toUpperCase() + method_ship.slice(1);
-                                                                // if(check_method=="Air"){
-                                                                //     add_date = 6;
-                                                                // }else{
-                                                                //     add_date = 30;
-                                                                // }
-                                                                // var expected_date =  parseInt(date_arv/(1000 * 3600 * 24))+ add_date
-                                                                // if(expected_date > 0) {
-                                                                //     status = "Xuất kho Nhật" +" ( Dự kiến đến kho VN "+ expected_date +" ngày nữa )"
-                                                                // }else{
-                                                                status =
-                                                                    "Xuất kho Nhật"
-                                                                // }
+                                                                status = "Xuất kho Nhật"
                                                             }
 
                                                             if (keyObject ==
@@ -946,110 +761,6 @@
                                                                     )
                                                             }
                                                         })
-                                                    // if (value.logs.length) {
-                                                    //     var total_pay = 0;
-                                                    //     var matchedLogIdx =
-                                                    //         value.logs
-                                                    //         .findIndex((
-                                                    //             log
-                                                    //         ) => {
-                                                    //             return !
-                                                    //                 !log
-                                                    //                 ?.content
-                                                    //                 ?.transaction
-                                                    //         });
-                                                    //     $.each(value.logs,
-                                                    //         function(
-                                                    //             logs_index,
-                                                    //             logs_value
-                                                    //         ) {
-                                                    //             let keyObjectLogMerge =
-                                                    //                 Object
-                                                    //                 .keys(
-                                                    //                     logs_value
-                                                    //                     .content
-                                                    //                 )
-                                                    //             var
-                                                    //                 statusLogMerge;
-                                                    //             if (matchedLogIdx ===
-                                                    //                 -1
-                                                    //             ) {
-                                                    //                 if (keyObjectLogMerge ==
-                                                    //                     "updated_at,service_fee_paid"
-                                                    //                 ) {
-                                                    //                     total_pay
-                                                    //                         +=
-                                                    //                         logs_value
-                                                    //                         .content
-                                                    //                         .service_fee_paid
-                                                    //                     statusLogMerge
-                                                    //                         =
-                                                    //                         "Đã thanh toán " +
-                                                    //                         formatNumber(
-                                                    //                             logs_value
-                                                    //                             .content
-                                                    //                             .service_fee_paid
-                                                    //                         )
-                                                    //                 }
-                                                    //             } else {
-                                                    //                 if (keyObjectLogMerge ==
-                                                    //                     "transaction"
-                                                    //                 ) {
-                                                    //                     total_pay
-                                                    //                         +=
-                                                    //                         logs_value
-                                                    //                         .content
-                                                    //                         .transaction
-                                                    //                         .amount
-                                                    //                     statusLogMerge
-                                                    //                         =
-                                                    //                         "Đã thanh toán " +
-                                                    //                         formatNumber(
-                                                    //                             logs_value
-                                                    //                             .content
-                                                    //                             .transaction
-                                                    //                             .amount
-                                                    //                         )
-                                                    //                 }
-                                                    //             }
-
-                                                    //             if (statusLogMerge !=
-                                                    //                 undefined
-                                                    //             ) {
-                                                    //                 $("#time_line")
-                                                    //                     .append(
-                                                    //                         '<li>' +
-                                                    //                         '<a>' +
-                                                    //                         statusLogMerge +
-                                                    //                         '</a>' +
-                                                    //                         '<p>' +
-                                                    //                         logs_value
-                                                    //                         .created_at +
-                                                    //                         '</p>' +
-                                                    //                         '</li>'
-                                                    //                     )
-                                                    //             }
-                                                    //         })
-                                                    //     if (pay_money !=
-                                                    //         undefined) {
-                                                    //         if (total_pay >=
-                                                    //             pay_money -
-                                                    //             1000) {
-                                                    //             $("#alert")
-                                                    //                 .hide()
-                                                    //             if (value
-                                                    //                 .reference
-                                                    //                 .length
-                                                    //             ) {
-                                                    //                 $("#paid")
-                                                    //                     .show()
-                                                    //             } else {
-                                                    //                 $("#paid")
-                                                    //                     .hide()
-                                                    //             }
-                                                    //         }
-                                                    //     }
-                                                    // }
                                                 }
 
                                             } else {
@@ -1066,87 +777,6 @@
                                                             .reference
                                                             .total_fee
                                                         ) + " VNĐ")
-                                                    // if (value.logs.length) {
-                                                    //     var total_pay = 0
-                                                    //     var matchedLogIdx =
-                                                    //         value.logs
-                                                    //         .findIndex((
-                                                    //             log
-                                                    //         ) => {
-                                                    //             return !
-                                                    //                 !log
-                                                    //                 ?.content
-                                                    //                 ?.transaction
-                                                    //         });
-                                                    //     $.each(value.logs,
-                                                    //         function(
-                                                    //             logs_index,
-                                                    //             logs_value
-                                                    //         ) {
-                                                    //             let keyObjectLogMerge =
-                                                    //                 Object
-                                                    //                 .keys(
-                                                    //                     logs_value
-                                                    //                     .content
-                                                    //                 )
-                                                    //             var
-                                                    //                 statusLogMerge;
-                                                    //             var
-                                                    //                 created_at_log;
-                                                    //             if (matchedLogIdx ===
-                                                    //                 -1
-                                                    //             ) {
-                                                    //                 if (keyObjectLogMerge ==
-                                                    //                     "updated_at,service_fee_paid"
-                                                    //                 ) {
-                                                    //                     total_pay
-                                                    //                         +=
-                                                    //                         logs_value
-                                                    //                         .content
-                                                    //                         .service_fee_paid
-                                                    //                     statusLogMerge
-                                                    //                         =
-                                                    //                         "Đã thanh toán " +
-                                                    //                         formatNumber(
-                                                    //                             logs_value
-                                                    //                             .content
-                                                    //                             .service_fee_paid
-                                                    //                         )
-                                                    //                 }
-                                                    //             } else {
-                                                    //                 if (keyObjectLogMerge ==
-                                                    //                     "transaction"
-                                                    //                 ) {
-                                                    //                     total_pay
-                                                    //                         +=
-                                                    //                         logs_value
-                                                    //                         .content
-                                                    //                         .transaction
-                                                    //                         .amount
-                                                    //                 }
-                                                    //             }
-
-                                                    //         })
-                                                    //     if (pay_money !=
-                                                    //         undefined) {
-                                                    //         if (total_pay >=
-                                                    //             pay_money -
-                                                    //             1000) {
-                                                    //             $("#alert")
-                                                    //                 .hide()
-                                                    //             if (value
-                                                    //                 .reference
-                                                    //                 .length
-                                                    //             ) {
-                                                    //                 $("#paid")
-                                                    //                     .show()
-                                                    //             } else {
-                                                    //                 $("#paid")
-                                                    //                     .hide()
-                                                    //             }
-                                                    //         }
-                                                    //     }
-                                                    // }
                                                 }
                                                 $(`#sku-row-${value2.id}`)
                                                     .hover(function() {
@@ -1228,8 +858,8 @@
         })
     })
     //show log by id
-    function check(id_box, vnpost, created_at, fee, method, logs_merge, pay_money, length_order) {
-        var idToken = getToken();
+    async function check(id_box, vnpost, created_at, fee, method, logs_merge, pay_money, length_order) {
+        await verifyToken();
         var id_box = id_box;
         $.ajax({
             headers: {
@@ -1238,7 +868,8 @@
             type: "POST",
             url: "{{ route('rq_tk.getInforBox') }}",
             data: {
-                idToken: idToken,
+                idToken: localStorage.getItem('firebase_token'),
+                user_id: localStorage.getItem('user_id'),
                 id_box: id_box
             },
             success: function(res) {
@@ -1339,51 +970,6 @@
                         }
                     })
                 }
-                //adđ log payment
-                // if (logs_merge.length) {
-                //     var total_pay = 0;
-                //     var matchedLogIdx = logs_merge.findIndex((log) => {
-                //         return !!log?.content?.transaction
-                //     });
-                //     $.each(logs_merge, function(logs_index, logs_value) {
-                //         let keyObjectLogMerge = Object.keys(logs_value.content)
-                //         var statusLogMerge;
-                //         var created_at_log;
-                //         if (matchedLogIdx === -1) {
-                //             if (keyObjectLogMerge == "updated_at,service_fee_paid") {
-                //                 total_pay += logs_value.content.service_fee_paid
-                //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
-                //                     .service_fee_paid)
-                //             }
-                //         } else {
-                //             if (keyObjectLogMerge == "transaction") {
-                //                 total_pay += logs_value.content.transaction.amount
-                //                 statusLogMerge = "Đã thanh toán " + formatNumber(logs_value.content
-                //                     .transaction.amount)
-                //             }
-                //         }
-
-                //         if (statusLogMerge != undefined) {
-                //             $("#time_line").append(
-                //                 '<li>' +
-                //                 '<a>' + statusLogMerge + '</a>' +
-                //                 '<p>' + logs_value.created_at + '</p>' +
-                //                 '</li>'
-                //             )
-                //         }
-                //     })
-                //     if (pay_money != undefined) {
-                //         if (total_pay >= pay_money - 1000) {
-                //             $("#alert").hide()
-                //             if (length_order.reference.length) {
-                //                 $("#paid").show()
-                //             } else {
-                //                 $("#paid").hide()
-                //             }
-                //         }
-                //     }
-                // }
-
             },
             error: function(res) {
                 console.log(res)
